@@ -19,16 +19,16 @@ class UserController extends Controller
         $auth = Auth::user();
 
         if($auth) {
-            if($auth->role == 1 || ($auth->role == 2 && $auth->user_type == 'owner')) {
+            if($auth->role == 1) {
                 return redirect('/users');
             }
 
-            if($auth->role == 2 && $auth->user_type == 'staff') {
-                return redirect('/carts');
+            if($auth->role == 2 && $auth->user_type == 'owner') {
+                return redirect('/restaurants');
             }
 
             if($auth->role == 3 && $auth->user_type == 'customer') {
-                return redirect('/restaurants');
+                return redirect('/customers');
             }
         }
 
@@ -78,6 +78,10 @@ class UserController extends Controller
         $userData = $request->except(['confirm_password', 'restaurant_name', 'image', 'banner']);
 
         $userData['password'] = Hash::make($request->password);
+
+        if($request->role == 2) {
+            $userData['reference'] = Str::random(10);
+        }
 
         if($id = $request->picture_id) {
             
@@ -148,7 +152,7 @@ class UserController extends Controller
             return redirect()->back()->with('message', 'Your account is not verified.');
         }
 
-        if(Auth::attempt($data)) {
+        if(Auth::attempt($data)) { 
             $auth = Auth::user();
 
             if($auth) {
@@ -166,6 +170,10 @@ class UserController extends Controller
 
         if($auth) {
             $users = User::orderBy('created_at', 'desc')->whereNotIn('id', [$auth->id]);
+
+            if($auth->role == 2) {
+                $users = $users->where('reference', $auth->reference);
+            }
 
             return Inertia::render('Users', [
                 'auth'    => $auth,

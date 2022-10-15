@@ -16,4 +16,13 @@ class Restaurant extends Model
         'banner',
         'is_active',
     ];
+
+    protected $with = [
+        'products'
+    ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

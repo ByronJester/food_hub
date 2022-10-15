@@ -64,7 +64,7 @@ export default {
     data() {
         return {
             columns: [
-                'Name', 'Email', 'Contact'
+                'Name', 'Email', 'Contact', 'User Type'
             ],
             keys : [
                 {
@@ -75,6 +75,9 @@ export default {
                 },
                 {
                     label: 'phone',
+                },
+                {
+                    label: 'user_type',
                 },
             ],
             users: [],

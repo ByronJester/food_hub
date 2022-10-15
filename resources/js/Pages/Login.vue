@@ -1,11 +1,22 @@
 <template>
 	<div class="w-screen h-screen flex flex-row">
-		<div style="background: #E6EE9C; width: 20%; height: 100%"
-			class="flex justify-center items-center"
-		>
+		<div style="background: #000000; width: 20%; height: 100%"
+			class="flex flex-col justify-center items-center"
+			v-if="isLogin"
+		>	
+			<div class="w-full mb-5 relative" style="top: -5rem">
+				<img class="w-full px-20" style="height: 150px" src="/images/logo2.png" />
+			</div>
+			
 			<div v-if="!isRegister"
-				class="mx-2" style="border: 1px solid black; border-radius: 5px;"
+				class="mx-2 relative" style="border: 1px solid #FFFFFF; border-radius: 5px; top: -4rem"
 			>	
+				<div class="w-full p-2 text-white">
+					<span class="float-right cursor-pointer" @click="isLogin = false">
+						<i class="fa-solid fa-xmark"></i>
+					</span>
+				</div>
+
 				<div class="px-2 py-2">
 					<input type="text" class="w-full  my-2 --login__register--input text-center"
 						placeholder="Email" v-model="formloginData.email"
@@ -30,7 +41,7 @@
 						Login
 					</button>
 
-					<p class="text-black text-sm ml-14 cursor-pointer hover:underline"
+					<p class="text-white text-sm w-full text-center cursor-pointer hover:underline"
 						@click="isRegister = true"
 					>
 						Doesn't have accout ? Sign Up Here!
@@ -38,7 +49,13 @@
 				</div>
 			</div>
 
-			<div class="mx-2" style="border: 1px solid black; border-radius: 5px;" v-else>
+			<div class="mx-2 relative" style="border: 1px solid #FFFFFF; border-radius: 5px; top: -3rem" v-else>
+				<div class="w-full p-2 text-white">
+					<span class="float-right cursor-pointer" @click="isLogin = false">
+						<i class="fa-solid fa-xmark"></i>
+					</span>
+				</div>
+
 				<div class="px-2 py-2">
 					<input type="text" class="w-full  my-2 --login__register--input text-center"
 						placeholder="Name" v-model="formRegisterData.name"
@@ -79,19 +96,19 @@
 					>
 					<span class="text-xs text-red-500">{{validationError('restaurant_name', saveError)}} </span>
 
-					<div>
+					<div class="text-white">
 						<label class="mt-1 font-bold">ID Picture</label><br>
 						<input type="file" accept="image/png, image/jpeg" @change="imageChange('picture_id', $event)"><br>
 						<span class="text-xs text-red-500">{{validationError('picture_id', saveError)}} </span>
 					</div>
 
-					<div v-if="formRegisterData.role == 2">
+					<div v-if="formRegisterData.role == 2" class="text-white">
 						<label class="mt-1 font-bold">Restaurant Display Picture</label><br>
 						<input type="file" accept="image/png, image/jpeg" @change="imageChange('image', $event)"><br>
 						<span class="text-xs text-red-500">{{validationError('image', saveError)}} </span>
 					</div>
 
-					<div v-if="formRegisterData.role == 2">
+					<div v-if="formRegisterData.role == 2" class="text-white">
 						<label class="mt-1 font-bold">Restaurant Banner</label><br>
 						<input type="file" accept="image/png, image/jpeg" @change="imageChange('banner', $event)"><br>
 						<span class="text-xs text-red-500">{{validationError('banner', saveError)}} </span><br>
@@ -103,7 +120,7 @@
 						Register
 					</button>
 
-					<p class="text-black text-sm ml-14 cursor-pointer hover:underline"
+					<p class="text-white text-sm w-full text-center cursor-pointer hover:underline"
 						@click="isRegister = false"
 					>
 						Already have account ? Login Here!
@@ -113,8 +130,19 @@
 		</div>
 
 
-		<div style="width: 80%; height: 100%">
-			<div class="grid grid-cols-5 gap-4 p-5 w-full" v-if="!selected">
+		<div style="height: 100%"
+			:style="{width: isLogin ? '80%' : '100%'}"
+			class=""
+		>
+			<div class="w-full" style="height: 50px" :style="{'background': !isLogin ? '#000000' : '#FFFFFF'}">
+				<p class="float-right cursor-pointer mt-3 mr-3" v-if="!isLogin" @click="isLogin = true">
+					<span class="text-lg">
+						<b class="text-white">LO</b><b style="background: #E4B934; border-radius: 5px" class="px-1">GIN</b>
+					</span>
+				</p>
+			</div>
+
+			<div class="grid grid-cols-5 gap-4 p-5 w-full" v-if="!restaurant">
 				<div class="w-full --restaurant__list cursor-pointer" v-for="(arg, i) in restaurants" :key="i"
 					@click="selectShop(arg)"
 				>
@@ -132,21 +160,67 @@
 			</div>
 
 			<div class="w-full" v-else>
-				<div class="w-full pt-8">
-					<span class="ml-5 text-2xl font-semibold cursor-pointer" @click="selected = null">
-						<i class="fa-solid fa-arrow-left mr-2"></i> Back
+				<div class="w-full text-2xl font-bold px-5 pt-5">
+					<span class="cursor-pointer" @click="restaurant = null">
+						<i class="fa-solid fa-arrow-left"></i> Back
+					</span>
+
+                    <span class="cursor-pointer float-right" @click="restaurant = null">
+						{{ restaurant.restaurant_name }}
 					</span>
 				</div>
 
-				<div class="w-full">
-					<img :src="'/images/uploads/' + selected.banner" 
-						style="height: 400px; width: 100%;"
-						class="p-5"
-					>
+				<div class="w-full relative">
+					<div class="w-full">
+						<img :src="'/images/uploads/' + restaurant.banner" 
+							style="height: 400px; width: 100%;"
+							class="p-5 relative"
+						>
 
-					<img :src="'/images/uploads/' + selected.image" class="relative"
-						style="height: 180px; width: 20%; top: -10rem; left: 4rem; border: 1px solid #E6EE9C"
-					>
+						<img :src="'/images/uploads/' + restaurant.image" class="absolute"
+							style="height: 180px; width: 20%; top: 17rem; left: 4rem; border: 1px solid #E4B934"
+						>
+					</div>
+
+					<div class="w-full mt-5 px-5">
+						<div class="flex flex-row float-right" style="width: 30%">
+							<div class="w-full cursor-pointer mx-2 text-center"
+								style="border: 1px solid #E4B934;"
+								:class="{'bg-gray-500': activeCategory == 'Food'}"
+								@click="activeCategory = 'Food'"
+							>
+								Foods
+							</div>
+
+							<div class="w-full cursor-pointer mx-2 text-center"
+								style="border: 1px solid #E4B934;"
+								:class="{'bg-gray-500': activeCategory == 'Drink'}"
+								@click="activeCategory = 'Drink'"
+							>
+								Drinks
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="w-full mt-20 px-5">
+					<div class="grid grid-cols-5 gap-4 flex justify-center items-center">
+						<div class="w-full flex flex-col" v-for="product in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id"
+							style="border: 1px solid #E4B934"
+						>
+							<div class="w-full">
+								<img class="w-full p-4" :src="'/images/uploads/' + product.image"
+									style="height: 200px"
+								/>
+							</div>
+
+							<div class="w-full text-center">
+								<span class="text-lg font-bold">
+									{{ product.name }} - ₱{{ product.amount.toFixed(2) }}
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -184,7 +258,9 @@ export default {
 			saveError: null,
 			formData: new FormData(),
 			restaurants: [],
-			selected: null
+			restaurant: null,
+			isLogin: false,
+			activeCategory: 'Food',
 		}
 	},
 
@@ -278,7 +354,7 @@ export default {
 				})
 		},
 		selectShop(arg){
-			this.selected = arg
+			this.restaurant = arg
 		}
 	}
 }
@@ -286,7 +362,7 @@ export default {
 </script>
 
 <style scoped>
-.--banner {
+.--main {
 	background-image: url('/images/bg.jpg');
 	background-repeat: no-repeat;
  	background-size: cover;
@@ -308,12 +384,12 @@ export default {
 .--login__register--button {
 	height: 40px;
 	border-radius: 30px;
-	background: #2C3333;
-	color: white
+	background: #E4B934;
+	color: #000000;
 }
 
 .--restaurant__list{
-	border: 1px solid #FFD600;
+	border: 1px solid #E4B934;
 	border-radius: 5px;
 	height: 250px;
 }

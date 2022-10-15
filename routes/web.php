@@ -3,10 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\UtilityController;
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +22,7 @@ Route::middleware(['cors'])->group(function () {
     });
     
     
-    Route::prefix('login')->group(function () {
+    Route::prefix('login')->group(function () { 
         Route::get('/', [UserController::class, 'loginView'])->name('view.login');
         
     });
@@ -36,6 +33,15 @@ Route::middleware(['cors'])->group(function () {
         Route::post('/logout', [UserController::class, 'logoutAccount']);
         Route::post('/deactivate-reactivate', [UserController::class, 'changeStatus']);
         Route::post('/create-account', [UserController::class, 'saveUser']);
+    });
+
+    Route::prefix('restaurants')->group(function () {
+        Route::get('/', [RestaurantController::class, 'viewRestaurant'])->name('view.restaurant');
+        Route::post('/create-product', [RestaurantController::class, 'createProduct']);
+    });
+
+    Route::prefix('customers')->group(function () {
+        Route::get('/', [RestaurantController::class, 'viewRestaurants'])->name('view.restaurants');
     });
 });
 

@@ -1,0 +1,257 @@
+<template>
+    <Navigation :auth="auth">
+        <div class="w-full h-full px-2 py-2 flex flex-col">
+            <div class="w-full relative">
+				<div class="w-full">
+					<img :src="'/images/uploads/' + restaurant.banner" 
+						style="height: 400px; width: 100%;"
+						class="p-5 relative"
+					>
+
+					<img :src="'/images/uploads/' + restaurant.image" class="absolute"
+						style="height: 180px; width: 20%; top: 17rem; left: 4rem; border: 1px solid #E4B934"
+					>
+				</div>
+
+                <div class="w-full mt-5 px-5">
+                    <div class="flex flex-row float-right" style="width: 30%">
+                        <div class="w-full cursor-pointer mx-2 text-center"
+                            style="border: 1px solid #E4B934;"
+                            :class="{'bg-gray-200': activeCategory == 'Food'}"
+                            @click="activeCategory = 'Food'"
+                        >
+                            Foods
+                        </div>
+
+                        <div class="w-full cursor-pointer mx-2 text-center"
+                            style="border: 1px solid #E4B934;"
+                            :class="{'bg-gray-200': activeCategory == 'Drink'}"
+                            @click="activeCategory = 'Drink'"
+                        >
+                            Drinks
+                        </div>
+
+                        <div class="cursor-pointer mx-2 text-center"
+                            style="border: 1px solid #E4B934; width: 20%"
+                            @click="openModal()"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                    </div>
+                </div>
+			</div>
+
+            <div class="w-full mt-8 px-5">
+                <div class="grid grid-cols-5 gap-4 flex justify-center items-center">
+                    <div class="w-full flex flex-col cursor-pointer" v-for="product in products.filter( x => { return x.category == activeCategory})" :key="product.id"
+                        style="border: 1px solid #E4B934"
+                        @click="viewProduct(product)"
+                    >
+                        <div class="w-full">
+                            <img class="w-full p-4" :src="'/images/uploads/' + product.image"
+                                style="height: 200px"
+                            />
+                        </div>
+
+                        <div class="w-full text-center">
+                            <span class="text-lg font-bold">
+                                {{ product.name }} - ₱{{ product.amount.toFixed(2) }}
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content flex flex-col" style="width: 20%">
+                    <div class="w-full">
+                        <span class="text-lg font-bold">
+                            {{activeCategory}}
+                        </span>
+                        <span class="float-right cursor-pointer"
+                            @click="closeModal()"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </span>
+                    </div>
+
+                    <div class="w-full mt-4">
+                        <input type="text" class="w-full text-center" placeholder="Name" v-model="form.name"
+                            style="border: 1px solid black; border-radius: 5px; height: 40px"
+                        >
+                        <span class="text-xs text-red-500">{{validationError('name', saveError)}} </span>
+                    </div>
+
+                    <div class="w-full mt-4">
+                        <input type="text" class="w-full text-center" placeholder="Amount" v-model="form.amount"
+                            style="border: 1px solid black; border-radius: 5px;  height: 40px"
+                        >
+                        <span class="text-xs text-red-500">{{validationError('amount', saveError)}} </span>
+                    </div>
+
+                    <div class="w-full mt-4">
+                        <input type="file" class="w-full text-center" @change="imageChange('image', $event)">
+                        <span class="text-xs text-red-500">{{validationError('image', saveError)}} </span>
+                    </div>
+
+                    <div class="w-full mt-4">
+                        <button class="w-full py-2"
+                            style="border-radius: 5px; background: #000000"
+                            @click="createProduct()"
+                        >
+                            <span class="text-lg"> 
+                                <b class="text-white">SUB</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">MIT</b>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </Navigation>
+</template>
+
+<script>
+import Navigation from '../Layouts/Navigation.vue'
+import axios from "axios";
+
+export default {
+    props: ['auth', 'options'],
+    components: {
+        Navigation,
+    },
+    data(){
+        return {
+            restaurant: null,
+            activeCategory: 'Food',
+            form:{
+                restaurant_id: '',
+                category: '',
+                name: '',
+                amount: '',
+                image: ''
+            },
+            formData: new FormData(),
+            saveError: null,
+            products: []
+        }
+    },
+
+    created(){
+        this.restaurant = this.options.restaurant
+
+        this.form.restaurant_id = this.restaurant.id
+
+        this.form.category = this.activeCategory
+
+        console.log(this.restaurant)
+        this.products = this.restaurant.products
+    },
+
+    watch: {
+        activeCategory(arg){
+            this.form.category = arg
+        }
+    },
+
+    methods: {
+        openModal(){
+            var modal = document.getElementById("myModal");
+
+            modal.style.display = "block";
+        },
+
+        closeModal(){
+            var modal = document.getElementById("myModal");
+
+            modal.style.display = "none";
+
+            this.form.name = ''
+            this.form.amount = ''
+            this.form.category = this.activeCategory
+            this.form.image = ''
+            this.form.restaurant_id = this.restaurant.id
+
+            this.formData = new FormData()
+        },
+
+        imageChange(arg, e) {
+	      	const image = e.target.files[0];
+
+	      	this.formData.append(arg, image);
+		},
+
+        createProduct(){
+            this.formData.append('restaurant_id', this.form.restaurant_id);
+            this.formData.append('category', this.form.category);
+            this.formData.append('name', this.form.name);
+            this.formData.append('amount', this.form.amount);
+
+            axios.post(this.$root.route + "/restaurants/create-product", this.formData)
+				.then(response => {
+					if(response.data.status == 422) {
+						this.saveError = response.data.errors 
+					} else {
+						alert("Successfully created product");
+                        
+						location.reload()
+					}
+				})
+        },
+
+        viewProduct(arg){
+            this.openModal()
+
+            this.formData.append('id', arg.id);
+            this.form.name = arg.name
+            this.form.amount = arg.amount
+            this.form.category = arg.category
+            this.form.image = ''
+            this.form.restaurant_id = arg.restaurant_id
+        }
+    }
+}
+</script>
+
+<style scoped>
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>

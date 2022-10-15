@@ -40,7 +40,9 @@ Vue.mixin({
 
 const pages = {
   'Login': require('./Pages/Login.vue').default,
-  'Users': require('./Pages/Users.vue').default
+  'Users': require('./Pages/Users.vue').default,
+  'Restaurant': require('./Pages/Restaurant.vue').default,
+  'FoodHubs': require('./Pages/FoodHubs.vue').default
 }
 
 new Vue({

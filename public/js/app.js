@@ -2433,10 +2433,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3328,7 +3324,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown[data-v-5b807f98] {\r\n  position: relative;\r\n  display: inline-block;\n}\n.dropdown-content[data-v-5b807f98] {\r\n  display: none;\r\n  position: absolute;\r\n  background-color: #ffffff;\r\n  min-width: 130px;\r\n  z-index: 1;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n  left: -2.5rem;\n}\n.dropdown-content a[data-v-5b807f98] {\r\n  color: black;\r\n  text-decoration: none;\r\n  display: block;\n}\n.dropdown-content a[data-v-5b807f98]:hover {background-color: #2c85c1;}\n.dropdown:hover .dropdown-content[data-v-5b807f98] {display: block;}\n.--active[data-v-5b807f98] {\r\n    border-bottom: 2px solid #E4B934;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown[data-v-5b807f98] {\r\n  position: relative;\r\n  display: inline-block;\n}\n.dropdown-content[data-v-5b807f98] {\r\n  display: none;\r\n  position: absolute;\r\n  background-color: #ffffff;\r\n  min-width: 130px;\r\n  z-index: 1;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n  left: -2.5rem;\n}\n.dropdown-content a[data-v-5b807f98] {\r\n  color: black;\r\n  text-decoration: none;\r\n  display: block;\n}\n.dropdown-content a[data-v-5b807f98]:hover {background-color: #2c85c1;}\n.dropdown:hover .dropdown-content[data-v-5b807f98] {display: block;}\n.--active[data-v-5b807f98] {\r\n    border-bottom: 2px solid #E4B934;\n}\n.--text[data-v-5b807f98] {\r\n    font-size: calc(.1em + 1vw);\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3352,7 +3348,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.--restaurant__list[data-v-dabc7776]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.--restaurant__list[data-v-dabc7776]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\n.--text[data-v-dabc7776] {\r\n\tfont-size: calc(.1em + 1vw);\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3376,7 +3372,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.--main[data-v-0004d9e0] {\r\n\tbackground-image: url('/images/bg.jpg');\r\n\tbackground-repeat: no-repeat;\r\n \tbackground-size: cover;\n}\n.--login__register[data-v-0004d9e0] {\r\n\twidth: 380px;\r\n\theight: auto;\r\n\tbackground: #607EAA;\r\n\tborder-radius: 10px;\r\n\tposition: relative;\n}\n.--login__register--input[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 10px;\n}\n.--login__register--button[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 30px;\r\n\tbackground: #E4B934;\r\n\tcolor: #000000;\n}\n.--restaurant__list[data-v-0004d9e0]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.--main[data-v-0004d9e0] {\r\n\tbackground-image: url('/images/bg.jpg');\r\n\tbackground-repeat: no-repeat;\r\n \tbackground-size: cover;\n}\n.--login__register[data-v-0004d9e0] {\r\n\twidth: 380px;\r\n\theight: auto;\r\n\tbackground: #607EAA;\r\n\tborder-radius: 10px;\r\n\tposition: relative;\n}\n.--login__register--input[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 10px;\n}\n.--login__register--button[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 30px;\r\n\tbackground: #E4B934;\r\n\tcolor: #000000;\n}\n.--restaurant__list[data-v-0004d9e0]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\n.--text[data-v-0004d9e0] {\r\n\tfont-size: calc(.1em + 1vw);\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3400,7 +3396,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.modal-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-31a36b26] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-31a36b26]:hover,\r\n.close[data-v-31a36b26]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.modal-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-31a36b26] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-31a36b26]:hover,\r\n.close[data-v-31a36b26]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--text[data-v-31a36b26] {\r\n\tfont-size: calc(.1em + 1vw);\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -34603,123 +34599,130 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", { staticStyle: { width: "93%" } }, [
-          _c(
-            "div",
-            {
-              staticClass: "float-right flex flex-row mt-6 mr-3 font-bold",
-              staticStyle: { color: "#FFFFFF" }
-            },
-            [
-              _vm.auth.role == 2 && _vm.auth.user_type == "owner"
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "mx-5 cursor-pointer",
-                      class: { "--active": _vm.active == "/restaurants" },
-                      on: {
-                        click: function($event) {
-                          return _vm.changeActive("/restaurants")
+        _c(
+          "div",
+          {
+            staticClass: "flex items-center justify-end",
+            staticStyle: { width: "93%" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "float-right flex flex-row mr-3 font-bold",
+                staticStyle: { color: "#FFFFFF" }
+              },
+              [
+                _vm.auth.role == 2 && _vm.auth.user_type == "owner"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "mx-5 cursor-pointer",
+                        class: { "--active": _vm.active == "/restaurants" },
+                        on: {
+                          click: function($event) {
+                            return _vm.changeActive("/restaurants")
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fa-solid fa-shop mr-2",
-                        staticStyle: { color: "#FFFFFF" }
-                      }),
-                      _vm._v(" "),
-                      _vm._m(1)
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.auth.role == 3
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "mx-5 cursor-pointer",
-                      class: { "--active": _vm.active == "/customers" },
-                      on: {
-                        click: function($event) {
-                          return _vm.changeActive("/customers")
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fa-solid fa-shop mr-2",
+                          staticStyle: { color: "#FFFFFF" }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(1)
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.auth.role == 3
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "mx-5 cursor-pointer",
+                        class: { "--active": _vm.active == "/customers" },
+                        on: {
+                          click: function($event) {
+                            return _vm.changeActive("/customers")
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fa-solid fa-shop mr-2",
-                        staticStyle: { color: "#FFFFFF" }
-                      }),
-                      _vm._v(" "),
-                      _vm._m(2)
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.auth.role == 3
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "mx-5 cursor-pointer",
-                      class: { "--active": _vm.active == "/carts" },
-                      on: {
-                        click: function($event) {
-                          return _vm.changeActive("/carts")
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fa-solid fa-shop mr-2",
+                          staticStyle: { color: "#FFFFFF" }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(2)
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.auth.role == 3
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "mx-5 cursor-pointer",
+                        class: { "--active": _vm.active == "/carts" },
+                        on: {
+                          click: function($event) {
+                            return _vm.changeActive("/carts")
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fa-solid fa-cart-shopping mr-2",
-                        staticStyle: { color: "#FFFFFF" }
-                      }),
-                      _vm._v(" "),
-                      _vm._m(3)
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.auth.role == 1 ||
-              (_vm.auth.role == 2 && _vm.auth.user_type == "owner")
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "mx-5 cursor-pointer",
-                      class: { "--active": _vm.active == "/users" },
-                      on: {
-                        click: function($event) {
-                          return _vm.changeActive("/users")
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fa-solid fa-cart-shopping mr-2",
+                          staticStyle: { color: "#FFFFFF" }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(3)
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.auth.role == 1 ||
+                (_vm.auth.role == 2 && _vm.auth.user_type == "owner")
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "mx-5 cursor-pointer",
+                        class: { "--active": _vm.active == "/users" },
+                        on: {
+                          click: function($event) {
+                            return _vm.changeActive("/users")
+                          }
                         }
+                      },
+                      [
+                        _c("i", { staticClass: "fa-solid fa-users-gear mr-1" }),
+                        _vm._v(" "),
+                        _vm._m(4)
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "mx-5 cursor-pointer",
+                    on: {
+                      click: function($event) {
+                        return _vm.logout()
                       }
-                    },
-                    [
-                      _c("i", { staticClass: "fa-solid fa-users-gear mr-1" }),
-                      _vm._v(" "),
-                      _vm._m(4)
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "mx-5 cursor-pointer",
-                  on: {
-                    click: function($event) {
-                      return _vm.logout()
                     }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fa-solid fa-door-open mr-1" }),
-                  _vm._v(" "),
-                  _vm._m(5)
-                ]
-              )
-            ]
-          )
-        ])
+                  },
+                  [
+                    _c("i", { staticClass: "fa-solid fa-door-open mr-1" }),
+                    _vm._v(" "),
+                    _vm._m(5)
+                  ]
+                )
+              ]
+            )
+          ]
+        )
       ]
     ),
     _vm._v(" "),
@@ -34748,7 +34751,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "text-lg" }, [
+    return _c("span", { staticClass: "--text" }, [
       _c("b", { staticClass: "text-white" }, [_vm._v("MY FOOD")]),
       _c(
         "b",
@@ -34764,7 +34767,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "text-lg" }, [
+    return _c("span", { staticClass: "--text" }, [
       _c("b", { staticClass: "text-white" }, [_vm._v("FOOD")]),
       _c(
         "b",
@@ -34780,7 +34783,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "text-lg" }, [
+    return _c("span", { staticClass: "--text" }, [
       _c("b", { staticClass: "text-white" }, [_vm._v("CA")]),
       _c(
         "b",
@@ -34796,7 +34799,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "text-lg" }, [
+    return _c("span", { staticClass: "--text" }, [
       _c("b", { staticClass: "text-white" }, [_vm._v("US")]),
       _c(
         "b",
@@ -34812,7 +34815,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "text-lg" }, [
+    return _c("span", { staticClass: "--text" }, [
       _c("b", { staticClass: "text-white" }, [_vm._v("LOG")]),
       _c(
         "b",
@@ -34874,13 +34877,17 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "text-center font-bold text-xl" }, [
-                    _vm._v(
-                      "\n\t\t\t\t\t\t" +
-                        _vm._s(arg.restaurant_name) +
-                        "\n\t\t\t\t\t"
-                    )
-                  ])
+                  _c(
+                    "div",
+                    { staticClass: "text-center font-bold text-xl --text" },
+                    [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t" +
+                          _vm._s(arg.restaurant_name) +
+                          "\n\t\t\t\t\t"
+                      )
+                    ]
+                  )
                 ]
               )
             }),
@@ -34891,7 +34898,7 @@ var render = function() {
               _c(
                 "span",
                 {
-                  staticClass: "cursor-pointer",
+                  staticClass: "cursor-pointer --text",
                   on: {
                     click: function($event) {
                       _vm.restaurant = null
@@ -34907,7 +34914,7 @@ var render = function() {
               _c(
                 "span",
                 {
-                  staticClass: "cursor-pointer float-right",
+                  staticClass: "cursor-pointer float-right --text",
                   on: {
                     click: function($event) {
                       _vm.restaurant = null
@@ -34949,7 +34956,7 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "flex flex-row float-right",
+                    staticClass: "flex flex-row float-right --text",
                     staticStyle: { width: "30%" }
                   },
                   [
@@ -34971,7 +34978,8 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "w-full cursor-pointer mx-2 text-center",
+                        staticClass:
+                          "w-full cursor-pointer mx-2 text-center --text",
                         class: { "bg-gray-500": _vm.activeCategory == "Drink" },
                         staticStyle: { border: "1px solid #E4B934" },
                         on: {
@@ -35025,14 +35033,14 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "w-6/full py-1",
+                                  staticClass: "w-6/12 py-1",
                                   staticStyle: {
                                     "border-radius": "5px",
                                     background: "#000000"
                                   }
                                 },
                                 [
-                                  _c("span", { staticClass: "text-md px-2" }, [
+                                  _c("span", { staticClass: "--text px-2" }, [
                                     _c(
                                       "b",
                                       { staticClass: "text-white mr-2" },
@@ -35058,14 +35066,14 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "w-6/full py-1 cursor-default",
+                                  staticClass: "w-6/12 py-1 cursor-default",
                                   staticStyle: {
                                     "border-radius": "5px",
                                     background: "#000000"
                                   }
                                 },
                                 [
-                                  _c("span", { staticClass: "text-md px-2" }, [
+                                  _c("span", { staticClass: "--text px-2" }, [
                                     _c(
                                       "b",
                                       { staticClass: "text-white mr-2" },
@@ -35802,7 +35810,7 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "text-center font-bold text-xl" },
+                      { staticClass: "text-center font-bold text-xl --text" },
                       [
                         _vm._v(
                           "\n\t\t\t\t\t\t" +
@@ -35824,7 +35832,7 @@ var render = function() {
                   _c(
                     "span",
                     {
-                      staticClass: "cursor-pointer",
+                      staticClass: "cursor-pointer --text",
                       on: {
                         click: function($event) {
                           _vm.restaurant = null
@@ -35840,7 +35848,7 @@ var render = function() {
                   _c(
                     "span",
                     {
-                      staticClass: "cursor-pointer float-right",
+                      staticClass: "cursor-pointer float-right --text",
                       on: {
                         click: function($event) {
                           _vm.restaurant = null
@@ -35890,7 +35898,8 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass: "w-full cursor-pointer mx-2 text-center",
+                          staticClass:
+                            "w-full cursor-pointer mx-2 text-center --text",
                           class: {
                             "bg-gray-500": _vm.activeCategory == "Food"
                           },
@@ -35907,7 +35916,8 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass: "w-full cursor-pointer mx-2 text-center",
+                          staticClass:
+                            "w-full cursor-pointer mx-2 text-center --text",
                           class: {
                             "bg-gray-500": _vm.activeCategory == "Drink"
                           },
@@ -35954,7 +35964,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "w-full text-center" }, [
-                            _c("span", { staticClass: "text-lg font-bold" }, [
+                            _c("span", { staticClass: "font-bold --text" }, [
                               _vm._v(
                                 "\n\t\t\t\t\t\t\t\t\t" +
                                   _vm._s(product.name) +
@@ -36066,7 +36076,7 @@ var render = function() {
               _c(
                 "div",
                 {
-                  staticClass: "w-full cursor-pointer mx-2 text-center",
+                  staticClass: "w-full cursor-pointer mx-2 text-center --text",
                   class: { "bg-gray-200": _vm.activeCategory == "Food" },
                   staticStyle: { border: "1px solid #E4B934" },
                   on: {
@@ -36085,7 +36095,7 @@ var render = function() {
               _c(
                 "div",
                 {
-                  staticClass: "w-full cursor-pointer mx-2 text-center",
+                  staticClass: "w-full cursor-pointer mx-2 text-center --text",
                   class: { "bg-gray-200": _vm.activeCategory == "Drink" },
                   staticStyle: { border: "1px solid #E4B934" },
                   on: {
@@ -36153,7 +36163,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "w-full text-center" }, [
-                    _c("span", { staticClass: "text-lg font-bold" }, [
+                    _c("span", { staticClass: "--text font-bold" }, [
                       _vm._v(
                         "\n                                " +
                           _vm._s(product.name) +
@@ -36304,7 +36314,7 @@ var render = function() {
                   }
                 },
                 [
-                  _c("span", { staticClass: "text-lg" }, [
+                  _c("span", { staticClass: "--text" }, [
                     _c("b", { staticClass: "text-white" }, [_vm._v("SUB")]),
                     _c(
                       "b",

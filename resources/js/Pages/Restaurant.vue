@@ -15,7 +15,7 @@
 
                 <div class="w-full mt-5 px-5">
                     <div class="flex flex-row float-right" style="width: 30%">
-                        <div class="w-full cursor-pointer mx-2 text-center"
+                        <div class="w-full cursor-pointer mx-2 text-center --text"
                             style="border: 1px solid #E4B934;"
                             :class="{'bg-gray-200': activeCategory == 'Food'}"
                             @click="activeCategory = 'Food'"
@@ -23,7 +23,7 @@
                             Foods
                         </div>
 
-                        <div class="w-full cursor-pointer mx-2 text-center"
+                        <div class="w-full cursor-pointer mx-2 text-center --text"
                             style="border: 1px solid #E4B934;"
                             :class="{'bg-gray-200': activeCategory == 'Drink'}"
                             @click="activeCategory = 'Drink'"
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="w-full text-center">
-                            <span class="text-lg font-bold">
+                            <span class="--text font-bold">
                                 {{ product.name }} - ₱{{ product.amount.toFixed(2) }}
 
                             </span>
@@ -102,7 +102,7 @@
                             style="border-radius: 5px; background: #000000"
                             @click="createProduct()"
                         >
-                            <span class="text-lg"> 
+                            <span class="--text"> 
                                 <b class="text-white">SUB</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">MIT</b>
                             </span>
                         </button>
@@ -253,5 +253,9 @@ export default {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.--text {
+	font-size: calc(.1em + 1vw);
 }
 </style>

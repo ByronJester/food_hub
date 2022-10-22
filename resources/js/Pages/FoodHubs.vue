@@ -12,7 +12,7 @@
 						>
 					</div>
 
-					<div class="text-center font-bold text-xl">
+					<div class="text-center font-bold text-xl --text">
 						{{ arg.restaurant_name }}
 					</div>
 				</div>
@@ -20,11 +20,11 @@
 
             <div class="w-full" v-else>
 				<div class="w-full text-2xl font-bold px-5 pt-5">
-					<span class="cursor-pointer" @click="restaurant = null">
+					<span class="cursor-pointer --text" @click="restaurant = null">
 						<i class="fa-solid fa-arrow-left"></i> Back
 					</span>
 
-                    <span class="cursor-pointer float-right" @click="restaurant = null">
+                    <span class="cursor-pointer float-right --text" @click="restaurant = null">
 						{{ restaurant.restaurant_name }}
 					</span>
 				</div>
@@ -42,7 +42,7 @@
 					</div>
 
 					<div class="w-full mt-5 px-5">
-						<div class="flex flex-row float-right" style="width: 30%">
+						<div class="flex flex-row float-right --text" style="width: 30%">
 							<div class="w-full cursor-pointer mx-2 text-center"
 								style="border: 1px solid #E4B934;"
 								:class="{'bg-gray-500': activeCategory == 'Food'}"
@@ -51,7 +51,7 @@
 								Foods
 							</div>
 
-							<div class="w-full cursor-pointer mx-2 text-center"
+							<div class="w-full cursor-pointer mx-2 text-center --text"
 								style="border: 1px solid #E4B934;"
 								:class="{'bg-gray-500': activeCategory == 'Drink'}"
 								@click="activeCategory = 'Drink'"
@@ -75,24 +75,20 @@
 
 							<div class="w-full text-center flex flex-row mb-2">
                                 <div class="w-full">
-                                    <button class="w-6/full py-1"
+                                    <button class="w-6/12 py-1"
                                         style="border-radius: 5px; background: #000000"
                                     >
-                                        <span class="text-md px-2"> 
+                                        <span class="--text px-2"> 
                                             <b class="text-white mr-2">PLACE</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">ORDER</b>
                                         </span>
                                     </button>
                                 </div>
 
                                 <div class="w-full">
-                                    <!-- <p class="text-lg font-bold" style="border-radius: 5px; background: #000000">
-                                        {{ product.name }} - ₱{{ product.amount.toFixed(2) }} 
-                                        <b class="text-white">{{ product.name }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
-                                    </p> -->
-                                    <button class="w-6/full py-1 cursor-default"
+                                    <button class="w-6/12 py-1 cursor-default"
                                         style="border-radius: 5px; background: #000000"
                                     >
-                                        <span class="text-md px-2"> 
+                                        <span class="--text px-2"> 
                                             <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
                                         </span>
                                     </button>
@@ -139,5 +135,9 @@ export default {
 	border: 1px solid #E4B934;
 	border-radius: 5px;
 	height: 250px;
+}
+
+.--text {
+	font-size: calc(.1em + 1vw);
 }
 </style>

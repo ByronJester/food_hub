@@ -153,7 +153,7 @@
 						>
 					</div>
 
-					<div class="text-center font-bold text-xl">
+					<div class="text-center font-bold text-xl --text">
 						{{ arg.restaurant_name }}
 					</div>
 				</div>
@@ -161,11 +161,11 @@
 
 			<div class="w-full" v-else>
 				<div class="w-full text-2xl font-bold px-5 pt-5">
-					<span class="cursor-pointer" @click="restaurant = null">
+					<span class="cursor-pointer --text" @click="restaurant = null">
 						<i class="fa-solid fa-arrow-left"></i> Back
 					</span>
 
-                    <span class="cursor-pointer float-right" @click="restaurant = null">
+                    <span class="cursor-pointer float-right --text" @click="restaurant = null">
 						{{ restaurant.restaurant_name }}
 					</span>
 				</div>
@@ -184,7 +184,7 @@
 
 					<div class="w-full mt-5 px-5">
 						<div class="flex flex-row float-right" style="width: 30%">
-							<div class="w-full cursor-pointer mx-2 text-center"
+							<div class="w-full cursor-pointer mx-2 text-center --text"
 								style="border: 1px solid #E4B934;"
 								:class="{'bg-gray-500': activeCategory == 'Food'}"
 								@click="activeCategory = 'Food'"
@@ -192,7 +192,7 @@
 								Foods
 							</div>
 
-							<div class="w-full cursor-pointer mx-2 text-center"
+							<div class="w-full cursor-pointer mx-2 text-center --text"
 								style="border: 1px solid #E4B934;"
 								:class="{'bg-gray-500': activeCategory == 'Drink'}"
 								@click="activeCategory = 'Drink'"
@@ -215,7 +215,7 @@
 							</div>
 
 							<div class="w-full text-center">
-								<span class="text-lg font-bold">
+								<span class="font-bold --text">
 									{{ product.name }} - ₱{{ product.amount.toFixed(2) }}
 								</span>
 							</div>
@@ -392,6 +392,10 @@ export default {
 	border: 1px solid #E4B934;
 	border-radius: 5px;
 	height: 250px;
+}
+
+.--text {
+	font-size: calc(.1em + 1vw);
 }
 
 

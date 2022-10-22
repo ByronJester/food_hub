@@ -9,15 +9,15 @@
                 />
             </div>
 
-            <div style="width: 93%">
-                <div class="float-right flex flex-row mt-6 mr-3 font-bold"
-                    style="color: #FFFFFF"
+            <div style="width: 93%" class="flex items-center justify-end">
+                <div class="float-right flex flex-row mr-3 font-bold"
+                    style="color: #FFFFFF;"
                 >
                     <div class="mx-5 cursor-pointer" :class="{'--active' : active == '/restaurants'}"
                         @click="changeActive('/restaurants')" v-if="auth.role == 2 && auth.user_type == 'owner'"
                     >
                         <i class="fa-solid fa-shop mr-2" style="color: #FFFFFF"></i>
-                        <span class="text-lg">
+                        <span class="--text">
                             <b class="text-white">MY FOOD</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">HUB</b>
                         </span>
                     </div>
@@ -26,7 +26,7 @@
                         @click="changeActive('/customers')" v-if="auth.role == 3"
                     >
                         <i class="fa-solid fa-shop mr-2" style="color: #FFFFFF"></i>
-                        <span class="text-lg">
+                        <span class="--text">
                             <b class="text-white">FOOD</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">HUBS</b>
                         </span>
                     </div>
@@ -35,7 +35,7 @@
                         @click="changeActive('/carts')" v-if="auth.role == 3"
                     >
                         <i class="fa-solid fa-cart-shopping mr-2" style="color: #FFFFFF"></i>
-                        <span class="text-lg">
+                        <span class="--text">
                             <b class="text-white">CA</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">RTS</b>
                         </span>
                     </div>
@@ -44,7 +44,7 @@
                         @click="changeActive('/users')" v-if="auth.role == 1 || (auth.role == 2 && auth.user_type == 'owner')"
                     >
                         <i class="fa-solid fa-users-gear mr-1"></i>
-                        <span class="text-lg">
+                        <span class="--text">
                             <b class="text-white">US</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">ERS</b>
                         </span>
                     </div>
@@ -53,7 +53,7 @@
                         @click="logout()"
                     >
                         <i class="fa-solid fa-door-open mr-1"></i>
-                        <span class="text-lg">
+                        <span class="--text">
                             <b class="text-white">LOG</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">OUT</b>
                         </span>
                     </div>
@@ -141,5 +141,9 @@ export default {
 
 .--active {
     border-bottom: 2px solid #E4B934;
+}
+
+.--text {
+    font-size: calc(.1em + 1vw);
 }
 </style>

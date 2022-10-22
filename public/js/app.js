@@ -34594,7 +34594,7 @@ var render = function() {
       "div",
       {
         staticClass: "w-full flex flex-row",
-        staticStyle: { height: "7%", background: "#000000" }
+        staticStyle: { height: "10%", background: "#000000" }
       },
       [
         _vm._m(0),
@@ -34728,7 +34728,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "w-full", staticStyle: { height: "93%" } },
+      { staticClass: "w-full", staticStyle: { height: "85%" } },
       [_vm._t("default")],
       2
     )

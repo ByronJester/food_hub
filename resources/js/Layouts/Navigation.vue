@@ -1,7 +1,7 @@
 <template>
     <div class="w-screen h-screen flex flex-col">
         <div class="w-full flex flex-row"
-            style="height: 7%; background: #000000"
+            style="height: 10%; background: #000000"
         >   
             <div style="width: 7%">
                 <img src="/images/logo2.png" class="py-1 px-1 cursor-pointer"
@@ -64,7 +64,7 @@
         </div>
 
         <div class="w-full"
-            style="height: 93%"
+            style="height: 85%"
         >
             <slot></slot>
         </div>

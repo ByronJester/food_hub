@@ -1,13 +1,23 @@
 <template>
     <Navigation :auth="auth">
         <div class="w-full h-full px-2 py-2 flex flex-col">
-            <div class="w-full mt-3">
+            <div class="w-full mt-3" v-if="auth.role == 2">
                 <span class="text-2xl ml-2 font-bold">
-                    <i class="fa-solid fa-users mr-3"> </i>Users 
+                    <i class="fa-solid fa-users mr-3"> </i>Staffs 
                 </span>
             </div>
 
-            <div class="w-full h-full mt-5 flex flex-row">
+            <div class="w-full flex flex-row pt-10 pl-3" v-else style="height: 100px">
+                <div class="w-auto --text mr-10 cursor-pointer" :class="{'--active' : activeTab == 'owner'}" @click="activeTab = 'owner'">
+                    <span class="px-10"><i class="fa-solid fa-shop mr-3"></i> Local Food Joints </span>
+                </div>
+
+                <div class="w-auto --text text-center cursor-pointer" :class="{'--active' : activeTab == 'customer'}" @click="activeTab = 'customer'">
+                    <span class="px-10"> <i class="fa-solid fa-users mr-3"> </i> Customers </span>
+                </div>
+            </div>
+
+            <div class="w-full h-full pt-5 flex flex-row pt-10">
 
                 <div :style="{width: user ? '80%' : '100%'}" class="mx-2">
                     <Table :columns="columns" :rows="users" :keys="keys" :selected.sync="user"/>
@@ -64,7 +74,7 @@ export default {
     data() {
         return {
             columns: [
-                'Name', 'Email', 'Contact', 'User Type'
+                'Name', 'Email', 'Contact'
             ],
             keys : [
                 {
@@ -75,26 +85,43 @@ export default {
                 },
                 {
                     label: 'phone',
-                },
-                {
-                    label: 'user_type',
-                },
+                }
             ],
             users: [],
-            user: null
+            user: null,
+            activeTab: 'owner'
         }
     },
 
     watch: {
-        user(arg) {
-            console.log(arg)
+        activeTab(arg) {
+            this.users = this.options.users.filter( x => { return x.user_type == arg})
         }
     },
 
     mounted() {
-        console.log(this.options)
-        this.users = this.options.users
+        if(this.auth.role == 2) {
+            this.activeTab = 'staff'
+        }
+
+        this.users = this.options.users.filter( x => { return x.user_type == this.activeTab})
+
+        if(this.auth.role == 1) {
+            this.columns.push('Status')
+
+            this.keys.push({ label : 'verified' })
+        }
     }
 }
 
 </script>
+
+<style scoped>
+.--active {
+    border-bottom: 2px solid #E4B934;
+}
+
+.--text {
+	font-size: calc(.1em + 1vw);
+}
+</style>

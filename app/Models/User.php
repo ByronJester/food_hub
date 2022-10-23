@@ -39,4 +39,13 @@ class User extends Authenticatable
         'is_active' => 'boolean',
     ];
 
+    protected $appends = [
+        'verified'
+    ];
+
+    public function getVerifiedAttribute()
+    {
+        return $this->is_active ? 'Verified' : 'Not Verified';
+    }
+
 }

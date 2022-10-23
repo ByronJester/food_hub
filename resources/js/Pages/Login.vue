@@ -57,8 +57,20 @@
 				</div>
 
 				<div class="px-2 py-2">
+					<select v-model="formRegisterData.role" class="w-full text-center my-2" style="height: 40px; border-radius: 10px">
+						<option value="3">Customer</option>
+						<option value="2">Local Food Joints</option>
+					</select>
+
+					<input type="text" class="w-full mt-2 --login__register--input text-center"
+						:class="{'mb-2' : !message}"
+						placeholder="Food Joint Name" v-model="formRegisterData.restaurant_name"
+						v-if="formRegisterData.role == 2"
+					>
+					<span class="text-xs text-red-500">{{validationError('restaurant_name', saveError)}} </span>
+
 					<input type="text" class="w-full  my-2 --login__register--input text-center"
-						placeholder="Name" v-model="formRegisterData.name"
+						:placeholder="formRegisterData.role == 2 ? 'Owner Name' : 'Name'" v-model="formRegisterData.name"
 					>
 					<span class="text-xs text-red-500">{{validationError('name', saveError)}} </span>
 
@@ -72,11 +84,6 @@
 					>
 					<span class="text-xs text-red-500">{{validationError('phone', saveError)}} </span>
 
-					<select v-model="formRegisterData.role" class="w-full text-center my-2" style="height: 40px; border-radius: 10px">
-						<option value="3">Customer</option>
-						<option value="2">Restaurant</option>
-					</select>
-
 					<input type="password" class="w-full mt-2 --login__register--input text-center"
 						:class="{'mb-2' : !message}"
 						placeholder="Password" v-model="formRegisterData.password"
@@ -88,13 +95,6 @@
 						placeholder="Confirm Password" v-model="formRegisterData.confirm_password"
 					>
 					<span class="text-xs text-red-500">{{validationError('confirm_password', saveError)}} </span><br>
-
-					<input type="text" class="w-full mt-2 --login__register--input text-center"
-						:class="{'mb-2' : !message}"
-						placeholder="Restaurant Name" v-model="formRegisterData.restaurant_name"
-						v-if="formRegisterData.role == 2"
-					>
-					<span class="text-xs text-red-500">{{validationError('restaurant_name', saveError)}} </span>
 
 					<div class="text-white">
 						<label class="mt-1 font-bold">ID Picture</label><br>
@@ -137,9 +137,24 @@
 			<div class="w-full" style="height: 50px" :style="{'background': !isLogin ? '#000000' : '#FFFFFF'}">
 				<p class="float-right cursor-pointer mt-3 mr-3" v-if="!isLogin" @click="isLogin = true">
 					<span class="text-lg">
-						<b class="text-white">LO</b><b style="background: #E4B934; border-radius: 5px" class="px-1">GIN</b>
+						<b class="text-white">LO</b><b style="background: #E4B934; border-radius: 5px" class="px-1">GIN</b> 
 					</span>
 				</p>
+			</div>
+
+			<div class="w-full pt-10 px-5">
+				<carousel :navigationEnabled="false" :perPage="1" :paginationEnabled="false" :autoplay="true">
+					<slide v-for="banner in banners" :key="banner" class="w-full" style="border: 1px solid #E4B934">
+						<div class="w-full">
+							<img
+								:src="banner"
+								class="w-full"
+								:style="{ 'height': '500px' }"
+								alt=""
+							/>
+						</div>
+					</slide>
+				</carousel>
 			</div>
 
 			<div class="grid grid-cols-5 gap-4 p-5 w-full" v-if="!restaurant">
@@ -261,6 +276,10 @@ export default {
 			restaurant: null,
 			isLogin: false,
 			activeCategory: 'Food',
+			banners: [
+				'/images/banners/foodhub.png',
+				'/images/banners/tea.png',
+			]
 		}
 	},
 

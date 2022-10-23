@@ -172,7 +172,9 @@ class UserController extends Controller
             $users = User::orderBy('created_at', 'desc')->whereNotIn('id', [$auth->id]);
 
             if($auth->role == 2) {
-                $users = $users->where('reference', $auth->reference);
+                $users = $users->where('reference', $auth->reference)->where('user_type', 'staff');
+            } else {
+                $users = $users->where('user_type', '!=', 'staff');
             }
 
             return Inertia::render('Users', [

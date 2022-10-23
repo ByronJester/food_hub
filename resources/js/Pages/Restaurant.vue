@@ -17,7 +17,7 @@
                     <div class="flex flex-row float-right" style="width: 30%">
                         <div class="w-full cursor-pointer mx-2 text-center --text"
                             style="border: 1px solid #E4B934;"
-                            :class="{'bg-gray-200': activeCategory == 'Food'}"
+                            :class="{'bg-yellow-200': activeCategory == 'Food'}"
                             @click="activeCategory = 'Food'"
                         >
                             Foods
@@ -25,7 +25,7 @@
 
                         <div class="w-full cursor-pointer mx-2 text-center --text"
                             style="border: 1px solid #E4B934;"
-                            :class="{'bg-gray-200': activeCategory == 'Drink'}"
+                            :class="{'bg-yellow-200': activeCategory == 'Drink'}"
                             @click="activeCategory = 'Drink'"
                         >
                             Drinks
@@ -86,7 +86,7 @@
                     </div>
 
                     <div class="w-full mt-4">
-                        <input type="text" class="w-full text-center" placeholder="Amount" v-model="form.amount"
+                        <input type="text" inputmode="decimal" class="w-full text-right pr-2" placeholder="Amount" v-model="form.amount"
                             style="border: 1px solid black; border-radius: 5px;  height: 40px"
                         >
                         <span class="text-xs text-red-500">{{validationError('amount', saveError)}} </span>
@@ -131,7 +131,7 @@ export default {
                 restaurant_id: '',
                 category: '',
                 name: '',
-                amount: '',
+                amount: '0.00',
                 image: ''
             },
             formData: new FormData(),
@@ -149,15 +149,25 @@ export default {
 
         console.log(this.restaurant)
         this.products = this.restaurant.products
+
+        // this.form.amount = parseFloat(this.form.amount).toFixed(2);
     },
 
     watch: {
         activeCategory(arg){
             this.form.category = arg
-        }
+        },
+
+        // 'form.amount': function (arg) {
+        //     this.form.amount = parseFloat(arg).toFixed(2);
+        // }
     },
 
     methods: {
+        changeAmount(){
+            this.form.amount = parseFloat(this.form.amount).toFixed(2);
+        },
+
         openModal(){
             var modal = document.getElementById("myModal");
 

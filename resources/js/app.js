@@ -2,6 +2,7 @@ import { InertiaApp } from '@inertiajs/inertia-vue'
 import Vue from 'vue'
 import { InertiaProgress } from '@inertiajs/progress'; 
 import VueGraph from 'vue-graph';
+import VueCarousel from 'vue-carousel';
 
 InertiaProgress.init({
   // The delay after which the progress bar will
@@ -23,6 +24,7 @@ InertiaProgress.init();
 const app = document.getElementById('app')
 
 Vue.use(VueGraph);
+Vue.use(VueCarousel);
 
 Vue.mixin({
   methods: {

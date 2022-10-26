@@ -8,6 +8,27 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4865c75cef.js" crossorigin="anonymous"></script>
     <script src="{{ mix('/js/app.js') }}" defer></script>
+
+    <style>
+      body {
+        overflow-x:hidden;
+        overflow-y:scroll;
+      }
+
+      body::-webkit-scrollbar {
+        width: 0px;
+        background: white;
+      }
+
+      body::-webkit-scrollbar-thumb {
+        background: #ffffff;
+        height:30px;
+      }
+
+      body::-webkit-scrollbar-track-piece{
+        display:none;
+      }
+    </style>
   </head>
   <body>
     @inertia

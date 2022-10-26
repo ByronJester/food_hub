@@ -44,7 +44,8 @@ const pages = {
   'Login': require('./Pages/Login.vue').default,
   'Users': require('./Pages/Users.vue').default,
   'Restaurant': require('./Pages/Restaurant.vue').default,
-  'FoodHubs': require('./Pages/FoodHubs.vue').default
+  'FoodHubs': require('./Pages/FoodHubs.vue').default,
+  'CustomerOrders': require('./Pages/CustomerOrders.vue').default,
 }
 
 new Vue({

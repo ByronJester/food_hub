@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\OrderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,11 @@ Route::middleware(['cors'])->group(function () {
 
     Route::prefix('customers')->group(function () {
         Route::get('/', [RestaurantController::class, 'viewRestaurants'])->name('view.restaurants');
+        Route::post('/place-order', [OrderController::class, 'placeOrder']);
+    });
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'viewOrders'])->name('view.orders');
     });
 });
 

@@ -53,11 +53,16 @@
                             />
                         </div>
 
-                        <div class="w-full text-center">
-                            <span class="--text font-bold">
-                                {{ product.name }} - ₱{{ product.amount.toFixed(2) }}
-
-                            </span>
+                        <div class="w-full text-center flex flex-col mb-2">
+                            <div class="w-full px-4">
+                                <button class="w-full py-1 cursor-default"
+                                    style="border-radius: 5px; background: #000000"
+                                >
+                                    <span class="--text px-2"> 
+                                        <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,12 +104,10 @@
 
                     <div class="w-full mt-4">
                         <button class="w-full py-2"
-                            style="border-radius: 5px; background: #000000"
+                            style="border-radius: 5px; background: #E4B934"
                             @click="createProduct()"
                         >
-                            <span class="--text"> 
-                                <b class="text-white">SUB</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">MIT</b>
-                            </span>
+                            SUBMIT
                         </button>
                     </div>
                 </div>

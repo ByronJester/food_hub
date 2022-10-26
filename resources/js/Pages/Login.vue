@@ -98,19 +98,19 @@
 
 					<div class="text-white">
 						<label class="mt-1 font-bold">ID Picture</label><br>
-						<input type="file" accept="image/png, image/jpeg" @change="imageChange('picture_id', $event)"><br>
+						<input type="file" class="w-full" accept="image/png, image/jpeg" @change="imageChange('picture_id', $event)"><br>
 						<span class="text-xs text-red-500">{{validationError('picture_id', saveError)}} </span>
 					</div>
 
 					<div v-if="formRegisterData.role == 2" class="text-white">
 						<label class="mt-1 font-bold">Restaurant Display Picture</label><br>
-						<input type="file" accept="image/png, image/jpeg" @change="imageChange('image', $event)"><br>
+						<input type="file" class="w-full" accept="image/png, image/jpeg" @change="imageChange('image', $event)"><br>
 						<span class="text-xs text-red-500">{{validationError('image', saveError)}} </span>
 					</div>
 
 					<div v-if="formRegisterData.role == 2" class="text-white">
 						<label class="mt-1 font-bold">Restaurant Banner</label><br>
-						<input type="file" accept="image/png, image/jpeg" @change="imageChange('banner', $event)"><br>
+						<input type="file" class="w-full" accept="image/png, image/jpeg" @change="imageChange('banner', $event)"><br>
 						<span class="text-xs text-red-500">{{validationError('banner', saveError)}} </span><br>
 					</div>
 
@@ -142,8 +142,8 @@
 				</p>
 			</div>
 
-			<div class="w-full pt-10 px-5">
-				<carousel :navigationEnabled="false" :perPage="1" :paginationEnabled="false" :autoplay="true">
+			<div class="w-full pt-10 px-5 flex justify-center items-center">
+				<carousel :navigationEnabled="false" :perPage="1" :paginationEnabled="false" :autoplay="true" :loop="true" class="w-9/12">
 					<slide v-for="banner in banners" :key="banner" class="w-full" style="border: 1px solid #E4B934">
 						<div class="w-full">
 							<img
@@ -201,15 +201,15 @@
 						<div class="flex flex-row float-right" style="width: 30%">
 							<div class="w-full cursor-pointer mx-2 text-center --text"
 								style="border: 1px solid #E4B934;"
-								:class="{'bg-gray-500': activeCategory == 'Food'}"
+								:class="{'bg-yellow-500': activeCategory == 'Food'}"
 								@click="activeCategory = 'Food'"
 							>
 								Foods
 							</div>
 
-							<div class="w-full cursor-pointer mx-2 text-center --text"
+							<div class="w-full cursor-pointer text-center --text"
 								style="border: 1px solid #E4B934;"
-								:class="{'bg-gray-500': activeCategory == 'Drink'}"
+								:class="{'bg-yellow-500': activeCategory == 'Drink'}"
 								@click="activeCategory = 'Drink'"
 							>
 								Drinks
@@ -229,10 +229,16 @@
 								/>
 							</div>
 
-							<div class="w-full text-center">
-								<span class="font-bold --text">
-									{{ product.name }} - ₱{{ product.amount.toFixed(2) }}
-								</span>
+							<div class="w-full text-center flex flex-col mb-2">
+                                <div class="w-full px-4">
+                                    <button class="w-full py-1 cursor-default"
+                                        style="border-radius: 5px; background: #000000"
+                                    >
+                                        <span class="--text px-2"> 
+                                            <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
+                                        </span>
+                                    </button>
+                                </div>
 							</div>
 						</div>
 					</div>

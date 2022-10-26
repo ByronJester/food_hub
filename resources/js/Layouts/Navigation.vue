@@ -31,8 +31,8 @@
                         </span>
                     </div>
 
-                    <div class="mx-5 cursor-pointer" :class="{'--active' : active == '/carts'}"
-                        @click="changeActive('/carts')" v-if="auth.role == 3"
+                    <div class="mx-5 cursor-pointer" :class="{'--active' : active == '/orders'}"
+                        @click="changeActive('/orders')" v-if="auth.role == 3"
                     >
                         <i class="fa-solid fa-cart-shopping mr-2" style="color: #FFFFFF"></i>
                         <span class="--text">

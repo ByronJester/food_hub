@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->double('amount', 15, 8);
             $table->string('image')->nullable();
             $table->string('category');
+            $table->longText('description')->nullable();
             $table->boolean('is_active')->default(true);
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants');

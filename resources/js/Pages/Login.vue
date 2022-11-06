@@ -1,7 +1,7 @@
 <template>
 	<div class="w-screen h-screen flex flex-row">
-		<div style="background: #000000; width: 20%; height: 100%"
-			class="flex flex-col justify-center items-center"
+		<div style="background: #000000; width: 20%; height: 100%;"
+			class="flex flex-col justify-center items-center fixed"
 			v-if="isLogin"
 		>	
 			<div class="w-full mb-5 relative" style="top: -5rem">
@@ -131,8 +131,8 @@
 
 
 		<div style="height: 100%"
-			:style="{width: isLogin ? '80%' : '100%'}"
-			class=""
+			:style="{width: isLogin ? '80%' : '100%', 'left': isLogin ? '20%': '0'}"
+			class="absolute"
 		>
 			<div class="w-full" style="height: 50px" :style="{'background': !isLogin ? '#000000' : '#FFFFFF'}">
 				<p class="float-right cursor-pointer mt-3 mr-3" v-if="!isLogin" @click="isLogin = true">
@@ -223,6 +223,12 @@
 						<div class="w-full flex flex-col" v-for="product in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id"
 							style="border: 1px solid #E4B934"
 						>
+							<div class="w-full inline-flex mt-3" :style="{cursor: product.description ? 'pointer' : 'not-allowed'}">
+								<p @click="product.description ? openDescriptionModal(product) : ''">
+									<i class="fa-solid fa-eye fa-lg p-1"></i>
+								</p>
+							</div>
+
 							<div class="w-full">
 								<img class="w-full p-4" :src="'/images/uploads/' + product.image"
 									style="height: 200px"
@@ -240,6 +246,29 @@
                                     </button>
                                 </div>
 							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="descriptionModal" class="descriptionModal">
+					<!-- Modal content -->
+					<div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+						<div class="w-full">
+							<span class="text-lg font-bold">
+								{{productName}}
+							</span>
+
+							<span class="float-right cursor-pointer"
+								@click="closeDescriptionModal()"
+							>
+								<i class="fa-solid fa-xmark"></i>
+							</span>
+						</div>
+
+						<div class="w-full mt-4">
+							<p>
+								{{ description }}
+							</p>
 						</div>
 					</div>
 				</div>
@@ -285,7 +314,9 @@ export default {
 			banners: [
 				'/images/banners/foodhub.png',
 				'/images/banners/tea.png',
-			]
+			],
+			description: null,
+            productName: null
 		}
 	},
 
@@ -380,7 +411,25 @@ export default {
 		},
 		selectShop(arg){
 			this.restaurant = arg
-		}
+		},
+
+		openDescriptionModal(arg){
+            var modal = document.getElementById("descriptionModal");
+
+            modal.style.display = "block";
+
+            this.description = arg.description
+            this.productName = arg.name
+        },
+
+        closeDescriptionModal(){
+            var modal = document.getElementById("descriptionModal");
+
+            modal.style.display = "none";
+
+            this.description = null
+            this.productName = null
+        },
 	}
 }
 
@@ -421,6 +470,43 @@ export default {
 
 .--text {
 	font-size: calc(.1em + 1vw);
+}
+
+.descriptionModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 40%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.description-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 

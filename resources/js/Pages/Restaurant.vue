@@ -43,10 +43,19 @@
 
             <div class="w-full mt-8 px-5">
                 <div class="grid grid-cols-5 gap-4 flex justify-center items-center">
-                    <div class="w-full flex flex-col cursor-pointer" v-for="product in products.filter( x => { return x.category == activeCategory})" :key="product.id"
+                    <div class="w-full flex flex-col" v-for="product in products.filter( x => { return x.category == activeCategory})" :key="product.id"
                         style="border: 1px solid #E4B934"
-                        @click="viewProduct(product)"
-                    >
+                    >   
+                        <div class="w-full inline-flex mt-3">
+                            <p @click="viewProduct(product)">
+                                <i class="fa-solid fa-pen-to-square fa-lg mx-1 cursor-pointer p-1"></i>
+                            </p>
+                            
+                            <p @click="openDescriptionModal(product)" v-if="product.description">
+                                <i class="fa-solid fa-eye fa-lg cursor-pointer p-1"></i>
+                            </p>
+                        </div>
+
                         <div class="w-full">
                             <img class="w-full p-4" :src="'/images/uploads/' + product.image"
                                 style="height: 200px"
@@ -69,7 +78,6 @@
             </div>
 
             <div id="myModal" class="modal">
-
                 <!-- Modal content -->
                 <div class="modal-content flex flex-col" style="width: 20%">
                     <div class="w-full">
@@ -77,7 +85,7 @@
                             {{activeCategory}}
                         </span>
                         <span class="float-right cursor-pointer"
-                            @click="closeModal()"
+                            @click="close()"
                         >
                             <i class="fa-solid fa-xmark"></i>
                         </span>
@@ -88,6 +96,14 @@
                             style="border: 1px solid black; border-radius: 5px; height: 40px"
                         >
                         <span class="text-xs text-red-500">{{validationError('name', saveError)}} </span>
+                    </div>
+
+                    <div class="w-full mt-4">
+                        <textarea placeholder="Description" rows="5" cols="50" class="w-full"
+                            style="border: 1px solid black; padding: 5px; border-radius: 5px"
+                            v-model="form.description"
+                        ></textarea>
+                        <span class="text-xs text-red-500">{{validationError('description', saveError)}} </span>
                     </div>
 
                     <div class="w-full mt-4">
@@ -111,8 +127,31 @@
                         </button>
                     </div>
                 </div>
-
             </div>
+
+            <div id="descriptionModal" class="descriptionModal">
+                <!-- Modal content -->
+                <div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+                    <div class="w-full">
+                        <span class="text-lg font-bold">
+                            {{productName}}
+                        </span>
+
+                        <span class="float-right cursor-pointer"
+                            @click="closeDescriptionModal()"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </span>
+                    </div>
+
+                    <div class="w-full mt-4">
+                        <p>
+                            {{ description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </Navigation>
 </template>
@@ -135,11 +174,14 @@ export default {
                 category: '',
                 name: '',
                 amount: '0.00',
-                image: ''
+                image: '',
+                description: null
             },
             formData: new FormData(),
             saveError: null,
-            products: []
+            products: [],
+            description: null,
+            productName: null
         }
     },
 
@@ -150,7 +192,6 @@ export default {
 
         this.form.category = this.activeCategory
 
-        console.log(this.restaurant)
         this.products = this.restaurant.products
 
         // this.form.amount = parseFloat(this.form.amount).toFixed(2);
@@ -187,8 +228,27 @@ export default {
             this.form.category = this.activeCategory
             this.form.image = ''
             this.form.restaurant_id = this.restaurant.id
+            this.form.description = null
 
             this.formData = new FormData()
+        },
+
+        openDescriptionModal(arg){
+            var modal = document.getElementById("descriptionModal");
+
+            modal.style.display = "block";
+
+            this.description = arg.description
+            this.productName = arg.name
+        },
+
+        closeDescriptionModal(){
+            var modal = document.getElementById("descriptionModal");
+
+            modal.style.display = "none";
+
+            this.description = null
+            this.productName = null
         },
 
         imageChange(arg, e) {
@@ -202,6 +262,7 @@ export default {
             this.formData.append('category', this.form.category);
             this.formData.append('name', this.form.name);
             this.formData.append('amount', this.form.amount);
+            this.formData.append('description', this.form.description);
 
             axios.post(this.$root.route + "/restaurants/create-product", this.formData)
 				.then(response => {
@@ -246,6 +307,28 @@ export default {
 
 /* Modal Content */
 .modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.descriptionModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 40%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.description-content {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;

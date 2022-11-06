@@ -62,19 +62,25 @@
 					</div>
 				</div>
 
-				<div class="w-full mt-20 px-5">
+				<div class="w-full my-20 px-5">
 					<div class="grid grid-cols-5 gap-4 flex justify-center items-center">
 						<div class="w-full flex flex-col" v-for="(product, index) in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id"
 							style="border: 1px solid #E4B934"
 						>
+							<div class="w-full inline-flex mt-1" :style="{cursor: product.description ? 'pointer' : 'not-allowed'}">
+								<p @click="product.description ? openDescriptionModal(product) : ''">
+									<i class="fa-solid fa-eye fa-lg p-1"></i>
+								</p>
+							</div>
+
 							<div class="w-full">
 								<img class="w-full p-4" :src="'/images/uploads/' + product.image"
 									style="height: 200px"
 								/>
 							</div>
 
-							<div class="w-full text-center flex flex-row mb-2">
-                                <div class="pl-4 pr-1" style="width: 70%">
+							<div class="w-full text-center flex flex-col mb-2">
+                                <div class="px-4" style="width: 100%">
                                     <button class="w-full py-1 cursor-default"
                                         style="border-radius: 5px; background: #000000"
                                     >
@@ -84,22 +90,48 @@
                                     </button>
                                 </div>
 
-								<div class="pr-1" style="width: 15%">
-									<input type="number" min="1" style="border: 1px solid #E4B934; width: 100%" class="text-center pt-2 pb-2" v-model="forms[index].quantity">
-								</div>
+								<div class="w-full flex flex-row mt-2 justify-center items-center">
+									<div class="pr-1 w-full" style="width: 15%">
+										<input type="number" min="1" style="border: 1px solid #E4B934; width: 100%" class="text-center pt-2 pb-2" v-model="forms[index].quantity">
+									</div>
 
-								<div class="pr-4" style="width: 15%">
-                                    <button class="w-full cursor-poineter --text"
-                                        style="border-radius: 5px; background: #E4B934"
-										@click="addToCart(forms[index], index)"
-                                    >
-                                        <i class="fa-solid fa-cart-shopping pt-3 pb-2" style="color: #000000"></i>
-                                    </button>
-                                </div>
+									<div class="pr-4 w-full" style="width: 15%">
+										<button class="w-full cursor-poineter --text"
+											style="border-radius: 5px; background: #E4B934"
+											@click="addToCart(forms[index], index)"
+										>
+											<i class="fa-solid fa-cart-shopping pt-3 pb-2" style="color: #000000"></i>
+										</button>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+
+				<div id="descriptionModal" class="descriptionModal">
+					<!-- Modal content -->
+					<div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+						<div class="w-full">
+							<span class="text-lg font-bold">
+								{{productName}}
+							</span>
+
+							<span class="float-right cursor-pointer"
+								@click="closeDescriptionModal()"
+							>
+								<i class="fa-solid fa-xmark"></i>
+							</span>
+						</div>
+
+						<div class="w-full mt-4">
+							<p>
+								{{ description }}
+							</p>
+						</div>
+					</div>
+				</div>
+
 			</div>
         </div>
     </Navigation>
@@ -109,6 +141,7 @@
 <script>
 import Navigation from '../Layouts/Navigation.vue'
 import axios from "axios";
+import { Inertia } from '@inertiajs/inertia';
 
 export default {
     props: ['auth', 'options'],
@@ -121,7 +154,9 @@ export default {
             restaurant: null,
             activeCategory: 'Food',
 			forms: [],
-			list: []
+			list: [],
+			description: null,
+            productName: null
         }
     },
     created(){
@@ -170,8 +205,33 @@ export default {
 			axios.post(this.$root.route + "/customers/place-order", selected)
 				.then(response => {
 					this.forms[index].quantity = 1
+
+					Inertia.get(
+						this.$root.route + '/orders',
+						{
+							onSuccess: () => { },
+						},
+					);
 				})
-		}
+		},
+
+		openDescriptionModal(arg){
+            var modal = document.getElementById("descriptionModal");
+
+            modal.style.display = "block";
+
+            this.description = arg.description
+            this.productName = arg.name
+        },
+
+        closeDescriptionModal(){
+            var modal = document.getElementById("descriptionModal");
+
+            modal.style.display = "none";
+
+            this.description = null
+            this.productName = null
+        },
     }
 }
 </script>
@@ -185,5 +245,42 @@ export default {
 
 .--text {
 	font-size: calc(.1em + 1vw);
+}
+
+.descriptionModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 40%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.description-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

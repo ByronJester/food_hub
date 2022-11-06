@@ -21,6 +21,8 @@ class CreateOrdersTable extends Migration
             $table->double('amount', 15, 8);
             $table->integer('quantity');
             $table->string('status')->default('pending');
+            $table->longText('reason')->nullable();
+            $table->string('reference')->nullable();
             $table->boolean('is_delivered')->default(false);
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants');

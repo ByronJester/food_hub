@@ -49,6 +49,9 @@ Route::middleware(['cors'])->group(function () {
 
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'viewOrders'])->name('view.orders');
+        Route::post('/change-quantity', [OrderController::class, 'changeQuantity']);
+        Route::post('/remove-order', [OrderController::class, 'removeOrder']);
+        Route::post('/checkout-order', [OrderController::class, 'checkoutOrder']);
     });
 });
 

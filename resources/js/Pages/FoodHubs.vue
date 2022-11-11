@@ -1,6 +1,12 @@
 <template>
     <Navigation :auth="auth">
         <div class="w-full h-full px-2 py-2 flex flex-col">
+			<div class="w-full mt-3">
+				<input type="text" style="width: 300px; height: 50px; border: 1px solid black; border-radius: 10px" class="float-right px-5"
+					placeholder="Search..." v-model="search"
+				>
+			</div>
+
             <div class="grid grid-cols-5 gap-4 p-5 w-full" v-if="!restaurant">
 				<div class="w-full --restaurant__list cursor-pointer" v-for="(arg, i) in restaurants" :key="i"
 					@click="selectShop(arg)"
@@ -151,12 +157,14 @@ export default {
     data(){
         return {
             restaurants: [],
+			searchRestaurants: [],
             restaurant: null,
             activeCategory: 'Food',
 			forms: [],
 			list: [],
 			description: null,
-            productName: null
+            productName: null,
+			search: null
         }
     },
     created(){
@@ -178,6 +186,20 @@ export default {
 					}
 				);
 			}
+		},
+		search(arg){
+			if(!arg) {
+				this.restaurants = this.options.restaurants
+			} else {
+				this.restaurants = this.options.restaurants.filter(x => {
+					var name = x.restaurant_name.toLowerCase();
+					var search = arg.toLowerCase()
+					return name.includes(search)
+				});
+			}
+
+			
+			
 		}
 	},
     methods: {

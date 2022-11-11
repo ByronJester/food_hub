@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderDescriptionsTable extends Migration
+class CreateRestaurantAddressTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,12 @@ class CreateOrderDescriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_descriptions', function (Blueprint $table) {
+        Schema::create('restaurant_address', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('restaurant_id')->unsigned()->comment('Foreign key from table restaurants');
-            $table->bigInteger('user_id')->unsigned()->comment('Foreign key from table users');
-            $table->string('reference');
-            $table->string('status');
-            $table->string('reference_number')->nullable();
-            $table->string('payment_method');
-            $table->longText('address');
-            $table->double('shipping_fee', 15, 8);
+            $table->string('address');
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -38,6 +31,6 @@ class CreateOrderDescriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_descriptions');
+        Schema::dropIfExists('restaurant_address');
     }
 }

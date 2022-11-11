@@ -5,7 +5,7 @@
 			v-if="isLogin"
 		>	
 			<div class="w-full mb-5 relative" style="top: -5rem">
-				<img class="w-full px-20" style="height: 150px" src="/images/logo2.png" />
+				<img class="w-full px-20" style="height: 150px" src="/images/logo2.jpg" />
 			</div>
 			
 			<div v-if="!isRegister"
@@ -84,6 +84,11 @@
 					>
 					<span class="text-xs text-red-500">{{validationError('phone', saveError)}} </span>
 
+					<input type="text" class="w-full  my-2 --login__register--input text-center"
+						placeholder="Street, Barangay, Town" v-model="formRegisterData.address"
+					>
+					<span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
+
 					<input type="password" class="w-full mt-2 --login__register--input text-center"
 						:class="{'mb-2' : !message}"
 						placeholder="Password" v-model="formRegisterData.password"
@@ -143,13 +148,13 @@
 			</div>
 
 			<div class="w-full pt-10 px-5 flex justify-center items-center">
-				<carousel :navigationEnabled="false" :perPage="1" :paginationEnabled="false" :autoplay="true" :loop="true" class="w-9/12">
+				<carousel :navigationEnabled="false" :perPage="1" :paginationEnabled="false" :autoplay="true" :loop="true" class="w-6/12">
 					<slide v-for="banner in banners" :key="banner" class="w-full" style="border: 1px solid #E4B934">
 						<div class="w-full">
 							<img
 								:src="banner"
 								class="w-full"
-								:style="{ 'height': '500px' }"
+								:style="{ 'height': '250px' }"
 								alt=""
 							/>
 						</div>
@@ -303,6 +308,7 @@ export default {
 				role: 3,
 				user_type: 'customer',
 				restaurant_name: '',
+				address: ''
 			},
 			isRegister: false,
 			saveError: null,
@@ -380,6 +386,7 @@ export default {
 			this.formData.append('role', this.formRegisterData.role);
 			this.formData.append('user_type', this.formRegisterData.user_type);
 			this.formData.append('restaurant_name', this.formRegisterData.restaurant_name);
+			this.formData.append('address', this.formRegisterData.address);
 			
 			axios.post(this.$root.route + "/users/create-account", this.formData)
 				.then(response => {
@@ -394,7 +401,8 @@ export default {
 							confirm_password: '',
 							role: 3,
 							user_type: 'customer',
-							restaurant_name: ''
+							restaurant_name: '',
+							address: ''
 						}
 
 						alert("Account successfully created.");

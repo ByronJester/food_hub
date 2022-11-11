@@ -4,7 +4,7 @@
             style="height: 10vh; background: #000000"
         >   
             <div style="width: 7%">
-                <img src="/images/logo2.png" class="py-1 px-1 cursor-pointer"
+                <img src="/images/logo2.jpg" class="py-1 px-1 cursor-pointer"
                     style="width: 100%; height: 100%; border-radius: 10px"
                 />
             </div>
@@ -14,11 +14,20 @@
                     style="color: #FFFFFF;"
                 >
                     <div class="mx-5 cursor-pointer" :class="{'--active' : active == '/restaurants'}"
-                        @click="changeActive('/restaurants')" v-if="auth.role == 2 && auth.user_type == 'owner'"
+                        @click="changeActive('/restaurants')" v-if="auth.role == 2"
                     >
                         <i class="fa-solid fa-shop mr-2" style="color: #FFFFFF"></i>
                         <span class="--text">
                             <b class="text-white">MY FOOD</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">HUB</b>
+                        </span>
+                    </div>
+
+                    <div class="mx-5 cursor-pointer" :class="{'--active' : active == '/restaurants/my-trays'}"
+                        @click="changeActive('/restaurants/my-trays')" v-if="auth.role == 2"
+                    >
+                        <i class="fa-solid fa-cart-shopping mr-2" style="color: #FFFFFF"></i>
+                        <span class="--text">
+                            <b class="text-white">MY </b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">TRAYS</b>
                         </span>
                     </div>
 
@@ -36,7 +45,7 @@
                     >
                         <i class="fa-solid fa-cart-shopping mr-2" style="color: #FFFFFF"></i>
                         <span class="--text">
-                            <b class="text-white">CA</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">RTS</b>
+                            <b class="text-white">TR</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">AYS</b>
                         </span>
                     </div>
 
@@ -48,6 +57,16 @@
                             <b class="text-white">US</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">ERS</b>
                         </span>
                     </div>
+
+                    <div class="mx-5 cursor-pointer" :class="{'--active' : active == '/users/profile'}"
+                        @click="changeActive('/users/profile')"
+                    >
+                        <i class="fa-solid fa-user mr-1"></i>
+                        <span class="--text">
+                            <b class="text-white">PRO</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">FILE</b>
+                        </span>
+                    </div>
+
 
                     <div class="mx-5 cursor-pointer"
                         @click="logout()"

@@ -31,15 +31,23 @@ Route::middleware(['cors'])->group(function () {
     
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'viewUsers'])->name('view.users');
+        Route::get('/profile', [UserController::class, 'viewProfile'])->name('view.profile');
         Route::post('/login', [UserController::class, 'loginAccount']);
         Route::post('/logout', [UserController::class, 'logoutAccount']);
         Route::post('/deactivate-reactivate', [UserController::class, 'changeStatus']);
         Route::post('/create-account', [UserController::class, 'saveUser']);
+        Route::post('/edit-profile', [UserController::class, 'editProfile']);
+        Route::post('/create-staff', [UserController::class, 'createStaff']);
     });
 
     Route::prefix('restaurants')->group(function () {
         Route::get('/', [RestaurantController::class, 'viewRestaurant'])->name('view.restaurant');
+        Route::get('/my-trays', [RestaurantController::class, 'viewTrays'])->name('view.trays');
         Route::post('/create-product', [RestaurantController::class, 'createProduct']);
+        Route::post('/create-address', [RestaurantController::class, 'createAddress']);
+        Route::post('/remove-address', [RestaurantController::class, 'removeAddress']);
+        Route::post('/change-image', [RestaurantController::class, 'changeImage']);
+        Route::post('/product/deactivate-reactivate', [RestaurantController::class, 'reactivateDeactivateProduct']);
     });
 
     Route::prefix('customers')->group(function () {
@@ -52,6 +60,9 @@ Route::middleware(['cors'])->group(function () {
         Route::post('/change-quantity', [OrderController::class, 'changeQuantity']);
         Route::post('/remove-order', [OrderController::class, 'removeOrder']);
         Route::post('/checkout-order', [OrderController::class, 'checkoutOrder']);
+        Route::post('/active-tab', [OrderController::class, 'changeActiveTab']);
+        Route::post('/change-status', [OrderController::class, 'changeStatus']);
+        Route::post('/get-address', [OrderController::class, 'getAddress']);
     });
 });
 

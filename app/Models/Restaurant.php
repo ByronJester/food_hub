@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Restaurant extends Model
 {
@@ -18,16 +19,38 @@ class Restaurant extends Model
     ];
 
     protected $with = [
-        'products'
+        'products',
+        'places'
     ];
 
     public function products()
-    {
-        return $this->hasMany(Product::class);
+    {   
+        $auth = Auth::user();
+
+        $data = $this->hasMany(Product::class);
+
+        if($auth) {
+            if($auth->role == 3){
+                $data = $data->where('is_active', 1);
+            }
+        }
+
+        if(!$auth) {
+            $data = $data->where('is_active', 1);
+        }
+
+        return $data;
+        
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function places()
+    {
+        return $this->hasMany(RestaurantAddress::class);
+    }
+
 }

@@ -1,23 +1,69 @@
 <template>
     <Navigation :auth="auth">
-        <div class="w-full min-h-screen h-full px-2 py-2 flex flex-row">
-            
-            <div style="width: 15%;" class="flex flex-col relative" v-if="!!orders">
-                <div class="w-full" v-if="selectedOrders.length > 0" @click="openCheckoutModal()">
-                    <button style="background: #E4B934;" class="py-2 w-full">
-                        Checkout
-                    </button>
+        <div class="w-full min-h-screen h-full px-2 py-2 flex flex-col">
+            <div :style="{width: !orders ? '100%' : '100%'}">
+                <div class="w-full flex flex-row mt-5" style="height: 10vh">
+                    <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'pending'">
+                        <div class="w-full flex justify-center items-center">
+                            <img :src="'/images/pending.png'" style="width: 80px; height: 80px;" :class="{'--bg-gray': activeTab == 'pending'}"/>
+                        </div>
+
+                        <div class="w-full">
+                            <p class="--text text-center font-bold">
+                                Pending
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_process'">
+                        <div class="w-full flex justify-center items-center">
+                            <img :src="'/images/to_pay.png'" style="width: 80px; height: 80px;" :class="{'--bg-gray': activeTab == 'to_process'}"/>
+                        </div>
+
+                        <div class="w-full">
+                            <p class="--text text-center font-bold">
+                                To Process
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_deliver'">
+                        <div class="w-full flex justify-center items-center">
+                            <img :src="'/images/to_ship.png'" style="width: 80px; height: 80px;" :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
+                        </div>
+
+                        <div class="w-full cursor-pointer">
+                            <p class="--text text-center font-bold">
+                                To Deliver
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_receive'">
+                        <div class="w-full flex justify-center items-center">
+                            <img :src="'/images/to_receive.png'" style="width: 80px; height: 80px;" :class="{'--bg-gray': activeTab == 'to_receive'}"/>
+                        </div>
+
+                        <div class="w-full">
+                            <p class="--text text-center font-bold">
+                                To Receive
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
 
-                <div class="w-full mt-2" v-for="(orders, restaurant) in orders" :key="restaurant" style="border-right: 1px solid #E4B934;">
-                    <p class="--text font-bold"> {{ restaurant }} </p>
+            <div class="w-full px-10 pt-20" v-for="(orders, restaurant) in orders" :key="restaurant">
+                <p class="--text font-bold"> {{ restaurant }} </p>
 
+                <div class="grid grid-cols-4 gap-4">
                     <div class="flex flex-col px-5 py-2" v-for="order in orders" :key="order.id">
                         <div class="w-full flex flex-col" style="border: 1px solid #E4B934">
                             <div class="w-full">
-                                <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders">
+                                <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders" v-if="activeTab == 'pending'">
 
-                                <span class="float-right pt-1 pr-2 cursor-pointer" @click="removeProduct(order.id)">
+                                <span class="float-right pt-1 pr-2 cursor-pointer" @click="removeProduct(order.id)" v-if="activeTab == 'pending'">
                                     <i class="fa-solid fa-xmark"></i>
                                 </span>
                             </div>
@@ -33,7 +79,7 @@
                             </div>
 
                             <div class="w-full flex flex-row">
-                                <div class="w-full py-1 px-1">
+                                <div class="w-full py-1 px-1" v-if="activeTab == 'pending'">
                                     <input type="number" min="1" style="border: 1px solid #E4B934; width: 100%" class="text-center pt-2 pb-2" :value="order.quantity" @change="changeQuantity($event, order)">
                                 </div>
 
@@ -48,46 +94,10 @@
                 </div>
             </div>
 
-            <div :style="{width: !orders ? '100%' : '85%'}">
-                <div class="w-full flex flex-row mt-5" style="height: 10vh">
-
-                    <div class="w-full flex flex-col">
-                        <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_pay.png'" style="width: 80px; height: 80px;"/>
-                        </div>
-
-                        <div class="w-full">
-                            <p class="--text text-center font-bold">
-                                To Pay
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="w-full flex flex-col">
-                        <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_ship.png'" style="width: 80px; height: 80px;"/>
-                        </div>
-
-                        <div class="w-full">
-                            <p class="--text text-center font-bold">
-                                To Ship
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="w-full flex flex-col">
-                        <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_receive.png'" style="width: 80px; height: 80px;"/>
-                        </div>
-
-                        <div class="w-full">
-                            <p class="--text text-center font-bold">
-                                To Receive
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="w-full px-5 text-center text-lg flex justify-center items-center font-bold cursor-pointer" style="height: 5vh; background: #E4B934; position: fixed; bottom: 0; left: 0"
+                v-if="selectedOrders.length > 0 && activeTab == 'pending'" @click="openCheckoutModal()"
+            >
+                <p>CHECKOUT</p>
             </div>
 
             <div id="checkoutModal" class="checkoutModal">
@@ -142,7 +152,7 @@
                             </div>
 
                             <div class="w-full text-left pl-5">
-                                ₱ {{ sumAmout(orders)  }}
+                                ₱ {{ sumAmount(orders).toFixed(2)  }}
                             </div>
                         </div>
 
@@ -162,7 +172,7 @@
                             </div>
 
                             <div class="w-full text-left pl-5">
-                                ₱ {{ sumAmout(orders)  + 60}}
+                                ₱ {{ getTotal(sumAmount(orders), 60) }}
                             </div>
                         </div>
 
@@ -180,6 +190,16 @@
                             </div>
                         </div>
 
+                        <div class="w-full flex flex-row mt-5" v-if="form.payment_method == 'gcash'">
+                            <div class="w-full flex justify-center items-center">
+                                Owner G-Cash #:
+                            </div>
+
+                            <div class="w-full flex justify-center items-center">
+                                {{ gcashNumber }}
+                            </div>
+                        </div>
+
                         <div class="w-full pl-5 mt-2" v-if="form.payment_method == 'gcash'">
                             <input v-model="form.reference_number" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
                                 placeholder="G-Cash Ref. No."
@@ -188,12 +208,34 @@
                             <span class="text-xs text-red-500">{{validationError('reference_number', saveError)}} </span>
                         </div>
 
-                        <div class="w-full pl-5 mt-2">
+                        <div class="w-full flex flex-row mt-5">
+                            <div class="w-full flex justify-start items-center pl-5">
+                                Other Address:
+                            </div>
+
+                            <div class="w-full flex justify-start items-center pl-5">
+                                <input type="checkbox" v-model="otherAddress">
+                            </div>
+                        </div>
+
+                        <div class="w-full pl-5 mt-2" v-if="otherAddress">
                             <input v-model="form.address" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
                                 placeholder="Street No, Barangay, Town"
                                 class="text-center"
                             >
                             <span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
+                        </div>
+
+                        <div class="w-full flex flex-col mt-5">
+                            <div class="w-full flex justify-start items-center pl-5">
+                                Available Address:
+                            </div>
+
+                            <div class="w-full flex justify-start items-center px-5">
+                                <select class="w-full" style="border: 1px solid black; height: 30px">
+                                    <option :value="place.id" v-for="place in places" :key="place.id">{{ place.address}}</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="w-full pl-5 mt-4">
@@ -229,10 +271,17 @@ export default {
                 payment_method: 'cod',
                 reference_number: null,
                 address: null,
-                orders: []
+                orders: [],
+                otherAddress: null,
+                food_joint: null,
+                user_id: null
             },
             activeFoodJoint: null,
-            saveError: null
+            saveError: null,
+            activeTab: 'pending',
+            otherAddress: false,
+            places: [],
+            gcashNumber: null
         }
     },
     mounted() {
@@ -244,15 +293,27 @@ export default {
 
         'form.payment_method'(arg) {
             this.form.reference_number = null
+        },
+
+        activeTab(arg) {
+            axios.post(this.$root.route + "/orders/active-tab", {status: arg})
+				.then(response => {
+					if(response.data.status == 422) {
+						this.saveError = response.data.errors 
+					} else {
+                        this.orders = response.data.orders
+					}
+				})
+        },
+        activeFoodJoint(arg) {
+            this.getPlaces(arg)
+        },
+        otherAddress(arg) {
+            this.form.address = null
         }
     },
     methods: {
         changeQuantity(evt,arg) {
-            var data = {
-                order_id: arg.id,
-                quantity: evt.target.value,
-                product_id: arg.product_id
-            }
 
             axios.post(this.$root.route + "/orders/change-quantity", data)
 				.then(response => {
@@ -273,19 +334,34 @@ export default {
 						this.saveError = response.data.errors 
 					} else {
                         this.orders = response.data.orders
+
+                        this.form = {
+                            payment_method: 'cod',
+                            reference_number: null,
+                            address: null,
+                            orders: [],
+                            otherAddress: null,
+                            food_joint: null,
+                            user_id: null
+                        }
 					}
 				})
         },
 
         checkout(){
+            this.form.user_id = this.auth.id
+            this.form.food_joint = this.activeFoodJoint
             this.form.orders = this.selectedOrders
+            this.form.otherAddress = this.otherAddress
             
             axios.post(this.$root.route + "/orders/checkout-order", this.form)
 				.then(response => {
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
-                        // this.orders = response.data.orders
+                        this.activeTab = 'to_process'
+                        this.selectedOrders = []
+                        this.closeCheckoutModal()
 					}
 				})
         },
@@ -317,8 +393,6 @@ export default {
                 this.selectedOrders = this.selectedOrders.filter(x => {
                     return x.id != arg.id;
                 })
-
-                console.log(this.selectedOrders)
             } else {
                 if(!this.activeFoodJoint) {
                     this.selectedOrders.push(arg)
@@ -338,8 +412,28 @@ export default {
             this.selectedOrders = _.uniq(this.selectedOrders);
         },
 
-        sumAmout(arr) {
+        sumAmount(arr) {
             return _.sumBy(arr, function(arg) { return arg.amount; })
+        },
+
+        getTotal(sub, fee) {
+            var total = sub + fee;
+
+            return total.toFixed(2)
+        },
+
+        getPlaces(arg) { 
+            var data = [];
+            
+            axios.post(this.$root.route + "/orders/get-address", {address: arg})
+				.then(response => {
+					if(response.data.status == 422) {
+						this.saveError = response.data.errors 
+					} else {
+                        this.places = response.data.places
+                        this.gcashNumber = response.data.phone
+					}
+				})
         }
 
 
@@ -388,5 +482,9 @@ export default {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.--bg-gray {
+    background: #C0C0C0;
 }
 </style>

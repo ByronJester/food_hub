@@ -23,7 +23,7 @@ class UserController extends Controller
                 return redirect('/users');
             }
 
-            if($auth->role == 2 && $auth->user_type == 'owner') {
+            if($auth->role == 2) {
                 return redirect('/restaurants');
             }
 
@@ -51,6 +51,7 @@ class UserController extends Controller
             'role' => "required",
             'password' => "sometimes|required|min:8",
             'confirm_password' => "sometimes|required|same:password|min:8",
+            'address' => "required"
         ];
 
         if($request->role == 2) {
@@ -66,6 +67,7 @@ class UserController extends Controller
                 'restaurant_name' => "required|string",
                 'image' => "required",
                 'banner' => "required",
+                'address' => "required"
             ];
         }
 
@@ -210,6 +212,77 @@ class UserController extends Controller
         Auth::logout();
 
         return redirect('/');;
+    }
+
+    public function viewProfile(Request $request)
+    {
+        $auth = Auth::user();
+        
+        if($auth) {
+            return Inertia::render('Profile', [
+                'auth'    => $auth,
+                'options' => [
+                ]
+            ]);
+        }
+
+        return redirect('/');
+    }
+
+    public function editProfile(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => "required|string",
+            'phone' => "required|numeric|unique:users,phone," . $request->id,
+            'email' => "required|email:rfc,dns|unique:users,email," . $request->id, 
+            'password' => "sometimes|required|min:8",
+            'address' => "required",
+            'confirm_password' => "sometimes|required|same:password|min:8",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
+        }
+
+        $data = $request->toArray();
+
+        if(!!$request->password) {
+            $data = $request->except(['confirm_password']);
+
+            $data['password'] = Hash::make($request->password);
+        }
+        
+        $saveUser = User::where('id', $request->id)->update($data);
+        
+        return response()->json(['status' => 200], 200); 
+    }
+
+    public function createStaff(Request $request)
+    {
+        $auth = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'name' => "required|string",
+            'phone' => "required|numeric",
+            'email' => "required|email:rfc,dns",
+            'address' => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
+        }
+
+        $data = $request->toArray();
+
+        $data['password'] = Hash::make($request->phone);
+        $data['is_active'] = true;
+        $data['role'] = 2;
+        $data['user_type'] = 'staff';
+        $data['reference'] = $auth->reference;
+        
+        $saveUser = User::create($data);
+        
+        return response()->json(['status' => 200], 200); 
     }
 } 
  

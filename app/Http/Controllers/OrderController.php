@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Restaurant;
+use App\Models\RestaurantAddress;
+use App\Models\OrderDescription;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 class OrderController extends Controller
 {
@@ -19,7 +23,11 @@ class OrderController extends Controller
         $auth = Auth::user();
 
         if($auth) {
-            $orders = Order::where('user_id', $auth->id)->get();
+            $orders = Order::where('user_id', $auth->id)->where('status', 'pending')
+                ->whereHas('product', function (Builder $query) {
+                    $query->where('is_active', 1);
+                })
+                ->get();
 
             return Inertia::render('CustomerOrders', [
                 'auth'    => $auth,
@@ -32,13 +40,22 @@ class OrderController extends Controller
         return redirect('/');
     }
 
+    public function changeActiveTab(Request $request)
+    {
+        $auth = Auth::user();
+
+        $orders = Order::where('user_id', $auth->id)->where('status', $request->status)->get();
+
+        return response()->json(['status' => 200, 'orders' => $orders->groupBy('food_hub')], 200); 
+    }
+
     public function placeOrder(Request $request)
     {
         $auth = Auth::user();
 
         $product = Product::where('id', $request->product_id)->first();
 
-        $order = Order::where('user_id', $auth->id)->where('product_id', $request->product_id)->first();
+        $order = Order::where('user_id', $auth->id)->where('product_id', $request->product_id)->where('status', 'pending')->first();
 
         if($order) {
             $quantity = $request->quantity + $order->quantity;
@@ -90,10 +107,12 @@ class OrderController extends Controller
 
     public function checkoutOrder(Request $request)
     {
+        $auth = Auth::user();
+        
         $rules = [
             'payment_method' => "required|string",
-            'reference_number' => "required_if:payment_method,gcash|numeric",
-            'address' => "required", 
+            'reference_number' => "required_if:payment_method,gcash|nullable|numeric",
+            'address' => "required_if:otherAddress,true|nullable|string",
             'orders' => "required"
         ];
 
@@ -103,8 +122,60 @@ class OrderController extends Controller
             return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
         }
 
-        // Str::random(10);
+        $reference = Str::random(10);
 
-        return response()->json(['status' => 200, 'request' => $request->toArray()], 200);  
+        $orders = collect($request->orders);
+
+        $orders = $orders->pluck('id');
+
+        Order::whereIn('id', $orders)->update([
+            'status' => 'to_process',
+            'reference' => $reference
+        ]);
+
+        $data = $request->only(['payment_method', 'reference_number', 'user_id']);
+
+        $restaurant = Restaurant::where('restaurant_name', 'LIKE', $request->food_joints)->first();
+
+        $data['restaurant_id'] = $restaurant->id;
+        $data['reference'] = $reference;
+        $data['shipping_fee'] = 60;
+        $data['status'] = 'to_process';
+
+        if($request->otherAddress) {
+            $data['address'] = $request->address;
+        } else {
+            $data['address'] = $auth->address;
+        }
+
+        OrderDescription::forceCreate($data);
+
+        $orders = Order::where('user_id', $auth->id)->get();
+
+        return response()->json(['status' => 200, 'data' => $data], 200);  
+    }
+
+    public function getAddress(Request $request)
+    {
+        $restaurant = Restaurant::where('restaurant_name', 'LIKE',  $request->address)->first();
+
+        $user = User::where('id', $restaurant->user_id)->first();
+
+        $places = RestaurantAddress::where('restaurant_id', $restaurant->id)->get();
+
+        return response()->json(['status' => 200, 'places' => $places, 'phone' => $user->phone], 200); 
+    }
+
+    public function changeStatus(Request $request)
+    {
+        Order::where('reference', $request->reference)->update([
+            'status' => $request->status
+        ]);
+
+        OrderDescription::where('reference', $request->reference)->update([
+            'status' => $request->status
+        ]);
+
+        return response()->json(['status' => 200], 200); 
     }
 }

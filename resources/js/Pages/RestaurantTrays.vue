@@ -1,6 +1,24 @@
 <template>
     <Navigation :auth="auth">
         <div class="w-full min-h-screen h-full px-2 py-2 flex flex-col">
+
+            <div class="w-full">
+                <graph-line
+                    style="width: 100vw; height: 500px"
+                    :shape="'normal'"
+                    :axis-min="0"
+                    :axis-max="Math.max( ...options.sales)"
+                    :axis-full-mode="true"
+                    :labels="options.days"
+                    :names="['DAILY SALES FOR REPORT THIS MONTH']"
+                    :values="options.sales">
+                    <!-- <note :text="'Line Chart'"></note> -->
+                    <tooltip :names="['DAILY SALES REPORT FOR THIS MONTH']" :position="'right'"></tooltip>
+                    <legends :names="['DAILY SALES REPORT FOR THIS MONTH']"></legends>
+                    <guideline :tooltip-y="true"></guideline>
+                </graph-line>
+            </div>
+
             <div class="w-full mt-10">
                 <Table :columns="columns" :rows="orders" :keys="keys" :selected.sync="selected" :style="{opacity: selected ? '0.6' : '1'}"/>
 
@@ -112,6 +130,8 @@ export default {
 
             return x;
         })
+
+        console.log(this.options)
     },
 
     watch: {

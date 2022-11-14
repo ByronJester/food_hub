@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="w-full pt-10 pr-2">
+            <div class="w-full pt-10 pr-2" v-if="auth.role == 2">
                 <span class="float-right cursor-pointer" @click="openUserModal()">
                     <i class="fa-solid fa-plus fa-2xl"></i>
                 </span>
@@ -46,11 +46,29 @@
                             {{ user.name }}<Toggle :value="user.is_active" :url="'/users/deactivate-reactivate'" :id="user.id" class="ml-5"/>
                         </div>
 
-                        <div class="w-full">
-                            <img :src="'/images/uploads/' + user.picture_id" 
-                                style="height: 220px; width: 100%"
-                                class="p-5"
-                            >
+                        <div class="w-full flex flex-col">
+                            <div class="w-full pl-5 font-bold text-xl">
+                                ID Pictures
+                            </div>
+
+                            <div v-for="p in user.picture_id" :key="p">
+                                <img :src="'/images/uploads/' + p" 
+                                    style="height: 220px; width: 100%"
+                                    class="p-5"
+                                >
+                            </div>
+
+
+                            <div class="w-full pl-5 font-bold text-xl" v-if="user.permit">
+                                Business Permit
+                            </div>
+
+                            <div class="w-full" v-if="user.permit">
+                                <img :src="'/images/uploads/' + user.permit" 
+                                    style="height: 220px; width: 100%"
+                                    class="p-5"
+                                >
+                            </div>
                         </div>
                     </div>
                     
@@ -161,6 +179,7 @@ export default {
     watch: {
         activeTab(arg) {
             this.users = this.options.users.filter( x => { return x.user_type == arg})
+            this.user= null
         }
     },
 
@@ -176,6 +195,8 @@ export default {
 
             this.keys.push({ label : 'verified' })
         }
+
+        console.log(this.options)
     },
 
     methods: {

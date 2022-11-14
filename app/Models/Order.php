@@ -34,8 +34,13 @@ class Order extends Model
     }
 
     public function getFoodHubAttribute()
-    {
-        return $this->restaurant->restaurant_name;
+    {   
+        if($this->restaurant) {
+            return $this->restaurant->restaurant_name;
+        }
+        
+        return null;
+        
     }
 
     public function product()

@@ -1,7 +1,8 @@
 <template>
 	<div class="w-screen h-screen flex flex-row">
-		<div style="background: #000000; width: 20%; height: 100%;"
+		<div style="background: #000000; height: 100%;"
 			class="flex flex-col justify-center items-center fixed"
+			:style="{'width': isMobile ? '100%': '20%'}"
 			v-if="isLogin"
 		>	
 			<div class="w-full mb-5 relative" style="top: -5rem">
@@ -103,8 +104,15 @@
 
 					<div class="text-white">
 						<label class="mt-1 font-bold">ID Picture</label><br>
-						<input type="file" class="w-full" accept="image/png, image/jpeg" @change="imageChange('picture_id', $event)"><br>
+						<input type="file" class="w-full" accept="image/png, image/jpeg" @change="imageChange('picture_id', $event)" multiple><br>
+						<span class="text-xs text-white">Note: Please upload front, back and a selfie with ID picture.  </span><br>
 						<span class="text-xs text-red-500">{{validationError('picture_id', saveError)}} </span>
+					</div>
+
+					<div class="w-full flex flex-row mt-2" v-if="ids.length > 0">
+						<div class="w-full flex justify-center items-center px-2" v-for="i in ids" :key="i">
+							<img :src="i.image" style="width: 100%; height: 100px"/>
+						</div>
 					</div>
 
 					<div v-if="formRegisterData.role == 2" class="text-white">
@@ -116,7 +124,13 @@
 					<div v-if="formRegisterData.role == 2" class="text-white">
 						<label class="mt-1 font-bold">Restaurant Banner</label><br>
 						<input type="file" class="w-full" accept="image/png, image/jpeg" @change="imageChange('banner', $event)"><br>
-						<span class="text-xs text-red-500">{{validationError('banner', saveError)}} </span><br>
+						<span class="text-xs text-red-500">{{validationError('banner', saveError)}} </span>
+					</div>
+
+					<div v-if="formRegisterData.role == 2" class="text-white">
+						<label class="mt-1 font-bold">Restaurant Business Permit</label><br>
+						<input type="file" class="w-full" accept="image/png, image/jpeg" @change="imageChange('permit', $event)"><br>
+						<span class="text-xs text-red-500">{{validationError('permit', saveError)}} </span><br>
 					</div>
 
 					<button class="w-full  my-2 --login__register--button text-center"
@@ -136,7 +150,7 @@
 
 
 		<div style="height: 100%"
-			:style="{width: isLogin ? '80%' : '100%', 'left': isLogin ? '20%': '0'}"
+			:style="{width: isLogin ? '80%' : '100%', 'left': isLogin ? '20%': '0', 'display': isMobile && isLogin ? 'none' : 'block'}"
 			class="absolute"
 		>
 			<div class="w-full" style="height: 50px" :style="{'background': !isLogin ? '#000000' : '#FFFFFF'}">
@@ -148,7 +162,7 @@
 			</div>
 
 			<div class="w-full pt-10 px-5 flex justify-center items-center">
-				<carousel :navigationEnabled="false" :perPage="1" :paginationEnabled="false" :autoplay="true" :loop="true" class="w-6/12">
+				<carousel :navigationEnabled="false" :perPage="1" :paginationEnabled="false" :autoplay="true" :loop="true" :class="{'w-6/12' : !isMobile, 'w-full' : isMobile}">
 					<slide v-for="banner in banners" :key="banner" class="w-full" style="border: 1px solid #E4B934">
 						<div class="w-full">
 							<img
@@ -162,7 +176,9 @@
 				</carousel>
 			</div>
 
-			<div class="grid grid-cols-5 gap-4 p-5 w-full" v-if="!restaurant">
+			<div class="p-5 w-full" v-if="!restaurant"
+				:class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}"
+			>
 				<div class="w-full --restaurant__list cursor-pointer" v-for="(arg, i) in restaurants" :key="i"
 					@click="selectShop(arg)"
 				>
@@ -173,7 +189,7 @@
 						>
 					</div>
 
-					<div class="text-center font-bold text-xl --text">
+					<div class="text-center font-bold" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 						{{ arg.restaurant_name }}
 					</div>
 				</div>
@@ -181,11 +197,11 @@
 
 			<div class="w-full" v-else>
 				<div class="w-full text-2xl font-bold px-5 pt-5">
-					<span class="cursor-pointer --text" @click="restaurant = null">
+					<span class="cursor-pointer" @click="restaurant = null" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 						<i class="fa-solid fa-arrow-left"></i> Back
 					</span>
 
-                    <span class="cursor-pointer float-right --text" @click="restaurant = null">
+                    <span class="cursor-pointer float-right" @click="restaurant = null" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 						{{ restaurant.restaurant_name }}
 					</span>
 				</div>
@@ -193,28 +209,30 @@
 				<div class="w-full relative">
 					<div class="w-full">
 						<img :src="'/images/uploads/' + restaurant.banner" 
-							style="height: 400px; width: 100%;"
+							style="width: 100%;"
 							class="p-5 relative"
+							:style="{'height' : isMobile ? '250px' : '400px'}"
 						>
 
 						<img :src="'/images/uploads/' + restaurant.image" class="absolute"
-							style="height: 180px; width: 20%; top: 17rem; left: 4rem; border: 1px solid #E4B934"
+							style="top: 17rem; left: 4rem; border: 1px solid #E4B934"
+							:style="{'width': isMobile ? '40%': '20%', 'height' : isMobile ? '130px' : '180px', 'top' : isMobile ? '10rem': '17rem'}"
 						>
 					</div>
 
 					<div class="w-full mt-5 px-5">
 						<div class="flex flex-row float-right" style="width: 30%">
-							<div class="w-full cursor-pointer mx-2 text-center --text"
+							<div class="w-full cursor-pointer mx-2 text-center"
 								style="border: 1px solid #E4B934;"
-								:class="{'bg-yellow-500': activeCategory == 'Food'}"
+								:class="{'bg-yellow-500': activeCategory == 'Food', '--text': !isMobile, 'text-lg': isMobile}"
 								@click="activeCategory = 'Food'"
 							>
 								Foods
 							</div>
 
-							<div class="w-full cursor-pointer text-center --text"
+							<div class="w-full cursor-pointer text-center"
 								style="border: 1px solid #E4B934;"
-								:class="{'bg-yellow-500': activeCategory == 'Drink'}"
+								:class="{'bg-yellow-500': activeCategory == 'Drink', '--text': !isMobile, 'text-lg': isMobile}"
 								@click="activeCategory = 'Drink'"
 							>
 								Drinks
@@ -224,7 +242,9 @@
 				</div>
 
 				<div class="w-full mt-20 px-5">
-					<div class="grid grid-cols-5 gap-4 flex justify-center items-center">
+					<div class="flex justify-center items-center"
+						:class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex-col': isMobile}"
+					>
 						<div class="w-full flex flex-col" v-for="product in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id"
 							style="border: 1px solid #E4B934"
 						>
@@ -245,7 +265,7 @@
                                     <button class="w-full py-1 cursor-default"
                                         style="border-radius: 5px; background: #000000"
                                     >
-                                        <span class="--text px-2"> 
+                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}">> 
                                             <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
                                         </span>
                                     </button>
@@ -257,7 +277,7 @@
 
 				<div id="descriptionModal" class="descriptionModal">
 					<!-- Modal content -->
-					<div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+					<div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
 						<div class="w-full">
 							<span class="text-lg font-bold">
 								{{productName}}
@@ -322,7 +342,9 @@ export default {
 				'/images/banners/tea.png',
 			],
 			description: null,
-            productName: null
+            productName: null,
+			isMobile: window.screen.width <= 700,
+			ids: []
 		}
 	},
 
@@ -344,6 +366,10 @@ export default {
 
 	mounted(){
 		this.restaurants = this.options.restaurants
+
+		if(this.isMobile) {
+			this.isLogin = false
+		}
 	},
 
 	methods: {
@@ -373,8 +399,20 @@ export default {
 	      	const image = e.target.files[0];
 
 	      	// this.formData = new FormData()
+			if(arg == 'picture_id') {
+				this.formData.append('picture_id[]', image); 
 
-	      	this.formData.append(arg, image);
+				const reader = new FileReader();
+
+				reader.readAsDataURL(image);
+
+				reader.onload = e =>{
+					this.ids.push({image: e.target.result})
+				}
+			} else {
+				this.formData.append(arg, image);
+			}
+	      	
 		},
 
 		register() {
@@ -489,8 +527,6 @@ export default {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */

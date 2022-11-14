@@ -210,7 +210,7 @@
                 <!-- Modal content -->
                 <div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
                     <div class="w-full">
-                        <span class="text-lg font-bold">
+                        <span class="text-4xl font-bold">
                             {{productName}}
                         </span>
 
@@ -221,10 +221,28 @@
                         </span>
                     </div>
 
-                    <div class="w-full mt-4">
-                        <p>
-                            {{ description }}
-                        </p>
+                    <div class="w-full flex flex-col mt-4">
+                        <div class="w-full flex flex-col justify-center items-center">
+                            <div class="w-full">
+                                 <img class="w-full p-4" :src="productImage"
+                                    style="height: 200px; border: 2px solid #E4B934"
+                                />
+                            </div>
+
+                            <div class="w-full">
+                                <p class="w-full text-center text-4xl">
+                                    ₱ {{ productAmount.toFixed(2) }}
+                                </p>
+                            </div>
+                           
+                            
+                        </div>
+
+                        <div class="w-full mt-5">
+                            <p>
+                                {{ description }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -261,6 +279,8 @@ export default {
             products: [],
             description: null,
             productName: null,
+            productAmount: 0,
+            productImage: null,
             activeTab: 'menus',
             formAddress: {
                 restaurant_id: null,
@@ -327,6 +347,8 @@ export default {
 
             this.description = arg.description
             this.productName = arg.name
+            this.productImage = '/images/uploads/' + arg.image
+            this.productAmount = arg.amount
         },
 
         closeDescriptionModal(){
@@ -412,6 +434,8 @@ export default {
             this.form.category = arg.category
             this.form.image = ''
             this.form.restaurant_id = arg.restaurant_id
+            this.form.description = arg.description
+
         },
 
         uploadImage(arg) {
@@ -477,12 +501,9 @@ export default {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
-  top: 40%;
+  top: 10%;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -522,8 +543,6 @@ export default {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */

@@ -41,12 +41,54 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'verified'
+        'verified',
+        'wallet',
+        'permit'
     ];
 
     public function getVerifiedAttribute()
     {
         return $this->is_active ? 'Verified' : 'Not Verified';
+    }
+
+    public function getPictureIdAttribute($value)
+    {
+        $data = json_decode($value);
+
+        return explode(",", $data);
+    }
+
+    public function getWalletAttribute()
+    {
+        $amount = 0;
+
+        if($this->role == 2 && $this->user_type == 'owner') {
+            $restaurant = Restaurant::where('user_id', $this->id)->first();
+
+            $orderDescriptions = OrderDescription::where('restaurant_id', $restaurant->id)->where('payment_method', 'gcash')
+                ->whereNotIn('status', ['pending'])
+                ->get();
+
+            foreach($orderDescriptions as $description) {
+                $amount += $description->shipping_fee;
+
+                $orders = Order::where('reference', $description->reference)->get();
+
+                $amount += $orders->sum('amount');
+            }
+        }
+        
+
+        return $amount;
+    }
+
+    public function getPermitAttribute()
+    {
+        $restaurant = Restaurant::where('user_id', $this->id)->first();
+
+        if(!$restaurant) return null;
+
+        return $restaurant->permit;
     }
 
 }

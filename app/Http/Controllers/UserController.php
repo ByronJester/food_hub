@@ -67,7 +67,8 @@ class UserController extends Controller
                 'restaurant_name' => "required|string",
                 'image' => "required",
                 'banner' => "required",
-                'address' => "required"
+                'address' => "required",
+                'permit' => "required"
             ];
         }
 
@@ -86,16 +87,29 @@ class UserController extends Controller
         }
 
         if($id = $request->picture_id) {
-            
-            $path = public_path().'/images/uploads';
+            $pictures = '';
 
-            $filename = time() . '_' . Str::random(8);
+            foreach($id as $picture) {
+                $path = public_path().'/images/uploads';
 
-            $extension = $id->getClientOriginalExtension();
-            
-            $uplaod = $id->move($path, $filename . '.' . $extension);
+                $filename = time() . '_' . Str::random(8);
 
-            $userData['picture_id'] = $filename . '.' . $extension;
+                $extension = $picture->getClientOriginalExtension();
+                
+                $uplaod = $picture->move($path, $filename . '.' . $extension);
+
+                $imageName = $filename . '.' . $extension;
+                
+                if($pictures == '') {
+                    $pictures = $imageName;
+                } else {
+                    $pictures = $pictures . ',' . $imageName;
+                }
+
+                
+            }
+
+            $userData['picture_id'] = json_encode($pictures);
         }
         
         $saveUser = User::create($userData);
@@ -127,6 +141,19 @@ class UserController extends Controller
                 $uplaod = $banner->move($path, $filename . '.' . $extension);
     
                 $restaurantData['banner'] = $filename . '.' . $extension;
+            }
+
+            if($permit = $request->permit) {
+            
+                $path = public_path().'/images/uploads';
+    
+                $filename = time() . '_' . Str::random(8);
+    
+                $extension = $permit->getClientOriginalExtension();
+                
+                $uplaod = $permit->move($path, $filename . '.' . $extension);
+    
+                $restaurantData['permit'] = $filename . '.' . $extension;
             }
 
             $restaurantData['user_id'] = $saveUser->id;

@@ -2305,6 +2305,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['auth'],
@@ -2312,7 +2344,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       leftPanel: '3%',
       rightPanel: '97%',
-      active: window.location.pathname
+      active: window.location.pathname,
+      isMobile: window.screen.width <= 700
     };
   },
   created: function created() {},
@@ -2327,6 +2360,14 @@ __webpack_require__.r(__webpack_exports__);
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__.Inertia.get(this.$root.route + arg, {
         onSuccess: function onSuccess() {}
       });
+    },
+    openWalletModal: function openWalletModal() {
+      var modal = document.getElementById("walletModal");
+      modal.style.display = "block";
+    },
+    closeWalletModal: function closeWalletModal() {
+      var modal = document.getElementById("walletModal");
+      modal.style.display = "none";
     }
   }
 });
@@ -2351,6 +2392,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -2632,7 +2675,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       activeTab: 'pending',
       otherAddress: false,
       places: [],
-      gcashNumber: null
+      gcashNumber: null,
+      isMobile: window.screen.width <= 700
     };
   },
   mounted: function mounted() {
@@ -2947,6 +2991,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2965,7 +3016,9 @@ __webpack_require__.r(__webpack_exports__);
       list: [],
       description: null,
       productName: null,
-      search: null
+      search: null,
+      isMobile: window.screen.width <= 700,
+      products: []
     };
   },
   created: function created() {
@@ -2989,13 +3042,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     search: function search(arg) {
       if (!arg) {
-        this.restaurants = this.options.restaurants;
+        if (this.restaurant) {
+          this.products = this.restaurant.products;
+        } else {
+          this.restaurants = this.options.restaurants;
+        }
       } else {
-        this.restaurants = this.options.restaurants.filter(function (x) {
-          var name = x.restaurant_name.toLowerCase();
-          var search = arg.toLowerCase();
-          return name.includes(search);
-        });
+        if (this.restaurant) {
+          this.products = this.products.filter(function (x) {
+            var name = x.name.toLowerCase();
+            var search = arg.toLowerCase();
+            return name.includes(search);
+          });
+        } else {
+          this.restaurants = this.options.restaurants.filter(function (x) {
+            var name = x.restaurant_name.toLowerCase();
+            var search = arg.toLowerCase();
+            return name.includes(search);
+          });
+        }
       }
     }
   },
@@ -3004,6 +3069,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.restaurant = arg;
+      this.products = arg.products;
       this.list = arg.products.filter(function (x) {
         return x.category == _this.activeCategory;
       });
@@ -3348,6 +3414,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3378,7 +3464,9 @@ __webpack_require__.r(__webpack_exports__);
       activeCategory: 'Food',
       banners: ['/images/banners/foodhub.png', '/images/banners/tea.png'],
       description: null,
-      productName: null
+      productName: null,
+      isMobile: window.screen.width <= 700,
+      ids: []
     };
   },
   watch: {
@@ -3396,6 +3484,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.restaurants = this.options.restaurants;
+
+    if (this.isMobile) {
+      this.isLogin = false;
+    }
   },
   methods: {
     login: function login() {
@@ -3416,12 +3508,26 @@ __webpack_require__.r(__webpack_exports__);
       return false;
     },
     imageChange: function imageChange(arg, e) {
+      var _this = this;
+
       var image = e.target.files[0]; // this.formData = new FormData()
 
-      this.formData.append(arg, image);
+      if (arg == 'picture_id') {
+        this.formData.append('picture_id[]', image);
+        var reader = new FileReader();
+        reader.readAsDataURL(image);
+
+        reader.onload = function (e) {
+          _this.ids.push({
+            image: e.target.result
+          });
+        };
+      } else {
+        this.formData.append(arg, image);
+      }
     },
     register: function register() {
-      var _this = this;
+      var _this2 = this;
 
       this.formData.append('name', this.formRegisterData.name);
       this.formData.append('phone', this.formRegisterData.phone);
@@ -3434,9 +3540,9 @@ __webpack_require__.r(__webpack_exports__);
       this.formData.append('address', this.formRegisterData.address);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(this.$root.route + "/users/create-account", this.formData).then(function (response) {
         if (response.data.status == 422) {
-          _this.saveError = response.data.errors;
+          _this2.saveError = response.data.errors;
         } else {
-          _this.formRegisterData = {
+          _this2.formRegisterData = {
             name: '',
             phone: '',
             email: '',
@@ -3448,9 +3554,9 @@ __webpack_require__.r(__webpack_exports__);
             address: ''
           };
           alert("Account successfully created.");
-          _this.saveError = null;
-          _this.isRegister = false;
-          _this.formData = new FormData();
+          _this2.saveError = null;
+          _this2.isRegister = false;
+          _this2.formData = new FormData();
           location.reload();
         }
       });
@@ -3859,6 +3965,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3885,6 +4009,8 @@ __webpack_require__.r(__webpack_exports__);
       products: [],
       description: null,
       productName: null,
+      productAmount: 0,
+      productImage: null,
       activeTab: 'menus',
       formAddress: {
         restaurant_id: null,
@@ -3933,6 +4059,8 @@ __webpack_require__.r(__webpack_exports__);
       modal.style.display = "block";
       this.description = arg.description;
       this.productName = arg.name;
+      this.productImage = '/images/uploads/' + arg.image;
+      this.productAmount = arg.amount;
     },
     closeDescriptionModal: function closeDescriptionModal() {
       var modal = document.getElementById("descriptionModal");
@@ -4002,6 +4130,7 @@ __webpack_require__.r(__webpack_exports__);
       this.form.category = arg.category;
       this.form.image = '';
       this.form.restaurant_id = arg.restaurant_id;
+      this.form.description = arg.description;
     },
     uploadImage: function uploadImage(arg) {
       if (arg == 'image') {
@@ -4047,6 +4176,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Components_Table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Components/Table */ "./resources/js/Components/Table.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4147,6 +4294,7 @@ __webpack_require__.r(__webpack_exports__);
       x['shipping_fee'] = '₱ ' + x.shipping_fee.toFixed(2);
       return x;
     });
+    console.log(this.options);
   },
   watch: {
     selected: function selected(arg) {
@@ -4309,6 +4457,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4350,6 +4516,7 @@ __webpack_require__.r(__webpack_exports__);
       this.users = this.options.users.filter(function (x) {
         return x.user_type == arg;
       });
+      this.user = null;
     }
   },
   mounted: function mounted() {
@@ -4369,6 +4536,8 @@ __webpack_require__.r(__webpack_exports__);
         label: 'verified'
       });
     }
+
+    console.log(this.options);
   },
   methods: {
     openUserModal: function openUserModal() {
@@ -4610,7 +4779,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown[data-v-5b807f98] {\r\n  position: relative;\r\n  display: inline-block;\n}\n.dropdown-content[data-v-5b807f98] {\r\n  display: none;\r\n  position: absolute;\r\n  background-color: #ffffff;\r\n  min-width: 130px;\r\n  z-index: 1;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n  left: -2.5rem;\n}\n.dropdown-content a[data-v-5b807f98] {\r\n  color: black;\r\n  text-decoration: none;\r\n  display: block;\n}\n.dropdown-content a[data-v-5b807f98]:hover {background-color: #2c85c1;}\n.dropdown:hover .dropdown-content[data-v-5b807f98] {display: block;}\n.--active[data-v-5b807f98] {\r\n    border-bottom: 2px solid #E4B934;\n}\n.--text[data-v-5b807f98] {\r\n    font-size: calc(.1em + 1vw);\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown[data-v-5b807f98] {\r\n  position: relative;\r\n  display: inline-block;\n}\n.dropdown-content[data-v-5b807f98] {\r\n  display: none;\r\n  position: absolute;\r\n  background-color: #ffffff;\r\n  min-width: 130px;\r\n  z-index: 1;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n  left: -2.5rem;\n}\n.dropdown-content a[data-v-5b807f98] {\r\n  color: black;\r\n  text-decoration: none;\r\n  display: block;\n}\n.dropdown-content a[data-v-5b807f98]:hover {background-color: #2c85c1;}\n.dropdown:hover .dropdown-content[data-v-5b807f98] {display: block;}\n.--active[data-v-5b807f98] {\r\n    border-bottom: 2px solid #E4B934;\n}\n.--text[data-v-5b807f98] {\r\n    font-size: calc(.1em + 1vw);\n}\n.--font-small[data-v-5b807f98] {\r\n    font-size: 10px;\n}\n.walletModal[data-v-5b807f98] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 20%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.wallet-content[data-v-5b807f98] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-5b807f98] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-5b807f98]:hover,\r\n.close[data-v-5b807f98]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4682,7 +4851,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.--main[data-v-0004d9e0] {\r\n\tbackground-image: url('/images/bg.jpg');\r\n\tbackground-repeat: no-repeat;\r\n \tbackground-size: cover;\n}\n.--login__register[data-v-0004d9e0] {\r\n\twidth: 380px;\r\n\theight: auto;\r\n\tbackground: #607EAA;\r\n\tborder-radius: 10px;\r\n\tposition: relative;\n}\n.--login__register--input[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 10px;\n}\n.--login__register--button[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 30px;\r\n\tbackground: #E4B934;\r\n\tcolor: #000000;\n}\n.--restaurant__list[data-v-0004d9e0]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\n.--text[data-v-0004d9e0] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.descriptionModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-0004d9e0] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-0004d9e0]:hover,\r\n.close[data-v-0004d9e0]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.--main[data-v-0004d9e0] {\r\n\tbackground-image: url('/images/bg.jpg');\r\n\tbackground-repeat: no-repeat;\r\n \tbackground-size: cover;\n}\n.--login__register[data-v-0004d9e0] {\r\n\twidth: 380px;\r\n\theight: auto;\r\n\tbackground: #607EAA;\r\n\tborder-radius: 10px;\r\n\tposition: relative;\n}\n.--login__register--input[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 10px;\n}\n.--login__register--button[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 30px;\r\n\tbackground: #E4B934;\r\n\tcolor: #000000;\n}\n.--restaurant__list[data-v-0004d9e0]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\n.--text[data-v-0004d9e0] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.descriptionModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-0004d9e0] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-0004d9e0]:hover,\r\n.close[data-v-0004d9e0]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4730,7 +4899,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.modal-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.descriptionModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-31a36b26] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-31a36b26]:hover,\r\n.close[data-v-31a36b26]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--text[data-v-31a36b26] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.addressModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.address-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar {\r\n  width: 0px;\r\n  background: white;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar-thumb {\r\n  background: #ffffff;\r\n  height:30px;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar-track-piece{\r\n   display:none;\n}\n.--input[data-v-31a36b26] {\r\n    width: 100%;\r\n    height: 40px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    text-align: center;\n}\n.--btn[data-v-31a36b26] {\r\n    background: #E4B934;\r\n    border-radius: 10px;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: black;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.modal-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.descriptionModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 10%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-31a36b26] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-31a36b26]:hover,\r\n.close[data-v-31a36b26]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--text[data-v-31a36b26] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.addressModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.address-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar {\r\n  width: 0px;\r\n  background: white;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar-thumb {\r\n  background: #ffffff;\r\n  height:30px;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar-track-piece{\r\n   display:none;\n}\n.--input[data-v-31a36b26] {\r\n    width: 100%;\r\n    height: 40px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    text-align: center;\n}\n.--btn[data-v-31a36b26] {\r\n    background: #E4B934;\r\n    border-radius: 10px;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: black;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -53498,13 +53667,28 @@ var render = function() {
         staticStyle: { height: "10vh", background: "#000000" }
       },
       [
-        _vm._m(0),
+        _c("div", { style: { width: _vm.isMobile ? "30%" : "7%" } }, [
+          _c("img", {
+            staticClass: "py-1 px-1 cursor-pointer",
+            staticStyle: {
+              width: "100%",
+              height: "100%",
+              "border-radius": "10px"
+            },
+            attrs: { src: "/images/logo2.jpg" },
+            on: {
+              click: function($event) {
+                _vm.auth.role == "3" ? _vm.changeActive("/customers") : ""
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
         _c(
           "div",
           {
             staticClass: "flex items-center justify-end",
-            staticStyle: { width: "93%" }
+            style: { width: _vm.isMobile ? "70%" : "97%" }
           },
           [
             _c(
@@ -53518,8 +53702,12 @@ var render = function() {
                   ? _c(
                       "div",
                       {
-                        staticClass: "mx-5 cursor-pointer",
-                        class: { "--active": _vm.active == "/restaurants" },
+                        staticClass: "cursor-pointer",
+                        class: {
+                          "--active": _vm.active == "/restaurants",
+                          "mx-5": !_vm.isMobile,
+                          "mx-1": _vm.isMobile
+                        },
                         on: {
                           click: function($event) {
                             return _vm.changeActive("/restaurants")
@@ -53532,7 +53720,31 @@ var render = function() {
                           staticStyle: { color: "#FFFFFF" }
                         }),
                         _vm._v(" "),
-                        _vm._m(1)
+                        _c(
+                          "span",
+                          {
+                            class: {
+                              "--text": !_vm.isMobile,
+                              "--font-small": _vm.isMobile
+                            }
+                          },
+                          [
+                            _c("b", { staticClass: "text-white" }, [
+                              _vm._v("MY FOOD")
+                            ]),
+                            _c(
+                              "b",
+                              {
+                                staticClass: "px-1 text-black",
+                                staticStyle: {
+                                  background: "#E4B934",
+                                  "border-radius": "5px"
+                                }
+                              },
+                              [_vm._v("HUB")]
+                            )
+                          ]
+                        )
                       ]
                     )
                   : _vm._e(),
@@ -53541,9 +53753,11 @@ var render = function() {
                   ? _c(
                       "div",
                       {
-                        staticClass: "mx-5 cursor-pointer",
+                        staticClass: "cursor-pointer",
                         class: {
-                          "--active": _vm.active == "/restaurants/my-trays"
+                          "--active": _vm.active == "/restaurants/my-trays",
+                          "mx-5": !_vm.isMobile,
+                          "mx-1": _vm.isMobile
                         },
                         on: {
                           click: function($event) {
@@ -53557,7 +53771,31 @@ var render = function() {
                           staticStyle: { color: "#FFFFFF" }
                         }),
                         _vm._v(" "),
-                        _vm._m(2)
+                        _c(
+                          "span",
+                          {
+                            class: {
+                              "--text": !_vm.isMobile,
+                              "--font-small": _vm.isMobile
+                            }
+                          },
+                          [
+                            _c("b", { staticClass: "text-white" }, [
+                              _vm._v("MY ")
+                            ]),
+                            _c(
+                              "b",
+                              {
+                                staticClass: "px-1 text-black",
+                                staticStyle: {
+                                  background: "#E4B934",
+                                  "border-radius": "5px"
+                                }
+                              },
+                              [_vm._v("TRAYS")]
+                            )
+                          ]
+                        )
                       ]
                     )
                   : _vm._e(),
@@ -53566,8 +53804,12 @@ var render = function() {
                   ? _c(
                       "div",
                       {
-                        staticClass: "mx-5 cursor-pointer",
-                        class: { "--active": _vm.active == "/customers" },
+                        staticClass: "cursor-pointer",
+                        class: {
+                          "--active": _vm.active == "/customers",
+                          "mx-5": !_vm.isMobile,
+                          "mx-1": _vm.isMobile
+                        },
                         on: {
                           click: function($event) {
                             return _vm.changeActive("/customers")
@@ -53580,7 +53822,31 @@ var render = function() {
                           staticStyle: { color: "#FFFFFF" }
                         }),
                         _vm._v(" "),
-                        _vm._m(3)
+                        _c(
+                          "span",
+                          {
+                            class: {
+                              "--text": !_vm.isMobile,
+                              "--font-small": _vm.isMobile
+                            }
+                          },
+                          [
+                            _c("b", { staticClass: "text-white" }, [
+                              _vm._v("FOOD")
+                            ]),
+                            _c(
+                              "b",
+                              {
+                                staticClass: "px-1 text-black",
+                                staticStyle: {
+                                  background: "#E4B934",
+                                  "border-radius": "5px"
+                                }
+                              },
+                              [_vm._v("HUBS")]
+                            )
+                          ]
+                        )
                       ]
                     )
                   : _vm._e(),
@@ -53589,8 +53855,12 @@ var render = function() {
                   ? _c(
                       "div",
                       {
-                        staticClass: "mx-5 cursor-pointer",
-                        class: { "--active": _vm.active == "/orders" },
+                        staticClass: "cursor-pointer",
+                        class: {
+                          "--active": _vm.active == "/orders",
+                          "mx-5": !_vm.isMobile,
+                          "mx-1": _vm.isMobile
+                        },
                         on: {
                           click: function($event) {
                             return _vm.changeActive("/orders")
@@ -53603,7 +53873,31 @@ var render = function() {
                           staticStyle: { color: "#FFFFFF" }
                         }),
                         _vm._v(" "),
-                        _vm._m(4)
+                        _c(
+                          "span",
+                          {
+                            class: {
+                              "--text": !_vm.isMobile,
+                              "--font-small": _vm.isMobile
+                            }
+                          },
+                          [
+                            _c("b", { staticClass: "text-white" }, [
+                              _vm._v("TR")
+                            ]),
+                            _c(
+                              "b",
+                              {
+                                staticClass: "px-1 text-black",
+                                staticStyle: {
+                                  background: "#E4B934",
+                                  "border-radius": "5px"
+                                }
+                              },
+                              [_vm._v("AYS")]
+                            )
+                          ]
+                        )
                       ]
                     )
                   : _vm._e(),
@@ -53613,8 +53907,12 @@ var render = function() {
                   ? _c(
                       "div",
                       {
-                        staticClass: "mx-5 cursor-pointer",
-                        class: { "--active": _vm.active == "/users" },
+                        staticClass: "cursor-pointer",
+                        class: {
+                          "--active": _vm.active == "/users",
+                          "mx-5": !_vm.isMobile,
+                          "mx-1": _vm.isMobile
+                        },
                         on: {
                           click: function($event) {
                             return _vm.changeActive("/users")
@@ -53622,9 +53920,36 @@ var render = function() {
                         }
                       },
                       [
-                        _c("i", { staticClass: "fa-solid fa-users-gear mr-1" }),
+                        _c("i", {
+                          staticClass: "fa-solid fa-users-gear mr-2",
+                          staticStyle: { color: "#FFFFFF" }
+                        }),
                         _vm._v(" "),
-                        _vm._m(5)
+                        _c(
+                          "span",
+                          {
+                            class: {
+                              "--text": !_vm.isMobile,
+                              "--font-small": _vm.isMobile
+                            }
+                          },
+                          [
+                            _c("b", { staticClass: "text-white" }, [
+                              _vm._v("US")
+                            ]),
+                            _c(
+                              "b",
+                              {
+                                staticClass: "px-1 text-black",
+                                staticStyle: {
+                                  background: "#E4B934",
+                                  "border-radius": "5px"
+                                }
+                              },
+                              [_vm._v("ERS")]
+                            )
+                          ]
+                        )
                       ]
                     )
                   : _vm._e(),
@@ -53632,8 +53957,12 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "mx-5 cursor-pointer",
-                    class: { "--active": _vm.active == "/users/profile" },
+                    staticClass: "cursor-pointer",
+                    class: {
+                      "--active": _vm.active == "/users/profile",
+                      "mx-5": !_vm.isMobile,
+                      "mx-1": _vm.isMobile
+                    },
                     on: {
                       click: function($event) {
                         return _vm.changeActive("/users/profile")
@@ -53643,14 +53972,81 @@ var render = function() {
                   [
                     _c("i", { staticClass: "fa-solid fa-user mr-1" }),
                     _vm._v(" "),
-                    _vm._m(6)
+                    _c(
+                      "span",
+                      {
+                        class: {
+                          "--text": !_vm.isMobile,
+                          "--font-small": _vm.isMobile
+                        }
+                      },
+                      [
+                        _c("b", { staticClass: "text-white" }, [_vm._v("PRO")]),
+                        _c(
+                          "b",
+                          {
+                            staticClass: "px-1 text-black",
+                            staticStyle: {
+                              background: "#E4B934",
+                              "border-radius": "5px"
+                            }
+                          },
+                          [_vm._v("FILE")]
+                        )
+                      ]
+                    )
                   ]
                 ),
+                _vm._v(" "),
+                _vm.auth.role == 2 && _vm.auth.user_type == "owner"
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "cursor-pointer",
+                        class: { "mx-5": !_vm.isMobile, "mx-1": _vm.isMobile },
+                        on: {
+                          click: function($event) {
+                            return _vm.openWalletModal()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa-solid fa-wallet mr-1" }),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            class: {
+                              "--text": !_vm.isMobile,
+                              "--font-small": _vm.isMobile
+                            }
+                          },
+                          [
+                            _c("b", { staticClass: "text-white" }, [
+                              _vm._v("WAL")
+                            ]),
+                            _c(
+                              "b",
+                              {
+                                staticClass: "px-1 text-black",
+                                staticStyle: {
+                                  background: "#E4B934",
+                                  "border-radius": "5px"
+                                }
+                              },
+                              [_vm._v("LET")]
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "div",
                   {
-                    staticClass: "mx-5 cursor-pointer",
+                    staticClass: "cursor-pointer",
+                    class: { "mx-5": !_vm.isMobile, "mx-1": _vm.isMobile },
                     on: {
                       click: function($event) {
                         return _vm.logout()
@@ -53660,7 +54056,80 @@ var render = function() {
                   [
                     _c("i", { staticClass: "fa-solid fa-door-open mr-1" }),
                     _vm._v(" "),
-                    _vm._m(7)
+                    _c(
+                      "span",
+                      {
+                        class: {
+                          "--text": !_vm.isMobile,
+                          "--font-small": _vm.isMobile
+                        }
+                      },
+                      [
+                        _c("b", { staticClass: "text-white" }, [_vm._v("LOG")]),
+                        _c(
+                          "b",
+                          {
+                            staticClass: "px-1 text-black",
+                            staticStyle: {
+                              background: "#E4B934",
+                              "border-radius": "5px"
+                            }
+                          },
+                          [_vm._v("OUT")]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "walletModal", attrs: { id: "walletModal" } },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "wallet-content flex flex-col",
+                staticStyle: { width: "20%", border: "2px solid #E4B934" }
+              },
+              [
+                _c("div", { staticClass: "w-full" }, [
+                  _c("span", { staticClass: "text-lg font-bold" }, [
+                    _vm._v(
+                      "\n                        My Wallet\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "float-right cursor-pointer",
+                      on: {
+                        click: function($event) {
+                          return _vm.closeWalletModal()
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fa-solid fa-xmark" })]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "w-full flex flex-col mt-4 text-center text-4xl"
+                  },
+                  [
+                    _vm._v(
+                      "\n                    ₱ " +
+                        _vm._s(_vm.auth.wallet.toFixed(2)) +
+                        "\n                "
+                    )
                   ]
                 )
               ]
@@ -53678,132 +54147,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticStyle: { width: "7%" } }, [
-      _c("img", {
-        staticClass: "py-1 px-1 cursor-pointer",
-        staticStyle: { width: "100%", height: "100%", "border-radius": "10px" },
-        attrs: { src: "/images/logo2.jpg" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "--text" }, [
-      _c("b", { staticClass: "text-white" }, [_vm._v("MY FOOD")]),
-      _c(
-        "b",
-        {
-          staticClass: "px-1 text-black",
-          staticStyle: { background: "#E4B934", "border-radius": "5px" }
-        },
-        [_vm._v("HUB")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "--text" }, [
-      _c("b", { staticClass: "text-white" }, [_vm._v("MY ")]),
-      _c(
-        "b",
-        {
-          staticClass: "px-1 text-black",
-          staticStyle: { background: "#E4B934", "border-radius": "5px" }
-        },
-        [_vm._v("TRAYS")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "--text" }, [
-      _c("b", { staticClass: "text-white" }, [_vm._v("FOOD")]),
-      _c(
-        "b",
-        {
-          staticClass: "px-1 text-black",
-          staticStyle: { background: "#E4B934", "border-radius": "5px" }
-        },
-        [_vm._v("HUBS")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "--text" }, [
-      _c("b", { staticClass: "text-white" }, [_vm._v("TR")]),
-      _c(
-        "b",
-        {
-          staticClass: "px-1 text-black",
-          staticStyle: { background: "#E4B934", "border-radius": "5px" }
-        },
-        [_vm._v("AYS")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "--text" }, [
-      _c("b", { staticClass: "text-white" }, [_vm._v("US")]),
-      _c(
-        "b",
-        {
-          staticClass: "px-1 text-black",
-          staticStyle: { background: "#E4B934", "border-radius": "5px" }
-        },
-        [_vm._v("ERS")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "--text" }, [
-      _c("b", { staticClass: "text-white" }, [_vm._v("PRO")]),
-      _c(
-        "b",
-        {
-          staticClass: "px-1 text-black",
-          staticStyle: { background: "#E4B934", "border-radius": "5px" }
-        },
-        [_vm._v("FILE")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "--text" }, [
-      _c("b", { staticClass: "text-white" }, [_vm._v("LOG")]),
-      _c(
-        "b",
-        {
-          staticClass: "px-1 text-black",
-          staticStyle: { background: "#E4B934", "border-radius": "5px" }
-        },
-        [_vm._v("OUT")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -53856,18 +54200,31 @@ var render = function() {
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "pending" },
-                        staticStyle: { width: "80px", height: "80px" },
+                        style: {
+                          width: _vm.isMobile ? "50px" : "80px",
+                          width: _vm.isMobile ? "50px" : "80px"
+                        },
                         attrs: { src: "/images/pending.png" }
                       })
                     ]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "w-full" }, [
-                    _c("p", { staticClass: "--text text-center font-bold" }, [
-                      _vm._v(
-                        "\n                            Pending\n                        "
-                      )
-                    ])
+                    _c(
+                      "p",
+                      {
+                        staticClass: "text-center font-bold",
+                        class: {
+                          "--text": !_vm.isMobile,
+                          "text-md": _vm.isMobile
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Pending\n                        "
+                        )
+                      ]
+                    )
                   ])
                 ]
               ),
@@ -53889,18 +54246,31 @@ var render = function() {
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_process" },
-                        staticStyle: { width: "80px", height: "80px" },
+                        style: {
+                          width: _vm.isMobile ? "50px" : "80px",
+                          width: _vm.isMobile ? "50px" : "80px"
+                        },
                         attrs: { src: "/images/to_pay.png" }
                       })
                     ]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "w-full" }, [
-                    _c("p", { staticClass: "--text text-center font-bold" }, [
-                      _vm._v(
-                        "\n                            To Process\n                        "
-                      )
-                    ])
+                    _c(
+                      "p",
+                      {
+                        staticClass: "text-center font-bold",
+                        class: {
+                          "--text": !_vm.isMobile,
+                          "text-md": _vm.isMobile
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            To Process\n                        "
+                        )
+                      ]
+                    )
                   ])
                 ]
               ),
@@ -53922,18 +54292,31 @@ var render = function() {
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_deliver" },
-                        staticStyle: { width: "80px", height: "80px" },
+                        style: {
+                          width: _vm.isMobile ? "50px" : "80px",
+                          width: _vm.isMobile ? "50px" : "80px"
+                        },
                         attrs: { src: "/images/to_ship.png" }
                       })
                     ]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "w-full cursor-pointer" }, [
-                    _c("p", { staticClass: "--text text-center font-bold" }, [
-                      _vm._v(
-                        "\n                            To Deliver\n                        "
-                      )
-                    ])
+                    _c(
+                      "p",
+                      {
+                        staticClass: "text-center font-bold",
+                        class: {
+                          "--text": !_vm.isMobile,
+                          "text-md": _vm.isMobile
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            To Deliver\n                        "
+                        )
+                      ]
+                    )
                   ])
                 ]
               ),
@@ -53955,18 +54338,31 @@ var render = function() {
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_receive" },
-                        staticStyle: { width: "80px", height: "80px" },
+                        style: {
+                          width: _vm.isMobile ? "50px" : "80px",
+                          width: _vm.isMobile ? "50px" : "80px"
+                        },
                         attrs: { src: "/images/to_receive.png" }
                       })
                     ]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "w-full" }, [
-                    _c("p", { staticClass: "--text text-center font-bold" }, [
-                      _vm._v(
-                        "\n                            To Receive\n                        "
-                      )
-                    ])
+                    _c(
+                      "p",
+                      {
+                        staticClass: "text-center font-bold",
+                        class: {
+                          "--text": !_vm.isMobile,
+                          "text-md": _vm.isMobile
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            To Receive\n                        "
+                        )
+                      ]
+                    )
                   ])
                 ]
               )
@@ -53979,13 +54375,26 @@ var render = function() {
             "div",
             { key: restaurant, staticClass: "w-full px-10 pt-20" },
             [
-              _c("p", { staticClass: "--text font-bold" }, [
-                _vm._v(" " + _vm._s(restaurant) + " ")
-              ]),
+              _c(
+                "p",
+                {
+                  staticClass: "font-bold",
+                  class: { "--text": !_vm.isMobile, "text-lg": _vm.isMobile }
+                },
+                [_vm._v(" " + _vm._s(restaurant) + " ")]
+              ),
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "grid grid-cols-4 gap-4" },
+                {
+                  class: {
+                    grid: !_vm.isMobile,
+                    "grid-cols-5": !_vm.isMobile,
+                    "gap-4": !_vm.isMobile,
+                    flex: _vm.isMobile,
+                    "flex-col": _vm.isMobile
+                  }
+                },
                 _vm._l(orders, function(order) {
                   return _c(
                     "div",
@@ -54073,7 +54482,13 @@ var render = function() {
                           _c("div", { staticClass: "w-full" }, [
                             _c(
                               "p",
-                              { staticClass: "--text text-center font-bold" },
+                              {
+                                staticClass: "text-center font-bold",
+                                class: {
+                                  "--text": !_vm.isMobile,
+                                  "text-md": _vm.isMobile
+                                }
+                              },
                               [
                                 _vm._v(
                                   "\n                                " +
@@ -54181,7 +54596,8 @@ var render = function() {
               "div",
               {
                 staticClass: "checkout-content flex flex-col",
-                staticStyle: { width: "20%", border: "2px solid #E4B934" }
+                staticStyle: { border: "2px solid #E4B934" },
+                style: { width: _vm.isMobile ? "100%" : "20%" }
               },
               [
                 _c("div", { staticClass: "w-full" }, [
@@ -54761,40 +55177,54 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("Navigation", { attrs: { auth: _vm.auth } }, [
     _c("div", { staticClass: "w-full h-full px-2 py-2 flex flex-col" }, [
-      _c("div", { staticClass: "w-full mt-3" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.search,
-              expression: "search"
-            }
-          ],
-          staticClass: "float-right px-5",
-          staticStyle: {
-            width: "300px",
-            height: "50px",
-            border: "1px solid black",
-            "border-radius": "10px"
-          },
-          attrs: { type: "text", placeholder: "Search..." },
-          domProps: { value: _vm.search },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c(
+        "div",
+        { staticClass: "w-full mt-3", class: { "px-5": _vm.isMobile } },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search,
+                expression: "search"
               }
-              _vm.search = $event.target.value
+            ],
+            staticClass: "px-5",
+            class: { "float-right": !_vm.isMobile },
+            staticStyle: {
+              height: "50px",
+              border: "1px solid black",
+              "border-radius": "10px"
+            },
+            style: { width: _vm.isMobile ? "100%" : "300px" },
+            attrs: { type: "text", placeholder: "Search..." },
+            domProps: { value: _vm.search },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search = $event.target.value
+              }
             }
-          }
-        })
-      ]),
+          })
+        ]
+      ),
       _vm._v(" "),
       !_vm.restaurant
         ? _c(
             "div",
-            { staticClass: "grid grid-cols-5 gap-4 p-5 w-full" },
+            {
+              staticClass: "p-5 w-full",
+              class: {
+                grid: !_vm.isMobile,
+                "grid-cols-5": !_vm.isMobile,
+                "gap-4": !_vm.isMobile,
+                flex: _vm.isMobile,
+                "flex-col": _vm.isMobile
+              }
+            },
             _vm._l(_vm.restaurants, function(arg, i) {
               return _c(
                 "div",
@@ -54818,7 +55248,13 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
-                    { staticClass: "text-center font-bold text-xl --text" },
+                    {
+                      staticClass: "text-center font-bold text-xl",
+                      class: {
+                        "--text": !_vm.isMobile,
+                        "text-lg": _vm.isMobile
+                      }
+                    },
                     [
                       _vm._v(
                         "\n\t\t\t\t\t\t" +
@@ -54837,7 +55273,8 @@ var render = function() {
               _c(
                 "span",
                 {
-                  staticClass: "cursor-pointer --text",
+                  staticClass: "cursor-pointer",
+                  class: { "--text": !_vm.isMobile, "text-lg": _vm.isMobile },
                   on: {
                     click: function($event) {
                       _vm.restaurant = null
@@ -54853,7 +55290,8 @@ var render = function() {
               _c(
                 "span",
                 {
-                  staticClass: "cursor-pointer float-right --text",
+                  staticClass: "cursor-pointer float-right",
+                  class: { "--text": !_vm.isMobile, "text-lg": _vm.isMobile },
                   on: {
                     click: function($event) {
                       _vm.restaurant = null
@@ -54874,18 +55312,22 @@ var render = function() {
               _c("div", { staticClass: "w-full" }, [
                 _c("img", {
                   staticClass: "p-5 relative",
-                  staticStyle: { height: "400px", width: "100%" },
+                  staticStyle: { width: "100%" },
+                  style: { height: _vm.isMobile ? "250px" : "400px" },
                   attrs: { src: "/images/uploads/" + _vm.restaurant.banner }
                 }),
                 _vm._v(" "),
                 _c("img", {
                   staticClass: "absolute",
                   staticStyle: {
-                    height: "180px",
-                    width: "20%",
                     top: "17rem",
                     left: "4rem",
                     border: "1px solid #E4B934"
+                  },
+                  style: {
+                    width: _vm.isMobile ? "40%" : "20%",
+                    height: _vm.isMobile ? "130px" : "180px",
+                    top: _vm.isMobile ? "10rem" : "17rem"
                   },
                   attrs: { src: "/images/uploads/" + _vm.restaurant.image }
                 })
@@ -54895,7 +55337,8 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "flex flex-row float-right --text",
+                    staticClass: "flex flex-row float-right",
+                    class: { "--text": !_vm.isMobile, "text-lg": _vm.isMobile },
                     staticStyle: { width: "30%" }
                   },
                   [
@@ -54919,8 +55362,7 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass:
-                          "w-full cursor-pointer mx-2 text-center --text",
+                        staticClass: "w-full cursor-pointer mx-2 text-center",
                         class: {
                           "bg-yellow-500": _vm.activeCategory == "Drink"
                         },
@@ -54942,11 +55384,17 @@ var render = function() {
               _c(
                 "div",
                 {
-                  staticClass:
-                    "grid grid-cols-5 gap-4 flex justify-center items-center"
+                  staticClass: "flex justify-center items-center",
+                  class: {
+                    grid: !_vm.isMobile,
+                    "grid-cols-5": !_vm.isMobile,
+                    "gap-4": !_vm.isMobile,
+                    flex: _vm.isMobile,
+                    "flex-col": _vm.isMobile
+                  }
                 },
                 _vm._l(
-                  _vm.restaurant.products.filter(function(x) {
+                  _vm.products.filter(function(x) {
                     return x.category == _vm.activeCategory
                   }),
                   function(product, index) {
@@ -55020,33 +55468,45 @@ var render = function() {
                                     }
                                   },
                                   [
-                                    _c("span", { staticClass: "--text px-2" }, [
-                                      _c(
-                                        "b",
-                                        { staticClass: "text-white mr-2" },
-                                        [
-                                          _vm._v(
-                                            _vm._s(product.name.toUpperCase())
-                                          )
-                                        ]
-                                      ),
-                                      _c(
-                                        "b",
-                                        {
-                                          staticClass: "px-1 text-black",
-                                          staticStyle: {
-                                            background: "#E4B934",
-                                            "border-radius": "5px"
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "₱" +
-                                              _vm._s(product.amount.toFixed(2))
-                                          )
-                                        ]
-                                      )
-                                    ])
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "px-2",
+                                        class: {
+                                          "--text": !_vm.isMobile,
+                                          "text-lg": _vm.isMobile
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "b",
+                                          { staticClass: "text-white mr-2" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(product.name.toUpperCase())
+                                            )
+                                          ]
+                                        ),
+                                        _c(
+                                          "b",
+                                          {
+                                            staticClass: "px-1 text-black",
+                                            staticStyle: {
+                                              background: "#E4B934",
+                                              "border-radius": "5px"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "₱" +
+                                                _vm._s(
+                                                  product.amount.toFixed(2)
+                                                )
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
                                   ]
                                 )
                               ]
@@ -55110,8 +55570,11 @@ var render = function() {
                                     _c(
                                       "button",
                                       {
-                                        staticClass:
-                                          "w-full cursor-poineter --text",
+                                        staticClass: "w-full cursor-poineter",
+                                        class: {
+                                          "--text": !_vm.isMobile,
+                                          "text-lg": _vm.isMobile
+                                        },
                                         staticStyle: {
                                           "border-radius": "5px",
                                           background: "#E4B934"
@@ -55230,7 +55693,8 @@ var render = function() {
           "div",
           {
             staticClass: "flex flex-col justify-center items-center fixed",
-            staticStyle: { background: "#000000", width: "20%", height: "100%" }
+            staticStyle: { background: "#000000", height: "100%" },
+            style: { width: _vm.isMobile ? "100%" : "20%" }
           },
           [
             _vm._m(0),
@@ -55755,7 +56219,8 @@ var render = function() {
                           staticClass: "w-full",
                           attrs: {
                             type: "file",
-                            accept: "image/png, image/jpeg"
+                            accept: "image/png, image/jpeg",
+                            multiple: ""
                           },
                           on: {
                             change: function($event) {
@@ -55763,6 +56228,13 @@ var render = function() {
                             }
                           }
                         }),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "text-xs text-white" }, [
+                          _vm._v(
+                            "Note: Please upload front, back and a selfie with ID picture.  "
+                          )
+                        ]),
                         _c("br"),
                         _vm._v(" "),
                         _c("span", { staticClass: "text-xs text-red-500" }, [
@@ -55773,6 +56245,33 @@ var render = function() {
                           )
                         ])
                       ]),
+                      _vm._v(" "),
+                      _vm.ids.length > 0
+                        ? _c(
+                            "div",
+                            { staticClass: "w-full flex flex-row mt-2" },
+                            _vm._l(_vm.ids, function(i) {
+                              return _c(
+                                "div",
+                                {
+                                  key: i,
+                                  staticClass:
+                                    "w-full flex justify-center items-center px-2"
+                                },
+                                [
+                                  _c("img", {
+                                    staticStyle: {
+                                      width: "100%",
+                                      height: "100px"
+                                    },
+                                    attrs: { src: i.image }
+                                  })
+                                ]
+                              )
+                            }),
+                            0
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _vm.formRegisterData.role == 2
                         ? _c("div", { staticClass: "text-white" }, [
@@ -55840,6 +56339,41 @@ var render = function() {
                                   ) + " "
                                 )
                               ]
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.formRegisterData.role == 2
+                        ? _c("div", { staticClass: "text-white" }, [
+                            _c("label", { staticClass: "mt-1 font-bold" }, [
+                              _vm._v("Restaurant Business Permit")
+                            ]),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "w-full",
+                              attrs: {
+                                type: "file",
+                                accept: "image/png, image/jpeg"
+                              },
+                              on: {
+                                change: function($event) {
+                                  return _vm.imageChange("permit", $event)
+                                }
+                              }
+                            }),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "text-xs text-red-500" },
+                              [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.validationError("permit", _vm.saveError)
+                                  ) + " "
+                                )
+                              ]
                             ),
                             _c("br")
                           ])
@@ -55890,7 +56424,8 @@ var render = function() {
         staticStyle: { height: "100%" },
         style: {
           width: _vm.isLogin ? "80%" : "100%",
-          left: _vm.isLogin ? "20%" : "0"
+          left: _vm.isLogin ? "20%" : "0",
+          display: _vm.isMobile && _vm.isLogin ? "none" : "block"
         }
       },
       [
@@ -55926,7 +56461,7 @@ var render = function() {
             _c(
               "carousel",
               {
-                staticClass: "w-6/12",
+                class: { "w-6/12": !_vm.isMobile, "w-full": _vm.isMobile },
                 attrs: {
                   navigationEnabled: false,
                   perPage: 1,
@@ -55963,7 +56498,16 @@ var render = function() {
         !_vm.restaurant
           ? _c(
               "div",
-              { staticClass: "grid grid-cols-5 gap-4 p-5 w-full" },
+              {
+                staticClass: "p-5 w-full",
+                class: {
+                  grid: !_vm.isMobile,
+                  "grid-cols-5": !_vm.isMobile,
+                  "gap-4": !_vm.isMobile,
+                  flex: _vm.isMobile,
+                  "flex-col": _vm.isMobile
+                }
+              },
               _vm._l(_vm.restaurants, function(arg, i) {
                 return _c(
                   "div",
@@ -55987,7 +56531,13 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "text-center font-bold text-xl --text" },
+                      {
+                        staticClass: "text-center font-bold",
+                        class: {
+                          "--text": !_vm.isMobile,
+                          "text-lg": _vm.isMobile
+                        }
+                      },
                       [
                         _vm._v(
                           "\n\t\t\t\t\t\t" +
@@ -56009,7 +56559,11 @@ var render = function() {
                   _c(
                     "span",
                     {
-                      staticClass: "cursor-pointer --text",
+                      staticClass: "cursor-pointer",
+                      class: {
+                        "--text": !_vm.isMobile,
+                        "text-lg": _vm.isMobile
+                      },
                       on: {
                         click: function($event) {
                           _vm.restaurant = null
@@ -56025,7 +56579,11 @@ var render = function() {
                   _c(
                     "span",
                     {
-                      staticClass: "cursor-pointer float-right --text",
+                      staticClass: "cursor-pointer float-right",
+                      class: {
+                        "--text": !_vm.isMobile,
+                        "text-lg": _vm.isMobile
+                      },
                       on: {
                         click: function($event) {
                           _vm.restaurant = null
@@ -56047,18 +56605,22 @@ var render = function() {
                 _c("div", { staticClass: "w-full" }, [
                   _c("img", {
                     staticClass: "p-5 relative",
-                    staticStyle: { height: "400px", width: "100%" },
+                    staticStyle: { width: "100%" },
+                    style: { height: _vm.isMobile ? "250px" : "400px" },
                     attrs: { src: "/images/uploads/" + _vm.restaurant.banner }
                   }),
                   _vm._v(" "),
                   _c("img", {
                     staticClass: "absolute",
                     staticStyle: {
-                      height: "180px",
-                      width: "20%",
                       top: "17rem",
                       left: "4rem",
                       border: "1px solid #E4B934"
+                    },
+                    style: {
+                      width: _vm.isMobile ? "40%" : "20%",
+                      height: _vm.isMobile ? "130px" : "180px",
+                      top: _vm.isMobile ? "10rem" : "17rem"
                     },
                     attrs: { src: "/images/uploads/" + _vm.restaurant.image }
                   })
@@ -56075,10 +56637,11 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass:
-                            "w-full cursor-pointer mx-2 text-center --text",
+                          staticClass: "w-full cursor-pointer mx-2 text-center",
                           class: {
-                            "bg-yellow-500": _vm.activeCategory == "Food"
+                            "bg-yellow-500": _vm.activeCategory == "Food",
+                            "--text": !_vm.isMobile,
+                            "text-lg": _vm.isMobile
                           },
                           staticStyle: { border: "1px solid #E4B934" },
                           on: {
@@ -56093,10 +56656,11 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass:
-                            "w-full cursor-pointer text-center --text",
+                          staticClass: "w-full cursor-pointer text-center",
                           class: {
-                            "bg-yellow-500": _vm.activeCategory == "Drink"
+                            "bg-yellow-500": _vm.activeCategory == "Drink",
+                            "--text": !_vm.isMobile,
+                            "text-lg": _vm.isMobile
                           },
                           staticStyle: { border: "1px solid #E4B934" },
                           on: {
@@ -56116,8 +56680,13 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass:
-                      "grid grid-cols-5 gap-4 flex justify-center items-center"
+                    staticClass: "flex justify-center items-center",
+                    class: {
+                      grid: !_vm.isMobile,
+                      "grid-cols-5": !_vm.isMobile,
+                      "gap-4": !_vm.isMobile,
+                      "flex-col": _vm.isMobile
+                    }
                   },
                   _vm._l(
                     _vm.restaurant.products.filter(function(x) {
@@ -56189,33 +56758,48 @@ var render = function() {
                                     }
                                   },
                                   [
-                                    _c("span", { staticClass: "--text px-2" }, [
-                                      _c(
-                                        "b",
-                                        { staticClass: "text-white mr-2" },
-                                        [
-                                          _vm._v(
-                                            _vm._s(product.name.toUpperCase())
-                                          )
-                                        ]
-                                      ),
-                                      _c(
-                                        "b",
-                                        {
-                                          staticClass: "px-1 text-black",
-                                          staticStyle: {
-                                            background: "#E4B934",
-                                            "border-radius": "5px"
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "₱" +
-                                              _vm._s(product.amount.toFixed(2))
-                                          )
-                                        ]
-                                      )
-                                    ])
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "px-2",
+                                        class: {
+                                          "--text": !_vm.isMobile,
+                                          "text-lg": _vm.isMobile
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "> \n                                            "
+                                        ),
+                                        _c(
+                                          "b",
+                                          { staticClass: "text-white mr-2" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(product.name.toUpperCase())
+                                            )
+                                          ]
+                                        ),
+                                        _c(
+                                          "b",
+                                          {
+                                            staticClass: "px-1 text-black",
+                                            staticStyle: {
+                                              background: "#E4B934",
+                                              "border-radius": "5px"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "₱" +
+                                                _vm._s(
+                                                  product.amount.toFixed(2)
+                                                )
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
                                   ]
                                 )
                               ])
@@ -56240,7 +56824,8 @@ var render = function() {
                     "div",
                     {
                       staticClass: "description-content flex flex-col",
-                      staticStyle: { width: "20%", border: "2px solid #E4B934" }
+                      staticStyle: { border: "2px solid #E4B934" },
+                      style: { width: _vm.isMobile ? "80%" : "20%" }
                     },
                     [
                       _c("div", { staticClass: "w-full" }, [
@@ -57289,7 +57874,7 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "w-full" }, [
-                _c("span", { staticClass: "text-lg font-bold" }, [
+                _c("span", { staticClass: "text-4xl font-bold" }, [
                   _vm._v(
                     "\n                            " +
                       _vm._s(_vm.productName) +
@@ -57311,13 +57896,45 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "w-full mt-4" }, [
-                _c("p", [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(_vm.description) +
-                      "\n                        "
-                  )
+              _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "w-full flex flex-col justify-center items-center"
+                  },
+                  [
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("img", {
+                        staticClass: "w-full p-4",
+                        staticStyle: {
+                          height: "200px",
+                          border: "2px solid #E4B934"
+                        },
+                        attrs: { src: _vm.productImage }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("p", { staticClass: "w-full text-center text-4xl" }, [
+                        _vm._v(
+                          "\n                                    ₱ " +
+                            _vm._s(_vm.productAmount.toFixed(2)) +
+                            "\n                                "
+                        )
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-full mt-5" }, [
+                  _c("p", [
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(_vm.description) +
+                        "\n                            "
+                    )
+                  ])
                 ])
               ])
             ]
@@ -57355,6 +57972,44 @@ var render = function() {
       "div",
       { staticClass: "w-full min-h-screen h-full px-2 py-2 flex flex-col" },
       [
+        _c(
+          "div",
+          { staticClass: "w-full" },
+          [
+            _c(
+              "graph-line",
+              {
+                staticStyle: { width: "100vw", height: "500px" },
+                attrs: {
+                  shape: "normal",
+                  "axis-min": 0,
+                  "axis-max": Math.max.apply(Math, _vm.options.sales),
+                  "axis-full-mode": true,
+                  labels: _vm.options.days,
+                  names: ["DAILY SALES FOR REPORT THIS MONTH"],
+                  values: _vm.options.sales
+                }
+              },
+              [
+                _c("tooltip", {
+                  attrs: {
+                    names: ["DAILY SALES REPORT FOR THIS MONTH"],
+                    position: "right"
+                  }
+                }),
+                _vm._v(" "),
+                _c("legends", {
+                  attrs: { names: ["DAILY SALES REPORT FOR THIS MONTH"] }
+                }),
+                _vm._v(" "),
+                _c("guideline", { attrs: { "tooltip-y": true } })
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
         _c(
           "div",
           { staticClass: "w-full mt-10" },
@@ -57610,20 +58265,22 @@ var render = function() {
             ]
           ),
       _vm._v(" "),
-      _c("div", { staticClass: "w-full pt-10 pr-2" }, [
-        _c(
-          "span",
-          {
-            staticClass: "float-right cursor-pointer",
-            on: {
-              click: function($event) {
-                return _vm.openUserModal()
-              }
-            }
-          },
-          [_c("i", { staticClass: "fa-solid fa-plus fa-2xl" })]
-        )
-      ]),
+      _vm.auth.role == 2
+        ? _c("div", { staticClass: "w-full pt-10 pr-2" }, [
+            _c(
+              "span",
+              {
+                staticClass: "float-right cursor-pointer",
+                on: {
+                  click: function($event) {
+                    return _vm.openUserModal()
+                  }
+                }
+              },
+              [_c("i", { staticClass: "fa-solid fa-plus fa-2xl" })]
+            )
+          ])
+        : _vm._e(),
       _vm._v(" "),
       !_vm.isNew
         ? _c("div", { staticClass: "w-full h-full pt-5 flex flex-row pt-3" }, [
@@ -57709,15 +58366,64 @@ var render = function() {
                           1
                         ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "w-full" }, [
-                          _c("img", {
-                            staticClass: "p-5",
-                            staticStyle: { height: "220px", width: "100%" },
-                            attrs: {
-                              src: "/images/uploads/" + _vm.user.picture_id
-                            }
-                          })
-                        ])
+                        _c(
+                          "div",
+                          { staticClass: "w-full flex flex-col" },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "w-full pl-5 font-bold text-xl" },
+                              [
+                                _vm._v(
+                                  "\n                            ID Pictures\n                        "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.user.picture_id, function(p) {
+                              return _c("div", { key: p }, [
+                                _c("img", {
+                                  staticClass: "p-5",
+                                  staticStyle: {
+                                    height: "220px",
+                                    width: "100%"
+                                  },
+                                  attrs: { src: "/images/uploads/" + p }
+                                })
+                              ])
+                            }),
+                            _vm._v(" "),
+                            _vm.user.permit
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "w-full pl-5 font-bold text-xl"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            Business Permit\n                        "
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.user.permit
+                              ? _c("div", { staticClass: "w-full" }, [
+                                  _c("img", {
+                                    staticClass: "p-5",
+                                    staticStyle: {
+                                      height: "220px",
+                                      width: "100%"
+                                    },
+                                    attrs: {
+                                      src: "/images/uploads/" + _vm.user.permit
+                                    }
+                                  })
+                                ])
+                              : _vm._e()
+                          ],
+                          2
+                        )
                       ]
                     )
                   ]

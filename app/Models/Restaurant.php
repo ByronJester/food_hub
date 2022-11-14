@@ -16,6 +16,7 @@ class Restaurant extends Model
         'image',
         'banner',
         'is_active',
+        'permit'
     ];
 
     protected $with = [

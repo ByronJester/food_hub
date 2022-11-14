@@ -13,6 +13,8 @@ use App\Models\User;
 use App\Models\OrderDescription;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+use DB;
 
 class RestaurantController extends Controller
 {
@@ -141,13 +143,39 @@ class RestaurantController extends Controller
                 $restaurant = Restaurant::where('user_id', $owner->id)->first();
             }
 
+            $maxDays = date('t');
+
+            $days = [
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+            ];
+
+            $sales = [];
+
+            if($maxDays != count($days)) {
+                $days = [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30
+                ];
+            }
+
+            foreach($days as $day) {
+                $sale = Order::whereNotIn('status', ['pending'])->whereMonth('created_at', Carbon::now()->month)->whereDay('created_at', $day)->get();
+
+                array_push($sales, $sale->sum('amount'));
+            }
+
             $orders = OrderDescription::orderBy('created_at', 'desc')->where('restaurant_id', $restaurant->id)->get();
             
             return Inertia::render('RestaurantTrays', [
                 'auth'    => $auth,
                 'options' => [
                     'restaurant' => $restaurant,
-                    'orders' => $orders
+                    'orders' => $orders,
+                    'days' => $days,
+                    'sales' => $sales
                 ]
             ]);
         }

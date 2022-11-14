@@ -1,14 +1,16 @@
 <template>
     <Navigation :auth="auth">
         <div class="w-full h-full px-2 py-2 flex flex-col">
-			<div class="w-full mt-3">
-				<input type="text" style="width: 300px; height: 50px; border: 1px solid black; border-radius: 10px" class="float-right px-5"
-					placeholder="Search..." v-model="search"
+			<div class="w-full mt-3" :class="{ 'px-5' : isMobile }">
+				<input type="text" style="height: 50px; border: 1px solid black; border-radius: 10px;" class="px-5" :style="{width: isMobile ? '100%' : '300px'}"
+					placeholder="Search..." v-model="search" :class="{'float-right' : !isMobile}"
 				>
 			</div>
 
-            <div class="grid grid-cols-5 gap-4 p-5 w-full" v-if="!restaurant">
-				<div class="w-full --restaurant__list cursor-pointer" v-for="(arg, i) in restaurants" :key="i"
+            <div class="p-5 w-full" v-if="!restaurant"
+				:class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}"
+			>
+				<div class="w-full --restaurant__list cursor-pointer" v-for="(arg, i) in restaurants" :key="i" 
 					@click="selectShop(arg)"
 				>
 					<div>
@@ -18,7 +20,7 @@
 						>
 					</div>
 
-					<div class="text-center font-bold text-xl --text">
+					<div class="text-center font-bold text-xl" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 						{{ arg.restaurant_name }}
 					</div>
 				</div>
@@ -26,11 +28,11 @@
 
             <div class="w-full" v-else>
 				<div class="w-full text-2xl font-bold px-5 pt-5">
-					<span class="cursor-pointer --text" @click="restaurant = null">
+					<span class="cursor-pointer" @click="restaurant = null" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 						<i class="fa-solid fa-arrow-left"></i> Back
 					</span>
 
-                    <span class="cursor-pointer float-right --text" @click="restaurant = null">
+                    <span class="cursor-pointer float-right" @click="restaurant = null" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 						{{ restaurant.restaurant_name }}
 					</span>
 				</div>
@@ -38,17 +40,19 @@
 				<div class="w-full relative">
 					<div class="w-full">
 						<img :src="'/images/uploads/' + restaurant.banner" 
-							style="height: 400px; width: 100%;"
+							style="width: 100%;"
 							class="p-5 relative"
+							:style="{'height' : isMobile ? '250px' : '400px'}"
 						>
 
 						<img :src="'/images/uploads/' + restaurant.image" class="absolute"
-							style="height: 180px; width: 20%; top: 17rem; left: 4rem; border: 1px solid #E4B934"
+							style="top: 17rem; left: 4rem; border: 1px solid #E4B934"
+							:style="{'width': isMobile ? '40%': '20%', 'height' : isMobile ? '130px' : '180px', 'top' : isMobile ? '10rem': '17rem'}"
 						>
 					</div>
 
 					<div class="w-full mt-5 px-5">
-						<div class="flex flex-row float-right --text" style="width: 30%">
+						<div class="flex flex-row float-right" style="width: 30%" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 							<div class="w-full cursor-pointer mx-2 text-center"
 								style="border: 1px solid #E4B934;"
 								:class="{'bg-yellow-500': activeCategory == 'Food'}"
@@ -57,7 +61,7 @@
 								Foods
 							</div>
 
-							<div class="w-full cursor-pointer mx-2 text-center --text"
+							<div class="w-full cursor-pointer mx-2 text-center"
 								style="border: 1px solid #E4B934;"
 								:class="{'bg-yellow-500': activeCategory == 'Drink'}"
 								@click="activeCategory = 'Drink'"
@@ -69,8 +73,10 @@
 				</div>
 
 				<div class="w-full my-20 px-5">
-					<div class="grid grid-cols-5 gap-4 flex justify-center items-center">
-						<div class="w-full flex flex-col" v-for="(product, index) in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id"
+					<div class="flex justify-center items-center"
+						:class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}"
+					>
+						<div class="w-full flex flex-col" v-for="(product, index) in products.filter( x => { return x.category == activeCategory})" :key="product.id"
 							style="border: 1px solid #E4B934"
 						>
 							<div class="w-full inline-flex mt-1" :style="{cursor: product.description ? 'pointer' : 'not-allowed'}">
@@ -90,7 +96,7 @@
                                     <button class="w-full py-1 cursor-default"
                                         style="border-radius: 5px; background: #000000"
                                     >
-                                        <span class="--text px-2"> 
+                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
                                             <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
                                         </span>
                                     </button>
@@ -102,7 +108,8 @@
 									</div>
 
 									<div class="pr-4 w-full" style="width: 15%">
-										<button class="w-full cursor-poineter --text"
+										<button class="w-full cursor-poineter"
+											:class="{'--text': !isMobile, 'text-lg': isMobile}"
 											style="border-radius: 5px; background: #E4B934"
 											@click="addToCart(forms[index], index)"
 										>
@@ -164,7 +171,9 @@ export default {
 			list: [],
 			description: null,
             productName: null,
-			search: null
+			search: null,
+			isMobile: window.screen.width <= 700,
+			products: []
         }
     },
     created(){
@@ -189,13 +198,27 @@ export default {
 		},
 		search(arg){
 			if(!arg) {
-				this.restaurants = this.options.restaurants
+				if(this.restaurant) {
+					this.products = this.restaurant.products
+				} else {
+					this.restaurants = this.options.restaurants
+				}
+				
 			} else {
-				this.restaurants = this.options.restaurants.filter(x => {
-					var name = x.restaurant_name.toLowerCase();
-					var search = arg.toLowerCase()
-					return name.includes(search)
-				});
+				if(this.restaurant) {
+					this.products = this.products.filter(x => {
+						var name = x.name.toLowerCase();
+						var search = arg.toLowerCase()
+						return name.includes(search)
+					});
+				} else {
+					this.restaurants = this.options.restaurants.filter(x => {
+						var name = x.restaurant_name.toLowerCase();
+						var search = arg.toLowerCase()
+						return name.includes(search)
+					});
+				}
+				
 			}
 
 			
@@ -205,6 +228,8 @@ export default {
     methods: {
         selectShop(arg){
 			this.restaurant = arg
+
+			this.products = arg.products
 			
 			this.list = arg.products.filter( x => { return x.category == this.activeCategory})
 

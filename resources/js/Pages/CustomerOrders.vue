@@ -5,11 +5,13 @@
                 <div class="w-full flex flex-row mt-5" style="height: 10vh">
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'pending'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/pending.png'" style="width: 80px; height: 80px;" :class="{'--bg-gray': activeTab == 'pending'}"/>
+                            <img :src="'/images/pending.png'" :class="{'--bg-gray': activeTab == 'pending'}"
+                                :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"
+                            />
                         </div>
 
                         <div class="w-full">
-                            <p class="--text text-center font-bold">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
                                 Pending
                             </p>
                         </div>
@@ -17,11 +19,11 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_process'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_pay.png'" style="width: 80px; height: 80px;" :class="{'--bg-gray': activeTab == 'to_process'}"/>
+                            <img :src="'/images/to_pay.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}" :class="{'--bg-gray': activeTab == 'to_process'}"/>
                         </div>
 
                         <div class="w-full">
-                            <p class="--text text-center font-bold">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
                                 To Process
                             </p>
                         </div>
@@ -29,11 +31,11 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_deliver'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_ship.png'" style="width: 80px; height: 80px;" :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
+                            <img :src="'/images/to_ship.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
                         </div>
 
                         <div class="w-full cursor-pointer">
-                            <p class="--text text-center font-bold">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
                                 To Deliver
                             </p>
                         </div>
@@ -41,11 +43,11 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_receive'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_receive.png'" style="width: 80px; height: 80px;" :class="{'--bg-gray': activeTab == 'to_receive'}"/>
+                            <img :src="'/images/to_receive.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"/>
                         </div>
 
                         <div class="w-full">
-                            <p class="--text text-center font-bold">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
                                 To Receive
                             </p>
                         </div>
@@ -55,9 +57,9 @@
             </div>
 
             <div class="w-full px-10 pt-20" v-for="(orders, restaurant) in orders" :key="restaurant">
-                <p class="--text font-bold"> {{ restaurant }} </p>
+                <p class="font-bold" :class="{'--text': !isMobile, 'text-lg': isMobile}"> {{ restaurant }} </p>
 
-                <div class="grid grid-cols-4 gap-4">
+                <div :class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}">
                     <div class="flex flex-col px-5 py-2" v-for="order in orders" :key="order.id">
                         <div class="w-full flex flex-col" style="border: 1px solid #E4B934">
                             <div class="w-full">
@@ -69,7 +71,7 @@
                             </div>
 
                             <div class="w-full">
-                                <p class="--text text-center font-bold">
+                                <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
                                     {{ order.product.name }}
                                 </p>
                             </div>
@@ -102,7 +104,7 @@
 
             <div id="checkoutModal" class="checkoutModal">
                 <!-- Modal content -->
-                <div class="checkout-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+                <div class="checkout-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '100%' : '20%'}">
                     <div class="w-full">
                         <span class="text-lg font-bold">
                            Checkout
@@ -281,7 +283,8 @@ export default {
             activeTab: 'pending',
             otherAddress: false,
             places: [],
-            gcashNumber: null
+            gcashNumber: null,
+            isMobile: window.screen.width <= 700,
         }
     },
     mounted() {

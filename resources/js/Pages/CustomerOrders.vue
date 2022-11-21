@@ -53,6 +53,20 @@
                         </div>
                     </div>
 
+                    <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'received'">
+                        <div class="w-full flex justify-center items-center">
+                            <img :src="'/images/history.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '150px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"
+                                style="height: 80p"
+                            />
+                        </div>
+
+                        <div class="w-full">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                                History
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -90,6 +104,12 @@
                                         ₱{{ order.amount.toFixed(2)}}
                                     </p>
                                 </div>
+                            </div>
+
+                            <div class="w-full flex flex-row" v-if="activeTab == 'to_receive'">
+                                <button class="w-full" style="background: #E4B934; height: 40px" @click="orderReceived(order.reference)">
+                                    Order Recieved
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -143,7 +163,7 @@
                         </div>
 
                         <div class="w-full flex flex-row">
-                            <div class="w-full text-left pl-5">
+                            <div class="w-full text-left pl-5"> 
                                 Payment Details <i class="fa-solid fa-file-invoice-dollar ml-1"></i>
                             </div>
                         </div>
@@ -437,6 +457,17 @@ export default {
                         this.gcashNumber = response.data.phone
 					}
 				})
+        },
+
+        orderReceived(arg) {
+            axios.post(this.$root.route + "/orders/order-received", {reference: arg})
+				.then(response => {
+					if(response.data.status == 422) {
+						this.saveError = response.data.errors 
+					} else {
+                        location.reload()
+					}
+				})
         }
 
 
@@ -467,7 +498,7 @@ export default {
 .checkout-content {
   background-color: #fefefe;
   margin: auto;
-  padding: 20px;
+  padding: 20px; 
   border: 1px solid #888;
   width: 80%;
 }

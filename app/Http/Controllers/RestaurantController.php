@@ -54,7 +54,7 @@ class RestaurantController extends Controller
             return Inertia::render('FoodHubs', [
                 'auth'    => $auth,
                 'options' => [
-                    'restaurants' => Restaurant::where('is_active', true)->get()
+                    'restaurants' => Restaurant::where('is_active', true)->get() 
                 ]
             ]);
         }

@@ -20,6 +20,12 @@
             </div>
 
             <div class="w-full mt-10">
+                <span class="float-right cursor-pointer" @click="printReport()">
+                    <i class="fa-solid fa-print fa-2xl"></i>
+                </span>
+            </div>
+
+            <div class="w-full mt-5">
                 <Table :columns="columns" :rows="orders" :keys="keys" :selected.sync="selected" :style="{opacity: selected ? '0.6' : '1'}"/>
 
                 <div id="orderModal" class="orderModal h-full">
@@ -66,6 +72,42 @@
                     </div>
                 </div>
             </div>
+
+             <VueHtml2pdf
+                :show-layout="false"
+                :float-layout="true"
+                :enable-download="true"
+                :preview-modal="true"
+                :paginate-elements-by-height="1000"
+                :filename="Math.random().toString(36).slice(2)"
+                :pdf-quality="2"
+                :manual-pagination="false"
+                pdf-format="a4"
+                pdf-orientation="landscape"
+                pdf-content-width="100%"
+                ref="report"
+            >
+                <section slot="pdf-content">
+                    <div class="w-full p-5">
+                        <table class="w-full">
+                            <tr class="text-center">
+                                <th v-for="column in columns" :key="column">
+                                    {{ column }}
+                                </th>
+                            </tr>
+
+                            <tr class="text-center"
+                                v-for="(l, index) in orders" :key="l.id"
+                            >
+                                <td v-for="(k, i) in keys" :key="i" class="cursor-pointer">
+                                    <span>{{ orders[index][k.label] }}</span>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </section>
+            </VueHtml2pdf>
         </div>
     </Navigation>
 </template>
@@ -74,12 +116,14 @@
 import Navigation from '../Layouts/Navigation.vue'
 import axios from "axios";
 import Table from "../Components/Table";
+import VueHtml2pdf from 'vue-html2pdf'
 
 export default {
     props: ['auth', 'options'],
     components: {
         Navigation,
-        Table
+        Table,
+        VueHtml2pdf
     },
     data(){
         return {
@@ -113,7 +157,8 @@ export default {
             ],
             form: {
                 reference: null,
-                status: 'to_deliver'
+                status: 'to_deliver',
+                user_id: null
             }
         }
     },
@@ -130,8 +175,6 @@ export default {
 
             return x;
         })
-
-        console.log(this.options)
     },
 
     watch: {
@@ -142,6 +185,7 @@ export default {
             }
 
             this.form.reference = arg.reference
+            this.form.user_id = arg.user.id
             
             this.openOrderModal()
         }
@@ -168,6 +212,10 @@ export default {
 				.then(response => {
 					location.reload()
 				})
+        },
+
+        printReport(){
+            this.$refs.report.generatePdf()
         }
     }
 }
@@ -208,5 +256,24 @@ export default {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    border-radius: 5px;
+    border-style: hidden;
+    box-shadow: 0 0 0 1px black;
+}
+td {
+    border: 1px solid black;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+th {
+    border: 1px solid black;
+    background: #E4B934;
+    color: #ffffff;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 </style>

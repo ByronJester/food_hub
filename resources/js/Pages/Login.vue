@@ -30,7 +30,7 @@
 						@keyup.enter="login()"
 					>
 
-					<span class="text-red-500 text-xs ml-2" v-if="message">
+					<span class="text-red-500 text-xs ml-2" v-if="message && message != 'success'">
 						{{ message }}
 					</span>
 
@@ -134,7 +134,7 @@
 					</div>
 
 					<button class="w-full  my-2 --login__register--button text-center"
-						@click="register()"
+						@click="sendRegisterVerification();"
 					>
 						Register
 					</button>
@@ -297,6 +297,71 @@
 						</div>
 					</div>
 				</div>
+
+			</div>
+
+			<div id="registerModal" class="registerModal">
+				<!-- Modal content -->
+				<div class="register-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
+					<div class="w-full">
+						<span class="text-lg font-bold">
+							Verification Code
+						</span>
+
+						<!-- <span class="float-right cursor-pointer"
+							@click="closeRegisterModal()"
+						>
+							<i class="fa-solid fa-xmark"></i>
+						</span> -->
+					</div>
+
+					<div class="w-full flex flex-col mt-4">
+						<div class="w-full">
+							<input type="text" class="w-full  my-2 --login__register--input text-center" style="border: 1px solid black"
+								placeholder="Verification Code" v-model="formRegisterData.code"
+							>
+							<span class="text-xs text-red-500">{{validationError('code', saveError)}} </span><br>
+						</div>
+					</div>
+
+					<div class="w-full flex flex-col mt-4">
+						<button class="w-full --login__register--button" @click="otherRegister()">
+							Proceed
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div id="loginModal" class="loginModal">
+				<!-- Modal content -->
+				<div class="login-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
+					<div class="w-full">
+						<span class="text-lg font-bold">
+							Verification Code
+						</span>
+
+						<!-- <span class="float-right cursor-pointer"
+							@click="closeLoginModal()"
+						>
+							<i class="fa-solid fa-xmark"></i>
+						</span> -->
+					</div>
+
+					<div class="w-full flex flex-col mt-4">
+						<div class="w-full">
+							<input type="text" class="w-full  my-2 --login__register--input text-center" style="border: 1px solid black"
+								placeholder="Verification Code" v-model="formloginData.code"
+							>
+							<span class="text-xs text-red-500">{{validationError('code', saveError)}} </span><br>
+						</div>
+					</div>
+
+					<div class="w-full flex flex-col mt-4">
+						<button class="w-full --login__register--button" @click="otherLogin()">
+							Proceed
+						</button>
+					</div>
+				</div>
 			</div>
 			
 		</div>
@@ -317,7 +382,8 @@ export default {
 		return {
 			formloginData : {
 				email: null,
-				password: null 
+				password: null,
+				code: null
 			},
 			formRegisterData: {
 				name: '',
@@ -328,7 +394,8 @@ export default {
 				role: 3,
 				user_type: 'customer',
 				restaurant_name: '',
-				address: ''
+				address: '',
+				code: ''
 			},
 			isRegister: false,
 			saveError: null,
@@ -344,7 +411,8 @@ export default {
 			description: null,
             productName: null,
 			isMobile: window.screen.width <= 700,
-			ids: []
+			ids: [],
+			isDone: false
 		}
 	},
 
@@ -377,10 +445,24 @@ export default {
 			Inertia.post(this.$root.route + "/users/login", this.formloginData,
 			{
 				onSuccess: (res) => {
+					if(res.props.message == 'success') {
+						this.openLoginModal()
+					}
 				},
 				orError: (err) => {
 				}
 			});
+		},
+		
+		otherLogin() {
+			axios.post(this.$root.route + "/users/verify-otp", this.formloginData)
+				.then(response => {
+					if(response.data.status == 422) {
+						this.saveError = response.data.errors
+					} else {
+						location.reload()
+					}
+				})
 		},
 
 		disableButton(){
@@ -429,32 +511,75 @@ export default {
 			axios.post(this.$root.route + "/users/create-account", this.formData)
 				.then(response => {
 					if(response.data.status == 422) {
-						this.saveError = response.data.errors 
+						this.saveError = response.data.errors
 					} else {
-						this.formRegisterData = {
-							name: '',
-							phone: '',
-							email: '',
-							password: '',
-							confirm_password: '',
-							role: 3,
-							user_type: 'customer',
-							restaurant_name: '',
-							address: ''
-						}
-
-						alert("Account successfully created.");
-
 						this.saveError = null
+					}
 
-						this.isRegister = false
-
-						this.formData = new FormData()
-						
-						location.reload()
+					if(this.saveError == null) {
+						axios.post(this.$root.route + "/users/save-verification", {phone: this.formRegisterData.phone })
+							.then(response => {
+								if(response.data.status == 422) {
+									
+								} else {
+									this.isDone = true
+									this.formData.append('isDone', this.isDone);
+									this.openRegisterModal()
+								}
+							})
 					}
 				})
 		},
+
+		otherRegister() {
+			this.formData.append('name', this.formRegisterData.name);
+			this.formData.append('phone', this.formRegisterData.phone);
+			this.formData.append('email', this.formRegisterData.email);
+			this.formData.append('password', this.formRegisterData.password);
+			this.formData.append('confirm_password', this.formRegisterData.confirm_password);
+			this.formData.append('role', this.formRegisterData.role);
+			this.formData.append('user_type', this.formRegisterData.user_type);
+			this.formData.append('restaurant_name', this.formRegisterData.restaurant_name);
+			this.formData.append('address', this.formRegisterData.address);
+			this.formData.append('isDone', this.isDone);
+			this.formData.append('code', this.formRegisterData.code);
+			
+			axios.post(this.$root.route + "/users/create-account", this.formData)
+				.then(response => {
+					if(response.data.status == 422) {
+						this.saveError = response.data.errors
+					} else {
+						this.saveError = null
+
+						if(this.isDone) {
+							this.formRegisterData = {
+								name: '',
+								phone: '',
+								email: '',
+								password: '',
+								confirm_password: '',
+								role: 3,
+								user_type: 'customer',
+								restaurant_name: '',
+								address: '',
+								code: ''
+							}
+
+							alert("Account successfully created.");
+
+							this.isRegister = false
+
+							this.formData = new FormData()
+							
+							location.reload()
+						}
+					}
+				})
+		},
+		sendRegisterVerification(){
+			this.register()
+		},
+
 		selectShop(arg){
 			this.restaurant = arg
 		},
@@ -475,6 +600,30 @@ export default {
 
             this.description = null
             this.productName = null
+        },
+
+		openRegisterModal(){
+            var modal = document.getElementById("registerModal");
+
+            modal.style.display = "block";
+        },
+
+        closeRegisterModal(){
+            var modal = document.getElementById("registerModal");
+
+            modal.style.display = "none";
+        },
+
+		openLoginModal(){
+            var modal = document.getElementById("loginModal");
+
+            modal.style.display = "block";
+        },
+
+        closeLoginModal(){
+            var modal = document.getElementById("loginModal");
+
+            modal.style.display = "none";
         },
 	}
 }
@@ -531,6 +680,46 @@ export default {
 
 /* Modal Content */
 .description-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.registerModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 40%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content */
+.register-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.loginModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 40%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content */
+.login-content {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;

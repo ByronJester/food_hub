@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Restaurant;
+use App\Models\Verification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -44,20 +45,20 @@ class UserController extends Controller
     {
         $rules = [
             'name' => "required|string",
-            'phone' => "required|numeric|unique:users,phone",
+            'phone' => "required|numeric|unique:users,phone|digits:11",
             'email' => "required|unique:users,email|email:rfc,dns", 
             'picture_id' => "required",
             'user_type' => "required",
             'role' => "required",
             'password' => "sometimes|required|min:8",
             'confirm_password' => "sometimes|required|same:password|min:8",
-            'address' => "required"
+            'address' => "required",
         ];
 
         if($request->role == 2) {
             $rules = [
                 'name' => "required|string",
-                'phone' => "required|numeric|unique:users,phone",
+                'phone' => "required|numeric|unique:users,phone|digits:11",
                 'email' => "required|unique:users,email|email:rfc,dns", 
                 'picture_id' => "required",
                 'user_type' => "required",
@@ -68,7 +69,7 @@ class UserController extends Controller
                 'image' => "required",
                 'banner' => "required",
                 'address' => "required",
-                'permit' => "required"
+                'permit' => "required",
             ];
         }
 
@@ -78,88 +79,104 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
         }
 
-        $userData = $request->except(['confirm_password', 'restaurant_name', 'image', 'banner']);
+        if($request->isDone) {
+            $otpRules = [
+                'code' => 'required|exists:verifications,code'
+            ];
+    
+            $otpValidator = Validator::make($request->all(), $otpRules);
+    
+            if ($otpValidator->fails()) {
+                return response()->json(['errors' => $otpValidator->messages(), 'status' => 422], 200);
+            }
 
-        $userData['password'] = Hash::make($request->password);
+            $userData = $request->except(['confirm_password', 'restaurant_name', 'image', 'banner']);
 
-        if($request->role == 2) {
-            $userData['reference'] = Str::random(10);
-        }
+            $userData['password'] = Hash::make($request->password);
 
-        if($id = $request->picture_id) {
-            $pictures = '';
+            if($request->role == 2) {
+                $userData['reference'] = Str::random(10);
+            }
 
-            foreach($id as $picture) {
-                $path = public_path().'/images/uploads';
+            if($id = $request->picture_id) {
+                $pictures = '';
 
-                $filename = time() . '_' . Str::random(8);
+                foreach($id as $picture) {
+                    $path = public_path().'/images/uploads';
 
-                $extension = $picture->getClientOriginalExtension();
-                
-                $uplaod = $picture->move($path, $filename . '.' . $extension);
+                    $filename = time() . '_' . Str::random(8);
 
-                $imageName = $filename . '.' . $extension;
-                
-                if($pictures == '') {
-                    $pictures = $imageName;
-                } else {
-                    $pictures = $pictures . ',' . $imageName;
+                    $extension = $picture->getClientOriginalExtension();
+                    
+                    $uplaod = $picture->move($path, $filename . '.' . $extension);
+
+                    $imageName = $filename . '.' . $extension;
+                    
+                    if($pictures == '') {
+                        $pictures = $imageName;
+                    } else {
+                        $pictures = $pictures . ',' . $imageName;
+                    }
+
+                    
                 }
 
-                
+                $userData['picture_id'] = json_encode($pictures);
             }
+            
+            $saveUser = User::create($userData);
 
-            $userData['picture_id'] = json_encode($pictures);
-        }
+            if($request->role == 2 && $saveUser) {
+                $restaurantData = $request->only(['restaurant_name', 'image', 'banner']);
+
+                if($image = $request->image) {
+                
+                    $path = public_path().'/images/uploads';
         
-        $saveUser = User::create($userData);
+                    $filename = time() . '_' . Str::random(8);
+        
+                    $extension = $image->getClientOriginalExtension();
+                    
+                    $uplaod = $image->move($path, $filename . '.' . $extension);
+        
+                    $restaurantData['image'] = $filename . '.' . $extension;
+                }
 
-        if($request->role == 2 && $saveUser) {
-            $restaurantData = $request->only(['restaurant_name', 'image', 'banner']);
-
-            if($image = $request->image) {
-            
-                $path = public_path().'/images/uploads';
-    
-                $filename = time() . '_' . Str::random(8);
-    
-                $extension = $image->getClientOriginalExtension();
+                if($banner = $request->banner) {
                 
-                $uplaod = $image->move($path, $filename . '.' . $extension);
-    
-                $restaurantData['image'] = $filename . '.' . $extension;
+                    $path = public_path().'/images/uploads';
+        
+                    $filename = time() . '_' . Str::random(8);
+        
+                    $extension = $banner->getClientOriginalExtension();
+                    
+                    $uplaod = $banner->move($path, $filename . '.' . $extension);
+        
+                    $restaurantData['banner'] = $filename . '.' . $extension;
+                }
+
+                if($permit = $request->permit) {
+                
+                    $path = public_path().'/images/uploads';
+        
+                    $filename = time() . '_' . Str::random(8);
+        
+                    $extension = $permit->getClientOriginalExtension();
+                    
+                    $uplaod = $permit->move($path, $filename . '.' . $extension);
+        
+                    $restaurantData['permit'] = $filename . '.' . $extension;
+                }
+
+                $restaurantData['user_id'] = $saveUser->id;
+
+                $saveRestaurant = Restaurant::create($restaurantData);
             }
 
-            if($banner = $request->banner) {
-            
-                $path = public_path().'/images/uploads';
-    
-                $filename = time() . '_' . Str::random(8);
-    
-                $extension = $banner->getClientOriginalExtension();
-                
-                $uplaod = $banner->move($path, $filename . '.' . $extension);
-    
-                $restaurantData['banner'] = $filename . '.' . $extension;
-            }
-
-            if($permit = $request->permit) {
-            
-                $path = public_path().'/images/uploads';
-    
-                $filename = time() . '_' . Str::random(8);
-    
-                $extension = $permit->getClientOriginalExtension();
-                
-                $uplaod = $permit->move($path, $filename . '.' . $extension);
-    
-                $restaurantData['permit'] = $filename . '.' . $extension;
-            }
-
-            $restaurantData['user_id'] = $saveUser->id;
-
-            $saveRestaurant = Restaurant::create($restaurantData);
+            Verification::where('code', $request->code)->delete();
         }
+
+        
         
         return response()->json(['status' => 200], 200);  
     }
@@ -181,16 +198,47 @@ class UserController extends Controller
             return redirect()->back()->with('message', 'Your account is not verified.');
         }
 
-        if(Auth::attempt($data)) { 
-            $auth = Auth::user();
+        if (Hash::check($request->password, $user->password)) {
+            $code = sprintf("%06d", mt_rand(1, 999999));
 
-            if($auth) {
-                return redirect('/');
-            }
+            Verification::create([ 
+                'code' => $code
+            ]);
 
+            $phone = $user->phone;
+            $message = 'Your verification code is' . ' ' . $code;
+
+            $this->sendSms($phone, $message);
+
+            return redirect()->back()->with('message', 'success');
         } else {
             return redirect()->back()->with('message', 'Invalid Credentials.');
         }
+    }
+
+    public function otpVerify(Request $request)
+    {
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+
+        $otpRules = [
+            'code' => 'required|exists:verifications,code'
+        ];
+
+        $otpValidator = Validator::make($request->all(), $otpRules);
+
+        if ($otpValidator->fails()) {
+            return response()->json(['errors' => $otpValidator->messages(), 'status' => 422], 200);
+        }
+
+        Auth::attempt($data);
+
+        Verification::where('code', $request->code)->delete();
+
+        return response()->json(['status' => 200], 200); 
+        
     }
 
     public function viewUsers(Request $request)
@@ -309,6 +357,22 @@ class UserController extends Controller
         
         $saveUser = User::create($data);
         
+        return response()->json(['status' => 200], 200); 
+    }
+
+    public function saveVerification(Request $request)
+    {
+        $code = sprintf("%06d", mt_rand(1, 999999));
+
+        Verification::create([ 
+            'code' => $code
+        ]);
+
+        $phone = $request->phone;
+        $message = 'Your verification code is' . ' ' . $code;
+
+        $this->sendSms($phone, $message);
+
         return response()->json(['status' => 200], 200); 
     }
 } 

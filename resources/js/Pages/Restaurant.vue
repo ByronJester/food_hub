@@ -218,7 +218,7 @@
                             @click="closeDescriptionModal()"
                         >
                             <i class="fa-solid fa-xmark"></i>
-                        </span>
+                        </span> 
                     </div>
 
                     <div class="w-full flex flex-col mt-4">

@@ -105,7 +105,7 @@ class OrderController extends Controller
         return response()->json(['status' => 200, 'orders' => $orders->groupBy('food_hub')], 200);  
     }
 
-    public function checkoutOrder(Request $request)
+    public function checkoutOrder(Request $request) 
     {
         $auth = Auth::user();
         
@@ -176,6 +176,85 @@ class OrderController extends Controller
             'status' => $request->status
         ]);
 
-        return response()->json(['status' => 200], 200); 
+        $user = User::where('id', $request->user_id)->first();
+
+        $message = null;
+
+        if($request->status == 'to_deliver') {
+            $message = 'Your order is ready for delivery.';
+        } else {
+            $message = 'Your order arrived at your location.';
+        }
+
+        $sms = $this->sendSms($user->phone, $message);
+ 
+        return response()->json(['status' => 200, 'sms' => $sms], 200); 
+    }
+
+    public function buyNow(Request $request)
+    {
+        $auth = Auth::user();
+        
+        $rules = [
+            'payment_method' => "required|string",
+            'reference_number' => "required_if:payment_method,gcash|nullable|numeric",
+            'address' => "required_if:otherAddress,true|nullable|string",
+            'order' => "required"
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
+        }
+
+        $reference = Str::random(10);
+
+        $order = (object) $request->order;
+
+        $product = Product::where('id', $order->product_id)->first();
+
+        // return $order;
+
+        Order::create([
+            'restaurant_id' => $order->restaurant_id,
+            'product_id' => $order->product_id,
+            'user_id' => $auth->id,
+            'amount' => $product->amount * $order->quantity,
+            'quantity' => $order->quantity,
+            'status' => 'to_process',
+            'reference' => $reference
+
+        ]);
+
+        $data = $request->only(['payment_method', 'reference_number']);
+
+
+        $data['restaurant_id'] = $request->restaurant_id;
+        $data['reference'] = $reference;
+        $data['shipping_fee'] = 60;
+        $data['status'] = 'to_process';
+        $data['user_id'] = $auth->id;
+
+        if($request->otherAddress) {
+            $data['address'] = $request->address;
+        } else {
+            $data['address'] = $auth->address;
+        }
+
+        OrderDescription::forceCreate($data);
+
+        $orders = Order::where('user_id', $auth->id)->get();
+
+        return response()->json(['status' => 200, 'data' => $data], 200);
+    }
+
+    public function orderReceived(Request $request)
+    {
+        Order::where('reference', $request->reference)->update(['status' => 'received']);
+
+        OrderDescription::where('reference', $request->reference)->update(['status' => 'received']);
+
+        return response()->json(['status' => 200], 200);
     }
 }

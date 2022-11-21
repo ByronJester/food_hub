@@ -38,6 +38,8 @@ Route::middleware(['cors'])->group(function () {
         Route::post('/create-account', [UserController::class, 'saveUser']);
         Route::post('/edit-profile', [UserController::class, 'editProfile']);
         Route::post('/create-staff', [UserController::class, 'createStaff']);
+        Route::post('/save-verification', [UserController::class, 'saveVerification']);
+        Route::post('/verify-otp', [UserController::class, 'otpVerify']);
     });
 
     Route::prefix('restaurants')->group(function () {
@@ -63,6 +65,8 @@ Route::middleware(['cors'])->group(function () {
         Route::post('/active-tab', [OrderController::class, 'changeActiveTab']);
         Route::post('/change-status', [OrderController::class, 'changeStatus']);
         Route::post('/get-address', [OrderController::class, 'getAddress']);
+        Route::post('/buy-now', [OrderController::class, 'buyNow']);
+        Route::post('/order-received', [OrderController::class, 'orderReceived']);
     });
 });
 

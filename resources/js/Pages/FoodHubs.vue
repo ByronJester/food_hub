@@ -64,7 +64,7 @@
 							<div class="w-full cursor-pointer mx-2 text-center"
 								style="border: 1px solid #E4B934;"
 								:class="{'bg-yellow-500': activeCategory == 'Drink'}"
-								@click="activeCategory = 'Drink'"
+								@click="activeCategory = 'Drink'" 
 							>
 								Drinks
 							</div>
@@ -102,6 +102,17 @@
                                     </button>
                                 </div>
 
+								<div class="px-4 mt-4" style="width: 100%">
+                                    <button class="w-full py-1"
+                                        style="border-radius: 5px; background: #000000"
+										@click="buyNow(forms[index], index, product)"
+                                    >
+                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
+                                            <b class="text-white mr-2">BUY</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">NOW</b>
+                                        </span>
+                                    </button>
+                                </div>
+
 								<div class="w-full flex flex-row mt-2 justify-center items-center">
 									<div class="pr-1 w-full" style="width: 15%">
 										<input type="number" min="1" style="border: 1px solid #E4B934; width: 100%" class="text-center pt-2 pb-2" v-model="forms[index].quantity">
@@ -113,20 +124,19 @@
 											style="border-radius: 5px; background: #E4B934"
 											@click="addToCart(forms[index], index)"
 										>
-											<i class="fa-solid fa-cart-shopping pt-3 pb-2" style="color: #000000"></i>
+											<i class="fa-solid fa-cart-shopping pt-3 pb-2" style="color: #000000"></i> 
 										</button>
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> 
 					</div>
 				</div>
 
 				<div id="descriptionModal" class="descriptionModal">
-					<!-- Modal content -->
 					<div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
 						<div class="w-full">
-							<span class="text-lg font-bold">
+							<span class="text-4xl font-bold">
 								{{productName}}
 							</span>
 
@@ -137,15 +147,181 @@
 							</span>
 						</div>
 
-						<div class="w-full mt-4">
-							<p>
-								{{ description }}
-							</p>
+						<div class="w-full flex flex-col mt-4">
+							<div class="w-full flex flex-col justify-center items-center">
+								<div class="w-full">
+									<img class="w-full p-4" :src="productImage"
+										style="height: 200px; border: 2px solid #E4B934"
+									/>
+								</div>
+
+								<div class="w-full">
+									<p class="w-full text-center text-4xl">
+										₱ {{ productAmount.toFixed(2) }}
+									</p>
+								</div>
+							
+								
+							</div>
+
+							<div class="w-full mt-5">
+								<p>
+									{{ description }}
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
 
+				<div id="checkoutModal" class="checkoutModal">
+					<div class="checkout-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+						<div class="w-full">
+							<span class="text-xl font-bold">
+								Checkout Order
+							</span>
+
+							<span class="float-right cursor-pointer"
+								@click="closeCheckoutModal()"
+							>
+								<i class="fa-solid fa-xmark"></i>
+							</span>
+						</div>
+
+						<div class="w-full flex flex-col mt-4">
+							<div class="flex flex-col px-5 py-2">
+								<div class="w-full flex flex-row" style="border-bottom: 1px solid #E4B934">
+									<div class="h-full flex justify-center items-center my-2" style="width: 40%">
+										<img :src="'/images/uploads/' + orderProduct.image" style="width: 100%; height: 80px;border: 1px solid #E4B934" class="p-1" />
+									</div>
+
+									<div class="flex flex-col justify-center items-center" style="width: 60%">
+										<div class="w-full text-center">
+											<p class="text-md font-bold">
+												{{ orderProduct.name }}
+											</p>
+										</div>
+										
+										<div class="w-full text-center">
+											<p class="text-md mt-1">
+												₱ {{ orderProduct.amount }}
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="w-full flex flex-row">
+								<div class="w-full text-left pl-5"> 
+									Payment Details <i class="fa-solid fa-file-invoice-dollar ml-1"></i>
+								</div>
+							</div>
+
+							<div class="w-full flex flex-row mt-2">
+								<div class="w-full text-left pl-5">
+									Subtotal: 
+								</div>
+
+								<div class="w-full text-left pl-5">
+									₱ {{ (orderProduct.amount * orderDescription.quantity).toFixed(2)  }}
+								</div>
+							</div>
+
+							<div class="w-full flex flex-row">
+								<div class="w-full text-left pl-5">
+									Shipping Fee: 
+								</div>
+
+								<div class="w-full text-left pl-5">
+									₱ 60.00
+								</div>
+							</div>
+
+							<div class="w-full flex flex-row">
+								<div class="w-full text-left pl-5">
+									Total: 
+								</div>
+
+								<div class="w-full text-left pl-5">
+									₱ {{ ((orderProduct.amount * orderDescription.quantity) + 60).toFixed(2) }}
+								</div>
+							</div>
+
+							<div class="w-full flex flex-row mt-5">
+								<div class="w-full flex justify-center items-center">
+									Mode of Payment:
+								</div>
+
+								<div class="w-full flex justify-center items-center">
+									<input class="mr-1" type="radio" value="cod" v-model="form.payment_method" />
+									<label class="mr-1">COD</label>
+
+									<input class="mr-1" type="radio" value="gcash" v-model="form.payment_method" />
+									<label>G-Cash</label>
+								</div>
+							</div>
+
+							<div class="w-full flex flex-row mt-5" v-if="form.payment_method == 'gcash'">
+								<div class="w-full flex justify-center items-center">
+									Owner G-Cash #:
+								</div>
+
+								<div class="w-full flex justify-center items-center">
+									{{ restaurant.phone }}
+								</div>
+							</div>
+
+							<div class="w-full pl-5 mt-2" v-if="form.payment_method == 'gcash'">
+								<input v-model="form.reference_number" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
+									placeholder="G-Cash Ref. No."
+									class="text-center"
+								>
+								<span class="text-xs text-red-500">{{validationError('reference_number', saveError)}} </span>
+							</div>
+
+							<div class="w-full flex flex-row mt-5">
+								<div class="w-full flex justify-start items-center pl-5">
+									Other Address:
+								</div>
+
+								<div class="w-full flex justify-start items-center pl-5">
+									<input type="checkbox" v-model="form.otherAddress">
+								</div>
+							</div>
+
+							<div class="w-full pl-5 mt-2" v-if="form.otherAddress">
+								<input v-model="form.address" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
+									placeholder="Street No, Barangay, Town"
+									class="text-center"
+								>
+								<span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
+							</div>
+
+							<div class="w-full flex flex-col mt-5">
+								<div class="w-full flex justify-start items-center pl-5">
+									Available Address:
+								</div>
+
+								<div class="w-full flex justify-start items-center px-5">
+									<select class="w-full" style="border: 1px solid black; height: 30px">
+										<option v-for="p in restaurant.places" :value="p.id" :key="p.id">
+											{{p.address}}
+										</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="w-full pl-5 mt-4">
+								<button style="border-radius: 5px; width: 93%; background: #E4B934" class="py-2" @click="confirmBuyNow()">
+									Confirm
+								</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
 			</div>
+
+			
         </div>
     </Navigation>
 </template>
@@ -171,9 +347,23 @@ export default {
 			list: [],
 			description: null,
             productName: null,
+            productAmount: 0,
+            productImage: null,
 			search: null,
 			isMobile: window.screen.width <= 700,
-			products: []
+			products: [],
+			orderDescription: {},
+			orderProduct: {},
+			form: {
+				payment_method: 'cod',
+				reference_number: null,
+				otherAddress: false,
+				address: null,
+				order: null,
+				user_id: null,
+				restaurant_id: null
+			},
+			saveError: null
         }
     },
     created(){
@@ -269,6 +459,8 @@ export default {
 
             this.description = arg.description
             this.productName = arg.name
+            this.productImage = '/images/uploads/' + arg.image
+            this.productAmount = arg.amount
         },
 
         closeDescriptionModal(){
@@ -279,6 +471,48 @@ export default {
             this.description = null
             this.productName = null
         },
+
+		buyNow(arg, index, product) {
+			this.orderDescription = Object.assign({}, arg);
+			this.orderProduct = Object.assign({}, product);
+			this.restaurant = this.restaurant
+
+			this.openCheckoutModal()
+		},
+
+		openCheckoutModal(){
+            var modal = document.getElementById("checkoutModal");
+
+            modal.style.display = "block";
+
+        },
+
+        closeCheckoutModal(){
+            var modal = document.getElementById("checkoutModal");
+
+            modal.style.display = "none";
+        },
+
+		confirmBuyNow() {
+            this.form.restaurant_id = this.restaurant.id
+            this.form.order = this.orderDescription
+            this.form.otherAddress = this.otherAddress
+
+			if(!this.form.otherAddress) {
+				delete this.form.address
+			}
+            
+            axios.post(this.$root.route + "/orders/buy-now", this.form)
+				.then(response => {
+					if(response.data.status == 422) {
+						this.saveError = response.data.errors 
+					} else {
+                        // this.closeCheckoutModal()
+
+						location.reload()
+					}
+				})
+		}
     }
 }
 </script>
@@ -303,8 +537,6 @@ export default {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -315,6 +547,30 @@ export default {
   border: 1px solid #888;
   width: 80%;
 }
+
+.checkoutModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.checkout-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
 
 /* The Close Button */
 .close {

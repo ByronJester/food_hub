@@ -17,6 +17,7 @@ class Order extends Model
         'quantity',
         'status',
         'is_delivered',
+        'reference'
     ];
 
     protected $appends = [

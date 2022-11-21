@@ -24,6 +24,10 @@ class Restaurant extends Model
         'places'
     ];
 
+    protected $appends = [
+        'phone'
+    ];
+
     public function products()
     {   
         $auth = Auth::user();
@@ -52,6 +56,11 @@ class Restaurant extends Model
     public function places()
     {
         return $this->hasMany(RestaurantAddress::class);
+    }
+
+    public function getPhoneAttribute()
+    {
+        return $this->user->phone;
     }
 
 }

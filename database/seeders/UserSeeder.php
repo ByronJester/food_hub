@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'Admin Admin',
-            'phone' => random_int(10000000000, 99999999999),
+            'phone' => '09217529481',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
             'user_type' => 'admin',

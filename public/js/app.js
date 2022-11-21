@@ -3761,7 +3761,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['message', 'options'],
+  props: ['options'],
   data: function data() {
     return {
       formloginData: {
@@ -3793,7 +3793,8 @@ __webpack_require__.r(__webpack_exports__);
       productName: null,
       isMobile: window.screen.width <= 700,
       ids: [],
-      isDone: false
+      isDone: false,
+      message: null
     };
   },
   watch: {
@@ -3820,13 +3821,24 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__.Inertia.post(this.$root.route + "/users/login", this.formloginData, {
-        onSuccess: function onSuccess(res) {
-          if (res.props.message == 'success') {
-            _this.openLoginModal();
-          }
-        },
-        orError: function orError(err) {}
+      // Inertia.post(this.$root.route + "/users/login", this.formloginData,
+      // {
+      // 	onSuccess: (res) => {
+      // 		if(res.props.message == 'success') {
+      // 			this.openLoginModal()
+      // 		}
+      // 	},
+      // 	orError: (err) => {
+      // 	}
+      // });
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(this.$root.route + "/users/login", this.formloginData).then(function (response) {
+        if (response.data.status == 422) {
+          // this.saveError = response.data.errors
+          _this.message = response.data.message;
+        } else {
+          // location.reload()
+          _this.openLoginModal();
+        }
       });
     },
     otherLogin: function otherLogin() {

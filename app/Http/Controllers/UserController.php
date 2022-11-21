@@ -191,11 +191,13 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if(!$user) {
-            return redirect()->back()->with('message', 'No account found.');
+            // return redirect()->back()->with('message', 'No account found.');
+            return response()->json(['status' => 422, 'message' => 'No account found.' ], 200);  
         }
 
         if(!$user->is_active) {
-            return redirect()->back()->with('message', 'Your account is not verified.');
+            // return redirect()->back()->with('message', 'Your account is not verified.');
+            return response()->json(['status' => 422, 'message' => 'Your account is not verified.' ], 200); 
         }
 
         if (Hash::check($request->password, $user->password)) {
@@ -210,9 +212,11 @@ class UserController extends Controller
 
             $this->sendSms($phone, $message);
 
-            return redirect()->back()->with('message', 'success');
+            // return redirect()->back()->with('message', 'success');
+            return response()->json(['status' => 200, 'message' => 'success' ], 200); 
         } else {
-            return redirect()->back()->with('message', 'Invalid Credentials.');
+            // return redirect()->back()->with('message', 'Invalid Credentials.');
+            return response()->json(['status' => 422, 'message' => 'Invalid Credentials.' ], 200); 
         }
     }
 

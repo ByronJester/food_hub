@@ -377,7 +377,7 @@ import { Inertia } from '@inertiajs/inertia';
 import axios from "axios";
 
 export default {
-	props:['message', 'options'],
+	props:['options'],
 	data(){
 		return {
 			formloginData : {
@@ -412,7 +412,8 @@ export default {
             productName: null,
 			isMobile: window.screen.width <= 700,
 			ids: [],
-			isDone: false
+			isDone: false,
+			message: null
 		}
 	},
 
@@ -442,16 +443,28 @@ export default {
 
 	methods: {
 		login() {
-			Inertia.post(this.$root.route + "/users/login", this.formloginData,
-			{
-				onSuccess: (res) => {
-					if(res.props.message == 'success') {
+			// Inertia.post(this.$root.route + "/users/login", this.formloginData,
+			// {
+			// 	onSuccess: (res) => {
+			// 		if(res.props.message == 'success') {
+			// 			this.openLoginModal()
+			// 		}
+			// 	},
+			// 	orError: (err) => {
+			// 	}
+			// });
+
+			axios.post(this.$root.route + "/users/login", this.formloginData)
+				.then(response => {
+
+					if(response.data.status == 422) {
+						// this.saveError = response.data.errors
+						this.message = response.data.message
+					} else {
+						// location.reload()
 						this.openLoginModal()
 					}
-				},
-				orError: (err) => {
-				}
-			});
+				})
 		},
 		
 		otherLogin() {

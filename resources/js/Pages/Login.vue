@@ -136,7 +136,7 @@
 					
   					<input type="checkbox" v-model="termsAndCondition">
 					<label class="text-white cursor-pointer hover:underline"
-						@click="openTermsAndCondition()"
+						@click="openTermsAndCondition(); isLogin = false"
 					> 
 						Terms and Condition 
 					</label><br>
@@ -377,7 +377,7 @@
 
 			<div id="termsModal" class="termsModal overflow-y-scroll --scrollable">
 				<!-- Modal content -->
-				<div class="terms-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
+				<div class="terms-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '90%' : '50%'}">
 					<div class="w-full flex flex-col mt-4 text-sm">
 						<div class="w-full">
 
@@ -689,11 +689,6 @@
 
 						</div>
 
-						
-
-
-						
-
 					</div>
 				</div>
 			</div>
@@ -762,7 +757,7 @@ export default {
 			} else {
 				this.formRegisterData.user_type = 'customer'
 			}
-		}
+		},
 		
 	},
 
@@ -956,6 +951,8 @@ export default {
             var modal = document.getElementById("registerModal");
 
             modal.style.display = "block";
+
+			this.isLogin = false
         },
 
         closeRegisterModal(){
@@ -986,6 +983,8 @@ export default {
 			var modal = document.getElementById("termsModal");
 
             modal.style.display = "none";
+
+			this.isLogin = true
 		}
 	}
 }
@@ -1096,7 +1095,7 @@ export default {
   left: 0;
   top: 10%;
   width: 100%; /* Full width */
-  height: 50vh; /* Full height */
+  height: 70vh; /* Full height */
   overflow: auto; /* Enable scroll if needed */
 }
 

@@ -4190,11 +4190,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4418,6 +4413,7 @@ __webpack_require__.r(__webpack_exports__);
     openRegisterModal: function openRegisterModal() {
       var modal = document.getElementById("registerModal");
       modal.style.display = "block";
+      this.isLogin = false;
     },
     closeRegisterModal: function closeRegisterModal() {
       var modal = document.getElementById("registerModal");
@@ -4438,6 +4434,7 @@ __webpack_require__.r(__webpack_exports__);
     closeTermsAndCondition: function closeTermsAndCondition() {
       var modal = document.getElementById("termsModal");
       modal.style.display = "none";
+      this.isLogin = true;
     }
   }
 });
@@ -5853,7 +5850,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.--main[data-v-0004d9e0] {\r\n\tbackground-image: url('/images/bg.jpg');\r\n\tbackground-repeat: no-repeat;\r\n \tbackground-size: cover;\n}\n.--login__register[data-v-0004d9e0] {\r\n\twidth: 380px;\r\n\theight: auto;\r\n\tbackground: #607EAA;\r\n\tborder-radius: 10px;\r\n\tposition: relative;\n}\n.--login__register--input[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 10px;\n}\n.--login__register--button[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 30px;\r\n\tbackground: #E4B934;\r\n\tcolor: #000000;\n}\n.--restaurant__list[data-v-0004d9e0]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\n.--text[data-v-0004d9e0] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.descriptionModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.registerModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.register-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.loginModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.login-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.termsModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 10%;\r\n  width: 100%; /* Full width */\r\n  height: 50vh; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.terms-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-0004d9e0] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-0004d9e0]:hover,\r\n.close[data-v-0004d9e0]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--scrollable[data-v-0004d9e0] {\r\n\toverflow-x:hidden;\r\n\toverflow-y:scroll;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar {\r\n\twidth: 0px;\r\n\tbackground: white;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar-thumb {\r\n\tbackground: #ffffff;\r\n\theight:30px;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar-track-piece{\r\n\tdisplay:none;\n}\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.--main[data-v-0004d9e0] {\r\n\tbackground-image: url('/images/bg.jpg');\r\n\tbackground-repeat: no-repeat;\r\n \tbackground-size: cover;\n}\n.--login__register[data-v-0004d9e0] {\r\n\twidth: 380px;\r\n\theight: auto;\r\n\tbackground: #607EAA;\r\n\tborder-radius: 10px;\r\n\tposition: relative;\n}\n.--login__register--input[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 10px;\n}\n.--login__register--button[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 30px;\r\n\tbackground: #E4B934;\r\n\tcolor: #000000;\n}\n.--restaurant__list[data-v-0004d9e0]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\n.--text[data-v-0004d9e0] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.descriptionModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.registerModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.register-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.loginModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.login-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.termsModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 10%;\r\n  width: 100%; /* Full width */\r\n  height: 70vh; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.terms-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-0004d9e0] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-0004d9e0]:hover,\r\n.close[data-v-0004d9e0]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--scrollable[data-v-0004d9e0] {\r\n\toverflow-x:hidden;\r\n\toverflow-y:scroll;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar {\r\n\twidth: 0px;\r\n\tbackground: white;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar-thumb {\r\n\tbackground: #ffffff;\r\n\theight:30px;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar-track-piece{\r\n\tdisplay:none;\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -69101,7 +69098,8 @@ var render = function() {
                             "text-white cursor-pointer hover:underline",
                           on: {
                             click: function($event) {
-                              return _vm.openTermsAndCondition()
+                              _vm.openTermsAndCondition()
+                              _vm.isLogin = false
                             }
                           }
                         },
@@ -69752,7 +69750,7 @@ var render = function() {
               {
                 staticClass: "terms-content flex flex-col",
                 staticStyle: { border: "2px solid #E4B934" },
-                style: { width: _vm.isMobile ? "80%" : "20%" }
+                style: { width: _vm.isMobile ? "90%" : "50%" }
               },
               [
                 _c(

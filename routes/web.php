@@ -68,6 +68,10 @@ Route::middleware(['cors'])->group(function () {
         Route::post('/buy-now', [OrderController::class, 'buyNow']);
         Route::post('/order-received', [OrderController::class, 'orderReceived']);
     });
+
+    Route::prefix('trails')->group(function () {
+        Route::get('/', [UserController::class, 'viewTrails'])->name('view.trails');
+    });
 });
 
 

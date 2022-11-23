@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Restaurant;
+use App\Models\AuditTrail;
 use App\Models\Verification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -205,6 +206,12 @@ class UserController extends Controller
 
         if (Auth::attempt($data)) {
             // $code = sprintf("%06d", mt_rand(1, 999999));
+            $auth = Auth::user();
+
+            AuditTrail::forceCreate([
+                'user_id' => $auth->id,
+                'description' => $auth->name . ' has logged in.'
+            ]);
 
             // Verification::create([ 
             //     'code' => $code
@@ -291,8 +298,17 @@ class UserController extends Controller
 
     public function logoutAccount()
     {
+        $auth = Auth::user();
+
+        AuditTrail::forceCreate([
+            'user_id' => $auth->id,
+            'description' => $auth->name . ' has logged out.'
+        ]);
+
+
         Auth::logout();
 
+        
         return redirect('/');;
     }
 
@@ -410,6 +426,24 @@ class UserController extends Controller
         $this->sendSms($phone, $message);
 
         return response()->json(['status' => 200], 200); 
+    }
+
+    public function viewTrails(Request $request)
+    {
+        $auth = Auth::user();
+
+        $trails = AuditTrail::orderBy('created_at', 'desc')->where('user_id', '!=', $auth->id)->get();
+        
+        if($auth) {
+            return Inertia::render('AuditTrails', [
+                'auth'    => $auth,
+                'options' => [
+                    'trails' => $trails
+                ]
+            ]);
+        }
+
+        return redirect('/');
     }
 } 
  

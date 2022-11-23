@@ -48,6 +48,7 @@ const pages = {
   'CustomerOrders': require('./Pages/CustomerOrders.vue').default,
   'RestaurantTrays': require('./Pages/RestaurantTrays.vue').default,
   'Profile': require('./Pages/Profile.vue').default,
+  'AuditTrails': require('./Pages/AuditTrails.vue').default,
 }
 
 new Vue({

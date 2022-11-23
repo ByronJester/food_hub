@@ -77,6 +77,15 @@
                         </span>
                     </div>
 
+                    <div class="cursor-pointer" :class="{'--active' : active == '/trails', 'mx-5' : !isMobile, 'mx-1' : isMobile}" v-if="auth.user_type == 'admin'"
+                        @click="changeActive('/trails')"
+                    >
+                        <i class="fa-solid fa-list mr-1"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}">
+                            <b class="text-white">TRA</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">ILS</b>
+                        </span>
+                    </div>
+
                     <div class="cursor-pointer" :class="{'mx-5' : !isMobile, 'mx-1' : isMobile}" @click="openWalletModal()"
                         v-if="auth.role == 2 && auth.user_type == 'owner'"
                     >

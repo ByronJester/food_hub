@@ -300,16 +300,18 @@ class UserController extends Controller
     {
         $auth = Auth::user();
 
-        AuditTrail::forceCreate([
+        $create = AuditTrail::forceCreate([
             'user_id' => $auth->id,
             'description' => $auth->name . ' has logged out.'
         ]);
 
 
-        Auth::logout();
-
+        if($create) {
+            Auth::logout();
         
-        return redirect('/');;
+        }
+        
+        return redirect('/');
     }
 
     public function viewProfile(Request $request)

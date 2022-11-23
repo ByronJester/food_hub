@@ -5,7 +5,7 @@
 			:style="{'width': isMobile ? '100%': '20%'}"
 			v-if="isLogin"
 		>	
-			<div class="w-full mb-5 relative" :style="{'top': isRegister ? '0' : '-5rem'}" :class="{'mt-36': isRegister}">
+			<div class="w-full mb-5 relative" :style="{'top': isRegister ? '0' : '-5rem'}" v-if="!isRegister">
 				<img class="w-full px-20" style="height: 150px" src="/images/logo2.jpg" />
 			</div>
 			
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 
-			<div class="mx-2 relative mb-10" style="border: 1px solid #FFFFFF; border-radius: 5px;" v-else>
+			<div class="mx-2 relative mb-5 mt-16" style="border: 1px solid #FFFFFF; border-radius: 5px;" v-else>
 				<div class="w-full p-2 text-white">
 					<span class="float-right cursor-pointer" @click="isLogin = false">
 						<i class="fa-solid fa-xmark"></i>

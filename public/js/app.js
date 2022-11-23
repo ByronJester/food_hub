@@ -68359,21 +68359,22 @@ var render = function() {
             style: { width: _vm.isMobile ? "100%" : "20%" }
           },
           [
-            _c(
-              "div",
-              {
-                staticClass: "w-full mb-5 relative",
-                class: { "mt-36": _vm.isRegister },
-                style: { top: _vm.isRegister ? "0" : "-5rem" }
-              },
-              [
-                _c("img", {
-                  staticClass: "w-full px-20",
-                  staticStyle: { height: "150px" },
-                  attrs: { src: "/images/logo2.jpg" }
-                })
-              ]
-            ),
+            !_vm.isRegister
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "w-full mb-5 relative",
+                    style: { top: _vm.isRegister ? "0" : "-5rem" }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "w-full px-20",
+                      staticStyle: { height: "150px" },
+                      attrs: { src: "/images/logo2.jpg" }
+                    })
+                  ]
+                )
+              : _vm._e(),
             _vm._v(" "),
             !_vm.isRegister
               ? _c(
@@ -68541,7 +68542,7 @@ var render = function() {
               : _c(
                   "div",
                   {
-                    staticClass: "mx-2 relative mb-10",
+                    staticClass: "mx-2 relative mb-5 mt-16",
                     staticStyle: {
                       border: "1px solid #FFFFFF",
                       "border-radius": "5px"

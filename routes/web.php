@@ -32,7 +32,7 @@ Route::middleware(['cors'])->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'viewUsers'])->name('view.users');
         Route::get('/profile', [UserController::class, 'viewProfile'])->name('view.profile');
-        Route::post('/login', [UserController::class, 'loginAccount']);
+        Route::post('/login', [UserController::class, 'loginAccount']); 
         Route::post('/logout', [UserController::class, 'logoutAccount']);
         Route::post('/deactivate-reactivate', [UserController::class, 'changeStatus']);
         Route::post('/create-account', [UserController::class, 'saveUser']);

@@ -23,7 +23,8 @@ class OrderDescription extends Model
         'orders',
         'customer_name',
         'amount',
-        'display_status'
+        'display_status',
+        'total'
     ];
 
     protected $with = [
@@ -39,6 +40,11 @@ class OrderDescription extends Model
     public function getAmountAttribute()
     {
         return $this->orders->sum('amount');
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->orders->sum('amount') + $this->shipping_fee;
     }
 
     public function user()

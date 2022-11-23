@@ -55,7 +55,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'received'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/history.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '150px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"
+                            <img :src="'/images/history.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '90px'}"  :class="{'--bg-gray': activeTab == 'received'}"
                                 style="height: 80p"
                             />
                         </div>
@@ -79,7 +79,7 @@
                             <div class="w-full">
                                 <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders" v-if="activeTab == 'pending'">
 
-                                <span class="float-right pt-1 pr-2 cursor-pointer" @click="removeProduct(order.id)" v-if="activeTab == 'pending'">
+                                <span class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id" v-if="activeTab == 'pending'">
                                     <i class="fa-solid fa-xmark"></i>
                                 </span>
                             </div>
@@ -269,6 +269,34 @@
                 </div>
             </div>
 
+            <div id="removeModal" class="removeModal">
+				<!-- Modal content -->
+				<div class="remove-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
+					<div class="w-full text-lg font-bold text-center">
+						Are you sure to delete this order ?
+					</div>
+
+					<div class="w-full flex flex-row mt-10">
+                        <div class="w-full">
+                            <button class="w-full py-1 text-white" style="border-radius: 5px; width: 93%; background: #000000"
+                                @click="closeRemoveModal();"
+                            >
+                                No
+                            </button>
+                        </div>
+
+                        <div class="w-full">
+                            <button class="w-full py-1 text-black" style="border-radius: 5px; width: 93%; background: #E4B934"
+                                @click="removeProduct(orderSelected)"
+                            >
+                                Yes
+                            </button>
+                        </div>
+					</div>
+
+				</div>
+			</div>
+
         
         </div>
     </Navigation>
@@ -305,12 +333,18 @@ export default {
             places: [],
             gcashNumber: null,
             isMobile: window.screen.width <= 700,
+            orderSelected: null
         }
     },
     mounted() {
         this.orders = this.options.orders
     },
     watch: {
+        orderSelected(arg) {
+            if(!arg) return;
+
+            this.openRemoveModal()
+        },
         selectedOrders(arg){
         },
 
@@ -356,17 +390,7 @@ export default {
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
-                        this.orders = response.data.orders
-
-                        this.form = {
-                            payment_method: 'cod',
-                            reference_number: null,
-                            address: null,
-                            orders: [],
-                            otherAddress: null,
-                            food_joint: null,
-                            user_id: null
-                        }
+                        location.reload()
 					}
 				})
         },
@@ -468,7 +492,22 @@ export default {
                         location.reload()
 					}
 				})
-        }
+        },
+
+        openRemoveModal(){
+            var modal = document.getElementById("removeModal");
+
+            modal.style.display = "block";
+
+        },
+
+        closeRemoveModal(){
+            var modal = document.getElementById("removeModal");
+
+            modal.style.display = "none";
+
+            this.orderSelected = null
+        },
 
 
     }
@@ -503,6 +542,26 @@ export default {
   width: 80%;
 }
 
+.removeModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 20%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content */
+.remove-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px; 
+  border: 1px solid #888;
+  width: 80%;
+}
 /* The Close Button */
 .close {
   color: #aaaaaa;

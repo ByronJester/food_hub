@@ -49,7 +49,7 @@
                                 {{add.address}}
                             </span>
 
-                            <span class="absolute cursor-pointer" style="right: .5rem" @click="removeAddress(add)">
+                            <span class="absolute cursor-pointer" style="right: .5rem" @click="placeSelected = add">
                                 <i class="fa-solid fa-xmark"></i>
                             </span>
                         </p>
@@ -247,6 +247,34 @@
                 </div>
             </div>
 
+            <div id="removeModal" class="removeModal">
+				<!-- Modal content -->
+				<div class="remove-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
+					<div class="w-full text-lg font-bold text-center">
+						Are you sure to delete this address ?
+					</div>
+
+					<div class="w-full flex flex-row mt-10">
+                        <div class="w-full">
+                            <button class="w-full py-1 text-white" style="border-radius: 5px; width: 93%; background: #000000"
+                                @click="closeRemoveModal();"
+                            >
+                                No
+                            </button>
+                        </div>
+
+                        <div class="w-full">
+                            <button class="w-full py-1 text-black" style="border-radius: 5px; width: 93%; background: #E4B934"
+                                @click="removeAddress(placeSelected)"
+                            >
+                                Yes
+                            </button>
+                        </div>
+					</div>
+
+				</div>
+			</div>
+
         </div>
     </Navigation>
 </template>
@@ -285,7 +313,8 @@ export default {
             formAddress: {
                 restaurant_id: null,
                 address: null
-            }
+            },
+            placeSelected: null,
         }
     },
 
@@ -312,6 +341,12 @@ export default {
         // 'form.amount': function (arg) {
         //     this.form.amount = parseFloat(arg).toFixed(2);
         // }
+
+        placeSelected(arg) {
+            if(!arg) return;
+
+            this.openRemoveModal()
+        },
     },
 
     methods: {
@@ -468,6 +503,21 @@ export default {
                 this.restaurant[arg] = e.target.result
             };
 		},
+
+        openRemoveModal(){
+            var modal = document.getElementById("removeModal");
+
+            modal.style.display = "block";
+
+        },
+
+        closeRemoveModal(){
+            var modal = document.getElementById("removeModal");
+
+            modal.style.display = "none";
+
+            this.placeSelected = null
+        },
     }
 }
 </script>
@@ -582,5 +632,26 @@ export default {
     width: 100%;
     text-align: center;
     color: black;
+}
+
+.removeModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 20%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content */
+.remove-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px; 
+  border: 1px solid #888;
+  width: 80%;
 }
 </style>

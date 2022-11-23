@@ -33,10 +33,13 @@ class UserController extends Controller
             }
         }
 
+        $restaurants = Restaurant::where('is_active', true)->get();
+
         return Inertia::render('Login', [
             'auth'    => $auth,
             'options' => [
-                'restaurants' => Restaurant::where('is_active', true)->get()
+                'restaurants' => $restaurants,
+                'banners' => $restaurants->pluck('banner')
             ]
         ]);
     }
@@ -200,17 +203,17 @@ class UserController extends Controller
             return response()->json(['status' => 422, 'message' => 'Your account is not verified.' ], 200); 
         }
 
-        if (Hash::check($request->password, $user->password)) {
-            $code = sprintf("%06d", mt_rand(1, 999999));
+        if (Auth::attempt($data)) {
+            // $code = sprintf("%06d", mt_rand(1, 999999));
 
-            Verification::create([ 
-                'code' => $code
-            ]);
+            // Verification::create([ 
+            //     'code' => $code
+            // ]);
 
-            $phone = $user->phone;
-            $message = 'Your verification code is' . ' ' . $code;
+            // $phone = $user->phone;
+            // $message = 'Your verification code is' . ' ' . $code;
 
-            $this->sendSms($phone, $message);
+            // $this->sendSms($phone, $message);
 
             // return redirect()->back()->with('message', 'success');
             return response()->json(['status' => 200, 'message' => 'success' ], 200); 
@@ -309,10 +312,12 @@ class UserController extends Controller
     }
 
     public function editProfile(Request $request)
-    {
+    {   
+        $auth = Auth::user();
+        
         $validator = Validator::make($request->all(), [
             'name' => "required|string",
-            'phone' => "required|numeric|unique:users,phone," . $request->id,
+            'phone' => "required|numeric|digits:11|unique:users,phone," . $request->id,
             'email' => "required|email:rfc,dns|unique:users,email," . $request->id, 
             'password' => "sometimes|required|min:8",
             'address' => "required",
@@ -323,17 +328,44 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
         }
 
-        $data = $request->toArray();
+        if($request->code == null) {
+            $code = sprintf("%06d", mt_rand(1, 999999));
 
-        if(!!$request->password) {
-            $data = $request->except(['confirm_password']);
+            Verification::create([ 
+                'code' => $code
+            ]);
 
-            $data['password'] = Hash::make($request->password);
+            $message = 'Your verification code is' . ' ' . $code;
+
+            $this->sendSms($auth->phone, $message);
+            
+            return response()->json(['status' => 200], 200); 
+        } else {
+            $otpRules = [
+                'code' => 'required|exists:verifications,code'
+            ];
+    
+            $otpValidator = Validator::make($request->all(), $otpRules);
+    
+            if ($otpValidator->fails()) {
+                return response()->json(['errors' => $otpValidator->messages(), 'status' => 422], 200);
+            }
+    
+            $data = $request->except(['code']);
+    
+            if(!!$request->password) {
+                $data = $request->except(['confirm_password']);
+    
+                $data['password'] = Hash::make($request->password);
+            }
+            
+            $saveUser = User::where('id', $request->id)->update($data);
+    
+            Verification::where('code', $request->code)->delete();
+            
+            return response()->json(['status' => 200], 200); 
         }
-        
-        $saveUser = User::where('id', $request->id)->update($data);
-        
-        return response()->json(['status' => 200], 200); 
+
     }
 
     public function createStaff(Request $request)

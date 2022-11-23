@@ -43,7 +43,8 @@ class User extends Authenticatable
     protected $appends = [
         'verified',
         'wallet',
-        'permit'
+        'permit',
+        'trays'
     ];
 
     public function getVerifiedAttribute()
@@ -89,6 +90,33 @@ class User extends Authenticatable
         if(!$restaurant) return null;
 
         return $restaurant->permit;
+    }
+
+    public function getTraysAttribute()
+    {   
+        $count = 0;
+
+        if($this->role == 2) {
+            $restaurant = null;
+
+            if($this->user_type == 'staff') {
+                $owner = User::where('reference', $this->reference)->where('user_type', 'owner') ->first();
+
+                $restaurant = Restaurant::where('user_id', $owner->id)->first();
+
+            } else {
+                $restaurant = Restaurant::where('user_id', $this->id)->first();
+            }
+            
+
+            $count = OrderDescription::where('restaurant_id', $restaurant->id)->where('status', 'to_process')->count();
+        } else {
+            if($this->role == 3) {
+                $count = OrderDescription::where('user_id', $this->id)->where('status', 'to_receive')->count();
+            }
+        }
+
+        return $count;
     }
 
 }

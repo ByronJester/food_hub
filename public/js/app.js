@@ -2337,6 +2337,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['auth'],
@@ -2348,7 +2356,9 @@ __webpack_require__.r(__webpack_exports__);
       isMobile: window.screen.width <= 700
     };
   },
-  created: function created() {},
+  created: function created() {
+    console.log(this.auth.trays);
+  },
   methods: {
     logout: function logout() {
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__.Inertia.post(this.$root.route + "/users/logout", {}, {
@@ -2668,6 +2678,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2696,13 +2734,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       otherAddress: false,
       places: [],
       gcashNumber: null,
-      isMobile: window.screen.width <= 700
+      isMobile: window.screen.width <= 700,
+      orderSelected: null
     };
   },
   mounted: function mounted() {
     this.orders = this.options.orders;
   },
   watch: {
+    orderSelected: function orderSelected(arg) {
+      if (!arg) return;
+      this.openRemoveModal();
+    },
     selectedOrders: function selectedOrders(arg) {},
     'form.payment_method': function formPayment_method(arg) {
       this.form.reference_number = null;
@@ -2749,16 +2792,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (response.data.status == 422) {
           _this3.saveError = response.data.errors;
         } else {
-          _this3.orders = response.data.orders;
-          _this3.form = {
-            payment_method: 'cod',
-            reference_number: null,
-            address: null,
-            orders: [],
-            otherAddress: null,
-            food_joint: null,
-            user_id: null
-          };
+          location.reload();
         }
       });
     },
@@ -2857,6 +2891,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           location.reload();
         }
       });
+    },
+    openRemoveModal: function openRemoveModal() {
+      var modal = document.getElementById("removeModal");
+      modal.style.display = "block";
+    },
+    closeRemoveModal: function closeRemoveModal() {
+      var modal = document.getElementById("removeModal");
+      modal.style.display = "none";
+      this.orderSelected = null;
     }
   }
 });
@@ -3758,6 +3801,339 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3788,13 +4164,14 @@ __webpack_require__.r(__webpack_exports__);
       restaurant: null,
       isLogin: false,
       activeCategory: 'Food',
-      banners: ['/images/banners/foodhub.png', '/images/banners/tea.png'],
+      banners: ['foodhub.png'],
       description: null,
       productName: null,
       isMobile: window.screen.width <= 700,
       ids: [],
       isDone: false,
-      message: null
+      message: null,
+      termsAndCondition: false
     };
   },
   watch: {
@@ -3816,6 +4193,9 @@ __webpack_require__.r(__webpack_exports__);
     if (this.isMobile) {
       this.isLogin = false;
     }
+
+    this.banners = this.banners.concat(this.options.banners);
+    console.log(this.banners);
   },
   methods: {
     login: function login() {
@@ -3836,8 +4216,7 @@ __webpack_require__.r(__webpack_exports__);
           // this.saveError = response.data.errors
           _this.message = response.data.message;
         } else {
-          // location.reload()
-          _this.openLoginModal();
+          location.reload(); // this.openLoginModal()
         }
       });
     },
@@ -3990,6 +4369,14 @@ __webpack_require__.r(__webpack_exports__);
     closeLoginModal: function closeLoginModal() {
       var modal = document.getElementById("loginModal");
       modal.style.display = "none";
+    },
+    openTermsAndCondition: function openTermsAndCondition() {
+      var modal = document.getElementById("termsModal");
+      modal.style.display = "block";
+    },
+    closeTermsAndCondition: function closeTermsAndCondition() {
+      var modal = document.getElementById("termsModal");
+      modal.style.display = "none";
     }
   }
 });
@@ -4072,6 +4459,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4092,9 +4504,12 @@ __webpack_require__.r(__webpack_exports__);
         email: null,
         address: null,
         password: null,
-        confirm_password: null
+        confirm_password: null,
+        code: null
       },
-      saveError: null
+      saveError: null,
+      isMobile: window.screen.width <= 700,
+      isOTP: false
     };
   },
   created: function created() {
@@ -4119,11 +4534,26 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.status == 422) {
           _this.saveError = response.data.errors;
         } else {
-          alert("Profile successfully updated.");
-          _this.saveError = null;
-          location.reload();
+          // alert("Profile successfully updated.");
+          // this.saveError = null
+          // location.reload()
+          if (_this.form.code == null) {
+            _this.openOtpModal();
+          } else {
+            location.reload();
+          }
         }
       });
+    },
+    openOtpModal: function openOtpModal() {
+      var modal = document.getElementById("otpModal");
+      modal.style.display = "block";
+      this.isOTP = true;
+    },
+    closeOtpModal: function closeOtpModal() {
+      var modal = document.getElementById("otpModal");
+      modal.style.display = "none";
+      this.isOTP = false;
     }
   }
 });
@@ -4145,6 +4575,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Components_Toggle_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Components/Toggle.vue */ "./resources/js/Components/Toggle.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4430,7 +4888,8 @@ __webpack_require__.r(__webpack_exports__);
       formAddress: {
         restaurant_id: null,
         address: null
-      }
+      },
+      placeSelected: null
     };
   },
   created: function created() {
@@ -4445,10 +4904,14 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     activeCategory: function activeCategory(arg) {
       this.form.category = arg;
-    } // 'form.amount': function (arg) {
+    },
+    // 'form.amount': function (arg) {
     //     this.form.amount = parseFloat(arg).toFixed(2);
     // }
-
+    placeSelected: function placeSelected(arg) {
+      if (!arg) return;
+      this.openRemoveModal();
+    }
   },
   methods: {
     changeAmount: function changeAmount() {
@@ -4570,6 +5033,15 @@ __webpack_require__.r(__webpack_exports__);
       reader.onload = function (e) {
         _this4.restaurant[arg] = e.target.result;
       };
+    },
+    openRemoveModal: function openRemoveModal() {
+      var modal = document.getElementById("removeModal");
+      modal.style.display = "block";
+    },
+    closeRemoveModal: function closeRemoveModal() {
+      var modal = document.getElementById("removeModal");
+      modal.style.display = "none";
+      this.placeSelected = null;
     }
   }
 });
@@ -4721,7 +5193,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       orders: [],
       selected: null,
-      columns: ['Customer Name', 'Payment Method', 'G-Cash Ref. No.', 'Address', 'Status', 'Amount', 'Shipping Fee'],
+      columns: ['Customer Name', 'Payment Method', 'G-Cash Ref. No.', 'Address', 'Status', 'Amount', 'Shipping Fee', 'Total'],
       keys: [{
         label: 'customer_name'
       }, {
@@ -4736,6 +5208,8 @@ __webpack_require__.r(__webpack_exports__);
         label: 'amount'
       }, {
         label: 'shipping_fee'
+      }, {
+        label: 'total'
       }],
       form: {
         reference: null,
@@ -4752,6 +5226,7 @@ __webpack_require__.r(__webpack_exports__);
       x['display_status'] = x.display_status;
       x['address'] = x.address;
       x['amount'] = '₱ ' + x.amount.toFixed(2);
+      x['total'] = '₱ ' + x.total.toFixed(2);
       x['shipping_fee'] = '₱ ' + x.shipping_fee.toFixed(2);
       return x;
     });
@@ -5267,7 +5742,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.--text[data-v-1dd7bccc] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.checkoutModal[data-v-1dd7bccc] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.checkout-content[data-v-1dd7bccc] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px; \r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-1dd7bccc] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-1dd7bccc]:hover,\r\n.close[data-v-1dd7bccc]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--bg-gray[data-v-1dd7bccc] {\r\n    background: #C0C0C0;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.--text[data-v-1dd7bccc] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.checkoutModal[data-v-1dd7bccc] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.checkout-content[data-v-1dd7bccc] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px; \r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.removeModal[data-v-1dd7bccc] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 20%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.remove-content[data-v-1dd7bccc] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px; \r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n/* The Close Button */\n.close[data-v-1dd7bccc] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-1dd7bccc]:hover,\r\n.close[data-v-1dd7bccc]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--bg-gray[data-v-1dd7bccc] {\r\n    background: #C0C0C0;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5315,7 +5790,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.--main[data-v-0004d9e0] {\r\n\tbackground-image: url('/images/bg.jpg');\r\n\tbackground-repeat: no-repeat;\r\n \tbackground-size: cover;\n}\n.--login__register[data-v-0004d9e0] {\r\n\twidth: 380px;\r\n\theight: auto;\r\n\tbackground: #607EAA;\r\n\tborder-radius: 10px;\r\n\tposition: relative;\n}\n.--login__register--input[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 10px;\n}\n.--login__register--button[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 30px;\r\n\tbackground: #E4B934;\r\n\tcolor: #000000;\n}\n.--restaurant__list[data-v-0004d9e0]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\n.--text[data-v-0004d9e0] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.descriptionModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.registerModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.register-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.loginModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.login-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-0004d9e0] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-0004d9e0]:hover,\r\n.close[data-v-0004d9e0]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.--main[data-v-0004d9e0] {\r\n\tbackground-image: url('/images/bg.jpg');\r\n\tbackground-repeat: no-repeat;\r\n \tbackground-size: cover;\n}\n.--login__register[data-v-0004d9e0] {\r\n\twidth: 380px;\r\n\theight: auto;\r\n\tbackground: #607EAA;\r\n\tborder-radius: 10px;\r\n\tposition: relative;\n}\n.--login__register--input[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 10px;\n}\n.--login__register--button[data-v-0004d9e0] {\r\n\theight: 40px;\r\n\tborder-radius: 30px;\r\n\tbackground: #E4B934;\r\n\tcolor: #000000;\n}\n.--restaurant__list[data-v-0004d9e0]{\r\n\tborder: 1px solid #E4B934;\r\n\tborder-radius: 5px;\r\n\theight: 250px;\n}\n.--text[data-v-0004d9e0] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.descriptionModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.registerModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.register-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.loginModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.login-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.termsModal[data-v-0004d9e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 10%;\r\n  width: 100%; /* Full width */\r\n  height: 50vh; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.terms-content[data-v-0004d9e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-0004d9e0] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-0004d9e0]:hover,\r\n.close[data-v-0004d9e0]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--scrollable[data-v-0004d9e0] {\r\n\toverflow-x:hidden;\r\n\toverflow-y:scroll;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar {\r\n\twidth: 0px;\r\n\tbackground: white;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar-thumb {\r\n\tbackground: #ffffff;\r\n\theight:30px;\n}\n.--scrollable[data-v-0004d9e0]::-webkit-scrollbar-track-piece{\r\n\tdisplay:none;\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5339,7 +5814,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.--input[data-v-1bdc34e0] {\r\n    width: 100%;\r\n    height: 40px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    text-align: center;\n}\n.--btn[data-v-1bdc34e0] {\r\n    background: #E4B934;\r\n    border-radius: 10px;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: black;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.--input[data-v-1bdc34e0] {\r\n    width: 100%;\r\n    height: 40px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    text-align: center;\n}\n.--btn[data-v-1bdc34e0] {\r\n    background: #E4B934;\r\n    border-radius: 10px;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: black;\n}\n.otpModal[data-v-1bdc34e0] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.otp-content[data-v-1bdc34e0] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5363,7 +5838,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.modal-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.descriptionModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 10%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-31a36b26] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-31a36b26]:hover,\r\n.close[data-v-31a36b26]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--text[data-v-31a36b26] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.addressModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.address-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar {\r\n  width: 0px;\r\n  background: white;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar-thumb {\r\n  background: #ffffff;\r\n  height:30px;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar-track-piece{\r\n   display:none;\n}\n.--input[data-v-31a36b26] {\r\n    width: 100%;\r\n    height: 40px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    text-align: center;\n}\n.--btn[data-v-31a36b26] {\r\n    background: #E4B934;\r\n    border-radius: 10px;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: black;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: rgb(0,0,0); /* Fallback color */\r\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\r\n\r\n/* Modal Content */\n.modal-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.descriptionModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 10%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\n}\r\n\r\n/* Modal Content */\n.description-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-31a36b26] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-31a36b26]:hover,\r\n.close[data-v-31a36b26]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--text[data-v-31a36b26] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.addressModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.address-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar {\r\n  width: 0px;\r\n  background: white;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar-thumb {\r\n  background: #ffffff;\r\n  height:30px;\n}\n.--scroll[data-v-31a36b26]::-webkit-scrollbar-track-piece{\r\n   display:none;\n}\n.--input[data-v-31a36b26] {\r\n    width: 100%;\r\n    height: 40px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    text-align: center;\n}\n.--btn[data-v-31a36b26] {\r\n    background: #E4B934;\r\n    border-radius: 10px;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: black;\n}\n.removeModal[data-v-31a36b26] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  padding-top: 100px; /* Location of the box */\r\n  left: 0;\r\n  top: 20%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.remove-content[data-v-31a36b26] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px; \r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5387,7 +5862,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.orderModal[data-v-c65a1fb2] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: #ffffff;\n}\r\n\r\n/* Modal Content */\n.order-content[data-v-c65a1fb2] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-c65a1fb2] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-c65a1fb2]:hover,\r\n.close[data-v-c65a1fb2]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\ntable[data-v-c65a1fb2] {\r\n    border-collapse: collapse;\r\n    border-radius: 5px;\r\n    border-style: hidden;\r\n    box-shadow: 0 0 0 1px black;\n}\ntd[data-v-c65a1fb2] {\r\n    border: 1px solid black;\r\n    padding-top: 20px;\r\n    padding-bottom: 20px;\n}\nth[data-v-c65a1fb2] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: #ffffff;\r\n    padding-top: 20px;\r\n    padding-bottom: 20px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.orderModal[data-v-c65a1fb2] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 40%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: #ffffff;\n}\r\n\r\n/* Modal Content */\n.order-content[data-v-c65a1fb2] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-c65a1fb2] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-c65a1fb2]:hover,\r\n.close[data-v-c65a1fb2]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\ntable[data-v-c65a1fb2] {\r\n    border-collapse: collapse;\r\n    border-radius: 5px;\r\n    border-style: hidden;\r\n    box-shadow: 0 0 0 1px black;\n}\ntd[data-v-c65a1fb2] {\r\n    border: 1px solid black;\r\n    padding-top: 20px;\r\n    padding-bottom: 20px;\n}\nth[data-v-c65a1fb2] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\r\n    padding-top: 20px;\r\n    padding-bottom: 20px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -64786,7 +65261,11 @@ var render = function() {
             attrs: { src: "/images/logo2.jpg" },
             on: {
               click: function($event) {
-                _vm.auth.role == "3" ? _vm.changeActive("/customers") : ""
+                _vm.auth.role == "3"
+                  ? _vm.changeActive("/customers")
+                  : _vm.auth.role == "1"
+                  ? _vm.changeActive("/users")
+                  : _vm.changeActive("/restaurants")
               }
             }
           })
@@ -64861,7 +65340,7 @@ var render = function() {
                   ? _c(
                       "div",
                       {
-                        staticClass: "cursor-pointer",
+                        staticClass: "cursor-pointer relative",
                         class: {
                           "--active": _vm.active == "/restaurants/my-trays",
                           "mx-5": !_vm.isMobile,
@@ -64903,7 +65382,28 @@ var render = function() {
                               [_vm._v("TRAYS")]
                             )
                           ]
-                        )
+                        ),
+                        _vm._v(" "),
+                        _vm.auth.trays > 0
+                          ? _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "absolute text-red-700 font-bold text-xl",
+                                staticStyle: {
+                                  top: "-0.8rem",
+                                  right: "-0.8rem"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(_vm.auth.trays) +
+                                    "\n                    "
+                                )
+                              ]
+                            )
+                          : _vm._e()
                       ]
                     )
                   : _vm._e(),
@@ -64963,7 +65463,7 @@ var render = function() {
                   ? _c(
                       "div",
                       {
-                        staticClass: "cursor-pointer",
+                        staticClass: "cursor-pointer relative",
                         class: {
                           "--active": _vm.active == "/orders",
                           "mx-5": !_vm.isMobile,
@@ -65005,7 +65505,28 @@ var render = function() {
                               [_vm._v("AYS")]
                             )
                           ]
-                        )
+                        ),
+                        _vm._v(" "),
+                        _vm.auth.trays > 0
+                          ? _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "absolute text-red-700 font-bold text-xl",
+                                staticStyle: {
+                                  top: "-0.8rem",
+                                  right: "-0.8rem"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(_vm.auth.trays) +
+                                    "\n                    "
+                                )
+                              ]
+                            )
+                          : _vm._e()
                       ]
                     )
                   : _vm._e(),
@@ -65329,7 +65850,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                            Pending\n                        "
+                          "\n                                Pending\n                            "
                         )
                       ]
                     )
@@ -65375,7 +65896,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                            To Process\n                        "
+                          "\n                                To Process\n                            "
                         )
                       ]
                     )
@@ -65421,7 +65942,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                            To Deliver\n                        "
+                          "\n                                To Deliver\n                            "
                         )
                       ]
                     )
@@ -65467,7 +65988,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                            To Receive\n                        "
+                          "\n                                To Receive\n                            "
                         )
                       ]
                     )
@@ -65491,11 +66012,11 @@ var render = function() {
                     { staticClass: "w-full flex justify-center items-center" },
                     [
                       _c("img", {
-                        class: { "--bg-gray": _vm.activeTab == "to_receive" },
+                        class: { "--bg-gray": _vm.activeTab == "received" },
                         staticStyle: { height: "80p" },
                         style: {
                           width: _vm.isMobile ? "50px" : "80px",
-                          width: _vm.isMobile ? "50px" : "150px"
+                          width: _vm.isMobile ? "50px" : "90px"
                         },
                         attrs: { src: "/images/history.png" }
                       })
@@ -65514,7 +66035,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                            History\n                        "
+                          "\n                                History\n                            "
                         )
                       ]
                     )
@@ -65621,7 +66142,7 @@ var render = function() {
                                       "float-right pt-1 pr-2 cursor-pointer",
                                     on: {
                                       click: function($event) {
-                                        return _vm.removeProduct(order.id)
+                                        _vm.orderSelected = order.id
                                       }
                                     }
                                   },
@@ -65646,9 +66167,9 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "\n                                " +
+                                  "\n                                    " +
                                     _vm._s(order.product.name) +
-                                    "\n                            "
+                                    "\n                                "
                                 )
                               ]
                             )
@@ -65701,9 +66222,9 @@ var render = function() {
                               [
                                 _c("p", { staticClass: "text-lg mt-1" }, [
                                   _vm._v(
-                                    "\n                                    ₱" +
+                                    "\n                                        ₱" +
                                       _vm._s(order.amount.toFixed(2)) +
-                                      "\n                                "
+                                      "\n                                    "
                                   )
                                 ])
                               ]
@@ -65733,7 +66254,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                Order Recieved\n                            "
+                                        "\n                                    Order Recieved\n                                "
                                       )
                                     ]
                                   )
@@ -65789,7 +66310,7 @@ var render = function() {
                 _c("div", { staticClass: "w-full" }, [
                   _c("span", { staticClass: "text-lg font-bold" }, [
                     _vm._v(
-                      "\n                       Checkout\n                    "
+                      "\n                           Checkout\n                        "
                     )
                   ]),
                   _vm._v(" "),
@@ -65874,9 +66395,9 @@ var render = function() {
                                           { staticClass: "text-md font-bold" },
                                           [
                                             _vm._v(
-                                              "\n                                        " +
+                                              "\n                                            " +
                                                 _vm._s(order.product.name) +
-                                                "\n                                    "
+                                                "\n                                        "
                                             )
                                           ]
                                         )
@@ -65892,11 +66413,11 @@ var render = function() {
                                           { staticClass: "text-md mt-1" },
                                           [
                                             _vm._v(
-                                              "\n                                        ₱" +
+                                              "\n                                            ₱" +
                                                 _vm._s(
                                                   order.amount.toFixed(2)
                                                 ) +
-                                                "\n                                    "
+                                                "\n                                        "
                                             )
                                           ]
                                         )
@@ -65913,7 +66434,7 @@ var render = function() {
                       _c("div", { staticClass: "w-full flex flex-row" }, [
                         _c("div", { staticClass: "w-full text-left pl-5" }, [
                           _vm._v(
-                            " \n                            Payment Details "
+                            " \n                                Payment Details "
                           ),
                           _c("i", {
                             staticClass: "fa-solid fa-file-invoice-dollar ml-1"
@@ -65924,15 +66445,15 @@ var render = function() {
                       _c("div", { staticClass: "w-full flex flex-row mt-2" }, [
                         _c("div", { staticClass: "w-full text-left pl-5" }, [
                           _vm._v(
-                            "\n                            Subtotal: \n                        "
+                            "\n                                Subtotal: \n                            "
                           )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "w-full text-left pl-5" }, [
                           _vm._v(
-                            "\n                            ₱ " +
+                            "\n                                ₱ " +
                               _vm._s(_vm.sumAmount(orders).toFixed(2)) +
-                              "\n                        "
+                              "\n                            "
                           )
                         ])
                       ]),
@@ -65940,13 +66461,13 @@ var render = function() {
                       _c("div", { staticClass: "w-full flex flex-row" }, [
                         _c("div", { staticClass: "w-full text-left pl-5" }, [
                           _vm._v(
-                            "\n                            Shipping Fee: \n                        "
+                            "\n                                Shipping Fee: \n                            "
                           )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "w-full text-left pl-5" }, [
                           _vm._v(
-                            "\n                            ₱ 60.00\n                        "
+                            "\n                                ₱ 60.00\n                            "
                           )
                         ])
                       ]),
@@ -65954,15 +66475,15 @@ var render = function() {
                       _c("div", { staticClass: "w-full flex flex-row" }, [
                         _c("div", { staticClass: "w-full text-left pl-5" }, [
                           _vm._v(
-                            "\n                            Total: \n                        "
+                            "\n                                Total: \n                            "
                           )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "w-full text-left pl-5" }, [
                           _vm._v(
-                            "\n                            ₱ " +
+                            "\n                                ₱ " +
                               _vm._s(_vm.getTotal(_vm.sumAmount(orders), 60)) +
-                              "\n                        "
+                              "\n                            "
                           )
                         ])
                       ]),
@@ -65976,7 +66497,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                            Mode of Payment:\n                        "
+                              "\n                                Mode of Payment:\n                            "
                             )
                           ]
                         ),
@@ -66063,7 +66584,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                            Owner G-Cash #:\n                        "
+                                    "\n                                Owner G-Cash #:\n                            "
                                   )
                                 ]
                               ),
@@ -66076,9 +66597,9 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                            " +
+                                    "\n                                " +
                                       _vm._s(_vm.gcashNumber) +
-                                      "\n                        "
+                                      "\n                            "
                                   )
                                 ]
                               )
@@ -66147,7 +66668,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                            Other Address:\n                        "
+                              "\n                                Other Address:\n                            "
                             )
                           ]
                         ),
@@ -66264,7 +66785,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                            Available Address:\n                        "
+                              "\n                                Available Address:\n                            "
                             )
                           ]
                         ),
@@ -66319,7 +66840,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                            Confirm\n                        "
+                              "\n                                Confirm\n                            "
                             )
                           ]
                         )
@@ -66330,6 +66851,82 @@ var render = function() {
                 })
               ],
               2
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "removeModal", attrs: { id: "removeModal" } },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "remove-content flex flex-col",
+                staticStyle: { border: "2px solid #E4B934" },
+                style: { width: _vm.isMobile ? "80%" : "20%" }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "w-full text-lg font-bold text-center" },
+                  [
+                    _vm._v(
+                      "\n\t\t\t\t\t\tAre you sure to delete this order ?\n\t\t\t\t\t"
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-full flex flex-row mt-10" }, [
+                  _c("div", { staticClass: "w-full" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "w-full py-1 text-white",
+                        staticStyle: {
+                          "border-radius": "5px",
+                          width: "93%",
+                          background: "#000000"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.closeRemoveModal()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                No\n                            "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-full" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "w-full py-1 text-black",
+                        staticStyle: {
+                          "border-radius": "5px",
+                          width: "93%",
+                          background: "#E4B934"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.removeProduct(_vm.orderSelected)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Yes\n                            "
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ]
             )
           ]
         )
@@ -67525,12 +68122,27 @@ var render = function() {
       ? _c(
           "div",
           {
-            staticClass: "flex flex-col justify-center items-center fixed",
+            staticClass:
+              "flex flex-col justify-center items-center fixed overflow-y-scroll --scrollable",
             staticStyle: { background: "#000000", height: "100%" },
             style: { width: _vm.isMobile ? "100%" : "20%" }
           },
           [
-            _vm._m(0),
+            _c(
+              "div",
+              {
+                staticClass: "w-full mb-5 relative",
+                class: { "mt-36": _vm.isRegister },
+                style: { top: _vm.isRegister ? "0" : "-5rem" }
+              },
+              [
+                _c("img", {
+                  staticClass: "w-full px-20",
+                  staticStyle: { height: "150px" },
+                  attrs: { src: "/images/logo2.jpg" }
+                })
+              ]
+            ),
             _vm._v(" "),
             !_vm.isRegister
               ? _c(
@@ -67698,11 +68310,10 @@ var render = function() {
               : _c(
                   "div",
                   {
-                    staticClass: "mx-2 relative",
+                    staticClass: "mx-2 relative mb-10",
                     staticStyle: {
                       border: "1px solid #FFFFFF",
-                      "border-radius": "5px",
-                      top: "-3rem"
+                      "border-radius": "5px"
                     }
                   },
                   [
@@ -68065,7 +68676,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("span", { staticClass: "text-xs text-white" }, [
                           _vm._v(
-                            "Note: Please upload front, back and a selfie with ID picture.  "
+                            "Note: Please upload front and a selfie holding ID picture.  "
                           )
                         ]),
                         _c("br"),
@@ -68109,7 +68720,7 @@ var render = function() {
                       _vm.formRegisterData.role == 2
                         ? _c("div", { staticClass: "text-white" }, [
                             _c("label", { staticClass: "mt-1 font-bold" }, [
-                              _vm._v("Restaurant Display Picture")
+                              _vm._v("Local Food Joint Display Picture")
                             ]),
                             _c("br"),
                             _vm._v(" "),
@@ -68144,7 +68755,7 @@ var render = function() {
                       _vm.formRegisterData.role == 2
                         ? _c("div", { staticClass: "text-white" }, [
                             _c("label", { staticClass: "mt-1 font-bold" }, [
-                              _vm._v("Restaurant Banner")
+                              _vm._v("Local Food Joint Banner")
                             ]),
                             _c("br"),
                             _vm._v(" "),
@@ -68179,7 +68790,7 @@ var render = function() {
                       _vm.formRegisterData.role == 2
                         ? _c("div", { staticClass: "text-white" }, [
                             _c("label", { staticClass: "mt-1 font-bold" }, [
-                              _vm._v("Restaurant Business Permit")
+                              _vm._v("Local Food Joint Business Permit")
                             ]),
                             _c("br"),
                             _vm._v(" "),
@@ -68212,11 +68823,73 @@ var render = function() {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.termsAndCondition,
+                            expression: "termsAndCondition"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.termsAndCondition)
+                            ? _vm._i(_vm.termsAndCondition, null) > -1
+                            : _vm.termsAndCondition
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.termsAndCondition,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.termsAndCondition = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.termsAndCondition = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.termsAndCondition = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "text-white cursor-pointer hover:underline",
+                          on: {
+                            click: function($event) {
+                              return _vm.openTermsAndCondition()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            " \n\t\t\t\t\t\tTerms and Condition \n\t\t\t\t\t"
+                          )
+                        ]
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
                       _c(
                         "button",
                         {
                           staticClass:
                             "w-full  my-2 --login__register--button text-center",
+                          class: {
+                            "cursor-not-allowed": !_vm.termsAndCondition
+                          },
+                          attrs: { disabled: !_vm.termsAndCondition },
                           on: {
                             click: function($event) {
                               return _vm.sendRegisterVerification()
@@ -68281,7 +68954,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._m(1)]
+                  [_vm._m(0)]
                 )
               : _vm._e()
           ]
@@ -68316,7 +68989,7 @@ var render = function() {
                       _c("img", {
                         staticClass: "w-full",
                         style: { height: "250px" },
-                        attrs: { src: banner, alt: "" }
+                        attrs: { src: "/images/uploads/" + banner, alt: "" }
                       })
                     ])
                   ]
@@ -68711,7 +69384,7 @@ var render = function() {
                 style: { width: _vm.isMobile ? "80%" : "20%" }
               },
               [
-                _vm._m(2),
+                _vm._m(1),
                 _vm._v(" "),
                 _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
                   _c("div", { staticClass: "w-full" }, [
@@ -68780,7 +69453,7 @@ var render = function() {
               style: { width: _vm.isMobile ? "80%" : "20%" }
             },
             [
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
                 _c("div", { staticClass: "w-full" }, [
@@ -68833,28 +69506,80 @@ var render = function() {
               ])
             ]
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "termsModal overflow-y-scroll --scrollable",
+            attrs: { id: "termsModal" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "terms-content flex flex-col",
+                staticStyle: { border: "2px solid #E4B934" },
+                style: { width: _vm.isMobile ? "80%" : "20%" }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "w-full flex flex-col mt-4 text-sm" },
+                  [
+                    _c("div", { staticClass: "w-full" }, [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "float-right cursor-pointer",
+                          on: {
+                            click: function($event) {
+                              return _vm.closeTermsAndCondition()
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa-solid fa-xmark" })]
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(3),
+                _vm._v(" "),
+                _vm._m(4),
+                _vm._v(" "),
+                _vm._m(5),
+                _vm._v(" "),
+                _vm._m(6),
+                _vm._v(" "),
+                _vm._m(7),
+                _vm._v(" "),
+                _vm._m(8),
+                _vm._v(" "),
+                _vm._m(9),
+                _vm._v(" "),
+                _vm._m(10),
+                _vm._v(" "),
+                _vm._m(11),
+                _vm._v(" "),
+                _vm._m(12),
+                _vm._v(" "),
+                _vm._m(13),
+                _vm._v(" "),
+                _vm._m(14),
+                _vm._v(" "),
+                _vm._m(15),
+                _vm._v(" "),
+                _vm._m(16)
+              ]
+            )
+          ]
+        )
       ]
     )
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "w-full mb-5 relative", staticStyle: { top: "-5rem" } },
-      [
-        _c("img", {
-          staticClass: "w-full px-20",
-          staticStyle: { height: "150px" },
-          attrs: { src: "/images/logo2.jpg" }
-        })
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -68890,6 +69615,552 @@ var staticRenderFns = [
         _vm._v("\n\t\t\t\t\t\t\tVerification Code\n\t\t\t\t\t\t")
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full" }, [
+      _c("b", [_vm._v("TERMS and CONDITIONS")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tThese Terms and Conditions (“Terms”) govern your use of the websites provided by Food Hub (or referred to as “us”) (collectively the “website”). Please read these Terms carefully. By accessing and using the website, you agree that you have read, understood, and accepted the Terms including any additional terms and conditions and any policies referenced herein, available on the website. If you do not agree to or fall within the Terms, please do not use the website.\n\t\t\t\t\t\t\tThe website may be used by (i) natural persons who have (ii) corporate legal entities, e.g local food joints. Where applicable, these Terms shall be subject to country provisions as set out herein.\n\t\t\t\t\t\t\tFood Hub reserves the right to change or modify these Terms (including our policies which are incorporated into these Terms) at any time. You are strongly recommended to read these Terms regularly. You will be deemed to have agreed to the amended Terms by your continued use of the website following the date on which the amended Terms are posted.\n\t\t\t\t\t\t"
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("1. Food Hub")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v("\n\t\t\t\t\t\t\t\t1.1 What we do\n\t\t\t\t\t\t\t")
+      ]),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tThese Terms and Conditions (“Terms”) govern your use of the websites provided by Food Hub (or referred to as “us”) (collectively the “website”). Please read these Terms carefully. By accessing and using the website, you agree that you have read, understood, and accepted the Terms including any additional terms and conditions and any policies referenced herein, available on the website. If you do not agree to or fall within the Terms, please do not use the website.\n\t\t\t\t\t\t\tThe website may be used by (i) natural persons who have (ii) corporate legal entities, e.g local food joints. Where applicable, these Terms shall be subject to country provisions as set out herein.\n\t\t\t\t\t\t\tFood Hub reserves the right to change or modify these Terms (including our policies which are incorporated into these Terms) at any time. You are strongly recommended to read these Terms regularly. You will be deemed to have agreed to the amended Terms by your continued use of the website following the date on which the amended Terms are posted.\n\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v("\n\t\t\t\t\t\t\t\t1.2  How to contact us\n\t\t\t\t\t\t\t")
+      ]),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tThese Terms and Conditions (“Terms”) govern your use of the websites provided by Food Hub (or referred to as “us”) (collectively the “website”). Please read these Terms carefully. By accessing and using the website, you agree that you have read, understood, and accepted the Terms including any additional terms and conditions and any policies referenced herein, available on the website. If you do not agree to or fall within the Terms, please do not use the website.\n\t\t\t\t\t\t\tThe website may be used by (i) natural persons who have (ii) corporate legal entities, e.g local food joints. Where applicable, these Terms shall be subject to country provisions as set out herein.\n\t\t\t\t\t\t\tFood Hub reserves the right to change or modify these Terms (including our policies which are incorporated into these Terms) at any time. You are strongly recommended to read these Terms regularly. You will be deemed to have agreed to the amended Terms by your continued use of the website following the date on which the amended Terms are posted.\n\t\t\t\t\t\t\n\t\t\t\t\t\t"
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("2. Terms and Condition for Local Food Joints")]),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [
+        _vm._v("Use of the website and food hub Account (Owner and Customer)")
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t2.1 You will need to register food hub (“User Account”) for you to use the Platform. When you register for a food hub Account, we will ask you to provide your personal information including your Full name, Email Address, Contact Number, Password, ID Picture, Restaurant Banner, and Restaurant Display Picture (hereinafter collectively referred as “User’s Details”). We reserve the right to request further information or documentation from you to comply with our legal obligations. Your unique password should not be shared with anyone, and you agree to keep it always secret. You are solely responsible for keeping your password safe. Save for cases of fraud or abuse which are not your fault, you accept that all Orders placed under your food hub Account are your sole responsibility.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t2.2 If you wish to delete your Account, please send us an email requesting the same. We may restrict, suspend, or terminate your Food Hub Account and/or use of the Platforms, if we reasonably believe that:\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t2.3. Where you are suspected or discovered to have been involved in any activity or conduct that is in breach of these Terms, our policies, and guidelines, or involved in activity or conduct which we deem in our sole discretion to be an abuse of the Platforms.\n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("3. Intellectual Property")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tAll trademarks, logos, images, and service marks, including these Terms as displayed on the Platforms or in our marketing material, whether verified or non-verified, are the intellectual property of food hub and/or third parties who have authorized us to use their trademarks, logos, images, and service marks (collectively the “Trademarks”). You may not use, copy, reproduce, republish, upload, post, transmit, distribute, or modify these Trademarks in any way without our prior express written consent. The use of food hub’s trademarks on any other website not approved by us is strictly prohibited. Food hub will aggressively fully enforce its intellectual property rights of the law, including criminal prosecution. Food hub neither warrants nor represents that your use of materials displayed on the Platforms will not infringe rights of third parties not owned by or affiliated with food hub. Use of any materials on the Platforms is at your own risk.\n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("4. Orders")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t4.1 When you place an Order with food hub, food joints will confirm your order containing the Order receipt. Where applicable, Orders will include delivery fees.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t4.2 Special Instructions – food hub and the food joints (as the case may be) reasonably endeavor to comply with your special instructions for an Order. However, in some cases where this is not feasible, possible, or commercially reasonable, food hub and/or the food joints reserve the right to proceed to prepare the Order in accordance with standard operating procedures.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t4.3 Allergens – food hub is not obligated to provide ingredient information or allergen information on the Platforms. Further, food hub does not guarantee that the Goods sold by food joints are free of allergens. If you have allergies, allergic reactions or dietary restrictions and requirements, please contact the food joints before placing an Order on our Platforms.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t4.4 Please note that your Order may be subject to additional terms and conditions provided by the food joints.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v("\n\t\t\t\t\t\t\t\tPrior to placing the Order\n\t\t\t\t\t\t\t")
+      ]),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tTo complete an Order, please follow the onscreen instructions after clicking ‘Checkout’. You may be required to provide additional details for us to complete your order. You are required to review and confirm that all the information you provide, including the amounts, delivery details, payment information is true, accurate and complete before you click “PLACE ORDER”. An Order is successfully placed when you see your orders is on process containing your receipt from us. You are required to provide the delivery address in profile the Platform to display the food joints available in your delivery area. Once you select a food joints, you will be taken to that food joint’s menu page for you to select and add your Goods to the tray.\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", { staticClass: "w-full" }, [
+        _vm._v("\n\t\t\t\t\t\t\t\tNo Cancelling an Order\n\t\t\t\t\t\t\t")
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tThe customers have no cancellation of orders once they have paid or place an order"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [
+        _vm._v("G-cash Payment Orders / Cash-on-Delivery Orders (“COD”)")
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tOur food hub has no refund for your order if a food joint has not accepted your Order. Should you decide to order another product if your wants have not available you understand that no refunds will be issued to you, and you forfeit the delivery of your cancelled order.\n\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _c("br")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("5. Prices")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t5.1 Prices quoted on the Platform shall be displayed in the applicable country’s national currency. Prices and offers on the Platforms may vary from the prices and you accept the offers offered by our food joints.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t5.2 The way we display the prices of our goods may Cary depending on the food joint and the prices reflected on our platforms may:\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v("\n\t\t\t\t\t\t\t\t5.3 Delivery fees are fixed.\n\t\t\t\t\t\t\t")
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t5.4 You can only choose to pay an order using cash on delivery (COD) or G-cash payment methods offered on the platforms\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _c("br"),
+      _c("br")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("6. Delivery Areas")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tYou understand that our food joint offers their products in specific delivery areas and our food joints vary from delivery area to delivery area. By entering your address on the platforms, you will see the food joints that we make available to you at that time.\n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("7. Food Joints Liability")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tFood joints are responsible for the preparation, condition, and quality of Goods. In cases of food joints Delivery, food joints are responsible for delivery of the Goods and/or Orders. But food hub is not responsible in deliver. Food hub shall not be liable for any loss or damage arising from your contractual relationship with the Vendor.\n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("8. Personal Data (Personal Information) Protection")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tYou agree and consent to food hub and any of its affiliate companies collecting, using, processing, and disclosing your Personal Data in accordance with these Terms and as further described in our Privacy Policy. \n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("9. Amendments")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tFood hub may amend these Terms at any time in its sole discretion. The amended Terms shall be effective immediately upon posting and you agree to the new Terms by continued use of the Platforms. It is your responsibility to check the Terms regularly. If you do not agree with the amended Terms, whether in whole or in part, you must stop using the Platforms immediately.\n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("10. Deletion")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tFood hub has the right to suspend or delete your Food hub Account and access to the Platforms with immediate effect for any reason, including, without limitation, if Food hub, in its sole discretion, considers your use to be unacceptable, or in case of noncompliance or serious suspicion of non-compliance with the applicable laws, including, but not limited to, anti-money laundering and terrorist financing laws and regulations. Food hub may, but shall be under no obligation to, provide you a warning prior to termination of your use of the Platforms.\n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("11. Severability")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tIf any provision of these Terms is found to be invalid by any court having competent jurisdiction, the invalidity of such provision shall not affect the validity of the remaining provisions of these Terms which shall remain in full force and effect. No waiver of any provision in these Terms shall be deemed a further or continuing waiver of such provision or any other provision.\n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("11 Prevailing Language")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tIn the event of a dispute as to the Terms, the English version shall prevail. The English language version of these Terms shall control in all respects and shall prevail in case of any inconsistencies with translated versions.\n\t\t\t\t\t\t\t"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-2" }, [
+      _c("b", [_vm._v("Privacy Policy")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("1. Who we are")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tWe are the developers of the food hub for the local food joints.\n\n\t\t\t\t\t\t\t\tAs regards the processing activities conducted on our platform, we will be the data controller responsible for what happens with your personal data. “Data Controller” is a legal term and simply means that we are the party determining how your personal data is processed, for what purposes this is done and by what means. While we are required by law to provide you with all the following information, we do so also out of the belief that a partnership should always be honest.\n\n\t\t\t\t\t\t\t\tWhile using our platform, registering, or placing orders you agree to this privacy policy. This privacy policy applies to all personal data obtained by us through your use of our platform. The relevant privacy policies set out in the respective sites shall apply in those cases.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("2. Privacy is your right, and the choice is yours")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tAs a customer you have the choice which information you would like to share with us. Please be aware, however, that when signing up to our platform, you are required to accept our terms of use the platform. Legally speaking this means you will enter a contract with us under which you are entitled to use the platform, in accordance with terms of use. Of course, we need some information from you to be able to perform our obligations under this contract. However, it is entirely up to you to choose whether you would like to provide such information or would rather not use our platform.\n\n\t\t\t\t\t\t\t\tCookies & web-tracking: You can set your device or web browser to decline cookies and other web-tracking technologies. If you deactivate web-tracking you will no longer see any personalized contents, offers or ads.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("3. Your Legal Rights")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("Right to access")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tYou have the right to be informed which data we store about you and how we process this data.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("Right to rectification")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tIf you notice that stored data is incorrect, you can always ask us to correct it.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("Right to erasure ")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tYou can ask at any time to delete the data we have stored about you.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("Right to data portability")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\tYou can ask us to transmit the data stored about you in a machine-readable format to you or to another responsible person.\n\t\t\t\t\t\t\t"
+        )
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("4. An overview of the personal data we process")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tIn this section you can find general information about the categories of personal data we process about you. For your understanding, personal data is information that directly identifies you (such as your name or photo picture) or enables us to indirectly identify you (for example, since a user ID linked with the personal information in your profile).\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v("\n\n\t\t\t\t\t\t\tA. Profile data (master data) "),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tThis includes your full name, email address, phone number, address, age."
+      ),
+      _c("br"),
+      _vm._v("\n\t\t\t\t\t\t\tWhy do we process this category?"),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tThis data is your personal data, which we absolutely need for our services. Without an email address / contact number, Valid ID and a password, you cannot create a profile together with your full name, this is your personal data. We need you to ensure that you are legitimate customers.\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v("\n\n\t\t\t\t\t\t\tB. Customer care data"),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tThis Includes your full name, address, contact number, email address and your Valid ID."
+      ),
+      _c("br"),
+      _vm._v("\n\t\t\t\t\t\t\tWhy do we process this category?"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tIf you contact us, we collect this data because we need to know who we are talking to and what we have been talking about so that we can help you with your reason for contacting us. "
+      ),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [
+        _vm._v(
+          "5. We process your personal data only in accordance with relevant data protection laws. "
+        )
+      ]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tWe pay particular attention to the fact that all principles for the processing of personal data are considered. Therefore, we only process your data if this lawful and you reasonably expect it to be processed.\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tThe processing of your personal data is essential. You do provide us with some of this data proactively y entering them on your device. Other data we collect automatically when you are using our platforms.\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tWe process your personal data for the following purposes(“Purpose”):\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tI.Creating and operating your account: delivering your orders"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tWhen creating a customer, you will be asked to enter your data. This is necessary, as we cannot create a customer profile without this data. Your email address and contact number are particularly important, as we can use this information to identify you in our system the next time you want to login again. Furthermore, we would like to ask you to choose your password carefully.\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v("\n\n\t\t\t\t\t\t\tLogin to an existing account"),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tIf you already have an existing customer account, you will need to enter your email address and password to log in."
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("6. Order Processing. ")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tYou can log in to your profile at any time and change your personal data, such as name, email address or contact number. You can also view your previous orders."
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("7. Managing your profile. ")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tOnce you have successfully verified and decided to place your order, we will store this information in your profile and process it in further processes so that you can submit your order to us. When you submit your order, your personal data is transferred to our backend where it is transferred to other window for further processing."
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("8. Delivering your order ")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tOnce you have successfully placed your order, several processes are running in the background to ensure that your order is delivered quickly. This includes sharing your order data with the restaurant preparing your meal as well as with the rider delivering your order."
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("9. Customer Relationship Management ")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tYour satisfaction is our biggest goal. Therefore, we are very keen to be available for all your questions and to answer them. To be able to answer these questions and understand the overall problem, we store the conversation content in our Customer Relationship Management System when you contact us."
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("10. Who we share your personal data with ")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tWe never give your data to unauthorized third parties. However, to run our business efficiently, we obtain the services of selected service providers and give them limited and strictly monitored access to some of our data, to fulfil the Purposes. Before we forward personal data to the local food joint for processing on our behalf, all data recipients must meet the legal data protection requirements and undertake to protect your personal data to a comparable standard as required under the DPA, the DPA IRR and other relevant data protection laws."
+      ),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("11. Right of modification ")]),
+      _c("br"),
+      _c("br"),
+      _vm._v(
+        "\n\t\t\t\t\t\t\tWe reserve the right to change this privacy notice to ensure compliance with relevant legal and statutory provisions, including the DPA and the DPA IRR. We will inform you of any significant changes, such as changes of purpose or new purposes of processing. The updated version will be posted on our website it is your responsibility to review the Privacy Policy regularly. Your continued use of the website to purchase products from us or engage with food hub following the modifications, updates, or amendments to this Policy, whether or not reviewed by you, shall constitute your agreement to be bound by such amendments."
+      ),
+      _c("br"),
+      _c("br")
+    ])
   }
 ]
 render._withStripped = true
@@ -68919,252 +70190,333 @@ var render = function() {
       _c("div", { staticClass: "w-full mt-3" }, [
         _c("span", { staticClass: "text-2xl ml-2 font-bold" }, [
           _c("i", { staticClass: "fa-solid fa-user mr-3" }),
-          _vm._v("Profile\n            ")
+          _vm._v("Profile\n                ")
         ])
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "w-full h-full mt-5 flex justify-center items-center" },
-        [
-          _c(
+      !_vm.isOTP
+        ? _c(
             "div",
             {
-              staticClass: "flex flex-col w-full md:w-1/4",
-              staticStyle: {
-                border: "1px solid black",
-                "border-radius": "10px"
-              }
+              staticClass: "w-full h-full mt-5 flex justify-center items-center"
             },
             [
-              _c("div", { staticClass: "px-5 py-3" }, [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("Name:")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.name,
-                      expression: "form.name"
-                    }
-                  ],
-                  staticClass: "--input py-1",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.form.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "name", $event.target.value)
-                    }
+              _c(
+                "div",
+                {
+                  staticClass: "flex flex-col w-full md:w-1/4",
+                  staticStyle: {
+                    border: "1px solid black",
+                    "border-radius": "10px"
                   }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "text-xs text-red-500" }, [
-                  _vm._v(
-                    _vm._s(_vm.validationError("name", _vm.saveError)) + " "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-5 py-3" }, [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("Contact:")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.phone,
-                      expression: "form.phone"
-                    }
-                  ],
-                  staticClass: "--input py-1",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.form.phone },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                },
+                [
+                  _c("div", { staticClass: "px-5 py-3" }, [
+                    _c("label", { attrs: { for: "name" } }, [_vm._v("Name:")]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.name,
+                          expression: "form.name"
+                        }
+                      ],
+                      staticClass: "--input py-1",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.form.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "name", $event.target.value)
+                        }
                       }
-                      _vm.$set(_vm.form, "phone", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "text-xs text-red-500" }, [
-                  _vm._v(
-                    _vm._s(_vm.validationError("phone", _vm.saveError)) + " "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-5 py-3" }, [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("Email:")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.email,
-                      expression: "form.email"
-                    }
-                  ],
-                  staticClass: "--input py-1",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.form.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "email", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "text-xs text-red-500" }, [
-                  _vm._v(
-                    _vm._s(_vm.validationError("email", _vm.saveError)) + " "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-5 py-3" }, [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("Address:")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.address,
-                      expression: "form.address"
-                    }
-                  ],
-                  staticClass: "--input py-1",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.form.address },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "address", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "text-xs text-red-500" }, [
-                  _vm._v(
-                    _vm._s(_vm.validationError("address", _vm.saveError)) + " "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-5 py-3" }, [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("Password:")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.password,
-                      expression: "form.password"
-                    }
-                  ],
-                  staticClass: "--input py-1",
-                  attrs: { type: "password", placeholder: "********" },
-                  domProps: { value: _vm.form.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "password", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "text-xs text-red-500" }, [
-                  _vm._v(
-                    _vm._s(_vm.validationError("password", _vm.saveError)) + " "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-5 py-3" }, [
-                _c("label", { attrs: { for: "name" } }, [
-                  _vm._v("Confirm Password:")
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.confirm_password,
-                      expression: "form.confirm_password"
-                    }
-                  ],
-                  staticClass: "--input py-1",
-                  attrs: { type: "password", placeholder: "********" },
-                  domProps: { value: _vm.form.confirm_password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.form,
-                        "confirm_password",
-                        $event.target.value
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "text-xs text-red-500" }, [
+                      _vm._v(
+                        _vm._s(_vm.validationError("name", _vm.saveError)) + " "
                       )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "text-xs text-red-500" }, [
-                  _vm._v(
-                    _vm._s(
-                      _vm.validationError("confirm_password", _vm.saveError)
-                    ) + " "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-5 pt-3 pb-5" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "--btn py-2",
-                    on: {
-                      click: function($event) {
-                        return _vm.submit()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "px-5 py-3" }, [
+                    _c("label", { attrs: { for: "name" } }, [
+                      _vm._v("Contact:")
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.phone,
+                          expression: "form.phone"
+                        }
+                      ],
+                      staticClass: "--input py-1",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.form.phone },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "phone", $event.target.value)
+                        }
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Submit\n                    "
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "text-xs text-red-500" }, [
+                      _vm._v(
+                        _vm._s(_vm.validationError("phone", _vm.saveError)) +
+                          " "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "px-5 py-3" }, [
+                    _c("label", { attrs: { for: "name" } }, [_vm._v("Email:")]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.email,
+                          expression: "form.email"
+                        }
+                      ],
+                      staticClass: "--input py-1",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.form.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "email", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "text-xs text-red-500" }, [
+                      _vm._v(
+                        _vm._s(_vm.validationError("email", _vm.saveError)) +
+                          " "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "px-5 py-3" }, [
+                    _c("label", { attrs: { for: "name" } }, [
+                      _vm._v("Address:")
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.address,
+                          expression: "form.address"
+                        }
+                      ],
+                      staticClass: "--input py-1",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.form.address },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "address", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "text-xs text-red-500" }, [
+                      _vm._v(
+                        _vm._s(_vm.validationError("address", _vm.saveError)) +
+                          " "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "px-5 py-3" }, [
+                    _c("label", { attrs: { for: "name" } }, [
+                      _vm._v("Password:")
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.password,
+                          expression: "form.password"
+                        }
+                      ],
+                      staticClass: "--input py-1",
+                      attrs: { type: "password", placeholder: "********" },
+                      domProps: { value: _vm.form.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "password", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "text-xs text-red-500" }, [
+                      _vm._v(
+                        _vm._s(_vm.validationError("password", _vm.saveError)) +
+                          " "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "px-5 py-3" }, [
+                    _c("label", { attrs: { for: "name" } }, [
+                      _vm._v("Confirm Password:")
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.confirm_password,
+                          expression: "form.confirm_password"
+                        }
+                      ],
+                      staticClass: "--input py-1",
+                      attrs: { type: "password", placeholder: "********" },
+                      domProps: { value: _vm.form.confirm_password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "confirm_password",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "text-xs text-red-500" }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.validationError("confirm_password", _vm.saveError)
+                        ) + " "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "px-5 pt-3 pb-5" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "--btn py-2",
+                        on: {
+                          click: function($event) {
+                            return _vm.submit()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Submit\n                        "
+                        )
+                      ]
                     )
-                  ]
-                )
-              ])
+                  ])
+                ]
+              )
             ]
           )
-        ]
-      )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "otpModal", attrs: { id: "otpModal" } }, [
+        _c(
+          "div",
+          {
+            staticClass: "otp-content flex flex-col",
+            staticStyle: { border: "2px solid #E4B934" },
+            style: { width: _vm.isMobile ? "80%" : "20%" }
+          },
+          [
+            _c("div", { staticClass: "w-full" }, [
+              _c("span", { staticClass: "text-lg font-bold" }, [
+                _vm._v("\n\t\t\t\t\t\t\tVerification Code\n\t\t\t\t\t\t")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
+              _c("div", { staticClass: "w-full" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.code,
+                      expression: "form.code"
+                    }
+                  ],
+                  staticClass: "w-full  my-2 --input text-center",
+                  staticStyle: { border: "1px solid black" },
+                  attrs: { type: "text", placeholder: "Verification Code" },
+                  domProps: { value: _vm.form.code },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "code", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-xs text-red-500" }, [
+                  _vm._v(
+                    _vm._s(_vm.validationError("code", _vm.saveError)) + " "
+                  )
+                ]),
+                _c("br")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "w-full --btn py-3",
+                  on: {
+                    click: function($event) {
+                      return _vm.submit()
+                    }
+                  }
+                },
+                [_vm._v("\n\t\t\t\t\t\t\tProceed\n\t\t\t\t\t\t")]
+              )
+            ])
+          ]
+        )
+      ])
     ])
   ])
 }
@@ -69356,7 +70708,7 @@ var render = function() {
                             staticStyle: { right: ".5rem" },
                             on: {
                               click: function($event) {
-                                return _vm.removeAddress(add)
+                                _vm.placeSelected = add
                               }
                             }
                           },
@@ -69929,7 +71281,75 @@ var render = function() {
             ]
           )
         ]
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "removeModal", attrs: { id: "removeModal" } }, [
+        _c(
+          "div",
+          {
+            staticClass: "remove-content flex flex-col",
+            staticStyle: { border: "2px solid #E4B934" },
+            style: { width: _vm.isMobile ? "80%" : "20%" }
+          },
+          [
+            _c("div", { staticClass: "w-full text-lg font-bold text-center" }, [
+              _vm._v(
+                "\n\t\t\t\t\t\tAre you sure to delete this address ?\n\t\t\t\t\t"
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-full flex flex-row mt-10" }, [
+              _c("div", { staticClass: "w-full" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "w-full py-1 text-white",
+                    staticStyle: {
+                      "border-radius": "5px",
+                      width: "93%",
+                      background: "#000000"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.closeRemoveModal()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                                No\n                            "
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-full" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "w-full py-1 text-black",
+                    staticStyle: {
+                      "border-radius": "5px",
+                      width: "93%",
+                      background: "#E4B934"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.removeAddress(_vm.placeSelected)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                                Yes\n                            "
+                    )
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ])
     ])
   ])
 }

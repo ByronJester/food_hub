@@ -57,6 +57,8 @@ class OrderController extends Controller
 
         $order = Order::where('user_id', $auth->id)->where('product_id', $request->product_id)->where('status', 'pending')->first();
 
+        $restaurant = Restaurant::where('id', $product->restaurant_id)->first();
+
         if($order) {
             $quantity = $request->quantity + $order->quantity;
 
@@ -69,6 +71,7 @@ class OrderController extends Controller
 
             $data['user_id'] = $auth->id;
             $data['amount'] = $product->amount * $request->quantity;
+            $data['restaurant_id'] = $restaurant->id;
 
             Order::create($data);
         }

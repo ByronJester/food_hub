@@ -7,7 +7,7 @@
                 </span>
             </div>
 
-            <div class="w-full h-full mt-5 flex justify-center items-center">
+            <div class="w-full h-full mt-5 flex justify-center items-center" v-if="!isOTP">
                 <div class="flex flex-col w-full md:w-1/4" style="border: 1px solid black; border-radius: 10px">
                     <div class="px-5 py-3">
                         <label for="name">Name:</label><br>
@@ -52,8 +52,33 @@
                     </div>
 
                 </div>
-                
             </div>
+
+            <div id="otpModal" class="otpModal">
+				<!-- Modal content -->
+				<div class="otp-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
+					<div class="w-full">
+						<span class="text-lg font-bold">
+							Verification Code
+						</span>
+					</div>
+
+					<div class="w-full flex flex-col mt-4">
+						<div class="w-full">
+							<input type="text" class="w-full  my-2 --input text-center" style="border: 1px solid black"
+								placeholder="Verification Code" v-model="form.code"
+							>
+							<span class="text-xs text-red-500">{{validationError('code', saveError)}} </span><br>
+						</div>
+					</div>
+
+					<div class="w-full flex flex-col mt-4">
+						<button class="w-full --btn py-3" @click="submit()">
+							Proceed
+						</button>
+					</div>
+				</div>
+			</div>
         </div>
     </Navigation>
 </template>
@@ -80,9 +105,12 @@ export default {
                 email: null,
                 address: null,
                 password: null,
-                confirm_password: null
+                confirm_password: null,
+                code: null,
             },
-            saveError: null
+            saveError: null,
+            isMobile: window.screen.width <= 700,
+            isOTP: false
         }
     },
 
@@ -108,14 +136,36 @@ export default {
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
-						alert("Profile successfully updated.");
+						// alert("Profile successfully updated.");
 
-						this.saveError = null
+						// this.saveError = null
 
-						location.reload()
+						// location.reload()
+                        if(this.form.code == null) {
+                            this.openOtpModal()
+                        } else {
+                            location.reload()
+                        }
+                        
 					}
 				})
-        }
+        },
+
+        openOtpModal(){
+            var modal = document.getElementById("otpModal");
+
+            modal.style.display = "block";
+
+            this.isOTP = true
+        },
+
+        closeOtpModal(){
+            var modal = document.getElementById("otpModal");
+
+            modal.style.display = "none";
+
+            this.isOTP = false
+        },
     }
 }
 </script>
@@ -135,5 +185,25 @@ export default {
     width: 100%;
     text-align: center;
     color: black;
+}
+
+.otpModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 40%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content */
+.otp-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
 }
 </style>

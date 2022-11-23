@@ -7,7 +7,7 @@
             >
                 <img src="/images/logo2.jpg" class="py-1 px-1 cursor-pointer"
                     style="width: 100%; height: 100%; border-radius: 10px"
-                    @click="auth.role == '3' ? changeActive('/customers') : ''"
+                    @click="auth.role == '3' ? changeActive('/customers') : auth.role == '1' ? changeActive('/users') : changeActive('/restaurants')"
                 />
             </div>
 
@@ -24,12 +24,16 @@
                         </span>
                     </div>
 
-                    <div class="cursor-pointer" :class="{'--active' : active == '/restaurants/my-trays', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
+                    <div class="cursor-pointer relative" :class="{'--active' : active == '/restaurants/my-trays', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
                         @click="changeActive('/restaurants/my-trays')" v-if="auth.role == 2"
                     >
                         <i class="fa-solid fa-cart-shopping mr-2" style="color: #FFFFFF"></i>
                         <span :class="{'--text': !isMobile, '--font-small': isMobile}">
                             <b class="text-white">MY </b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">TRAYS</b>
+                        </span>
+
+                        <span class="absolute text-red-700 font-bold text-xl" style="top: -0.8rem; right: -0.8rem" v-if="auth.trays > 0">
+                            {{ auth.trays }}
                         </span>
                     </div>
 
@@ -42,12 +46,16 @@
                         </span>
                     </div>
 
-                    <div class="cursor-pointer" :class="{'--active' : active == '/orders', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
+                    <div class="cursor-pointer relative" :class="{'--active' : active == '/orders', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
                         @click="changeActive('/orders')" v-if="auth.role == 3"
                     >
                         <i class="fa-solid fa-cart-shopping mr-2" style="color: #FFFFFF"></i>
                         <span :class="{'--text': !isMobile, '--font-small': isMobile}">
                             <b class="text-white">TR</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">AYS</b>
+                        </span>
+
+                        <span class="absolute text-red-700 font-bold text-xl" style="top: -0.8rem; right: -0.8rem" v-if="auth.trays > 0">
+                            {{ auth.trays }}
                         </span>
                     </div>
 
@@ -137,6 +145,7 @@ export default {
 	},
 
     created(){
+        console.log(this.auth.trays)
     },
 
 	methods: {

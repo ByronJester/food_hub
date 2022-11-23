@@ -130,7 +130,7 @@ export default {
             orders: [],
             selected: null,
             columns: [
-                'Customer Name', 'Payment Method', 'G-Cash Ref. No.', 'Address', 'Status', 'Amount', 'Shipping Fee'
+                'Customer Name', 'Payment Method', 'G-Cash Ref. No.', 'Address', 'Status', 'Amount', 'Shipping Fee', 'Total'
             ],
             keys : [
                 {
@@ -154,6 +154,9 @@ export default {
                 {
                     label: 'shipping_fee',
                 },
+                {
+                    label: 'total',
+                },
             ],
             form: {
                 reference: null,
@@ -171,6 +174,7 @@ export default {
             x['display_status'] = x.display_status;
             x['address'] = x.address;
             x['amount'] = '₱ ' + x.amount.toFixed(2);
+            x['total'] = '₱ ' + x.total.toFixed(2);
             x['shipping_fee'] = '₱ ' + x.shipping_fee.toFixed(2);
 
             return x;
@@ -272,7 +276,7 @@ td {
 th {
     border: 1px solid black;
     background: #E4B934;
-    color: #ffffff;
+    color: black;
     padding-top: 20px;
     padding-bottom: 20px;
 }

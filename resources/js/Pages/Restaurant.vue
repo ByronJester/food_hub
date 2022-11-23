@@ -315,6 +315,7 @@ export default {
                 address: null
             },
             placeSelected: null,
+            isMobile: window.screen.width <= 700
         }
     },
 

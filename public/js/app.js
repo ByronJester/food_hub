@@ -4889,7 +4889,8 @@ __webpack_require__.r(__webpack_exports__);
         restaurant_id: null,
         address: null
       },
-      placeSelected: null
+      placeSelected: null,
+      isMobile: window.screen.width <= 700
     };
   },
   created: function created() {

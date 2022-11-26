@@ -67680,7 +67680,7 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm.productAmount
+            !!_vm.productAmount
               ? _c(
                   "div",
                   {
@@ -71238,7 +71238,11 @@ var render = function() {
                                         "border-radius": "5px"
                                       }
                                     },
-                                    [_vm._v("₱" + _vm._s(product.amount))]
+                                    [
+                                      _vm._v(
+                                        "₱" + _vm._s(product.amount.toFixed(2))
+                                      )
+                                    ]
                                   )
                                 ])
                               ]
@@ -71532,85 +71536,94 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "descriptionModal", attrs: { id: "descriptionModal" } },
-        [
-          _c(
+      !!_vm.productAmount
+        ? _c(
             "div",
             {
-              staticClass: "description-content flex flex-col",
-              staticStyle: { width: "20%", border: "2px solid #E4B934" }
+              staticClass: "descriptionModal",
+              attrs: { id: "descriptionModal" }
             },
             [
-              _c("div", { staticClass: "w-full" }, [
-                _c("span", { staticClass: "text-4xl font-bold" }, [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(_vm.productName) +
-                      "\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "span",
-                  {
-                    staticClass: "float-right cursor-pointer",
-                    on: {
-                      click: function($event) {
-                        return _vm.closeDescriptionModal()
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa-solid fa-xmark" })]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "w-full flex flex-col justify-center items-center"
-                  },
-                  [
-                    _c("div", { staticClass: "w-full" }, [
-                      _c("img", {
-                        staticClass: "w-full p-4",
-                        staticStyle: {
-                          height: "200px",
-                          border: "2px solid #E4B934"
-                        },
-                        attrs: { src: _vm.productImage }
-                      })
+              _c(
+                "div",
+                {
+                  staticClass: "description-content flex flex-col",
+                  staticStyle: { width: "20%", border: "2px solid #E4B934" }
+                },
+                [
+                  _c("div", { staticClass: "w-full" }, [
+                    _c("span", { staticClass: "text-4xl font-bold" }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(_vm.productName) +
+                          "\n                        "
+                      )
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "w-full" }, [
-                      _c("p", { staticClass: "w-full text-center text-4xl" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "float-right cursor-pointer",
+                        on: {
+                          click: function($event) {
+                            return _vm.closeDescriptionModal()
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa-solid fa-xmark" })]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full flex flex-col justify-center items-center"
+                      },
+                      [
+                        _c("div", { staticClass: "w-full" }, [
+                          _c("img", {
+                            staticClass: "w-full p-4",
+                            staticStyle: {
+                              height: "200px",
+                              border: "2px solid #E4B934"
+                            },
+                            attrs: { src: _vm.productImage }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "w-full" }, [
+                          _c(
+                            "p",
+                            { staticClass: "w-full text-center text-4xl" },
+                            [
+                              _vm._v(
+                                "\n                                    ₱ " +
+                                  _vm._s(_vm.productAmount.toFixed(2)) +
+                                  "\n                                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-full mt-5" }, [
+                      _c("p", [
                         _vm._v(
-                          "\n                                    ₱ " +
-                            _vm._s(_vm.productAmount) +
-                            "\n                                "
+                          "\n                                " +
+                            _vm._s(_vm.description) +
+                            "\n                            "
                         )
                       ])
                     ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "w-full mt-5" }, [
-                  _c("p", [
-                    _vm._v(
-                      "\n                                " +
-                        _vm._s(_vm.description) +
-                        "\n                            "
-                    )
                   ])
-                ])
-              ])
+                ]
+              )
             ]
           )
-        ]
-      ),
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "removeModal", attrs: { id: "removeModal" } }, [
         _c(

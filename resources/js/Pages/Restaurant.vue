@@ -113,7 +113,7 @@
                                     style="border-radius: 5px; background: #000000"
                                 >
                                     <span class="--text px-2"> 
-                                        <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount }}</b>
+                                        <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
                                     </span>
                                 </button>
                             </div>
@@ -206,7 +206,7 @@
                 </div>
             </div>
 
-            <div id="descriptionModal" class="descriptionModal">
+            <div id="descriptionModal" class="descriptionModal" v-if="!!productAmount">
                 <!-- Modal content -->
                 <div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
                     <div class="w-full">
@@ -231,7 +231,7 @@
 
                             <div class="w-full">
                                 <p class="w-full text-center text-4xl">
-                                    ₱ {{ productAmount }}
+                                    ₱ {{ productAmount.toFixed(2) }}
                                 </p>
                             </div>
                            

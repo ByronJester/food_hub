@@ -133,7 +133,7 @@
 					</div>
 				</div>
 
-				<div id="descriptionModal" class="descriptionModal" v-if="productAmount">
+				<div id="descriptionModal" class="descriptionModal" v-if="!!productAmount">
 					<div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
 						<div class="w-full">
 							<span class="text-4xl font-bold">

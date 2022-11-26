@@ -173,7 +173,7 @@
 					</div>
 				</div>
 
-				<div id="checkoutModal" class="checkoutModal" v-if="!!orderProduct">
+				<div id="checkoutModal" class="checkoutModal">
 					<div class="checkout-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
 						<div class="w-full">
 							<span class="text-xl font-bold">
@@ -187,7 +187,7 @@
 							</span>
 						</div>
 
-						<div class="w-full flex flex-col mt-4">
+						<div class="w-full flex flex-col mt-4" v-if="orderProduct && orderDescription">
 							<div class="flex flex-col px-5 py-2">
 								<div class="w-full flex flex-row" style="border-bottom: 1px solid #E4B934">
 									<div class="h-full flex justify-center items-center my-2" style="width: 40%">
@@ -352,7 +352,7 @@ export default {
 			search: null,
 			isMobile: window.screen.width <= 700,
 			products: [],
-			orderDescription: {},
+			orderDescription: null,
 			orderProduct: null,
 			form: {
 				payment_method: 'cod',
@@ -473,8 +473,8 @@ export default {
         },
 
 		buyNow(arg, index, product) {
-			this.orderDescription = Object.assign({}, arg);
-			this.orderProduct = Object.assign({}, product);
+			this.orderDescription = arg;
+			this.orderProduct = product;
 			this.restaurant = this.restaurant
 
 			this.openCheckoutModal()

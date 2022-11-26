@@ -108,6 +108,13 @@
 						<span class="text-xs text-white">Note: Please upload front and a selfie holding ID picture.  </span><br>
 						<span class="text-xs text-red-500">{{validationError('picture_id', saveError)}} </span>
 					</div>
+					
+
+					<div class="w-full text-red-600" v-if="ids.length > 0">
+						<span class="float-right mr-2 cursor-pointer" @click="removeIds()">
+							<i class="fa-solid fa-trash"></i>
+						</span>
+					</div>
 
 					<div class="w-full flex flex-row mt-2" v-if="ids.length > 0">
 						<div class="w-full flex justify-center items-center px-2" v-for="i in ids" :key="i">
@@ -786,8 +793,6 @@ export default {
 		}
 
 		this.banners = this.banners.concat(this.options.banners)
-
-		console.log(this.banners)
 	},
 
 	methods: {
@@ -1007,6 +1012,11 @@ export default {
             modal.style.display = "none";
 
 			this.isLogin = true
+		},
+
+		removeIds() {
+			this.ids = [];
+			this.formData.delete('picture_id[]');
 		}
 	}
 }

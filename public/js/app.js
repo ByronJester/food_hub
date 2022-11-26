@@ -3336,7 +3336,7 @@ __webpack_require__.r(__webpack_exports__);
       search: null,
       isMobile: window.screen.width <= 700,
       products: [],
-      orderDescription: {},
+      orderDescription: null,
       orderProduct: null,
       form: {
         payment_method: 'cod',
@@ -3438,8 +3438,8 @@ __webpack_require__.r(__webpack_exports__);
       this.productName = null;
     },
     buyNow: function buyNow(arg, index, product) {
-      this.orderDescription = Object.assign({}, arg);
-      this.orderProduct = Object.assign({}, product);
+      this.orderDescription = arg;
+      this.orderProduct = product;
       this.restaurant = this.restaurant;
       this.openCheckoutModal();
     },
@@ -3490,6 +3490,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4270,7 +4277,6 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     this.banners = this.banners.concat(this.options.banners);
-    console.log(this.banners);
   },
   methods: {
     login: function login() {
@@ -4458,6 +4464,10 @@ __webpack_require__.r(__webpack_exports__);
       var modal = document.getElementById("termsModal");
       modal.style.display = "none";
       this.isLogin = true;
+    },
+    removeIds: function removeIds() {
+      this.ids = [];
+      this.formData["delete"]('picture_id[]');
     }
   }
 });
@@ -67798,46 +67808,40 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            !!_vm.orderProduct
-              ? _c(
+            _c(
+              "div",
+              { staticClass: "checkoutModal", attrs: { id: "checkoutModal" } },
+              [
+                _c(
                   "div",
                   {
-                    staticClass: "checkoutModal",
-                    attrs: { id: "checkoutModal" }
+                    staticClass: "checkout-content flex flex-col",
+                    staticStyle: { width: "20%", border: "2px solid #E4B934" }
                   },
                   [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "checkout-content flex flex-col",
-                        staticStyle: {
-                          width: "20%",
-                          border: "2px solid #E4B934"
-                        }
-                      },
-                      [
-                        _c("div", { staticClass: "w-full" }, [
-                          _c("span", { staticClass: "text-xl font-bold" }, [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\tCheckout Order\n\t\t\t\t\t\t\t"
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "float-right cursor-pointer",
-                              on: {
-                                click: function($event) {
-                                  return _vm.closeCheckoutModal()
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa-solid fa-xmark" })]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c(
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("span", { staticClass: "text-xl font-bold" }, [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\tCheckout Order\n\t\t\t\t\t\t\t"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "float-right cursor-pointer",
+                          on: {
+                            click: function($event) {
+                              return _vm.closeCheckoutModal()
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa-solid fa-xmark" })]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm.orderProduct && _vm.orderDescription
+                      ? _c(
                           "div",
                           { staticClass: "w-full flex flex-col mt-4" },
                           [
@@ -68436,11 +68440,11 @@ var render = function() {
                             ])
                           ]
                         )
-                      ]
-                    )
+                      : _vm._e()
                   ]
                 )
-              : _vm._e()
+              ]
+            )
           ])
     ])
   ])
@@ -69041,6 +69045,23 @@ var render = function() {
                           )
                         ])
                       ]),
+                      _vm._v(" "),
+                      _vm.ids.length > 0
+                        ? _c("div", { staticClass: "w-full text-red-600" }, [
+                            _c(
+                              "span",
+                              {
+                                staticClass: "float-right mr-2 cursor-pointer",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeIds()
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa-solid fa-trash" })]
+                            )
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
                       _vm.ids.length > 0
                         ? _c(

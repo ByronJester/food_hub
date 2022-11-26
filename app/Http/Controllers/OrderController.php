@@ -220,7 +220,7 @@ class OrderController extends Controller
         // return $order;
 
         Order::create([
-            'restaurant_id' => $order->restaurant_id,
+            'restaurant_id' => $request->restaurant_id,
             'product_id' => $order->product_id,
             'user_id' => $auth->id,
             'amount' => $product->amount * $order->quantity,

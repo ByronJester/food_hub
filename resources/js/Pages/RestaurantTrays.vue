@@ -173,9 +173,9 @@ export default {
             x['reference_number'] = x.reference_number;
             x['display_status'] = x.display_status;
             x['address'] = x.address;
-            x['amount'] = '₱ ' + x.amount.toFixed(2);
-            x['total'] = '₱ ' + x.total.toFixed(2);
-            x['shipping_fee'] = '₱ ' + x.shipping_fee.toFixed(2);
+            x['amount'] = '₱ ' + parseFloat(x.amount).toFixed(2);
+            x['total'] = '₱ ' + parseFloat(x.total).toFixed(2);
+            x['shipping_fee'] = '₱ ' + parseFloat(x.shipping_fee).toFixed(2);
 
             return x;
         })

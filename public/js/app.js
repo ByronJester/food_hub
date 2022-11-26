@@ -2917,13 +2917,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.selectedOrders = lodash__WEBPACK_IMPORTED_MODULE_2___default().uniq(this.selectedOrders);
     },
     sumAmount: function sumAmount(arr) {
-      return lodash__WEBPACK_IMPORTED_MODULE_2___default().sumBy(arr, function (arg) {
+      var res = lodash__WEBPACK_IMPORTED_MODULE_2___default().sumBy(arr, function (arg) {
         return arg.amount;
       });
+
+      return parseFloat(res);
     },
     getTotal: function getTotal(sub, fee) {
       var total = sub + fee;
-      return total.toFixed(2);
+      return parseFloat(total).toFixed(2);
     },
     getPlaces: function getPlaces(arg) {
       var _this5 = this;
@@ -5305,9 +5307,9 @@ __webpack_require__.r(__webpack_exports__);
       x['reference_number'] = x.reference_number;
       x['display_status'] = x.display_status;
       x['address'] = x.address;
-      x['amount'] = '₱ ' + x.amount.toFixed(2);
-      x['total'] = '₱ ' + x.total.toFixed(2);
-      x['shipping_fee'] = '₱ ' + x.shipping_fee.toFixed(2);
+      x['amount'] = '₱ ' + parseFloat(x.amount).toFixed(2);
+      x['total'] = '₱ ' + parseFloat(x.total).toFixed(2);
+      x['shipping_fee'] = '₱ ' + parseFloat(x.shipping_fee).toFixed(2);
       return x;
     });
   },
@@ -66472,7 +66474,9 @@ var render = function() {
                                 _c("p", { staticClass: "text-lg mt-1" }, [
                                   _vm._v(
                                     "\n                                        ₱" +
-                                      _vm._s(order.amount.toFixed(2)) +
+                                      _vm._s(
+                                        parseFloat(order.amount).toFixed(2)
+                                      ) +
                                       "\n                                    "
                                   )
                                 ])
@@ -66664,7 +66668,9 @@ var render = function() {
                                             _vm._v(
                                               "\n                                            ₱" +
                                                 _vm._s(
-                                                  order.amount.toFixed(2)
+                                                  parseFloat(
+                                                    order.amount
+                                                  ).toFixed(2)
                                                 ) +
                                                 "\n                                        "
                                             )

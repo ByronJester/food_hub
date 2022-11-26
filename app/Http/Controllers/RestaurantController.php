@@ -73,6 +73,16 @@ class RestaurantController extends Controller
             'description' => "nullable"
         ];
 
+        if($request->id) {
+            $rules = [
+                'name' => "required|string",
+                'amount' => "required|numeric",
+                'restaurant_id' => "required", 
+                'category' => "required",
+                'description' => "nullable"
+            ];
+        }
+
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {

@@ -101,7 +101,7 @@
 
                                 <div class="w-full text-center py-1">
                                     <p class="text-lg mt-1">
-                                        ₱{{ order.amount.toFixed(2)}}
+                                        ₱{{ parseFloat(order.amount).toFixed(2)}}
                                     </p>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                                     
                                     <div class="w-full text-center">
                                         <p class="text-md mt-1">
-                                            ₱{{ order.amount.toFixed(2)}}
+                                            ₱{{ parseFloat(order.amount).toFixed(2)}}
                                         </p>
                                     </div>
                                 </div>
@@ -460,13 +460,15 @@ export default {
         },
 
         sumAmount(arr) {
-            return _.sumBy(arr, function(arg) { return arg.amount; })
+            var res =  _.sumBy(arr, function(arg) { return arg.amount; })
+
+            return parseFloat(res);
         },
 
         getTotal(sub, fee) {
             var total = sub + fee;
 
-            return total.toFixed(2)
+            return parseFloat(total).toFixed(2)
         },
 
         getPlaces(arg) { 

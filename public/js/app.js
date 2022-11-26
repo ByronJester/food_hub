@@ -67680,644 +67680,747 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "descriptionModal",
-                attrs: { id: "descriptionModal" }
-              },
-              [
-                _c(
+            _vm.productName
+              ? _c(
                   "div",
                   {
-                    staticClass: "description-content flex flex-col",
-                    staticStyle: { width: "20%", border: "2px solid #E4B934" }
+                    staticClass: "descriptionModal",
+                    attrs: { id: "descriptionModal" }
                   },
                   [
-                    _c("div", { staticClass: "w-full" }, [
-                      _c("span", { staticClass: "text-4xl font-bold" }, [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t\t" +
-                            _vm._s(_vm.productName) +
-                            "\n\t\t\t\t\t\t\t"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticClass: "float-right cursor-pointer",
-                          on: {
-                            click: function($event) {
-                              return _vm.closeDescriptionModal()
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa-solid fa-xmark" })]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "w-full flex flex-col justify-center items-center"
-                        },
-                        [
-                          _c("div", { staticClass: "w-full" }, [
-                            _c("img", {
-                              staticClass: "w-full p-4",
-                              staticStyle: {
-                                height: "200px",
-                                border: "2px solid #E4B934"
-                              },
-                              attrs: { src: _vm.productImage }
-                            })
+                    _c(
+                      "div",
+                      {
+                        staticClass: "description-content flex flex-col",
+                        staticStyle: {
+                          width: "20%",
+                          border: "2px solid #E4B934"
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "w-full" }, [
+                          _c("span", { staticClass: "text-4xl font-bold" }, [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t" +
+                                _vm._s(_vm.productName) +
+                                "\n\t\t\t\t\t\t\t"
+                            )
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "w-full" }, [
-                            _c(
-                              "p",
-                              { staticClass: "w-full text-center text-4xl" },
-                              [
-                                _vm._v(
-                                  "\n\t\t\t\t\t\t\t\t\t\t₱ " +
-                                    _vm._s(_vm.productAmount.toFixed(2)) +
-                                    "\n\t\t\t\t\t\t\t\t\t"
-                                )
-                              ]
-                            )
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full mt-5" }, [
-                        _c("p", [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\t\t" +
-                              _vm._s(_vm.description) +
-                              "\n\t\t\t\t\t\t\t\t"
+                          _c(
+                            "span",
+                            {
+                              staticClass: "float-right cursor-pointer",
+                              on: {
+                                click: function($event) {
+                                  return _vm.closeDescriptionModal()
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa-solid fa-xmark" })]
                           )
-                        ])
-                      ])
-                    ])
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "checkoutModal", attrs: { id: "checkoutModal" } },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "checkout-content flex flex-col",
-                    staticStyle: { width: "20%", border: "2px solid #E4B934" }
-                  },
-                  [
-                    _c("div", { staticClass: "w-full" }, [
-                      _c("span", { staticClass: "text-xl font-bold" }, [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t\tCheckout Order\n\t\t\t\t\t\t\t"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticClass: "float-right cursor-pointer",
-                          on: {
-                            click: function($event) {
-                              return _vm.closeCheckoutModal()
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa-solid fa-xmark" })]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
-                      _c("div", { staticClass: "flex flex-col px-5 py-2" }, [
+                        ]),
+                        _vm._v(" "),
                         _c(
                           "div",
-                          {
-                            staticClass: "w-full flex flex-row",
-                            staticStyle: {
-                              "border-bottom": "1px solid #E4B934"
-                            }
-                          },
+                          { staticClass: "w-full flex flex-col mt-4" },
                           [
                             _c(
                               "div",
                               {
                                 staticClass:
-                                  "h-full flex justify-center items-center my-2",
-                                staticStyle: { width: "40%" }
+                                  "w-full flex flex-col justify-center items-center"
                               },
                               [
-                                _c("img", {
-                                  staticClass: "p-1",
-                                  staticStyle: {
-                                    width: "100%",
-                                    height: "80px",
-                                    border: "1px solid #E4B934"
-                                  },
-                                  attrs: {
-                                    src:
-                                      "/images/uploads/" +
-                                      _vm.orderProduct.image
-                                  }
-                                })
+                                _c("div", { staticClass: "w-full" }, [
+                                  _c("img", {
+                                    staticClass: "w-full p-4",
+                                    staticStyle: {
+                                      height: "200px",
+                                      border: "2px solid #E4B934"
+                                    },
+                                    attrs: { src: _vm.productImage }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "w-full" }, [
+                                  _c(
+                                    "p",
+                                    {
+                                      staticClass: "w-full text-center text-4xl"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t₱ " +
+                                          _vm._s(_vm.productAmount.toFixed(2)) +
+                                          "\n\t\t\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  )
+                                ])
                               ]
                             ),
                             _vm._v(" "),
+                            _c("div", { staticClass: "w-full mt-5" }, [
+                              _c("p", [
+                                _vm._v(
+                                  "\n\t\t\t\t\t\t\t\t\t" +
+                                    _vm._s(_vm.description) +
+                                    "\n\t\t\t\t\t\t\t\t"
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            !!_vm.orderProduct && _vm.orderProduct.name
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "checkoutModal",
+                    attrs: { id: "checkoutModal" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "checkout-content flex flex-col",
+                        staticStyle: {
+                          width: "20%",
+                          border: "2px solid #E4B934"
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "w-full" }, [
+                          _c("span", { staticClass: "text-xl font-bold" }, [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\tCheckout Order\n\t\t\t\t\t\t\t"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "float-right cursor-pointer",
+                              on: {
+                                click: function($event) {
+                                  return _vm.closeCheckoutModal()
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa-solid fa-xmark" })]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "w-full flex flex-col mt-4" },
+                          [
                             _c(
                               "div",
-                              {
-                                staticClass:
-                                  "flex flex-col justify-center items-center",
-                                staticStyle: { width: "60%" }
-                              },
+                              { staticClass: "flex flex-col px-5 py-2" },
                               [
                                 _c(
                                   "div",
-                                  { staticClass: "w-full text-center" },
+                                  {
+                                    staticClass: "w-full flex flex-row",
+                                    staticStyle: {
+                                      "border-bottom": "1px solid #E4B934"
+                                    }
+                                  },
                                   [
                                     _c(
-                                      "p",
-                                      { staticClass: "text-md font-bold" },
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "h-full flex justify-center items-center my-2",
+                                        staticStyle: { width: "40%" }
+                                      },
                                       [
-                                        _vm._v(
-                                          "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
-                                            _vm._s(_vm.orderProduct.name) +
-                                            "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                        _c("img", {
+                                          staticClass: "p-1",
+                                          staticStyle: {
+                                            width: "100%",
+                                            height: "80px",
+                                            border: "1px solid #E4B934"
+                                          },
+                                          attrs: {
+                                            src:
+                                              "/images/uploads/" +
+                                              _vm.orderProduct.image
+                                          }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "flex flex-col justify-center items-center",
+                                        staticStyle: { width: "60%" }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "w-full text-center" },
+                                          [
+                                            _c(
+                                              "p",
+                                              {
+                                                staticClass: "text-md font-bold"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                    _vm._s(
+                                                      _vm.orderProduct.name
+                                                    ) +
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "w-full text-center" },
+                                          [
+                                            _c(
+                                              "p",
+                                              { staticClass: "text-md mt-1" },
+                                              [
+                                                _vm._v(
+                                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t₱ " +
+                                                    _vm._s(
+                                                      _vm.orderProduct.amount
+                                                    ) +
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                                )
+                                              ]
+                                            )
+                                          ]
                                         )
                                       ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "w-full flex flex-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "w-full text-left pl-5" },
+                                [
+                                  _vm._v(
+                                    " \n\t\t\t\t\t\t\t\t\tPayment Details "
+                                  ),
+                                  _c("i", {
+                                    staticClass:
+                                      "fa-solid fa-file-invoice-dollar ml-1"
+                                  })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "w-full flex flex-row mt-2" },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "w-full text-left pl-5" },
+                                  [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t\tSubtotal: \n\t\t\t\t\t\t\t\t"
                                     )
                                   ]
                                 ),
                                 _vm._v(" "),
                                 _c(
                                   "div",
-                                  { staticClass: "w-full text-center" },
+                                  { staticClass: "w-full text-left pl-5" },
                                   [
-                                    _c("p", { staticClass: "text-md mt-1" }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t\t\t₱ " +
-                                          _vm._s(_vm.orderProduct.amount) +
-                                          "\n\t\t\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t\t₱ " +
+                                        _vm._s(
+                                          (
+                                            _vm.orderProduct.amount *
+                                            _vm.orderDescription.quantity
+                                          ).toFixed(2)
+                                        ) +
+                                        "\n\t\t\t\t\t\t\t\t"
+                                    )
                                   ]
                                 )
                               ]
-                            )
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full flex flex-row" }, [
-                        _c("div", { staticClass: "w-full text-left pl-5" }, [
-                          _vm._v(" \n\t\t\t\t\t\t\t\t\tPayment Details "),
-                          _c("i", {
-                            staticClass: "fa-solid fa-file-invoice-dollar ml-1"
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full flex flex-row mt-2" }, [
-                        _c("div", { staticClass: "w-full text-left pl-5" }, [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\t\tSubtotal: \n\t\t\t\t\t\t\t\t"
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "w-full text-left pl-5" }, [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\t\t₱ " +
-                              _vm._s(
-                                (
-                                  _vm.orderProduct.amount *
-                                  _vm.orderDescription.quantity
-                                ).toFixed(2)
-                              ) +
-                              "\n\t\t\t\t\t\t\t\t"
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full flex flex-row" }, [
-                        _c("div", { staticClass: "w-full text-left pl-5" }, [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\t\tShipping Fee: \n\t\t\t\t\t\t\t\t"
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "w-full text-left pl-5" }, [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\t\t₱ 60.00\n\t\t\t\t\t\t\t\t"
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full flex flex-row" }, [
-                        _c("div", { staticClass: "w-full text-left pl-5" }, [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\t\tTotal: \n\t\t\t\t\t\t\t\t"
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "w-full text-left pl-5" }, [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\t\t₱ " +
-                              _vm._s(
-                                (
-                                  _vm.orderProduct.amount *
-                                    _vm.orderDescription.quantity +
-                                  60
-                                ).toFixed(2)
-                              ) +
-                              "\n\t\t\t\t\t\t\t\t"
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full flex flex-row mt-5" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "w-full flex justify-center items-center"
-                          },
-                          [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\t\tMode of Payment:\n\t\t\t\t\t\t\t\t"
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "w-full flex justify-center items-center"
-                          },
-                          [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.payment_method,
-                                  expression: "form.payment_method"
-                                }
-                              ],
-                              staticClass: "mr-1",
-                              attrs: { type: "radio", value: "cod" },
-                              domProps: {
-                                checked: _vm._q(_vm.form.payment_method, "cod")
-                              },
-                              on: {
-                                change: function($event) {
-                                  return _vm.$set(
-                                    _vm.form,
-                                    "payment_method",
-                                    "cod"
-                                  )
-                                }
-                              }
-                            }),
+                            ),
                             _vm._v(" "),
-                            _c("label", { staticClass: "mr-1" }, [
-                              _vm._v("COD")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.payment_method,
-                                  expression: "form.payment_method"
-                                }
-                              ],
-                              staticClass: "mr-1",
-                              attrs: { type: "radio", value: "gcash" },
-                              domProps: {
-                                checked: _vm._q(
-                                  _vm.form.payment_method,
-                                  "gcash"
-                                )
-                              },
-                              on: {
-                                change: function($event) {
-                                  return _vm.$set(
-                                    _vm.form,
-                                    "payment_method",
-                                    "gcash"
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("label", [_vm._v("G-Cash")])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm.form.payment_method == "gcash"
-                        ? _c(
-                            "div",
-                            { staticClass: "w-full flex flex-row mt-5" },
-                            [
+                            _c("div", { staticClass: "w-full flex flex-row" }, [
                               _c(
                                 "div",
-                                {
-                                  staticClass:
-                                    "w-full flex justify-center items-center"
-                                },
+                                { staticClass: "w-full text-left pl-5" },
                                 [
                                   _vm._v(
-                                    "\n\t\t\t\t\t\t\t\t\tOwner G-Cash #:\n\t\t\t\t\t\t\t\t"
+                                    "\n\t\t\t\t\t\t\t\t\tShipping Fee: \n\t\t\t\t\t\t\t\t"
                                   )
                                 ]
                               ),
                               _vm._v(" "),
                               _c(
                                 "div",
-                                {
-                                  staticClass:
-                                    "w-full flex justify-center items-center"
-                                },
+                                { staticClass: "w-full text-left pl-5" },
                                 [
                                   _vm._v(
-                                    "\n\t\t\t\t\t\t\t\t\t" +
-                                      _vm._s(_vm.restaurant.phone) +
+                                    "\n\t\t\t\t\t\t\t\t\t₱ 60.00\n\t\t\t\t\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "w-full flex flex-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "w-full text-left pl-5" },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\tTotal: \n\t\t\t\t\t\t\t\t"
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "w-full text-left pl-5" },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\t₱ " +
+                                      _vm._s(
+                                        (
+                                          _vm.orderProduct.amount *
+                                            _vm.orderDescription.quantity +
+                                          60
+                                        ).toFixed(2)
+                                      ) +
                                       "\n\t\t\t\t\t\t\t\t"
                                   )
                                 ]
                               )
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.form.payment_method == "gcash"
-                        ? _c("div", { staticClass: "w-full pl-5 mt-2" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.reference_number,
-                                  expression: "form.reference_number"
-                                }
-                              ],
-                              staticClass: "text-center",
-                              staticStyle: {
-                                height: "30px",
-                                border: "1px solid black",
-                                "border-radius": "5px",
-                                width: "93%",
-                                padding: "5px"
-                              },
-                              attrs: { placeholder: "G-Cash Ref. No." },
-                              domProps: { value: _vm.form.reference_number },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "reference_number",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
+                            ]),
                             _vm._v(" "),
                             _c(
-                              "span",
-                              { staticClass: "text-xs text-red-500" },
+                              "div",
+                              { staticClass: "w-full flex flex-row mt-5" },
                               [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm.validationError(
-                                      "reference_number",
-                                      _vm.saveError
-                                    )
-                                  ) + " "
-                                )
-                              ]
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full flex flex-row mt-5" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "w-full flex justify-start items-center pl-5"
-                          },
-                          [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\t\tOther Address:\n\t\t\t\t\t\t\t\t"
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "w-full flex justify-start items-center pl-5"
-                          },
-                          [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.otherAddress,
-                                  expression: "form.otherAddress"
-                                }
-                              ],
-                              attrs: { type: "checkbox" },
-                              domProps: {
-                                checked: Array.isArray(_vm.form.otherAddress)
-                                  ? _vm._i(_vm.form.otherAddress, null) > -1
-                                  : _vm.form.otherAddress
-                              },
-                              on: {
-                                change: function($event) {
-                                  var $$a = _vm.form.otherAddress,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = null,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        _vm.$set(
-                                          _vm.form,
-                                          "otherAddress",
-                                          $$a.concat([$$v])
-                                        )
-                                    } else {
-                                      $$i > -1 &&
-                                        _vm.$set(
-                                          _vm.form,
-                                          "otherAddress",
-                                          $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1))
-                                        )
-                                    }
-                                  } else {
-                                    _vm.$set(_vm.form, "otherAddress", $$c)
-                                  }
-                                }
-                              }
-                            })
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm.form.otherAddress
-                        ? _c("div", { staticClass: "w-full pl-5 mt-2" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.address,
-                                  expression: "form.address"
-                                }
-                              ],
-                              staticClass: "text-center",
-                              staticStyle: {
-                                height: "30px",
-                                border: "1px solid black",
-                                "border-radius": "5px",
-                                width: "93%",
-                                padding: "5px"
-                              },
-                              attrs: {
-                                placeholder: "Street No, Barangay, Town"
-                              },
-                              domProps: { value: _vm.form.address },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "address",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              { staticClass: "text-xs text-red-500" },
-                              [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm.validationError(
-                                      "address",
-                                      _vm.saveError
-                                    )
-                                  ) + " "
-                                )
-                              ]
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full flex flex-col mt-5" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "w-full flex justify-start items-center pl-5"
-                          },
-                          [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\t\tAvailable Address:\n\t\t\t\t\t\t\t\t"
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "w-full flex justify-start items-center px-5"
-                          },
-                          [
-                            _c(
-                              "select",
-                              {
-                                staticClass: "w-full",
-                                staticStyle: {
-                                  border: "1px solid black",
-                                  height: "30px"
-                                }
-                              },
-                              _vm._l(_vm.restaurant.places, function(p) {
-                                return _c(
-                                  "option",
-                                  { key: p.id, domProps: { value: p.id } },
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-full flex justify-center items-center"
+                                  },
                                   [
                                     _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
-                                        _vm._s(p.address) +
-                                        "\n\t\t\t\t\t\t\t\t\t\t"
+                                      "\n\t\t\t\t\t\t\t\t\tMode of Payment:\n\t\t\t\t\t\t\t\t"
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-full flex justify-center items-center"
+                                  },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.payment_method,
+                                          expression: "form.payment_method"
+                                        }
+                                      ],
+                                      staticClass: "mr-1",
+                                      attrs: { type: "radio", value: "cod" },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.form.payment_method,
+                                          "cod"
+                                        )
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.$set(
+                                            _vm.form,
+                                            "payment_method",
+                                            "cod"
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("label", { staticClass: "mr-1" }, [
+                                      _vm._v("COD")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.payment_method,
+                                          expression: "form.payment_method"
+                                        }
+                                      ],
+                                      staticClass: "mr-1",
+                                      attrs: { type: "radio", value: "gcash" },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.form.payment_method,
+                                          "gcash"
+                                        )
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.$set(
+                                            _vm.form,
+                                            "payment_method",
+                                            "gcash"
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("label", [_vm._v("G-Cash")])
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm.form.payment_method == "gcash"
+                              ? _c(
+                                  "div",
+                                  { staticClass: "w-full flex flex-row mt-5" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "w-full flex justify-center items-center"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\tOwner G-Cash #:\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "w-full flex justify-center items-center"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(_vm.restaurant.phone) +
+                                            "\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ]
                                     )
                                   ]
                                 )
-                              }),
-                              0
-                            )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.form.payment_method == "gcash"
+                              ? _c("div", { staticClass: "w-full pl-5 mt-2" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.reference_number,
+                                        expression: "form.reference_number"
+                                      }
+                                    ],
+                                    staticClass: "text-center",
+                                    staticStyle: {
+                                      height: "30px",
+                                      border: "1px solid black",
+                                      "border-radius": "5px",
+                                      width: "93%",
+                                      padding: "5px"
+                                    },
+                                    attrs: { placeholder: "G-Cash Ref. No." },
+                                    domProps: {
+                                      value: _vm.form.reference_number
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "reference_number",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "text-xs text-red-500" },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.validationError(
+                                            "reference_number",
+                                            _vm.saveError
+                                          )
+                                        ) + " "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "w-full flex flex-row mt-5" },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-full flex justify-start items-center pl-5"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t\tOther Address:\n\t\t\t\t\t\t\t\t"
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-full flex justify-start items-center pl-5"
+                                  },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.otherAddress,
+                                          expression: "form.otherAddress"
+                                        }
+                                      ],
+                                      attrs: { type: "checkbox" },
+                                      domProps: {
+                                        checked: Array.isArray(
+                                          _vm.form.otherAddress
+                                        )
+                                          ? _vm._i(
+                                              _vm.form.otherAddress,
+                                              null
+                                            ) > -1
+                                          : _vm.form.otherAddress
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          var $$a = _vm.form.otherAddress,
+                                            $$el = $event.target,
+                                            $$c = $$el.checked ? true : false
+                                          if (Array.isArray($$a)) {
+                                            var $$v = null,
+                                              $$i = _vm._i($$a, $$v)
+                                            if ($$el.checked) {
+                                              $$i < 0 &&
+                                                _vm.$set(
+                                                  _vm.form,
+                                                  "otherAddress",
+                                                  $$a.concat([$$v])
+                                                )
+                                            } else {
+                                              $$i > -1 &&
+                                                _vm.$set(
+                                                  _vm.form,
+                                                  "otherAddress",
+                                                  $$a
+                                                    .slice(0, $$i)
+                                                    .concat($$a.slice($$i + 1))
+                                                )
+                                            }
+                                          } else {
+                                            _vm.$set(
+                                              _vm.form,
+                                              "otherAddress",
+                                              $$c
+                                            )
+                                          }
+                                        }
+                                      }
+                                    })
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm.form.otherAddress
+                              ? _c("div", { staticClass: "w-full pl-5 mt-2" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.address,
+                                        expression: "form.address"
+                                      }
+                                    ],
+                                    staticClass: "text-center",
+                                    staticStyle: {
+                                      height: "30px",
+                                      border: "1px solid black",
+                                      "border-radius": "5px",
+                                      width: "93%",
+                                      padding: "5px"
+                                    },
+                                    attrs: {
+                                      placeholder: "Street No, Barangay, Town"
+                                    },
+                                    domProps: { value: _vm.form.address },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "address",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "text-xs text-red-500" },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.validationError(
+                                            "address",
+                                            _vm.saveError
+                                          )
+                                        ) + " "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "w-full flex flex-col mt-5" },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-full flex justify-start items-center pl-5"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t\tAvailable Address:\n\t\t\t\t\t\t\t\t"
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-full flex justify-start items-center px-5"
+                                  },
+                                  [
+                                    _c(
+                                      "select",
+                                      {
+                                        staticClass: "w-full",
+                                        staticStyle: {
+                                          border: "1px solid black",
+                                          height: "30px"
+                                        }
+                                      },
+                                      _vm._l(_vm.restaurant.places, function(
+                                        p
+                                      ) {
+                                        return _c(
+                                          "option",
+                                          {
+                                            key: p.id,
+                                            domProps: { value: p.id }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                _vm._s(p.address) +
+                                                "\n\t\t\t\t\t\t\t\t\t\t"
+                                            )
+                                          ]
+                                        )
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "w-full pl-5 mt-4" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "py-2",
+                                  staticStyle: {
+                                    "border-radius": "5px",
+                                    width: "93%",
+                                    background: "#E4B934"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.confirmBuyNow()
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\tConfirm\n\t\t\t\t\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            ])
                           ]
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "w-full pl-5 mt-4" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "py-2",
-                            staticStyle: {
-                              "border-radius": "5px",
-                              width: "93%",
-                              background: "#E4B934"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.confirmBuyNow()
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\t\tConfirm\n\t\t\t\t\t\t\t\t"
-                            )
-                          ]
-                        )
-                      ])
-                    ])
+                      ]
+                    )
                   ]
                 )
-              ]
-            )
+              : _vm._e()
           ])
     ])
   ])

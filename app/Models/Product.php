@@ -18,4 +18,8 @@ class Product extends Model
         'is_active',
         'description'
     ];
+
+    // protected $casts = [ 
+    //     'amount' => 'float'
+    // ];
 }

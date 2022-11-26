@@ -4190,6 +4190,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4403,6 +4420,10 @@ __webpack_require__.r(__webpack_exports__);
       modal.style.display = "block";
       this.description = arg.description;
       this.productName = arg.name;
+      this.description = arg.description;
+      this.productName = arg.name;
+      this.productImage = '/images/uploads/' + arg.image;
+      this.productAmount = arg.amount;
     },
     closeDescriptionModal: function closeDescriptionModal() {
       var modal = document.getElementById("descriptionModal");
@@ -67511,7 +67532,9 @@ var render = function() {
                                             _vm._v(
                                               "₱" +
                                                 _vm._s(
-                                                  product.amount.toFixed(2)
+                                                  parseFloat(
+                                                    product.amount
+                                                  ).toFixed(2)
                                                 )
                                             )
                                           ]
@@ -67680,103 +67703,94 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            !!_vm.productAmount
-              ? _c(
+            _c(
+              "div",
+              {
+                staticClass: "descriptionModal",
+                attrs: { id: "descriptionModal" }
+              },
+              [
+                _c(
                   "div",
                   {
-                    staticClass: "descriptionModal",
-                    attrs: { id: "descriptionModal" }
+                    staticClass: "description-content flex flex-col",
+                    staticStyle: { width: "20%", border: "2px solid #E4B934" }
                   },
                   [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "description-content flex flex-col",
-                        staticStyle: {
-                          width: "20%",
-                          border: "2px solid #E4B934"
-                        }
-                      },
-                      [
-                        _c("div", { staticClass: "w-full" }, [
-                          _c("span", { staticClass: "text-4xl font-bold" }, [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\t" +
-                                _vm._s(_vm.productName) +
-                                "\n\t\t\t\t\t\t\t"
-                            )
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("span", { staticClass: "text-4xl font-bold" }, [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\t" +
+                            _vm._s(_vm.productName) +
+                            "\n\t\t\t\t\t\t\t"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "float-right cursor-pointer",
+                          on: {
+                            click: function($event) {
+                              return _vm.closeDescriptionModal()
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa-solid fa-xmark" })]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "w-full flex flex-col justify-center items-center"
+                        },
+                        [
+                          _c("div", { staticClass: "w-full" }, [
+                            _c("img", {
+                              staticClass: "w-full p-4",
+                              staticStyle: {
+                                height: "200px",
+                                border: "2px solid #E4B934"
+                              },
+                              attrs: { src: _vm.productImage }
+                            })
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "float-right cursor-pointer",
-                              on: {
-                                click: function($event) {
-                                  return _vm.closeDescriptionModal()
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa-solid fa-xmark" })]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "w-full flex flex-col mt-4" },
-                          [
+                          _c("div", { staticClass: "w-full" }, [
                             _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "w-full flex flex-col justify-center items-center"
-                              },
+                              "p",
+                              { staticClass: "w-full text-center text-4xl" },
                               [
-                                _c("div", { staticClass: "w-full" }, [
-                                  _c("img", {
-                                    staticClass: "w-full p-4",
-                                    staticStyle: {
-                                      height: "200px",
-                                      border: "2px solid #E4B934"
-                                    },
-                                    attrs: { src: _vm.productImage }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "w-full" }, [
-                                  _c(
-                                    "p",
-                                    {
-                                      staticClass: "w-full text-center text-4xl"
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t₱ " +
-                                          _vm._s(_vm.productAmount.toFixed(2)) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ]
-                                  )
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "w-full mt-5" }, [
-                              _c("p", [
                                 _vm._v(
-                                  "\n\t\t\t\t\t\t\t\t\t" +
-                                    _vm._s(_vm.description) +
-                                    "\n\t\t\t\t\t\t\t\t"
+                                  "\n\t\t\t\t\t\t\t\t\t\t₱ " +
+                                    _vm._s(
+                                      parseFloat(_vm.productAmount).toFixed(2)
+                                    ) +
+                                    "\n\t\t\t\t\t\t\t\t\t"
                                 )
-                              ])
-                            ])
-                          ]
-                        )
-                      ]
-                    )
+                              ]
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full mt-5" }, [
+                        _c("p", [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t" +
+                              _vm._s(_vm.description) +
+                              "\n\t\t\t\t\t\t\t\t"
+                          )
+                        ])
+                      ])
+                    ])
                   ]
                 )
-              : _vm._e(),
+              ]
+            ),
             _vm._v(" "),
             !!_vm.orderProduct
               ? _c(
@@ -67951,9 +67965,9 @@ var render = function() {
                                     _vm._v(
                                       "\n\t\t\t\t\t\t\t\t\t₱ " +
                                         _vm._s(
-                                          (
-                                            _vm.orderProduct.amount *
-                                            _vm.orderDescription.quantity
+                                          parseFloat(
+                                            _vm.parseFloatorderProduct.amount *
+                                              _vm.orderDescription.quantity
                                           ).toFixed(2)
                                         ) +
                                         "\n\t\t\t\t\t\t\t\t"
@@ -68003,10 +68017,10 @@ var render = function() {
                                   _vm._v(
                                     "\n\t\t\t\t\t\t\t\t\t₱ " +
                                       _vm._s(
-                                        (
+                                        parseFloat(
                                           _vm.orderProduct.amount *
                                             _vm.orderDescription.quantity +
-                                          60
+                                            60
                                         ).toFixed(2)
                                       ) +
                                       "\n\t\t\t\t\t\t\t\t"
@@ -69632,7 +69646,9 @@ var render = function() {
                                             _vm._v(
                                               "₱" +
                                                 _vm._s(
-                                                  product.amount.toFixed(2)
+                                                  parseFloat(
+                                                    product.amount
+                                                  ).toFixed(2)
                                                 )
                                             )
                                           ]
@@ -69663,12 +69679,11 @@ var render = function() {
                     "div",
                     {
                       staticClass: "description-content flex flex-col",
-                      staticStyle: { border: "2px solid #E4B934" },
-                      style: { width: _vm.isMobile ? "80%" : "20%" }
+                      staticStyle: { width: "20%", border: "2px solid #E4B934" }
                     },
                     [
                       _c("div", { staticClass: "w-full" }, [
-                        _c("span", { staticClass: "text-lg font-bold" }, [
+                        _c("span", { staticClass: "text-4xl font-bold" }, [
                           _vm._v(
                             "\n\t\t\t\t\t\t\t\t" +
                               _vm._s(_vm.productName) +
@@ -69690,13 +69705,51 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "w-full mt-4" }, [
-                        _c("p", [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\t" +
-                              _vm._s(_vm.description) +
-                              "\n\t\t\t\t\t\t\t"
-                          )
+                      _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "w-full flex flex-col justify-center items-center"
+                          },
+                          [
+                            _c("div", { staticClass: "w-full" }, [
+                              _c("img", {
+                                staticClass: "w-full p-4",
+                                staticStyle: {
+                                  height: "200px",
+                                  border: "2px solid #E4B934"
+                                },
+                                attrs: { src: _vm.productImage }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "w-full" }, [
+                              _c(
+                                "p",
+                                { staticClass: "w-full text-center text-4xl" },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\t\t₱ " +
+                                      _vm._s(
+                                        parseFloat(_vm.productAmount).toFixed(2)
+                                      ) +
+                                      "\n\t\t\t\t\t\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "w-full mt-5" }, [
+                          _c("p", [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t\t" +
+                                _vm._s(_vm.description) +
+                                "\n\t\t\t\t\t\t\t\t"
+                            )
+                          ])
                         ])
                       ])
                     ]
@@ -71240,7 +71293,12 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "₱" + _vm._s(product.amount.toFixed(2))
+                                        "₱" +
+                                          _vm._s(
+                                            parseFloat(product.amount).toFixed(
+                                              2
+                                            )
+                                          )
                                       )
                                     ]
                                   )
@@ -71536,94 +71594,85 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      !!_vm.productAmount
-        ? _c(
+      _c(
+        "div",
+        { staticClass: "descriptionModal", attrs: { id: "descriptionModal" } },
+        [
+          _c(
             "div",
             {
-              staticClass: "descriptionModal",
-              attrs: { id: "descriptionModal" }
+              staticClass: "description-content flex flex-col",
+              staticStyle: { width: "20%", border: "2px solid #E4B934" }
             },
             [
-              _c(
-                "div",
-                {
-                  staticClass: "description-content flex flex-col",
-                  staticStyle: { width: "20%", border: "2px solid #E4B934" }
-                },
-                [
-                  _c("div", { staticClass: "w-full" }, [
-                    _c("span", { staticClass: "text-4xl font-bold" }, [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(_vm.productName) +
-                          "\n                        "
-                      )
+              _c("div", { staticClass: "w-full" }, [
+                _c("span", { staticClass: "text-4xl font-bold" }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(_vm.productName) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    staticClass: "float-right cursor-pointer",
+                    on: {
+                      click: function($event) {
+                        return _vm.closeDescriptionModal()
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fa-solid fa-xmark" })]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "w-full flex flex-col justify-center items-center"
+                  },
+                  [
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("img", {
+                        staticClass: "w-full p-4",
+                        staticStyle: {
+                          height: "200px",
+                          border: "2px solid #E4B934"
+                        },
+                        attrs: { src: _vm.productImage }
+                      })
                     ]),
                     _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        staticClass: "float-right cursor-pointer",
-                        on: {
-                          click: function($event) {
-                            return _vm.closeDescriptionModal()
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fa-solid fa-xmark" })]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "w-full flex flex-col justify-center items-center"
-                      },
-                      [
-                        _c("div", { staticClass: "w-full" }, [
-                          _c("img", {
-                            staticClass: "w-full p-4",
-                            staticStyle: {
-                              height: "200px",
-                              border: "2px solid #E4B934"
-                            },
-                            attrs: { src: _vm.productImage }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "w-full" }, [
-                          _c(
-                            "p",
-                            { staticClass: "w-full text-center text-4xl" },
-                            [
-                              _vm._v(
-                                "\n                                    ₱ " +
-                                  _vm._s(_vm.productAmount.toFixed(2)) +
-                                  "\n                                "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "w-full mt-5" }, [
-                      _c("p", [
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("p", { staticClass: "w-full text-center text-4xl" }, [
                         _vm._v(
-                          "\n                                " +
-                            _vm._s(_vm.description) +
-                            "\n                            "
+                          "\n                                    ₱ " +
+                            _vm._s(parseFloat(_vm.productAmount).toFixed(2)) +
+                            "\n                                "
                         )
                       ])
                     ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-full mt-5" }, [
+                  _c("p", [
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(_vm.description) +
+                        "\n                            "
+                    )
                   ])
-                ]
-              )
+                ])
+              ])
             ]
           )
-        : _vm._e(),
+        ]
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "removeModal", attrs: { id: "removeModal" } }, [
         _c(

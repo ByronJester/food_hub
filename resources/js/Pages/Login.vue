@@ -277,7 +277,7 @@
                                         style="border-radius: 5px; background: #000000"
                                     >
                                         <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}">> 
-                                            <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
+                                            <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
                                         </span>
                                     </button>
                                 </div>
@@ -287,10 +287,9 @@
 				</div>
 
 				<div id="descriptionModal" class="descriptionModal">
-					<!-- Modal content -->
-					<div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
+					<div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
 						<div class="w-full">
-							<span class="text-lg font-bold">
+							<span class="text-4xl font-bold">
 								{{productName}}
 							</span>
 
@@ -301,10 +300,28 @@
 							</span>
 						</div>
 
-						<div class="w-full mt-4">
-							<p>
-								{{ description }}
-							</p>
+						<div class="w-full flex flex-col mt-4">
+							<div class="w-full flex flex-col justify-center items-center">
+								<div class="w-full">
+									<img class="w-full p-4" :src="productImage"
+										style="height: 200px; border: 2px solid #E4B934"
+									/>
+								</div>
+
+								<div class="w-full">
+									<p class="w-full text-center text-4xl">
+										₱ {{ parseFloat(productAmount).toFixed(2) }}
+									</p>
+								</div>
+							
+								
+							</div>
+
+							<div class="w-full mt-5">
+								<p>
+									{{ description }}
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -936,6 +953,11 @@ export default {
 
             this.description = arg.description
             this.productName = arg.name
+
+			this.description = arg.description
+            this.productName = arg.name
+            this.productImage = '/images/uploads/' + arg.image
+            this.productAmount = arg.amount
         },
 
         closeDescriptionModal(){

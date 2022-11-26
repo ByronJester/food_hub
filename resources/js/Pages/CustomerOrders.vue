@@ -100,7 +100,11 @@
                                 </div>
 
                                 <div class="w-full text-center py-1">
-                                    <p class="text-lg mt-1">
+                                    <p class="text-lg mt-1" v-if="activeTab == 'pending'">
+                                        ₱{{ parseFloat(order.amount).toFixed(2)}}
+                                    </p>
+
+                                    <p class="text-lg mt-1" v-else>
                                         ₱{{ parseFloat(order.amount + 60).toFixed(2)}}
                                     </p>
                                 </div>

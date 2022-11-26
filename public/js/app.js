@@ -2767,6 +2767,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -66481,15 +66485,27 @@ var render = function() {
                               "div",
                               { staticClass: "w-full text-center py-1" },
                               [
-                                _c("p", { staticClass: "text-lg mt-1" }, [
-                                  _vm._v(
-                                    "\n                                        ₱" +
-                                      _vm._s(
-                                        parseFloat(order.amount + 60).toFixed(2)
-                                      ) +
-                                      "\n                                    "
-                                  )
-                                ])
+                                _vm.activeTab == "pending"
+                                  ? _c("p", { staticClass: "text-lg mt-1" }, [
+                                      _vm._v(
+                                        "\n                                        ₱" +
+                                          _vm._s(
+                                            parseFloat(order.amount).toFixed(2)
+                                          ) +
+                                          "\n                                    "
+                                      )
+                                    ])
+                                  : _c("p", { staticClass: "text-lg mt-1" }, [
+                                      _vm._v(
+                                        "\n                                        ₱" +
+                                          _vm._s(
+                                            parseFloat(
+                                              order.amount + 60
+                                            ).toFixed(2)
+                                          ) +
+                                          "\n                                    "
+                                      )
+                                    ])
                               ]
                             )
                           ]),

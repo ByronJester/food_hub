@@ -113,7 +113,7 @@
                                     style="border-radius: 5px; background: #000000"
                                 >
                                     <span class="--text px-2"> 
-                                        <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ product.amount.toFixed(2) }}</b>
+                                        <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ !!product.amount ? product.amount.toFixed(2) : product.amount }}</b>
                                     </span>
                                 </button>
                             </div>
@@ -231,7 +231,7 @@
 
                             <div class="w-full">
                                 <p class="w-full text-center text-4xl">
-                                    ₱ {{ productAmount.toFixed(2) }}
+                                    ₱ {{ !!productAmount ? productAmount.toFixed(2) : productAmount}}
                                 </p>
                             </div>
                            

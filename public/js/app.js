@@ -71137,7 +71137,12 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "₱" + _vm._s(product.amount.toFixed(2))
+                                        "₱" +
+                                          _vm._s(
+                                            !!product.amount
+                                              ? product.amount.toFixed(2)
+                                              : product.amount
+                                          )
                                       )
                                     ]
                                   )
@@ -71490,7 +71495,11 @@ var render = function() {
                       _c("p", { staticClass: "w-full text-center text-4xl" }, [
                         _vm._v(
                           "\n                                    ₱ " +
-                            _vm._s(_vm.productAmount.toFixed(2)) +
+                            _vm._s(
+                              !!_vm.productAmount
+                                ? _vm.productAmount.toFixed(2)
+                                : _vm.productAmount
+                            ) +
                             "\n                                "
                         )
                       ])

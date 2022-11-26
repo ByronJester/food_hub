@@ -105,7 +105,7 @@
                                     </p>
 
                                     <p class="text-lg mt-1" v-else>
-                                        ₱{{ parseFloat(order.amount + 60).toFixed(2)}}
+                                        ₱{{ parseFloat(order.amount + parseInt(60)).toFixed(2)}}
                                     </p>
                                 </div>
                             </div>
@@ -375,14 +375,17 @@ export default {
     },
     methods: {
         changeQuantity(evt,arg) {
-
+            var data = { id: arg.id, product_id: arg.product_id, quantity: evt.target.value}
+            
             axios.post(this.$root.route + "/orders/change-quantity", data)
 				.then(response => {
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
-                        this.orders = response.data.orders
+                        // this.orders = response.data.orders
+                        location.reload()
 					}
+                    
 				})
         },
 

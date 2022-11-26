@@ -2839,11 +2839,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     changeQuantity: function changeQuantity(evt, arg) {
       var _this2 = this;
 
+      var data = {
+        id: arg.id,
+        product_id: arg.product_id,
+        quantity: evt.target.value
+      };
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(this.$root.route + "/orders/change-quantity", data).then(function (response) {
         if (response.data.status == 422) {
           _this2.saveError = response.data.errors;
         } else {
-          _this2.orders = response.data.orders;
+          // this.orders = response.data.orders
+          location.reload();
         }
       });
     },
@@ -66500,7 +66506,7 @@ var render = function() {
                                         "\n                                        ₱" +
                                           _vm._s(
                                             parseFloat(
-                                              order.amount + 60
+                                              order.amount + parseInt(60)
                                             ).toFixed(2)
                                           ) +
                                           "\n                                    "

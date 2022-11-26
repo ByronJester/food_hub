@@ -84,7 +84,7 @@ class OrderController extends Controller
     {   
         $auth = Auth::user();
 
-        $order = Order::where('id', $request->order_id)->first();
+        $order = Order::where('id', $request->id)->first();
         $product = Product::where('id', $request->product_id)->first();
 
         $order->quantity = $request->quantity;

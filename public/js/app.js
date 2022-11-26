@@ -3335,7 +3335,7 @@ __webpack_require__.r(__webpack_exports__);
       isMobile: window.screen.width <= 700,
       products: [],
       orderDescription: {},
-      orderProduct: {},
+      orderProduct: null,
       form: {
         payment_method: 'cod',
         reference_number: null,
@@ -67680,7 +67680,7 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm.productName
+            _vm.productAmount
               ? _c(
                   "div",
                   {
@@ -67778,7 +67778,7 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            !!_vm.orderProduct && _vm.orderProduct.name
+            !!_vm.orderProduct
               ? _c(
                   "div",
                   {

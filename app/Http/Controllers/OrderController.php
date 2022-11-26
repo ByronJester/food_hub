@@ -138,7 +138,7 @@ class OrderController extends Controller
 
         $data = $request->only(['payment_method', 'reference_number', 'user_id']);
 
-        $restaurant = Restaurant::where('restaurant_name', 'LIKE', $request->food_joints)->first();
+        $restaurant = Restaurant::where('restaurant_name', $request->food_joint)->first();
 
         $data['restaurant_id'] = $restaurant->id;
         $data['reference'] = $reference;
@@ -153,7 +153,7 @@ class OrderController extends Controller
 
         OrderDescription::forceCreate($data);
 
-        $orders = Order::where('user_id', $auth->id)->get();
+        Order::where('user_id', $auth->id)->get();
 
         return response()->json(['status' => 200, 'data' => $data], 200);  
     }

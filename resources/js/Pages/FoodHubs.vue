@@ -222,7 +222,7 @@
 								</div>
 
 								<div class="w-full text-left pl-5">
-									₱ {{ parseFloat(parseFloatorderProduct.amount * orderDescription.quantity).toFixed(2)  }}
+									₱ {{ parseFloat(orderProduct.amount * orderDescription.quantity).toFixed(2)  }}
 								</div>
 							</div>
 

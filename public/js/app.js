@@ -67972,7 +67972,7 @@ var render = function() {
                                       "\n\t\t\t\t\t\t\t\t\t₱ " +
                                         _vm._s(
                                           parseFloat(
-                                            _vm.parseFloatorderProduct.amount *
+                                            _vm.orderProduct.amount *
                                               _vm.orderDescription.quantity
                                           ).toFixed(2)
                                         ) +

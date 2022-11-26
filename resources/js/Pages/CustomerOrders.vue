@@ -105,7 +105,7 @@
                                     </p>
 
                                     <p class="text-lg mt-1" v-else>
-                                        ₱{{ parseFloat(order.amount + parseInt(60)).toFixed(2)}}
+                                        ₱{{ (parseFloat(order.amount) + parseFloat(60)).toFixed(2) }}
                                     </p>
                                 </div>
                             </div>

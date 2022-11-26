@@ -66505,8 +66505,9 @@ var render = function() {
                                       _vm._v(
                                         "\n                                        ₱" +
                                           _vm._s(
-                                            parseFloat(
-                                              order.amount + parseInt(60)
+                                            (
+                                              parseFloat(order.amount) +
+                                              parseFloat(60)
                                             ).toFixed(2)
                                           ) +
                                           "\n                                    "

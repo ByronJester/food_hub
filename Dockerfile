@@ -317,6 +317,15 @@ COPY deployment/octane/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 RUN chmod +x deployment/octane/entrypoint.sh
 RUN cat deployment/octane/utilities.sh >> ~/.bashrc
 
+WORKDIR /app
+RUN chown -R admin:admin /app
+RUN chmod 755 /app
+
+RUN chown -R admin:admin /public
+RUN chmod 755 /public
+
+USER admin
+
 EXPOSE 9000
 
 ENTRYPOINT ["deployment/octane/entrypoint.sh"]

@@ -66485,7 +66485,7 @@ var render = function() {
                                   _vm._v(
                                     "\n                                        ₱" +
                                       _vm._s(
-                                        parseFloat(order.amount).toFixed(2)
+                                        parseFloat(order.amount + 60).toFixed(2)
                                       ) +
                                       "\n                                    "
                                   )
@@ -69243,7 +69243,7 @@ var render = function() {
                           on: {
                             click: function($event) {
                               _vm.openTermsAndCondition()
-                              _vm.isLogin = false
+                              _vm.isMobile ? (_vm.isLogin = false) : ""
                             }
                           }
                         },

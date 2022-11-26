@@ -101,7 +101,7 @@
 
                                 <div class="w-full text-center py-1">
                                     <p class="text-lg mt-1">
-                                        ₱{{ parseFloat(order.amount).toFixed(2)}}
+                                        ₱{{ parseFloat(order.amount + 60).toFixed(2)}}
                                     </p>
                                 </div>
                             </div>

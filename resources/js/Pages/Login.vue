@@ -143,7 +143,7 @@
 					
   					<input type="checkbox" v-model="termsAndCondition">
 					<label class="text-white cursor-pointer hover:underline"
-						@click="openTermsAndCondition(); isLogin = false"
+						@click="openTermsAndCondition(); isMobile ? isLogin = false : ''"
 					> 
 						Terms and Condition 
 					</label><br>

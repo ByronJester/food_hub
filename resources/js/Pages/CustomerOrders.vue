@@ -112,7 +112,7 @@
 
                             <div class="w-full flex flex-row" v-if="activeTab == 'to_receive'">
                                 <button class="w-full" style="background: #E4B934; height: 40px" @click="orderReceived(order.reference)">
-                                    Order Recieved
+                                    Order Received
                                 </button>
                             </div>
                         </div>

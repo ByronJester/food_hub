@@ -66527,7 +66527,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                    Order Recieved\n                                "
+                                        "\n                                    Order Received\n                                "
                                       )
                                     ]
                                   )
@@ -68383,7 +68383,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\tAvailable Address:\n\t\t\t\t\t\t\t\t"
+                                      "\n\t\t\t\t\t\t\t\t\tAvailable Delivery Address:\n\t\t\t\t\t\t\t\t"
                                     )
                                   ]
                                 ),

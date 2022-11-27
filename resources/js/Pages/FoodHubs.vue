@@ -298,7 +298,7 @@
 
 							<div class="w-full flex flex-col mt-5">
 								<div class="w-full flex justify-start items-center pl-5">
-									Available Address:
+									Available Delivery Address:
 								</div>
 
 								<div class="w-full flex justify-start items-center px-5">

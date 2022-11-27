@@ -67742,7 +67742,8 @@ var render = function() {
                   "div",
                   {
                     staticClass: "description-content flex flex-col",
-                    staticStyle: { width: "20%", border: "2px solid #E4B934" }
+                    staticStyle: { border: "2px solid #E4B934" },
+                    style: { width: _vm.isMobile ? "90%" : "20%" }
                   },
                   [
                     _c("div", { staticClass: "w-full" }, [
@@ -67828,7 +67829,8 @@ var render = function() {
                   "div",
                   {
                     staticClass: "checkout-content flex flex-col",
-                    staticStyle: { width: "20%", border: "2px solid #E4B934" }
+                    staticStyle: { border: "2px solid #E4B934" },
+                    style: { width: _vm.isMobile ? "100%" : "20%" }
                   },
                   [
                     _c("div", { staticClass: "w-full" }, [
@@ -69718,7 +69720,8 @@ var render = function() {
                     "div",
                     {
                       staticClass: "description-content flex flex-col",
-                      staticStyle: { width: "20%", border: "2px solid #E4B934" }
+                      staticStyle: { border: "2px solid #E4B934" },
+                      style: { width: _vm.isMobile ? "90%" : "20%" }
                     },
                     [
                       _c("div", { staticClass: "w-full" }, [

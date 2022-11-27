@@ -134,7 +134,7 @@
 				</div>
 
 				<div id="descriptionModal" class="descriptionModal">
-					<div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+					<div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '20%'}">
 						<div class="w-full">
 							<span class="text-4xl font-bold">
 								{{productName}}
@@ -174,7 +174,7 @@
 				</div>
 
 				<div id="checkoutModal" class="checkoutModal">
-					<div class="checkout-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+					<div class="checkout-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '100%': '20%'}">
 						<div class="w-full">
 							<span class="text-xl font-bold">
 								Checkout Order

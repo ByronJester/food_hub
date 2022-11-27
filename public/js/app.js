@@ -66577,7 +66577,7 @@ var render = function() {
               {
                 staticClass: "checkout-content flex flex-col",
                 staticStyle: { border: "2px solid #E4B934" },
-                style: { width: _vm.isMobile ? "100%" : "20%" }
+                style: { width: _vm.isMobile ? "85%" : "20%" }
               },
               [
                 _c("div", { staticClass: "w-full" }, [
@@ -67830,7 +67830,7 @@ var render = function() {
                   {
                     staticClass: "checkout-content flex flex-col",
                     staticStyle: { border: "2px solid #E4B934" },
-                    style: { width: _vm.isMobile ? "100%" : "20%" }
+                    style: { width: _vm.isMobile ? "85%" : "20%" }
                   },
                   [
                     _c("div", { staticClass: "w-full" }, [

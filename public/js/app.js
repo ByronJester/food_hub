@@ -2928,13 +2928,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     sumAmount: function sumAmount(arr) {
       var res = lodash__WEBPACK_IMPORTED_MODULE_2___default().sumBy(arr, function (arg) {
-        return arg.amount;
+        return parseFloat(arg.amount);
       });
 
       return parseFloat(res);
     },
     getTotal: function getTotal(sub, fee) {
-      var total = sub + fee;
+      var total = parseFloat(sub) + parseFloat(fee);
       return parseFloat(total).toFixed(2);
     },
     getPlaces: function getPlaces(arg) {
@@ -66491,28 +66491,15 @@ var render = function() {
                               "div",
                               { staticClass: "w-full text-center py-1" },
                               [
-                                _vm.activeTab == "pending"
-                                  ? _c("p", { staticClass: "text-lg mt-1" }, [
-                                      _vm._v(
-                                        "\n                                        ₱" +
-                                          _vm._s(
-                                            parseFloat(order.amount).toFixed(2)
-                                          ) +
-                                          "\n                                    "
-                                      )
-                                    ])
-                                  : _c("p", { staticClass: "text-lg mt-1" }, [
-                                      _vm._v(
-                                        "\n                                        ₱" +
-                                          _vm._s(
-                                            (
-                                              parseFloat(order.amount) +
-                                              parseFloat(60)
-                                            ).toFixed(2)
-                                          ) +
-                                          "\n                                    "
-                                      )
-                                    ])
+                                _c("p", { staticClass: "text-lg mt-1" }, [
+                                  _vm._v(
+                                    "\n                                        ₱" +
+                                      _vm._s(
+                                        parseFloat(order.amount).toFixed(2)
+                                      ) +
+                                      "\n                                    "
+                                  )
+                                ])
                               ]
                             )
                           ]),
@@ -66740,7 +66727,9 @@ var render = function() {
                         _c("div", { staticClass: "w-full text-left pl-5" }, [
                           _vm._v(
                             "\n                                ₱ " +
-                              _vm._s(_vm.sumAmount(orders).toFixed(2)) +
+                              _vm._s(
+                                parseFloat(_vm.sumAmount(orders)).toFixed(2)
+                              ) +
                               "\n                            "
                           )
                         ])

@@ -100,13 +100,13 @@
                                 </div>
 
                                 <div class="w-full text-center py-1">
-                                    <p class="text-lg mt-1" v-if="activeTab == 'pending'">
+                                    <p class="text-lg mt-1">
                                         ₱{{ parseFloat(order.amount).toFixed(2)}}
                                     </p>
 
-                                    <p class="text-lg mt-1" v-else>
+                                    <!-- <p class="text-lg mt-1" v-else>
                                         ₱{{ (parseFloat(order.amount) + parseFloat(60)).toFixed(2) }}
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
 
@@ -178,7 +178,7 @@
                             </div>
 
                             <div class="w-full text-left pl-5">
-                                ₱ {{ sumAmount(orders).toFixed(2)  }}
+                                ₱ {{ parseFloat(sumAmount(orders)).toFixed(2)  }}
                             </div>
                         </div>
 
@@ -467,13 +467,13 @@ export default {
         },
 
         sumAmount(arr) {
-            var res =  _.sumBy(arr, function(arg) { return arg.amount; })
+            var res =  _.sumBy(arr, function(arg) { return parseFloat(arg.amount); })
 
             return parseFloat(res);
         },
 
         getTotal(sub, fee) {
-            var total = sub + fee;
+            var total = parseFloat(sub) + parseFloat(fee);
 
             return parseFloat(total).toFixed(2)
         },

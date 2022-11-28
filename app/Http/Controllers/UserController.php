@@ -450,8 +450,6 @@ class UserController extends Controller
 
     public function getCron(Request $request) 
     {
-        AuditTrail::get();
-
         return response()->json(['status' => 200], 200); 
     }
 } 

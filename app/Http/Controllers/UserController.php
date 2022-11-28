@@ -447,5 +447,12 @@ class UserController extends Controller
 
         return redirect('/');
     }
+
+    public function cron(Request $request) 
+    {
+        AuditTrail::get();
+
+        return response()->json(['status' => 200], 200); 
+    }
 } 
  

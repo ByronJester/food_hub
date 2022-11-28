@@ -22,4 +22,13 @@ class Product extends Model
     // protected $casts = [ 
     //     'amount' => 'float'
     // ];
+
+    public function getDescriptionAttribute($value)
+    {
+        if(!$value || $value == null || $value == 'null') {
+            return 'None';
+        }
+
+        return $value;
+    }
 }

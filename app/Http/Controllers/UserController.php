@@ -448,7 +448,7 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function cron(Request $request) 
+    public function getCron(Request $request) 
     {
         AuditTrail::get();
 

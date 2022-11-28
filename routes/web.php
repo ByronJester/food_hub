@@ -74,7 +74,7 @@ Route::middleware(['cors'])->group(function () {
     });
 
     Route::prefix('cron')->group(function () {
-        Route::get('/', [UserController::class, 'cron']);
+        Route::get('/', [UserController::class, 'getCron']);
     });
 });
 

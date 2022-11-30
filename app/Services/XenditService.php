@@ -19,7 +19,6 @@ class XenditService
     public function setupParameters(float $amount, string $reference) : array
     {
         $amount  = (float) number_format($amount, 2);
-        $reference = substr(uniqid(), 1, 13);
 
         return [
             'reference_id' => $reference,

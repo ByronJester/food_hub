@@ -216,24 +216,6 @@
                             </div>
                         </div>
 
-                        <div class="w-full flex flex-row mt-5" v-if="form.payment_method == 'gcash'">
-                            <div class="w-full flex justify-center items-center">
-                                Owner G-Cash #:
-                            </div>
-
-                            <div class="w-full flex justify-center items-center">
-                                {{ gcashNumber }}
-                            </div>
-                        </div>
-
-                        <div class="w-full pl-5 mt-2" v-if="form.payment_method == 'gcash'">
-                            <input v-model="form.reference_number" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
-                                placeholder="G-Cash Ref. No."
-                                class="text-center"
-                            >
-                            <span class="text-xs text-red-500">{{validationError('reference_number', saveError)}} </span>
-                        </div>
-
                         <div class="w-full flex flex-row mt-5">
                             <div class="w-full flex justify-start items-center pl-5">
                                 Other Address:
@@ -265,7 +247,7 @@
                         </div>
 
                         <div class="w-full pl-5 mt-4">
-                            <button style="border-radius: 5px; width: 93%; background: #E4B934" class="py-2" @click="checkout()">
+                            <button type="button" style="border-radius: 5px; width: 93%; background: #E4B934" class="py-2" @click="checkout()">
                                 Confirm
                             </button>
                         </div>
@@ -410,12 +392,17 @@ export default {
             
             axios.post(this.$root.route + "/orders/checkout-order", this.form)
 				.then(response => {
+                    console.log(response.data.data.url);
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
                         this.activeTab = 'to_process'
                         this.selectedOrders = []
                         this.closeCheckoutModal()
+                        
+                        if(response.data.data.hasOwnProperty('url')) {
+                            window.location.href = response.data.data.url
+                        }
 					}
 				})
         },

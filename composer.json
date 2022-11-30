@@ -16,7 +16,8 @@
         "laravel/octane": "^1.3",
         "laravel/tinker": "^2.5",
         "spatie/laravel-backup": "^6.16",
-        "twilio/sdk": "^6.40"
+        "twilio/sdk": "^6.40",
+        "xendit/xendit-php": "^2.19"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

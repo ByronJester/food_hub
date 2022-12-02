@@ -1,5 +1,4 @@
 <template>
-
     <div >
 		<!-- Modal registration form -->
 		<div class="fixed z-50 inset-0 overflow-y-auto" v-show="isRegister" @keydown.escape.prevent.stop="isRegister = false" x-transition>
@@ -167,7 +166,7 @@
 		
 		<!-- Modal registration verification code form -->
 		<div class="fixed z-50 inset-0 overflow-y-auto" v-show="showModalVerificationRegistration" @keydown.escape.prevent.stop="showModalVerificationRegistration = false" x-transition>
-			<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+			<div class="flex items-start justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
 
 			<div class="fixed inset-0 transition-opacity" aria-hidden="true" x-transition.opacity>
 				<div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -274,22 +273,20 @@
                 </div>
             </section>
             
-            <div class="relative flex items-top justify-center" v-if="!restaurant">
-                <section class="text-gray-600 body-font">
-                    <div class="container px-5  mx-auto">
-                        <div class="flex flex-wrap -m-4">
-                            <a href="#restaurant-detail" class="lg:w-1/3 md:w-1/2 p-3 w-full" v-for="(arg, i) in restaurants" :key="i" @click="selectShop(arg)">
-                                <div class="block relative h-48 rounded overflow-hidden">
-                                <img alt="foodhubs" class="object-cover object-center w-full h-full block" :src="'/images/uploads/' +arg.banner">
-                                </div>
-                                <div class="mt-4">
-                                <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{arg.restaurant_name}}</h3>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </section>
-            </div>
+			<section class="text-gray-600 body-font"  v-if="!restaurant">
+				<div class="container px-5  mx-auto">
+					<div class="flex flex-wrap -m-4">
+						<div class="lg:w-1/3 md:w-1/2 p-4 w-full cursor-pointer" v-for="(arg, i) in restaurants" :key="i" @click="selectShop(arg)">
+							<a class="block relative h-48 rounded overflow-hidden " href="#restaurant-detail" >
+							<img alt="ecommerce" class="object-cover object-center w-full h-full block" :src="'/images/uploads/' + arg.banner">
+							</a>
+							<div class="mt-4">
+								<h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ arg.restaurant_name.toUpperCase() }}</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 
             <div id="restaurant-detail" v-else>
 				<section class="text-gray-600 body-font">
@@ -305,7 +302,7 @@
 										{{ restaurant.restaurant_name }} <hr class="mr-4 h-1 w-20 bg-yellow-500 rounded"></hr>
 									</h1>
 								</div>
-								<div class="flex mx-auto flex-wrap mb-20 mt-10">
+								<div class="flex mx-auto flex-wrap mb-2 mt-10">
 									<a @click="activeCategory = 'Food'" :class="{'bg-gray-100 border-yellow-500 text-yellow-500': activeCategory == 'Food'}" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none tracking-wider rounded-t">
 										FOODS
 									</a>
@@ -315,22 +312,21 @@
 								</div>
 							</div>
 						</div>
-						<div class="relative flex items-top justify-center">
-							<section class="text-gray-600 body-font">
-								<div class="container px-5 mx-auto">
-									<div class="flex flex-wrap -m-4">
-										<button @click="product.description ? openDescriptionModal(product) : ''" class="xl:w-1/4 md:w-1/2 p-4 w-full " v-for="product in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id">
-											<div class="block relative h-48 overflow-hidden  rounded-lg">
-												<img alt="foodhubs" class="object-cover object-center w-full h-full block"  :src="'/images/uploads/' + product.image" >
-												</div>
-												<div class="mt-4">
-												<h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ product.name.toUpperCase() }}</h3>
-												<p class="leading-relaxed text-base">₱{{ parseFloat(product.amount).toFixed(2) }}</p>
-											</div>
-										</button>
-									</div>
+					</div>
+				</section>
+
+				<section class="text-gray-600 body-font">
+					<div class="container px-5 py-24 mx-auto">
+						<div class="flex flex-wrap -m-4">
+							<div class="lg:w-1/4 md:w-1/2 p-4 w-full" @click="product.description ? openDescriptionModal(product) : ''" v-for="product in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id">
+								<a class="block relative h-48 rounded overflow-hidden">
+								<img alt="ecommerce" class="cursor-pointer object-cover object-center w-full h-full block" :src="'/images/uploads/' + product.image">
+								</a>
+								<div class="mt-4">
+								<h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ product.name.toUpperCase() }}</h3>
+								<p class="leading-relaxed text-base">₱{{ parseFloat(product.amount).toFixed(2) }}</p>
 								</div>
-							</section>
+							</div>
 						</div>
 					</div>
 				</section>

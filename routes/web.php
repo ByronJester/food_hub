@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\XenditController;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,12 @@ Route::middleware(['cors'])->group(function () {
 
     Route::prefix('cron')->group(function () {
         Route::get('/', [UserController::class, 'getCron']);
+    });
+
+    Route::prefix('xendit')->group(function () {
+        Route::view('/success', 'xendit-redirect.success')->name('xendit.success');
+        Route::view('/failed', 'xendit-redirect.failed')->name('xendit.failed');
+        Route::post('/transaction/notification', [XenditController::class, 'notify'])->name('xendit.notify');
     });
 });
 

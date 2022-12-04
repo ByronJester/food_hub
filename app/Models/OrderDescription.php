@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OrderDescription extends Model
 {
@@ -74,5 +76,27 @@ class OrderDescription extends Model
         }
 
         return null;
+    }
+
+    /**
+     * Order description relationship
+     * with transaction response.
+     * 
+     * @return HasMany
+     */
+    public function transactionHistories() : HasMany
+    {
+        return $this->hasMany(TransactionResponse::class, 'order_description_id');
+    }
+
+    /**
+     * Order description relationship
+     * with transaction response.
+     * 
+     * @return HasOne
+     */
+    public function recentTransaction() : HasOne
+    {
+        return $this->hasOne(TransactionResponse::class, 'order_description_id')->latest('id');
     }
 }

@@ -81,7 +81,8 @@ class Controller extends BaseController
                     ],
                     "billing" => [
                         "name" => $auth->name,
-                        "phone" => $auth->phone
+                        "phone" => $auth->phone,
+                        "email" => "food_hub@gmail.com"
                     ]
 				]
 			]
@@ -133,6 +134,8 @@ class Controller extends BaseController
 		$secret_key = session()->get('secret_key');
 
 		$source = $this->retrieveSource($source_id);
+
+        session()->put('source', $source);
 		
 		if (
 			isset($source->data)
@@ -156,7 +159,7 @@ class Controller extends BaseController
 			$payment_info = json_decode($response->getBody());
 	
 			if ($payment_info->data->attributes->status == 'paid') {
-				return $payment_info; 
+				return $payment_info->data->attributes->status; 
 
 			} else {
 				return null; 

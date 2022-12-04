@@ -133,46 +133,75 @@ class OrderController extends Controller
 
         $amount = $carts->sum('amount') + 60;
 
+        $amount = $amount * 100;
+
         $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
         $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
 
         $source = $this->createSource($amount, $publicKey, $secretKey);
 
-        $paymentInfo = $this->createPayment();
-
-        
-
-        $reference = Str::random(10);
-
-        $orders = collect($request->orders);
-
-        $orders = $orders->pluck('id');
-
-        Order::whereIn('id', $orders)->update([
-            'status' => 'to_process',
-            'reference' => $reference
-        ]);
-
-        $data = $request->only(['payment_method', 'reference_number', 'user_id']);
-
+        $description = $request->only(['payment_method', 'reference_number', 'user_id']);
+    
         $restaurant = Restaurant::where('restaurant_name', $request->food_joint)->first();
 
-        $data['restaurant_id'] = $restaurant->id;
-        $data['reference'] = $reference;
-        $data['shipping_fee'] = 60;
-        $data['status'] = 'to_process';
+        session()->put('orders', $orders);
+        session()->put('description', $description);
+        session()->put('restaurant_id', $restaurant->id);
 
-        if($request->otherAddress) {
-            $data['address'] = $request->address;
-        } else {
-            $data['address'] = $auth->address;
+        return response()->json(['status' => 200, 'data' => [], 'url' => $source->redirect->checkout_url], 200);  
+    }
+
+    public function buyNow(Request $request)
+    {
+        $auth = Auth::user();
+        
+        $rules = [
+            'payment_method' => "required|string",
+            'reference_number' => "required_if:payment_method,gcash|nullable|numeric",
+            'address' => "required_if:otherAddress,true|nullable|string",
+            'order' => "required"
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
         }
 
-        OrderDescription::forceCreate($data);
+        $order = (object) $request->order;
 
-        Order::where('user_id', $auth->id)->get();
+        $product = Product::where('id', $order->product_id)->first();
 
-        return response()->json(['status' => 200, 'data' => $data, 'url' => $source->redirect->checkout_url], 200);  
+        $orderSave = Order::create([
+            'restaurant_id' => $request->restaurant_id,
+            'product_id' => $order->product_id,
+            'user_id' => $auth->id,
+            'amount' => $product->amount * $order->quantity,
+            'quantity' => $order->quantity,
+            'status' => 'pending',
+            'reference' => null
+
+        ]);
+
+        $description = [];
+        $description['payment_method'] = $request->payment_method;
+        $description['reference_number'] = $request->reference_number;
+        $description['user_id'] = $auth->id;
+
+        $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
+        $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
+
+        $amount = ($product->amount * $order->quantity) + 60;
+
+        $amount = $amount * 100;
+
+        $source = $this->createSource($amount, $publicKey, $secretKey);
+
+        session()->put('orders', [ $orderSave->id ]);
+        session()->put('description', $description);
+        session()->put('restaurant_id', $request->restaurant_id);
+
+        return response()->json(['status' => 200, 'data' => [], 'url' => $source->redirect->checkout_url], 200);
     }
 
     public function getAddress(Request $request)
@@ -211,64 +240,6 @@ class OrderController extends Controller
         return response()->json(['status' => 200, 'sms' => $sms], 200); 
     }
 
-    public function buyNow(Request $request)
-    {
-        $auth = Auth::user();
-        
-        $rules = [
-            'payment_method' => "required|string",
-            'reference_number' => "required_if:payment_method,gcash|nullable|numeric",
-            'address' => "required_if:otherAddress,true|nullable|string",
-            'order' => "required"
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
-        }
-
-        $reference = Str::random(10);
-
-        $order = (object) $request->order;
-
-        $product = Product::where('id', $order->product_id)->first();
-
-        // return $order;
-
-        Order::create([
-            'restaurant_id' => $request->restaurant_id,
-            'product_id' => $order->product_id,
-            'user_id' => $auth->id,
-            'amount' => $product->amount * $order->quantity,
-            'quantity' => $order->quantity,
-            'status' => 'to_process',
-            'reference' => $reference
-
-        ]);
-
-        $data = $request->only(['payment_method', 'reference_number']);
-
-
-        $data['restaurant_id'] = $request->restaurant_id;
-        $data['reference'] = $reference;
-        $data['shipping_fee'] = 60;
-        $data['status'] = 'to_process';
-        $data['user_id'] = $auth->id;
-
-        if($request->otherAddress) {
-            $data['address'] = $request->address;
-        } else {
-            $data['address'] = $auth->address;
-        }
-
-        OrderDescription::forceCreate($data);
-
-        $orders = Order::where('user_id', $auth->id)->get();
-
-        return response()->json(['status' => 200, 'data' => $data], 200);
-    }
-
     public function orderReceived(Request $request)
     {
         Order::where('reference', $request->reference)->update(['status' => 'received']);
@@ -282,11 +253,41 @@ class OrderController extends Controller
     {
         $auth = Auth::user();
 
+        $source = session()->get('source');
+        $orders = session()->get('orders');
+        $description = session()->get('description');
+        $restaurant_id = session()->get('restaurant_id');
+
+        $paymentInfo = $this->createPayment();
+
+        if(!!$paymentInfo && $paymentInfo == 'paid') {
+            $reference = Str::random(10);
+
+            Order::whereIn('id', $orders)->update([
+                'status' => 'to_process',
+                'reference' => $reference
+            ]);
+    
+            $description['restaurant_id'] = $restaurant_id;
+            $description['reference'] = $reference;
+            $description['shipping_fee'] = 60;
+            $description['status'] = 'to_process';
+    
+            if($request->otherAddress) {
+                $description['address'] = $request->address;
+            } else {
+                $description['address'] = $auth->address;
+            }
+    
+            OrderDescription::forceCreate($description);
+        }
+
         if($auth) {
 
             return Inertia::render('Success', [
                 'auth'    => $auth,
                 'options' => [
+                    'source' => $source
                 ]
             ]);
         }

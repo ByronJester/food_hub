@@ -509,7 +509,8 @@ export default {
 					} else {
                         // this.closeCheckoutModal()
 
-						location.reload()
+						// location.reload()
+						window.location.href = response.data.url;
 					}
 				})
 		}

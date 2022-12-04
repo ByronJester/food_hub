@@ -2172,9 +2172,7 @@ __webpack_require__.r(__webpack_exports__);
       isMobile: window.screen.width <= 700
     };
   },
-  created: function created() {
-    console.log(this.auth.trays);
-  },
+  created: function created() {},
   methods: {
     logout: function logout() {
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__.Inertia.post(this.$root.route + "/users/logout", {}, {
@@ -2369,7 +2367,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           // this.selectedOrders = []
           // this.closeCheckoutModal()
 
-          window.open(response.data.url, '_blank');
+          // window.open(response.data.url);
+          window.location.href = response.data.url;
         }
       });
     },
@@ -2626,7 +2625,8 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           // this.closeCheckoutModal()
 
-          location.reload();
+          // location.reload()
+          window.location.href = response.data.url;
         }
       });
     }

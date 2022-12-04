@@ -417,7 +417,8 @@ export default {
                         // this.selectedOrders = []
                         // this.closeCheckoutModal()
                         
-                        window.open(response.data.url, '_blank');
+                        // window.open(response.data.url);
+                        window.location.href = response.data.url;
 
 					}
 				})

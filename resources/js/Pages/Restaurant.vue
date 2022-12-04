@@ -1,282 +1,397 @@
 <template>
-    <Navigation :auth="auth">
-        <div class="w-full h-full px-2 py-2 flex flex-col">
-            <div class="w-full relative">
-				<div class="w-full">
-					<img :src="restaurant.banner" 
-						style="height: 400px; width: 100%; "
-						class="p-5 relative cursor-pointer"
-                        @click="uploadImage('banner')"
-					>
-
-					<img :src="restaurant.image" class="absolute cursor-pointer"
-						style="height: 180px; width: 20%; top: 17rem; left: 4rem; border: 1px solid #E4B934"
-                        @click="uploadImage('image')" 
-					>
-
+    <div>
+        <Navigation :auth="auth"></Navigation>
+            <!-- Desktop banner -->
+            <div class="absolute cursor-pointer overflow-hidden bg-no-repeat bg-cover w-full hidden md:block"
+                style="background-position: 50%; height: 400px;">
+                    <img :src="restaurant.banner" 
+                        class="block w-full relative"
+                    >
                     <input type="file" ref="image" @change="imageChangeRestaurant('image', $event)" accept="image/png, image/jpeg" style="display:none">
                     <input type="file" ref="banner" @change="imageChangeRestaurant('banner', $event)" accept="image/png, image/jpeg" style="display:none">
-				</div>
+            </div>
 
-                <div class="w-full flex justify-center items-center mt-20">
-                    <div class="w-6/12 flex flex-row" style="border-bottom: 1px solid #E4B934;">
-                        <div class="w-full cursor-pointer mx-2 text-center --text"
-                            :class="{'bg-yellow-200': activeTab == 'menus'}"
-                            @click="activeTab = 'menus'"
-                        >
-                            Menus
-                        </div>
-
-                        <div class="w-full cursor-pointer mx-2 text-center --text"
-                            :class="{'bg-yellow-200': activeTab == 'places'}"
-                            @click="activeTab = 'places'"
-                        >
-                            Places
-                        </div>
+            <!-- Mobile banner -->
+            <div class="absolute cursor-pointer overflow-hidden bg-no-repeat bg-cover w-full sm:hidden py-20"
+                    style="background-position: 50%; height: 400px;">
+                    <img :src="restaurant.banner" 
+                        class="block w-full relative"
+                    >
+                    <input type="file" ref="image" @change="imageChangeRestaurant('image', $event)" accept="image/png, image/jpeg" style="display:none">
+                    <input type="file" ref="banner" @change="imageChangeRestaurant('banner', $event)" accept="image/png, image/jpeg" style="display:none">
+            </div>
+            
+            <section class="relative text-gray-600 body-font w-full py-10">
+                <div class="container px-5 py-12 mx-auto flex flex-wrap items-center">
+                    <div class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 lg:mt-40 md:mt-40 sm:mt-40">
+                        <img alt="image" class="cursor-pointer w-30 h-25 rounded-full shadow-xl inline-flex items-center justify-center bg-gray-200 text-gray-400"
+                        :src="restaurant.image" @click="uploadImage('image')" >
+                        <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">
+                            {{ restaurant.restaurant_name }} <hr class="mr-4 h-1 w-20 bg-yellow-500 rounded"></hr>
+                        </h1>
+                        <button type="button" class="mt-4 w-full inline-flex justify-center ml-2 rounded-md border border-yellow-300 shadow-sm px-4 py-2 bg-yellow-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-4 sm:w-auto sm:text-sm"
+                            @click="uploadImage('banner')">Change Banner</button>
                     </div>
                 </div>
+            </section>
 
-                <div class="w-full" v-if="activeTab == 'places'">
-                    <span class="float-right mr-2 cursor-pointer" style="border: 1px solid black" @click="openAddressModal()">
-                        <i class="fa-solid fa-plus p-2"></i>
-                    </span>
-                </div>
-
-                <div class="w-full flex justify-center items-center" v-if="activeTab == 'places'">
-                    <div class="w-4/12 --scroll" style="overflow-y: scroll; height:300px; border: 1px solid black;">
-                        <p class="inline-flex relative w-full px-1" v-for="add in options.address" :key="add.id" style="border-bottom: 1px solid black">
-                            <span>
-                                {{add.address}}
-                            </span>
-
-                            <span class="absolute cursor-pointer" style="right: .5rem" @click="placeSelected = add">
-                                <i class="fa-solid fa-xmark"></i>
-                            </span>
-                        </p>
+            <section class="text-gray-600 body-font">
+                <div class="container px-5 mx-auto">
+                    <div class="flex flex-wrap w-full">
+                        <div class="lg:w-1/2 w-full " >
+                            <div class="flex mx-auto flex-wrap mb-10 cursor-pointer">
+                                <a @click="activeTab = 'menus'" :class="{'bg-gray-100 border-yellow-500 text-yellow-500': activeTab == 'menus'}" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none tracking-wider rounded-t">
+                                    Menu
+                                </a>
+                                <a @click="activeTab = 'places'" :class="{'bg-gray-100 border-yellow-500 text-yellow-500': activeTab == 'places'}" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider">
+                                    Places
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="w-full mt-5 px-5" v-if="activeTab == 'menus'">
-                    <div class="flex flex-row float-right" style="width: 30%">
-                        <div class="w-full cursor-pointer mx-2 text-center --text"
-                            style="border: 1px solid #E4B934;"
-                            :class="{'bg-yellow-200': activeCategory == 'Food'}"
-                            @click="activeCategory = 'Food'"
-                        >
-                            Foods
-                        </div>
-
-                        <div class="w-full cursor-pointer mx-2 text-center --text"
-                            style="border: 1px solid #E4B934;"
-                            :class="{'bg-yellow-200': activeCategory == 'Drink'}"
-                            @click="activeCategory = 'Drink'"
-                        >
-                            Drinks
-                        </div>
-
-                        <div class="cursor-pointer mx-2 text-center"
-                            style="border: 1px solid #E4B934; width: 20%"
+                    <div class="flex mx-auto flex-wrap  cursor-pointer justify-start" v-if="activeTab == 'menus'">
+                        
+                            <a @click="activeCategory = 'Food'" :class="{'bg-gray-100 border-yellow-500 text-yellow-500': activeCategory == 'Food'}" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none tracking-wider rounded-t">
+                                Foods
+                            </a>
+                            <a @click="activeCategory = 'Drink'" :class="{'bg-gray-100 border-yellow-500 text-yellow-500': activeCategory == 'Drink'}" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider">
+                                Drinks
+                            </a>
+                        <div  class="mt-4 w-full inline-flex justify-center ml-2 rounded-md border border-yellow-300 shadow-sm px-4 py-2 bg-yellow-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-4 sm:w-auto sm:text-sm"
                             @click="openModal()"
                         >
-                            <i class="fa-solid fa-plus"></i>
+                             +
+                        </div>
+                    </div>
+
+
+                    <section class="text-gray-600 body-font" v-if="activeTab == 'places'">
+                        <div class="container  mx-auto">
+                            <div class="flex flex-wrap sm:mb-2 -mx-2">
+                                <div class="w-full overflow-hidden rounded-lg shadow-lg">
+                                    <div class="bg-white px-2 py-5 border-b border-gray-200 sm:px-6">
+                                        <div class="ml-2 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+                                        <div class="ml-2 mt-4">
+                                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                                    Address
+                                                </h3>
+                                                <p class="mt-1 text-sm text-gray-500">
+                                                    Showing list of address
+                                                </p>
+                                            </div>
+                                            <div class="mt-4 flex sm:mt-0 sm:ml-2">
+                                                <button type="button" class="w-full inline-flex justify-center ml-2 rounded-md border border-yellow-300 shadow-sm px-4 py-2 bg-yellow-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-0 sm:w-auto sm:text-sm" @click="openAddressModal()">Add Address</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full overflow-x-auto">
+                                        <table class="w-full whitespace-no-wrap">
+                                            <thead>
+                                                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-50">
+                                                    <th class="px-2 py-3"></th>
+                                                    <th class="px-2 py-3"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y">
+
+                                                <tr v-for="add in options.address" :key="add.id" 
+                                                    class="text-gray-700">
+                                                    <td class="px-2 py-3">
+                                                        {{add.address}}
+                                                    </td>
+                                                    <td class="px-2 py-3">
+
+                                                        <button type="button" class="w-full inline-flex justify-center ml-2 rounded-md border-0 shadow-sm px-4 py-2 bg-rose-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 sm:mt-0 sm:w-auto sm:text-sm" @click="placeSelected = add">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t bg-gray-50 sm:grid-cols-9">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section class="text-gray-600 body-font" v-if="activeTab == 'menus'">
+                <div class="container px-5 py-24 mx-auto">
+                    <div class="flex flex-wrap -m-4">
+                        <div class="lg:w-1/4 md:w-1/2 p-4 w-full" v-for="product in products.filter( x => { return x.category == activeCategory})" :key="product.id">
+                            <div class="w-full inline-flex mb-2">
+                                <p @click="viewProduct(product)">
+                                    <i class="fa-solid fa-pen-to-square fa-lg mx-1 cursor-pointer p-1"></i>
+                                </p>
+                                <Toggle :value="product.is_active" :url="'/restaurants/product/deactivate-reactivate'" :id="product.id" class="ml-1 mt-0.5 mb-2"/>
+                            </div>
+                            <a class="block relative h-48 rounded overflow-hidden" @click="openDescriptionModal(product)" v-if="product.description">
+                            <img alt="ecommerce" class="cursor-pointer object-cover object-center w-full h-full block" :src="'/images/uploads/' + product.image">
+                            </a>
+                            <div class="mt-4">
+                            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ product.name.toUpperCase() }}</h3>
+                            <p class="leading-relaxed text-base">₱{{ parseFloat(product.amount).toFixed(2) }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </section>
+
+        <!-- Modal view product -->
+        <div class="fixed z-50 inset-0 overflow-y-auto" v-show="showModalViewProduct" @keydown.escape.prevent.stop="showModalViewProduct = false" x-transition>
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true" x-transition.opacity>
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                <div
+                    class="inline-block align-bottom items-center bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6"
+                    role="dialog" aria-modal="true" aria-labelledby="" @click.stop x-trap.noscroll.inert="">
+                    <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+                    <button type="button" @click="closeDescriptionModal()"
+                        class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="sr-only">Close</span>
+                        <!-- Heroicon name: outline/x -->
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    </div>
+
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                                {{productName}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <div class="mt-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2 items-center">
+                            <div class="col-span-4 sm:col-span-4">
+                                <div class="block relative h-80 w-80 overflow-hidden items-center rounded-lg">
+                                    <img alt="foodhubs" class="object-center w-full h-full block" :src="productImage" >
+                                </div>
+                                    <div class="mt-4">
+                                    <h3 class="text-lg tracking-widest title-font mb-1">₱ {{ parseFloat(productAmount).toFixed(2) }}</h3>
+                                    <p class="leading-relaxed text-xs text-gray-500">{{description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-16 sm:mt-4 sm:flex sm:flex-row-reverse">
+                        <button type="button" @click="closeDescriptionModal()" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Close</button>
+                    </div>
+                                    
+                </div>
+            </div>
+        </div>
+
+		<!-- Modal edit product -->
+		<div class="fixed z-50 inset-0 overflow-y-auto" v-show="showModalEditProduct" @keydown.escape.prevent.stop="closeModal()" x-transition>
+			<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+			<div class="fixed inset-0 transition-opacity" aria-hidden="true" x-transition.opacity>
+				<div class="absolute inset-0 bg-gray-500 opacity-75"></div>
 			</div>
 
-            <div class="w-full mt-8 px-5" v-if="activeTab == 'menus'">
-                <div class="grid grid-cols-5 gap-4 flex justify-center items-center">
-                    <div class="w-full flex flex-col" v-for="product in products.filter( x => { return x.category == activeCategory})" :key="product.id"
-                        style="border: 1px solid #E4B934"
-                    >   
-                        <div class="w-full inline-flex mt-3">
-                            <p @click="viewProduct(product)">
-                                <i class="fa-solid fa-pen-to-square fa-lg mx-1 cursor-pointer p-1"></i>
-                            </p>
-                            
-                            <p @click="openDescriptionModal(product)" v-if="product.description">
-                                <i class="fa-solid fa-eye fa-lg cursor-pointer p-1"></i>
-                            </p>
+			<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                            <Toggle :value="product.is_active" :url="'/restaurants/product/deactivate-reactivate'" :id="product.id" class="ml-1 mt-1"/>
-                        </div>
-
-                        <div class="w-full">
-                            <img class="w-full p-4" :src="'/images/uploads/' + product.image"
-                                style="height: 200px"
-                            />
-                        </div>
-
-                        <div class="w-full text-center flex flex-col mb-2">
-                            <div class="w-full px-4">
-                                <button class="w-full py-1 cursor-default"
-                                    style="border-radius: 5px; background: #000000"
-                                >
-                                    <span class="--text px-2"> 
-                                        <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="myModal" class="modal">
-                <!-- Modal content -->
-                <div class="modal-content flex flex-col" style="width: 20%">
-                    <div class="w-full">
-                        <span class="text-lg font-bold">
-                            {{activeCategory}}
-                        </span>
-                        <span class="float-right cursor-pointer"
-                            @click="closeModal()"
-                        >
-                            <i class="fa-solid fa-xmark"></i>
-                        </span>
-                    </div>
-
-                    <div class="w-full mt-4">
-                        <input type="text" class="w-full text-center" placeholder="Name" v-model="form.name"
-                            style="border: 1px solid black; border-radius: 5px; height: 40px"
-                        >
-                        <span class="text-xs text-red-500">{{validationError('name', saveError)}} </span>
-                    </div>
-
-                    <div class="w-full mt-4">
-                        <textarea placeholder="Description" rows="5" cols="50" class="w-full"
-                            style="border: 1px solid black; padding: 5px; border-radius: 5px"
-                            v-model="form.description"
-                        ></textarea>
-                        <span class="text-xs text-red-500">{{validationError('description', saveError)}} </span>
-                    </div>
-
-                    <div class="w-full mt-4">
-                        <input type="text" inputmode="decimal" class="w-full text-right pr-2" placeholder="Amount" v-model="form.amount"
-                            style="border: 1px solid black; border-radius: 5px;  height: 40px"
-                        >
-                        <span class="text-xs text-red-500">{{validationError('amount', saveError)}} </span>
-                    </div>
-
-                    <div class="w-full mt-4">
-                        <input type="file" class="w-full text-center" @change="imageChange('image', $event)">
-                        <span class="text-xs text-red-500">{{validationError('image', saveError)}} </span>
-                    </div>
-
-                    <div class="w-full mt-4">
-                        <button class="w-full py-2"
-                            style="border-radius: 5px; background: #E4B934"
-                            @click="createProduct()"
-                        >
-                            SUBMIT
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="addressModal" class="addressModal">
-                <!-- Modal content -->
-                <div class="address-content flex flex-col" style="width: 20%">
-                    <div class="w-full">
-                        <span class="text-lg font-bold">
-                            New Address
-                        </span>
-                        <span class="float-right cursor-pointer"
-                            @click="closeAddressModal()"
-                        >
-                            <i class="fa-solid fa-xmark"></i>
-                        </span>
-                    </div>
-
-                    <div class="w-full mt-4">
-                        <input type="text" class="w-full text-center" placeholder="Address" v-model="formAddress.address"
-                            style="border: 1px solid black; border-radius: 5px; height: 40px"
-                        >
-                        <span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
-                    </div>
-
-                    <div class="w-full mt-4">
-                        <button class="w-full py-2"
-                            style="border-radius: 5px; background: #E4B934"
-                            @click="createAddress()"
-                        >
-                            SUBMIT
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="descriptionModal" class="descriptionModal">
-                <!-- Modal content -->
-                <div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
-                    <div class="w-full">
-                        <span class="text-4xl font-bold">
-                            {{productName}}
-                        </span>
-
-                        <span class="float-right cursor-pointer"
-                            @click="closeDescriptionModal()"
-                        >
-                            <i class="fa-solid fa-xmark"></i>
-                        </span> 
-                    </div>
-
-                    <div class="w-full flex flex-col mt-4">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <div class="w-full">
-                                 <img class="w-full p-4" :src="productImage"
-                                    style="height: 200px; border: 2px solid #E4B934"
-                                />
-                            </div>
-
-                            <div class="w-full">
-                                <p class="w-full text-center text-4xl">
-                                    ₱ {{ parseFloat(productAmount).toFixed(2) }}
-                                </p>
-                            </div>
-                           
-                            
-                        </div>
-
-                        <div class="w-full mt-5">
-                            <p>
-                                {{ description }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="removeModal" class="removeModal">
-				<!-- Modal content -->
-				<div class="remove-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
-					<div class="w-full text-lg font-bold text-center">
-						Are you sure to delete this address ?
+				<div
+					class="inline-block align-bottom items-center bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6"
+					role="dialog" aria-modal="true" aria-labelledby=""  @click.stop x-trap.noscroll.inert="">
+					<div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+					<button type="button" @click="closeModal()"
+						class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+						<span class="sr-only">Close</span>
+						<!-- Heroicon name: outline/x -->
+						<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					</button>
 					</div>
 
-					<div class="w-full flex flex-row mt-10">
-                        <div class="w-full">
-                            <button class="w-full py-1 text-white" style="border-radius: 5px; width: 93%; background: #000000"
-                                @click="closeRemoveModal();"
-                            >
-                                No
-                            </button>
-                        </div>
-
-                        <div class="w-full">
-                            <button class="w-full py-1 text-black" style="border-radius: 5px; width: 93%; background: #E4B934"
-                                @click="removeAddress(placeSelected)"
-                            >
-                                Yes
-                            </button>
-                        </div>
+					<div class="sm:flex sm:items-start">
+						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+							<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+								{{activeCategory}}
+							</h3>
+						</div>
 					</div>
+					<div class="text-center sm:mt-0 sm:ml-4 sm:text-left">
+						<div class="mt-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2 items-center">
+							
+                            <div class="relative mb-2">
+                                <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Name" required v-model="form.name" class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
 
+                                <span class="text-red-500 text-xs ml-2">
+                                    {{validationError('name', saveError)}} 
+                                </span>
+                            </div>
+                            <div class="relative mb-2">
+                                <label for="description" class="leading-7 text-sm text-gray-600">Description</label>
+                                <textarea placeholder="Description" rows="5" cols="50" id="description" required v-model="form.description" class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+
+                                <span class="text-red-500 text-xs ml-2">
+                                    {{validationError('description', saveError)}}
+                                </span>
+                            </div>
+                            <div class="relative mb-2">
+                                <label for="amount" class="leading-7 text-sm text-gray-600">Amount</label>
+                                <input type="text" inputmode="decimal" id="amount" placeholder="Amount" required v-model="form.amount" class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+
+                                <span class="text-red-500 text-xs ml-2">
+                                    {{validationError('amount', saveError)}}
+                                </span>
+                            </div>
+                            <div class="relative mb-2">
+                                <label for="id-picture" class="leading-7 text-sm text-gray-600">Image</label>
+                                <input type="file" id="id-picture" accept="image/png, image/jpeg" @change="imageChange('image', $event)" required class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                <span class="text-red-500 text-xs ml-2">
+                                    {{validationError('image', saveError)}}
+                                </span>
+
+                            </div>
+
+						</div>
+					</div>
+					<div class="mt-16 sm:mt-4 sm:flex sm:flex-row-reverse">
+						<button class="w-full inline-flex justify-center ml-2 mb-2 rounded-md border border-yellow-300 shadow-sm px-4 py-2 bg-yellow-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-0 sm:w-auto sm:text-sm"
+							@click="createProduct()"
+						>
+							Save
+						</button>
+						<button type="button" @click="closeModal()" class="ml-2 mb-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
+					</div>
+									
 				</div>
 			</div>
+		</div>
 
-        </div>
-    </Navigation>
+		<!-- Modal add address -->
+		<div class="fixed z-50 inset-0 overflow-y-auto" v-show="showModalAddAddress" @keydown.escape.prevent.stop="closeAddressModal()" x-transition>
+			<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+			<div class="fixed inset-0 transition-opacity" aria-hidden="true" x-transition.opacity>
+				<div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+			</div>
+
+			<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+				<div
+					class="inline-block align-bottom items-center bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6"
+					role="dialog" aria-modal="true" aria-labelledby=""  @click.stop x-trap.noscroll.inert="">
+					<div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+					<button type="button" @click="closeAddressModal()"
+						class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+						<span class="sr-only">Close</span>
+						<!-- Heroicon name: outline/x -->
+						<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					</button>
+					</div>
+
+					<div class="sm:flex sm:items-start">
+						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+							<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+								New address
+							</h3>
+						</div>
+					</div>
+					<div class="text-center sm:mt-0 sm:ml-4 sm:text-left">
+						<div class="mt-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2 items-center">
+							
+                            <div class="relative mb-2">
+                                <label for="address" class="leading-7 text-sm text-gray-600">Address</label>
+                                <input type="text" id="address" name="address" placeholder="address" required v-model="formAddress.address" class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+
+                                <span class="text-red-500 text-xs ml-2">
+                                    {{validationError('address', saveError)}} 
+                                </span>
+                            </div>
+
+						</div>
+					</div>
+
+					<div class="mt-16 sm:mt-4 sm:flex sm:flex-row-reverse">
+						<button class="w-full inline-flex justify-center ml-2 mb-2 rounded-md border border-yellow-300 shadow-sm px-4 py-2 bg-yellow-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-0 sm:w-auto sm:text-sm"
+							@click="createAddress()"
+						>
+							Save
+						</button>
+						<button type="button" @click="closeAddressModal()" class="ml-2 mb-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
+					</div>
+									
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal remove address -->
+		<div class="fixed z-50 inset-0 overflow-y-auto" v-show="showModalRemoveAddress" @keydown.escape.prevent.stop="closeRemoveModal()" x-transition>
+			<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+			<div class="fixed inset-0 transition-opacity" aria-hidden="true" x-transition.opacity>
+				<div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+			</div>
+
+			<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+				<div
+					class="inline-block align-bottom items-center bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6"
+					role="dialog" aria-modal="true" aria-labelledby=""  @click.stop x-trap.noscroll.inert="">
+					<div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+					<button type="button" @click="closeRemoveModal()"
+						class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+						<span class="sr-only">Close</span>
+						<!-- Heroicon name: outline/x -->
+						<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					</button>
+					</div>
+
+					<div class="sm:flex sm:items-start">
+						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+						</div>
+					</div>
+					<div class="text-center sm:mt-0 sm:ml-4 sm:text-left">
+						<div class="mt-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2 items-center">
+							
+                            <div class="relative mb-2">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                                    Are you sure to delete this address ?
+                                </h3>
+                            </div>
+
+						</div>
+					</div>
+
+					<div class="mt-16 sm:mt-4 sm:flex sm:flex-row-reverse">
+						<button class="w-full inline-flex justify-center ml-2 mb-2 rounded-md border border-rose-300 shadow-sm px-4 py-2 bg-rose-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 sm:mt-0 sm:w-auto sm:text-sm"
+							 @click="removeAddress(placeSelected)"
+						>
+							Yes
+						</button>
+						<button type="button"  @click="closeRemoveModal();" class="ml-2 mb-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
+					</div>
+									
+				</div>
+			</div>
+		</div>
+    </div>
 </template>
 
 <script>
@@ -315,7 +430,11 @@ export default {
                 address: null
             },
             placeSelected: null,
-            isMobile: window.screen.width <= 700
+            isMobile: window.screen.width <= 700,
+            showModalViewProduct: false,
+            showModalEditProduct: false,
+            showModalAddAddress: false,
+            showModalRemoveAddress: false,
         }
     },
 
@@ -356,15 +475,11 @@ export default {
         },
 
         openModal(){
-            var modal = document.getElementById("myModal");
-
-            modal.style.display = "block";
+            this.showModalEditProduct = true
         },
 
         closeModal(){
-            var modal = document.getElementById("myModal");
-
-            modal.style.display = "none";
+            this.showModalEditProduct = false
 
             this.form.name = ''
             this.form.amount = ''
@@ -377,9 +492,7 @@ export default {
         },
 
         openDescriptionModal(arg){
-            var modal = document.getElementById("descriptionModal");
-
-            modal.style.display = "block";
+            this.showModalViewProduct = true
 
             this.description = arg.description
             this.productName = arg.name
@@ -388,24 +501,18 @@ export default {
         },
 
         closeDescriptionModal(){
-            var modal = document.getElementById("descriptionModal");
 
-            modal.style.display = "none";
-
+            this.showModalViewProduct = false
             this.description = null
             this.productName = null
         },
 
         openAddressModal(){
-            var modal = document.getElementById("addressModal");
-
-            modal.style.display = "block";
+            this.showModalAddAddress = true
         },
 
         closeAddressModal(){
-            var modal = document.getElementById("addressModal");
-
-            modal.style.display = "none";
+            this.showModalAddAddress = false
 
             this.address = null
         },
@@ -506,153 +613,15 @@ export default {
 		},
 
         openRemoveModal(){
-            var modal = document.getElementById("removeModal");
-
-            modal.style.display = "block";
+            this.showModalRemoveAddress = true
 
         },
 
         closeRemoveModal(){
-            var modal = document.getElementById("removeModal");
-
-            modal.style.display = "none";
+            this.showModalRemoveAddress = false
 
             this.placeSelected = null
         },
     }
 }
 </script>
-
-<style scoped>
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-.descriptionModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 10%;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-}
-
-/* Modal Content */
-.description-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.--text {
-	font-size: calc(.1em + 1vw);
-}
-
-.addressModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 40%;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-}
-
-/* Modal Content */
-.address-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-.--scroll::-webkit-scrollbar {
-  width: 0px;
-  background: white;
-}
-
-.--scroll::-webkit-scrollbar-thumb {
-  background: #ffffff;
-  height:30px;
-}
-
-.--scroll::-webkit-scrollbar-track-piece{
-   display:none;
-}
-
-.--input {
-    width: 100%;
-    height: 40px;
-    border: 1px solid black;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.--btn {
-    background: #E4B934;
-    border-radius: 10px;
-    width: 100%;
-    text-align: center;
-    color: black;
-}
-
-.removeModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 20%;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-}
-
-/* Modal Content */
-.remove-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px; 
-  border: 1px solid #888;
-  width: 80%;
-}
-</style>

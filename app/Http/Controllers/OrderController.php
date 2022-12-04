@@ -226,7 +226,6 @@ class OrderController extends Controller
         
         $rules = [
             'payment_method' => "required|string",
-            'reference_number' => "required_if:payment_method,gcash|nullable|numeric",
             'address' => "required_if:otherAddress,true|nullable|string",
             'order' => "required"
         ];
@@ -237,7 +236,7 @@ class OrderController extends Controller
             return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
         }
 
-        $reference = Str::random(10);
+        $reference = substr(uniqid(), 1, 13);
 
         $order = (object) $request->order;
 
@@ -251,7 +250,7 @@ class OrderController extends Controller
             'user_id' => $auth->id,
             'amount' => $product->amount * $order->quantity,
             'quantity' => $order->quantity,
-            'status' => 'to_process',
+            'status' => $request->payment_method == 'gcash' ? 'pending' : 'to_process',
             'reference' => $reference
 
         ]);
@@ -271,9 +270,32 @@ class OrderController extends Controller
             $data['address'] = $auth->address;
         }
 
-        OrderDescription::forceCreate($data);
+        $order_description = OrderDescription::forceCreate($data);
 
-        $orders = Order::where('user_id', $auth->id)->get();
+        Order::where('user_id', $auth->id)->get();
+
+        if($request->payment_method == 'gcash') {
+            $xendit_service = new XenditService();
+            $order_description = OrderDescription::where('id', $order_description->id)->first();
+
+            Xendit::setApiKey(config('xendit.secret_key'));
+            $params = $xendit_service->setupParameters($order_description->total, $reference);
+            $createEWalletCharge = EWallets::createEWalletCharge($params);
+
+            TransactionResponse::create([
+                'order_description_id' => $order_description->id,
+                'reference_id' =>  $createEWalletCharge['reference_id'],
+                'xendit_id' => $createEWalletCharge['id'],
+                'status' => $createEWalletCharge['status'],
+            ]);
+
+            $data['url'] = $xendit_service->url($createEWalletCharge);
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $data
+            ], 200);
+        }
 
         return response()->json(['status' => 200, 'data' => $data], 200);
     }

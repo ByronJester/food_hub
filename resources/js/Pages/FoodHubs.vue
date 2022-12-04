@@ -1,329 +1,306 @@
 <template>
-    <Navigation :auth="auth">
-        <div class="w-full h-full px-2 py-2 flex flex-col">
-			<div class="w-full mt-3" :class="{ 'px-5' : isMobile }">
-				<input type="text" style="height: 50px; border: 1px solid black; border-radius: 10px;" class="px-5" :style="{width: isMobile ? '100%' : '300px'}"
-					placeholder="Search..." v-model="search" :class="{'float-right' : !isMobile}"
-				>
-			</div>
-
-            <div class="p-5 w-full" v-if="!restaurant"
-				:class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}"
-			>
-				<div class="w-full --restaurant__list cursor-pointer" v-for="(arg, i) in restaurants" :key="i" 
-					@click="selectShop(arg)"
-				>
-					<div>
-						<img :src="'/images/uploads/' + arg.image" 
-							style="height: 220px; width: 100%"
-							class="p-5"
-						>
-					</div>
-
-					<div class="text-center font-bold text-xl" :class="{'--text': !isMobile, 'text-lg': isMobile}">
-						{{ arg.restaurant_name }}
+	<div>
+		<Navigation :auth="auth"></Navigation>
+		<section class="text-gray-600 body-font">
+			<div class="container px-5 py-20 mx-auto">
+				<!-- Desktop -->
+				<div class="flex flex-col text-center w-full mb-8 hidden md:block">
+					<h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 mt-10">It's the food and groceries you love, delivered</h1>
+					<p class="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
+				</div>
+				<!-- Mobile -->
+				<div class="flex flex-col text-center w-full mb-2 sm:hidden">
+					<h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 mt-20">It's the food and groceries you love, delivered</h1>
+					<p class="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
+				</div>
+				<div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
+					<div class="relative flex-grow w-full">
+						<input type="text" v-model="search" placeholder="Search..." class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-yellow-500 focus:bg-transparent focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
 					</div>
 				</div>
 			</div>
+		</section>
 
-            <div class="w-full" v-else>
-				<div class="w-full text-2xl font-bold px-5 pt-5">
-					<span class="cursor-pointer" @click="restaurant = null" :class="{'--text': !isMobile, 'text-lg': isMobile}">
-						<i class="fa-solid fa-arrow-left"></i> Back
-					</span>
-
-                    <span class="cursor-pointer float-right" @click="restaurant = null" :class="{'--text': !isMobile, 'text-lg': isMobile}">
-						{{ restaurant.restaurant_name }}
-					</span>
-				</div>
-
-				<div class="w-full relative">
-					<div class="w-full">
-						<img :src="'/images/uploads/' + restaurant.banner" 
-							style="width: 100%;"
-							class="p-5 relative"
-							:style="{'height' : isMobile ? '250px' : '400px'}"
-						>
-
-						<img :src="'/images/uploads/' + restaurant.image" class="absolute"
-							style="top: 17rem; left: 4rem; border: 1px solid #E4B934"
-							:style="{'width': isMobile ? '40%': '20%', 'height' : isMobile ? '130px' : '180px', 'top' : isMobile ? '10rem': '17rem'}"
-						>
+		<section class="text-gray-600 body-font"  v-if="!restaurant">
+			<div class="container px-5  mx-auto">
+				<div class="flex flex-wrap -m-4">
+					<div class="lg:w-1/3 md:w-1/2 p-4 w-full cursor-pointer" v-for="(arg, i) in restaurants" :key="i" @click="selectShop(arg)">
+						<a class="block relative h-48 rounded overflow-hidden " href="#restaurant-detail" >
+						<img alt="ecommerce" class="object-cover object-center w-full h-full block" :src="'/images/uploads/' + arg.banner">
+						</a>
+						<div class="mt-4">
+							<h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ arg.restaurant_name.toUpperCase() }}</h3>
+						</div>
 					</div>
+				</div>
+			</div>
+		</section>
 
-					<div class="w-full mt-5 px-5">
-						<div class="flex flex-row float-right" style="width: 30%" :class="{'--text': !isMobile, 'text-lg': isMobile}">
-							<div class="w-full cursor-pointer mx-2 text-center"
-								style="border: 1px solid #E4B934;"
-								:class="{'bg-yellow-500': activeCategory == 'Food'}"
-								@click="activeCategory = 'Food'"
-							>
-								Foods
+		<div id="restaurant-detail" v-else>
+			<section class="text-gray-600 body-font">
+				<div class="container px-5 mx-auto">
+					<div class="flex flex-wrap w-full">
+						<div class="lg:w-1/2 w-full mb-6 lg:mb-0" >
+							<span class="cursor-pointer"  @click="restaurant = null">
+								<i class="fa-solid fa-arrow-left"></i> Back
+							</span>
+							<div class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 mt-4"  @click="restaurant = null">
+								<img alt="image" class="w-20 h-20 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400" :src="'/images/uploads/' + restaurant.image">
+								<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">
+									{{ restaurant.restaurant_name }} <hr class="mr-4 h-1 w-20 bg-yellow-500 rounded"></hr>
+								</h1>
 							</div>
-
-							<div class="w-full cursor-pointer mx-2 text-center"
-								style="border: 1px solid #E4B934;"
-								:class="{'bg-yellow-500': activeCategory == 'Drink'}"
-								@click="activeCategory = 'Drink'" 
-							>
-								Drinks
+							<div class="flex mx-auto flex-wrap mb-4 mt-10">
+								<a @click="activeCategory = 'Food'" :class="{'bg-gray-100 border-yellow-500 text-yellow-500': activeCategory == 'Food'}" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none tracking-wider rounded-t">
+									FOODS
+								</a>
+								<a @click="activeCategory = 'Drink'" :class="{'bg-gray-100 border-yellow-500 text-yellow-500': activeCategory == 'Drink'}"class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider">
+									DRINKS
+								</a>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="w-full my-20 px-5">
-					<div class="flex justify-center items-center"
-						:class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}"
-					>
-						<div class="w-full flex flex-col" v-for="(product, index) in products.filter( x => { return x.category == activeCategory})" :key="product.id"
-							style="border: 1px solid #E4B934"
-						>
-							<div class="w-full inline-flex mt-1" :style="{cursor: product.description ? 'pointer' : 'not-allowed'}">
-								<p @click="product.description ? openDescriptionModal(product) : ''">
-									<i class="fa-solid fa-eye fa-lg p-1"></i>
-								</p>
+			</section>
+			<section class="text-gray-600 body-font">
+				<div class="container px-5 py-24 mx-auto">
+					<div class="flex flex-wrap -m-4">
+						<div class="lg:w-1/4 md:w-1/2 p-4 w-full" v-for="(product, index) in products.filter( x => { return x.category == activeCategory})" :key="product.id">
+							<a class="block relative h-48 rounded overflow-hidden cursor-pointer" @click="product.description ? openDescriptionModal(product) : ''" >
+							<img alt="ecommerce" class="object-cover object-center w-full h-full block" :src="'/images/uploads/' + product.image">
+							</a>
+							<div class="mt-4">
+								<h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ product.name.toUpperCase() }}</h3>
+								<p class="leading-relaxed text-base">₱{{ parseFloat(product.amount).toFixed(2) }}</p>
 							</div>
-
-							<div class="w-full">
-								<img class="w-full p-4" :src="'/images/uploads/' + product.image"
-									style="height: 200px"
-								/>
-							</div>
-
-							<div class="w-full text-center flex flex-col mb-2">
-                                <div class="px-4" style="width: 100%">
-                                    <button class="w-full py-1 cursor-default"
-                                        style="border-radius: 5px; background: #000000"
-                                    >
-                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
-                                            <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
-                                        </span>
-                                    </button>
-                                </div>
-
-								<div class="px-4 mt-4" style="width: 100%">
-                                    <button class="w-full py-1"
-                                        style="border-radius: 5px; background: #000000"
-										@click="buyNow(forms[index], index, product)"
-                                    >
-                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
-                                            <b class="text-white mr-2">BUY</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">NOW</b>
-                                        </span>
-                                    </button>
-                                </div>
-
-								<div class="w-full flex flex-row mt-2 justify-center items-center">
-									<div class="pr-1 w-full" style="width: 15%">
-										<input type="number" min="1" style="border: 1px solid #E4B934; width: 100%" class="text-center pt-2 pb-2" v-model="forms[index].quantity">
-									</div>
-
-									<div class="pr-4 w-full" style="width: 15%">
-										<button class="w-full cursor-poineter"
-											:class="{'--text': !isMobile, 'text-lg': isMobile}"
-											style="border-radius: 5px; background: #E4B934"
-											@click="addToCart(forms[index], index)"
-										>
-											<i class="fa-solid fa-cart-shopping pt-3 pb-2" style="color: #000000"></i> 
-										</button>
-									</div>
-								</div>
-							</div>
-						</div> 
-					</div>
-				</div>
-
-				<div id="descriptionModal" class="descriptionModal">
-					<div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '20%'}">
-						<div class="w-full">
-							<span class="text-4xl font-bold">
-								{{productName}}
-							</span>
-
-							<span class="float-right cursor-pointer"
-								@click="closeDescriptionModal()"
-							>
-								<i class="fa-solid fa-xmark"></i>
-							</span>
-						</div>
-
-						<div class="w-full flex flex-col mt-4">
-							<div class="w-full flex flex-col justify-center items-center">
-								<div class="w-full">
-									<img class="w-full p-4" :src="productImage"
-										style="height: 200px; border: 2px solid #E4B934"
-									/>
-								</div>
-
-								<div class="w-full">
-									<p class="w-full text-center text-4xl">
-										₱ {{ parseFloat(productAmount).toFixed(2) }}
-									</p>
-								</div>
-							
-								
-							</div>
-
-							<div class="w-full mt-5">
-								<p>
-									{{ description }}
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div id="checkoutModal" class="checkoutModal">
-					<div class="checkout-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '85%': '20%'}">
-						<div class="w-full">
-							<span class="text-xl font-bold">
-								Checkout Order
-							</span>
-
-							<span class="float-right cursor-pointer"
-								@click="closeCheckoutModal()"
-							>
-								<i class="fa-solid fa-xmark"></i>
-							</span>
-						</div>
-
-						<div class="w-full flex flex-col mt-4" v-if="orderProduct && orderDescription">
-							<div class="flex flex-col px-5 py-2">
-								<div class="w-full flex flex-row" style="border-bottom: 1px solid #E4B934">
-									<div class="h-full flex justify-center items-center my-2" style="width: 40%">
-										<img :src="'/images/uploads/' + orderProduct.image" style="width: 100%; height: 80px;border: 1px solid #E4B934" class="p-1" />
-									</div>
-
-									<div class="flex flex-col justify-center items-center" style="width: 60%">
-										<div class="w-full text-center">
-											<p class="text-md font-bold">
-												{{ orderProduct.name }}
-											</p>
-										</div>
-										
-										<div class="w-full text-center">
-											<p class="text-md mt-1">
-												₱ {{ orderProduct.amount }}
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="w-full flex flex-row">
-								<div class="w-full text-left pl-5"> 
-									Payment Details <i class="fa-solid fa-file-invoice-dollar ml-1"></i>
-								</div>
-							</div>
-
-							<div class="w-full flex flex-row mt-2">
-								<div class="w-full text-left pl-5">
-									Subtotal: 
-								</div>
-
-								<div class="w-full text-left pl-5">
-									₱ {{ parseFloat(orderProduct.amount * orderDescription.quantity).toFixed(2)  }}
-								</div>
-							</div>
-
-							<div class="w-full flex flex-row">
-								<div class="w-full text-left pl-5">
-									Shipping Fee: 
-								</div>
-
-								<div class="w-full text-left pl-5">
-									₱ 60.00
-								</div>
-							</div>
-
-							<div class="w-full flex flex-row">
-								<div class="w-full text-left pl-5">
-									Total: 
-								</div>
-
-								<div class="w-full text-left pl-5">
-									₱ {{ parseFloat((orderProduct.amount * orderDescription.quantity) + 60).toFixed(2) }}
-								</div>
-							</div>
-
-							<div class="w-full flex flex-row mt-5">
-								<div class="w-full flex justify-center items-center">
-									Mode of Payment:
-								</div>
-
-								<div class="w-full flex justify-center items-center">
-									<input class="mr-1" type="radio" value="cod" v-model="form.payment_method" />
-									<label class="mr-1">COD</label>
-
-									<input class="mr-1" type="radio" value="gcash" v-model="form.payment_method" />
-									<label>G-Cash</label>
-								</div>
-							</div>
-
-							<div class="w-full flex flex-row mt-5" v-if="form.payment_method == 'gcash'">
-								<div class="w-full flex justify-center items-center">
-									Owner G-Cash #:
-								</div>
-
-								<div class="w-full flex justify-center items-center">
-									{{ restaurant.phone }}
-								</div>
-							</div>
-
-							<div class="w-full pl-5 mt-2" v-if="form.payment_method == 'gcash'">
-								<input v-model="form.reference_number" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
-									placeholder="G-Cash Ref. No."
-									class="text-center"
+							<div class="px-4 mt-4">
+								<button class="w-full inline-flex justify-center mb-2 rounded-md border border-yellow-300 shadow-sm px-4 py-2 bg-yellow-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-0 sm:text-sm"
+									
+									@click="buyNow(forms[index], index, product)"
 								>
-								<span class="text-xs text-red-500">{{validationError('reference_number', saveError)}} </span>
-							</div>
-
-							<div class="w-full flex flex-row mt-5">
-								<div class="w-full flex justify-start items-center pl-5">
-									Other Address:
-								</div>
-
-								<div class="w-full flex justify-start items-center pl-5">
-									<input type="checkbox" v-model="form.otherAddress">
-								</div>
-							</div>
-
-							<div class="w-full pl-5 mt-2" v-if="form.otherAddress">
-								<input v-model="form.address" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
-									placeholder="Street No, Barangay, Town"
-									class="text-center"
-								>
-								<span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
-							</div>
-
-							<div class="w-full flex flex-col mt-5">
-								<div class="w-full flex justify-start items-center pl-5">
-									Available Delivery Address:
-								</div>
-
-								<div class="w-full flex justify-start items-center px-5">
-									<select class="w-full" style="border: 1px solid black; height: 30px">
-										<option v-for="p in restaurant.places" :value="p.id" :key="p.id">
-											{{p.address}}
-										</option>
-									</select>
-								</div>
-							</div>
-
-							<div class="w-full pl-5 mt-4">
-								<button style="border-radius: 5px; width: 93%; background: #E4B934" class="py-2" @click="confirmBuyNow()">
-									Confirm
+								Buy Now
 								</button>
+								<button class="w-full inline-flex justify-center mb-2 rounded-md border border-yellow-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-yellow-500 hover:text-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:mt-0 sm:text-sm"
+									@click="addToCart(forms[index], index)"
+								>
+									<i class="fa-solid fa-cart-shopping"></i> &nbsp; Add to cart
+								</button>
+									<input type="number" min="1"  class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out text-center" v-model="forms[index].quantity">
 							</div>
-
 						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Modal view product -->
+			<div class="fixed z-50 inset-0 overflow-y-auto" v-show="showModalViewProduct" @keydown.escape.prevent.stop="showModalViewProduct = false" x-transition>
+				<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+				<div class="fixed inset-0 transition-opacity" aria-hidden="true" x-transition.opacity>
+					<div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+				</div>
+
+				<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+					<div
+						class="inline-block align-bottom items-center bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6"
+						role="dialog" aria-modal="true" aria-labelledby="" @click.stop x-trap.noscroll.inert="">
+						<div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+						<button type="button" @click="closeDescriptionModal()"
+							class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							<span class="sr-only">Close</span>
+							<!-- Heroicon name: outline/x -->
+							<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+							stroke="currentColor" aria-hidden="true">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
+						</div>
+
+						<div class="sm:flex sm:items-start">
+							<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+								<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+									{{productName}}
+								</h3>
+							</div>
+						</div>
+						<div class="text-center sm:mt-0 sm:ml-4 sm:text-left">
+							<div class="mt-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2 items-center">
+								<div class="col-span-4 sm:col-span-4">
+									<div class="block relative h-80 w-80 overflow-hidden items-center rounded-lg">
+										<img alt="foodhubs" class="object-center w-full h-full block" :src="productImage" >
+									</div>
+										<div class="mt-4">
+										<h3 class="text-lg tracking-widest title-font mb-1">₱ {{ parseFloat(productAmount).toFixed(2) }}</h3>
+										<p class="leading-relaxed text-xs text-gray-500">{{description}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mt-16 sm:mt-4 sm:flex sm:flex-row-reverse">
+							<button type="button" @click="closeDescriptionModal()" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Close</button>
+						</div>
+										
 					</div>
 				</div>
 			</div>
 
 			
-        </div>
-    </Navigation>
+			<!-- Modal buy now product -->
+			<div class="fixed z-50 inset-0 overflow-y-auto" v-show="showModalBuyNow" @keydown.escape.prevent.stop="closeCheckoutModal()" x-transition>
+				<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+				<div class="fixed inset-0 transition-opacity" aria-hidden="true" x-transition.opacity>
+					<div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+				</div>
+
+				<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+					<div
+						class="inline-block align-bottom items-center bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6"
+						role="dialog" aria-modal="true" aria-labelledby="" @click.stop x-trap.noscroll.inert="">
+						<div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+						<button type="button" @click="closeCheckoutModal()"
+							class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							<span class="sr-only">Close</span>
+							<!-- Heroicon name: outline/x -->
+							<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+							stroke="currentColor" aria-hidden="true">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
+						</div>
+
+						<div class="sm:flex sm:items-start">
+							<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+								<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+									Checkout Order
+								</h3>
+							</div>
+						</div>
+						<div class="text-center sm:mt-0 sm:ml-4 sm:text-left">
+							<div class="mt-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2 items-center">
+								
+								<div class="w-full flex flex-col mt-4" v-if="orderProduct && orderDescription">
+									<div class="flex flex-col px-5 py-2">
+										<div class="w-full flex flex-row" style="border-bottom: 1px solid #E4B934">
+											<div class="h-full flex justify-center items-center my-2" style="width: 40%">
+												<img :src="'/images/uploads/' + orderProduct.image" style="width: 100%; height: 80px;border: 1px solid #E4B934" class="p-1" />
+											</div>
+
+											<div class="flex flex-col justify-center items-center" style="width: 60%">
+												<div class="w-full text-center">
+													<p class="text-md font-bold">
+														{{ orderProduct.name }}
+													</p>
+												</div>
+												
+												<div class="w-full text-center">
+													<p class="text-md mt-1">
+														₱ {{ orderProduct.amount }}
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="w-full flex flex-row">
+										<div class="w-full text-left pl-5"> 
+											Payment Details <i class="fa-solid fa-file-invoice-dollar ml-1"></i>
+										</div>
+									</div>
+
+									<div class="w-full flex flex-row mt-2">
+										<div class="w-full text-left pl-5">
+											Subtotal: 
+										</div>
+
+										<div class="w-full text-left pl-5">
+											₱ {{ parseFloat(orderProduct.amount * orderDescription.quantity).toFixed(2)  }}
+										</div>
+									</div>
+
+									<div class="w-full flex flex-row">
+										<div class="w-full text-left pl-5">
+											Shipping Fee: 
+										</div>
+
+										<div class="w-full text-left pl-5">
+											₱ 60.00
+										</div>
+									</div>
+
+									<div class="w-full flex flex-row">
+										<div class="w-full text-left pl-5">
+											Total: 
+										</div>
+
+										<div class="w-full text-left pl-5">
+											₱ {{ parseFloat((orderProduct.amount * orderDescription.quantity) + 60).toFixed(2) }}
+										</div>
+									</div>
+
+									<div class="w-full flex flex-row mt-5">
+										<div class="w-full flex justify-center items-center">
+											Mode of Payment:
+										</div>
+
+										<div class="w-full flex justify-center items-center">
+											<input class="ml-2" type="radio" value="cod" v-model="form.payment_method" />
+											<label class="mx-2">COD</label>
+
+											<input class="mr-1" type="radio" value="gcash" v-model="form.payment_method" />
+											<label>&nbsp;G-Cash</label>
+										</div>
+									</div>
+
+									<div class="w-full flex flex-row mt-5">
+										<div class="w-full flex justify-start items-center pl-5">
+											Other Address:
+										</div>
+
+										<div class="w-full flex justify-start items-center pl-5">
+											<input type="checkbox" class="rounded border-yellow-300 text-yellow-600 shadow-sm focus:border-yellow-300 focus:ring focus:ring-yellow-200 focus:ring-opacity-50" v-model="form.otherAddress">
+										</div>
+									</div>
+
+									<div class="w-full pl-5 mt-2" v-if="form.otherAddress">
+										<input type="text" id="address" name="address" placeholder="Street, Barangay, Town" v-model="form.address" class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+
+										<span class="text-red-500 text-xs ml-2">
+											{{validationError('address', saveError)}}
+										</span>
+									</div>
+
+									<div class="w-full  pl-5 mt-5">
+										<div class="w-full flex justify-start items-center pl-5">
+											Available Delivery Address:
+										</div>
+
+										<div class="w-full flex justify-start items-center ">
+											<select class="mt-1 block w-full py-2 px-3 border border-yellow-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm enabled:hover:border-yellow-500 disabled:opacity-50">
+												<option v-for="p in restaurant.places" :value="p.id" :key="p.id">
+													{{p.address}}
+												</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mt-16 sm:mt-4 sm:flex sm:flex-row-reverse">
+							<button type="button" @click="confirmBuyNow()" class="w-full inline-flex justify-center ml-2 mb-2 rounded-md border border-yellow-300 shadow-sm px-4 py-2 bg-yellow-500 text-base font-medium text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-0 sm:w-auto sm:text-sm">
+							Confirm
+							</button>
+							<button type="button" @click="closeCheckoutModal()" class="w-full inline-flex justify-center ml-2 mb-2  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
+						</div>
+										
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
 </template>
 
 
@@ -363,7 +340,9 @@ export default {
 				user_id: null,
 				restaurant_id: null
 			},
-			saveError: null
+			saveError: null,
+			showModalViewProduct: false,
+			showModalBuyNow: false,
         }
     },
     created(){
@@ -453,9 +432,7 @@ export default {
 		},
 
 		openDescriptionModal(arg){
-            var modal = document.getElementById("descriptionModal");
-
-            modal.style.display = "block";
+			this.showModalViewProduct = true;
 
             this.description = arg.description
             this.productName = arg.name
@@ -464,9 +441,7 @@ export default {
         },
 
         closeDescriptionModal(){
-            var modal = document.getElementById("descriptionModal");
-
-            modal.style.display = "none";
+			this.showModalViewProduct = false;
 
             this.description = null
             this.productName = null
@@ -481,16 +456,12 @@ export default {
 		},
 
 		openCheckoutModal(){
-            var modal = document.getElementById("checkoutModal");
-
-            modal.style.display = "block";
+			this.showModalBuyNow = true
 
         },
 
         closeCheckoutModal(){
-            var modal = document.getElementById("checkoutModal");
-
-            modal.style.display = "none";
+			this.showModalBuyNow = false
         },
 
 		confirmBuyNow() {
@@ -507,83 +478,13 @@ export default {
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
-                        // this.closeCheckoutModal()
-
-						location.reload()
+                        
+                        if(response.data.data.hasOwnProperty('url')) {
+                            window.location.href = response.data.data.url
+                        }
 					}
 				})
 		}
     }
 }
 </script>
-
-<style scoped>
-.--restaurant__list{
-	border: 1px solid #E4B934;
-	border-radius: 5px;
-	height: 250px;
-}
-
-.--text {
-	font-size: calc(.1em + 1vw);
-}
-
-.descriptionModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 40%;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-}
-
-/* Modal Content */
-.description-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-.checkoutModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.checkout-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-</style>

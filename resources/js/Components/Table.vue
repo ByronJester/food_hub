@@ -1,22 +1,21 @@
 <template>
-    <table class="w-full">
-        <tr class="text-center">
-            <th v-for="column in columns" :key="column">
-                {{ column }}
-            </th>
-        </tr>
+    <table class="w-full whitespace-no-wrap">
+        <thead>
+            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-50">
+                <th class="px-4 py-3" v-for="column in columns" :key="column">
+                    {{ column }}
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y">
 
-        <tr class="text-center"
-            v-for="(l, index) in rows" :key="l.id"
-        >
-            <td v-for="(k, i) in keys" :key="i" class="cursor-pointer" 
-                :class="{'--active__color': !!selected && selected.id == l.id }"
-                @click="selectItem(l)"
-            >
-                <span>{{ rows[index][k.label] }}</span>
-            </td>
-        </tr>
-
+            <tr v-for="(l, index) in rows" :key="l.id"
+                class="text-gray-700">
+                <td class="px-4 py-3 cursor-pointer" v-for="(k, i) in keys" :key="i" @click="selectItem(l)">
+                    {{ rows[index][k.label] }}
+                </td>
+            </tr>
+        </tbody>
     </table>
 </template>
 
@@ -38,26 +37,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-table {
-    border-collapse: collapse;
-    border-radius: 5px;
-    border-style: hidden;
-    box-shadow: 0 0 0 1px black;
-}
-
-td {
-    border: 1px solid black;
-}
-
-th {
-    border: 1px solid black;
-    background: #E4B934;
-    color: black;
-}
-
-.--active__color {
-    background: #B0BEC5;
-}
-</style>

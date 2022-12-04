@@ -83,6 +83,8 @@ Route::middleware(['cors'])->group(function () {
         Route::view('/failed', 'xendit-redirect.failed')->name('xendit.failed');
         Route::post('/transaction/notification', [XenditController::class, 'notify'])->name('xendit.notify');
     });
+
+    Route::view('/terms-and-conditions', 'terms-and-condition')->name('terms-and-condition');
 });
 
 

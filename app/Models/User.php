@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'image',
         'phone',
+        'username',
         'email',
         'password',
         'user_type',
@@ -54,6 +55,8 @@ class User extends Authenticatable
 
     public function getPictureIdAttribute($value)
     {
+        if(!$value) return null;
+
         $data = json_decode($value);
 
         return explode(",", $data);

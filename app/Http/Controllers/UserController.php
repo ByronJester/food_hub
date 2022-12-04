@@ -13,9 +13,8 @@ use App\Models\Verification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-
 class UserController extends Controller
-{
+{   
     public function loginView()
     {    
         $auth = Auth::user();
@@ -50,7 +49,7 @@ class UserController extends Controller
         $rules = [
             'name' => "required|string",
             'phone' => "required|numeric|unique:users,phone|digits:11",
-            'email' => "required|unique:users,email|email:rfc,dns", 
+            'username' => "required|unique:users,username|min:6|regex:/(^[A-Za-z0-9]+$)+/", 
             'picture_id' => "required",
             'user_type' => "required",
             'role' => "required",
@@ -63,7 +62,7 @@ class UserController extends Controller
             $rules = [
                 'name' => "required|string",
                 'phone' => "required|numeric|unique:users,phone|digits:11",
-                'email' => "required|unique:users,email|email:rfc,dns", 
+                'username' => "required|unique:users,username|min:6|regex:/(^[A-Za-z0-9]+$)+/", 
                 'picture_id' => "required",
                 'user_type' => "required",
                 'role' => "required",
@@ -188,11 +187,11 @@ class UserController extends Controller
     public function loginAccount(Request $request)
     {
         $data = [
-            'email' => $request->email,
+            'username' => $request->username,
             'password' => $request->password,
         ];
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('username', $request->username)->first();
 
         if(!$user) {
             // return redirect()->back()->with('message', 'No account found.');
@@ -281,14 +280,24 @@ class UserController extends Controller
 
     public function changeStatus(Request $request)
     {
-        User::where('id', $request->id)->update([
-            'is_active' => $request->is_active
-        ]);
+        $user = User::where('id', $request->id)->first();
+
+        $user->is_active = $request->is_active;
+
+        if($request->is_active && !!$user->picture_id) {
+            $user->picture_id = null;
+        }
+
+        $user->save();
 
         $restaurant = Restaurant::where('user_id', $request->id)->first();
 
         if($restaurant) {
             $restaurant->is_active = $request->is_active;
+
+            if($request->is_active && !!$restaurant->permit) {
+                $restaurant->permit = null;
+            }
 
             $restaurant->save();
         } 
@@ -393,7 +402,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => "required|string",
             'phone' => "required|numeric",
-            'email' => "required|email:rfc,dns",
+            'username' => "required|unique:users,username|min:6|regex:/(^[A-Za-z0-9]+$)+/", 
             'address' => "required"
         ]);
 

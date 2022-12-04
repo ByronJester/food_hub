@@ -4233,14 +4233,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       formloginData: {
-        email: null,
+        username: null,
         password: null,
         code: null
       },
       formRegisterData: {
         name: '',
         phone: '',
-        email: '',
+        username: '',
         password: '',
         confirm_password: '',
         role: 3,
@@ -4323,7 +4323,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     disableButton: function disableButton() {
-      if (!this.formloginData.email) {
+      if (!this.formloginData.username) {
         return true;
       }
 
@@ -4357,7 +4357,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.formData.append('name', this.formRegisterData.name);
       this.formData.append('phone', this.formRegisterData.phone);
-      this.formData.append('email', this.formRegisterData.email);
+      this.formData.append('username', this.formRegisterData.username);
       this.formData.append('password', this.formRegisterData.password);
       this.formData.append('confirm_password', this.formRegisterData.confirm_password);
       this.formData.append('role', this.formRegisterData.role);
@@ -4391,7 +4391,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.formData.append('name', this.formRegisterData.name);
       this.formData.append('phone', this.formRegisterData.phone);
-      this.formData.append('email', this.formRegisterData.email);
+      this.formData.append('username', this.formRegisterData.username);
       this.formData.append('password', this.formRegisterData.password);
       this.formData.append('confirm_password', this.formRegisterData.confirm_password);
       this.formData.append('role', this.formRegisterData.role);
@@ -4410,7 +4410,7 @@ __webpack_require__.r(__webpack_exports__);
             _this5.formRegisterData = {
               name: '',
               phone: '',
-              email: '',
+              username: '',
               password: '',
               confirm_password: '',
               role: 3,
@@ -5516,6 +5516,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5529,11 +5556,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      columns: ['Name', 'Email', 'Contact', 'Address'],
+      columns: ['Name', 'Username', 'Contact', 'Address'],
       keys: [{
         label: 'name'
       }, {
-        label: 'email'
+        label: 'username'
       }, {
         label: 'phone'
       }, {
@@ -5549,7 +5576,8 @@ __webpack_require__.r(__webpack_exports__);
         email: null,
         address: null
       },
-      isNew: false
+      isNew: false,
+      selectedImage: null
     };
   },
   watch: {
@@ -5558,6 +5586,11 @@ __webpack_require__.r(__webpack_exports__);
         return x.user_type == arg;
       });
       this.user = null;
+    },
+    selectedImage: function selectedImage(arg) {
+      if (arg) {
+        this.openImageModal();
+      }
     }
   },
   mounted: function mounted() {
@@ -5577,8 +5610,6 @@ __webpack_require__.r(__webpack_exports__);
         label: 'verified'
       });
     }
-
-    console.log(this.options);
   },
   methods: {
     openUserModal: function openUserModal() {
@@ -5602,6 +5633,14 @@ __webpack_require__.r(__webpack_exports__);
         email: null,
         address: null
       };
+    },
+    openImageModal: function openImageModal() {
+      var modal = document.getElementById("imageModal");
+      modal.style.display = "block";
+    },
+    closeImageModal: function closeImageModal() {
+      var modal = document.getElementById("imageModal");
+      modal.style.display = "none";
     },
     submit: function submit() {
       var _this2 = this;
@@ -5989,7 +6028,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.--active[data-v-7bbfca2f] {\r\n    border-bottom: 2px solid #E4B934;\n}\n.--text[data-v-7bbfca2f] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.userModal[data-v-7bbfca2f] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 20%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.user-content[data-v-7bbfca2f] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-7bbfca2f] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-7bbfca2f]:hover,\r\n.close[data-v-7bbfca2f]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--input[data-v-7bbfca2f] {\r\n    width: 100%;\r\n    height: 40px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    text-align: center;\n}\n.--btn[data-v-7bbfca2f] {\r\n    background: #E4B934;\r\n    border-radius: 10px;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: black;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.--active[data-v-7bbfca2f] {\r\n    border-bottom: 2px solid #E4B934;\n}\n.--text[data-v-7bbfca2f] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.userModal[data-v-7bbfca2f] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 20%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.user-content[data-v-7bbfca2f] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\n.imageModal[data-v-7bbfca2f] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 20%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.image-content[data-v-7bbfca2f] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-7bbfca2f] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-7bbfca2f]:hover,\r\n.close[data-v-7bbfca2f]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\n.--input[data-v-7bbfca2f] {\r\n    width: 100%;\r\n    height: 40px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    text-align: center;\n}\n.--btn[data-v-7bbfca2f] {\r\n    background: #E4B934;\r\n    border-radius: 10px;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: black;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -68547,14 +68586,14 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.formloginData.email,
-                            expression: "formloginData.email"
+                            value: _vm.formloginData.username,
+                            expression: "formloginData.username"
                           }
                         ],
                         staticClass:
                           "w-full  my-2 --login__register--input text-center",
-                        attrs: { type: "text", placeholder: "Email" },
-                        domProps: { value: _vm.formloginData.email },
+                        attrs: { type: "text", placeholder: "Username" },
+                        domProps: { value: _vm.formloginData.username },
                         on: {
                           keyup: function($event) {
                             if (
@@ -68577,7 +68616,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.formloginData,
-                              "email",
+                              "username",
                               $event.target.value
                             )
                           }
@@ -68841,14 +68880,14 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.formRegisterData.email,
-                            expression: "formRegisterData.email"
+                            value: _vm.formRegisterData.username,
+                            expression: "formRegisterData.username"
                           }
                         ],
                         staticClass:
                           "w-full  my-2 --login__register--input text-center",
-                        attrs: { type: "text", placeholder: "Email" },
-                        domProps: { value: _vm.formRegisterData.email },
+                        attrs: { type: "text", placeholder: "Username" },
+                        domProps: { value: _vm.formRegisterData.username },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -68856,7 +68895,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.formRegisterData,
-                              "email",
+                              "username",
                               $event.target.value
                             )
                           }
@@ -68865,8 +68904,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("span", { staticClass: "text-xs text-red-500" }, [
                         _vm._v(
-                          _vm._s(_vm.validationError("email", _vm.saveError)) +
-                            " "
+                          _vm._s(
+                            _vm.validationError("username", _vm.saveError)
+                          ) + " "
                         )
                       ]),
                       _vm._v(" "),
@@ -72300,25 +72340,34 @@ var render = function() {
                           "div",
                           { staticClass: "w-full flex flex-col" },
                           [
-                            _c(
-                              "div",
-                              { staticClass: "w-full pl-5 font-bold text-xl" },
-                              [
-                                _vm._v(
-                                  "\n                            ID Pictures\n                        "
+                            _vm.user.picture_id
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "w-full pl-5 font-bold text-xl"
+                                  },
+                                  [
+                                    _vm._v(
+                                      " \n                            ID Pictures\n                        "
+                                    )
+                                  ]
                                 )
-                              ]
-                            ),
+                              : _vm._e(),
                             _vm._v(" "),
                             _vm._l(_vm.user.picture_id, function(p) {
                               return _c("div", { key: p }, [
                                 _c("img", {
-                                  staticClass: "p-5",
+                                  staticClass: "p-5 cursor-pointer",
                                   staticStyle: {
                                     height: "220px",
                                     width: "100%"
                                   },
-                                  attrs: { src: "/images/uploads/" + p }
+                                  attrs: { src: "/images/uploads/" + p },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selectedImage = "/images/uploads/" + p
+                                    }
+                                  }
                                 })
                               ])
                             }),
@@ -72340,13 +72389,19 @@ var render = function() {
                             _vm.user.permit
                               ? _c("div", { staticClass: "w-full" }, [
                                   _c("img", {
-                                    staticClass: "p-5",
+                                    staticClass: "p-5 cursor-pointer",
                                     staticStyle: {
                                       height: "220px",
                                       width: "100%"
                                     },
                                     attrs: {
                                       src: "/images/uploads/" + _vm.user.permit
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.selectedImage =
+                                          "/images/uploads/" + _vm.user.permit
+                                      }
                                     }
                                   })
                                 ])
@@ -72542,6 +72597,41 @@ var render = function() {
                   ]
                 )
               ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "imageModal", attrs: { id: "imageModal" } }, [
+        _c(
+          "div",
+          {
+            staticClass: "image-content flex flex-col",
+            staticStyle: { width: "40%", border: "2px solid #E4B934" }
+          },
+          [
+            _c("div", { staticClass: "w-full" }, [
+              _c(
+                "span",
+                {
+                  staticClass: "float-right cursor-pointer",
+                  on: {
+                    click: function($event) {
+                      _vm.closeImageModal()
+                      _vm.selectedImage = null
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa-solid fa-xmark" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-full flex flex-col mt-4" }, [
+              _c("img", {
+                staticClass: "p-5 cursor-pointer",
+                staticStyle: { height: "500px", width: "100%" },
+                attrs: { src: _vm.selectedImage }
+              })
             ])
           ]
         )

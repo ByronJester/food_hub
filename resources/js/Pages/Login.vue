@@ -20,7 +20,7 @@
 
 				<div class="px-2 py-2">
 					<input type="text" class="w-full  my-2 --login__register--input text-center"
-						placeholder="Email" v-model="formloginData.email"
+						placeholder="Username" v-model="formloginData.username"
 						@keyup.enter="login()"
 					>
 
@@ -76,9 +76,9 @@
 					<span class="text-xs text-red-500">{{validationError('name', saveError)}} </span>
 
 					<input type="text" class="w-full  my-2 --login__register--input text-center"
-						placeholder="Email" v-model="formRegisterData.email"
+						placeholder="Username" v-model="formRegisterData.username"
 					>
-					<span class="text-xs text-red-500">{{validationError('email', saveError)}} </span>
+					<span class="text-xs text-red-500">{{validationError('username', saveError)}} </span>
 
 					<input type="text" class="w-full  my-2 --login__register--input text-center"
 						placeholder="Contact" v-model="formRegisterData.phone"
@@ -733,14 +733,14 @@ export default {
 	data(){
 		return {
 			formloginData : {
-				email: null,
+				username: null,
 				password: null,
 				code: null
 			},
 			formRegisterData: {
 				name: '',
 				phone: '',
-				email: '',
+				username: '',
 				password: '',
 				confirm_password: '',
 				role: 3,
@@ -833,7 +833,7 @@ export default {
 		},
 
 		disableButton(){
-			if(!this.formloginData.email){
+			if(!this.formloginData.username){
 				return true;
 			}
 
@@ -867,7 +867,7 @@ export default {
 		register() {
 			this.formData.append('name', this.formRegisterData.name);
 			this.formData.append('phone', this.formRegisterData.phone);
-			this.formData.append('email', this.formRegisterData.email);
+			this.formData.append('username', this.formRegisterData.username);
 			this.formData.append('password', this.formRegisterData.password);
 			this.formData.append('confirm_password', this.formRegisterData.confirm_password);
 			this.formData.append('role', this.formRegisterData.role);
@@ -901,7 +901,7 @@ export default {
 		otherRegister() {
 			this.formData.append('name', this.formRegisterData.name);
 			this.formData.append('phone', this.formRegisterData.phone);
-			this.formData.append('email', this.formRegisterData.email);
+			this.formData.append('username', this.formRegisterData.username);
 			this.formData.append('password', this.formRegisterData.password);
 			this.formData.append('confirm_password', this.formRegisterData.confirm_password);
 			this.formData.append('role', this.formRegisterData.role);
@@ -922,7 +922,7 @@ export default {
 							this.formRegisterData = {
 								name: '',
 								phone: '',
-								email: '',
+								username: '',
 								password: '',
 								confirm_password: '',
 								role: 3,

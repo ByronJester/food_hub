@@ -47,14 +47,15 @@
                         </div>
 
                         <div class="w-full flex flex-col">
-                            <div class="w-full pl-5 font-bold text-xl">
+                            <div class="w-full pl-5 font-bold text-xl" v-if="user.picture_id"> 
                                 ID Pictures
                             </div>
 
                             <div v-for="p in user.picture_id" :key="p">
                                 <img :src="'/images/uploads/' + p" 
                                     style="height: 220px; width: 100%"
-                                    class="p-5"
+                                    class="p-5 cursor-pointer"
+                                    @click="selectedImage = '/images/uploads/' + p"
                                 >
                             </div>
 
@@ -66,7 +67,8 @@
                             <div class="w-full" v-if="user.permit">
                                 <img :src="'/images/uploads/' + user.permit" 
                                     style="height: 220px; width: 100%"
-                                    class="p-5"
+                                    class="p-5 cursor-pointer"
+                                    @click="selectedImage = '/images/uploads/' + user.permit"
                                 >
                             </div>
                         </div>
@@ -124,7 +126,32 @@
                 </div>
             </div>
 
+            <div id="imageModal" class="imageModal">
+                <!-- Modal content -->
+                <div class="image-content flex flex-col" style="width: 40%; border: 2px solid #E4B934">
+                    <div class="w-full">
+
+                        <span class="float-right cursor-pointer"
+                            @click="closeImageModal(); selectedImage = null"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </span>
+                    </div>
+
+                    <div class="w-full flex flex-col mt-4">
+                        <img :src="selectedImage" 
+                            style="height: 500px; width: 100%"
+                            class="p-5 cursor-pointer"
+                        >
+                    </div>
+
+
+                </div>
+            </div>
+
         </div>
+
+
     </Navigation>
     
 </template>
@@ -146,14 +173,14 @@ export default {
     data() {
         return {
             columns: [
-                'Name', 'Email', 'Contact', 'Address'
+                'Name', 'Username', 'Contact', 'Address'
             ],
             keys : [
                 {
                     label: 'name',
                 },
                 {
-                    label: 'email',
+                    label: 'username',
                 },
                 {
                     label: 'phone',
@@ -172,7 +199,8 @@ export default {
                 email: null,
                 address: null
             },
-            isNew: false
+            isNew: false,
+            selectedImage: null
         }
     },
 
@@ -180,6 +208,12 @@ export default {
         activeTab(arg) {
             this.users = this.options.users.filter( x => { return x.user_type == arg})
             this.user= null
+        },
+
+        selectedImage(arg) {
+            if(arg) {
+                this.openImageModal()
+            }
         }
     },
 
@@ -195,8 +229,6 @@ export default {
 
             this.keys.push({ label : 'verified' })
         }
-
-        console.log(this.options)
     },
 
     methods: {
@@ -228,6 +260,18 @@ export default {
                 email: null,
                 address: null
             }
+        },
+
+        openImageModal(){
+            var modal = document.getElementById("imageModal");
+
+            modal.style.display = "block";
+        },
+
+        closeImageModal(){
+            var modal = document.getElementById("imageModal");
+
+            modal.style.display = "none";
         },
 
         submit() {
@@ -271,6 +315,26 @@ export default {
 
 /* Modal Content */
 .user-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.imageModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 20%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content */
+.image-content {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;

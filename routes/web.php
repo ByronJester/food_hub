@@ -73,6 +73,11 @@ Route::middleware(['cors'])->group(function () {
         Route::get('/', [UserController::class, 'viewTrails'])->name('view.trails');
     });
 
+    Route::prefix('paymongo')->group(function () {
+        Route::get('/success', [OrderController::class, 'successPage']);
+        Route::get('/failed', [OrderController::class, 'failedPage']);
+    });
+
     Route::prefix('cron')->group(function () {
         Route::get('/', [UserController::class, 'getCron']);
     });

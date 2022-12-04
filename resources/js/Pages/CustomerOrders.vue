@@ -413,9 +413,12 @@ export default {
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
-                        this.activeTab = 'to_process'
-                        this.selectedOrders = []
-                        this.closeCheckoutModal()
+                        // this.activeTab = 'to_process'
+                        // this.selectedOrders = []
+                        // this.closeCheckoutModal()
+                        
+                        window.open(response.data.url, '_blank');
+
 					}
 				})
         },
@@ -425,7 +428,7 @@ export default {
 
             modal.style.display = "block";
 
-            this.groupOrders = _.mapValues(_.groupBy(this.selectedOrders, 'food_hub'),
+            this.groupOrders = _.mapValues(_.groupBy(this.selectedOrders, 'food_hub'), 
                           clist => clist.map(order => _.omit(order, 'food_hub')));
         },
 

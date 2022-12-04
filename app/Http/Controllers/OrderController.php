@@ -111,7 +111,7 @@ class OrderController extends Controller
     public function checkoutOrder(Request $request) 
     {
         $auth = Auth::user();
-        
+
         $rules = [
             'payment_method' => "required|string",
             'reference_number' => "required_if:payment_method,gcash|nullable|numeric",
@@ -124,6 +124,23 @@ class OrderController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
         }
+
+        $orders = collect($request->orders);
+
+        $orders = $orders->pluck('id');
+
+        $carts = Order::whereIn('id', $orders)->get();
+
+        $amount = $carts->sum('amount') + 60;
+
+        $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
+        $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
+
+        $source = $this->createSource($amount, $publicKey, $secretKey);
+
+        $paymentInfo = $this->createPayment();
+
+        
 
         $reference = Str::random(10);
 
@@ -155,7 +172,7 @@ class OrderController extends Controller
 
         Order::where('user_id', $auth->id)->get();
 
-        return response()->json(['status' => 200, 'data' => $data], 200);  
+        return response()->json(['status' => 200, 'data' => $data, 'url' => $source->redirect->checkout_url], 200);  
     }
 
     public function getAddress(Request $request)
@@ -259,5 +276,37 @@ class OrderController extends Controller
         OrderDescription::where('reference', $request->reference)->update(['status' => 'received']);
 
         return response()->json(['status' => 200], 200);
+    }
+
+    public function successPage(Request $request)
+    {
+        $auth = Auth::user();
+
+        if($auth) {
+
+            return Inertia::render('Success', [
+                'auth'    => $auth,
+                'options' => [
+                ]
+            ]);
+        }
+
+        return redirect('/');
+    }
+
+    public function failedPage(Request $request)
+    {
+        $auth = Auth::user();
+
+        if($auth) {
+
+            return Inertia::render('Failed', [
+                'auth'    => $auth,
+                'options' => [
+                ]
+            ]);
+        }
+
+        return redirect('/');
     }
 }

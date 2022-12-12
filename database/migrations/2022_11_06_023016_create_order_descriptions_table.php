@@ -19,7 +19,6 @@ class CreateOrderDescriptionsTable extends Migration
             $table->bigInteger('user_id')->unsigned()->comment('Foreign key from table users');
             $table->string('reference');
             $table->string('status');
-            $table->string('reference_number')->nullable();
             $table->string('payment_method');
             $table->longText('address');
             $table->double('shipping_fee', 15, 8);

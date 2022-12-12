@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class OrderDescription extends Model
 {
@@ -24,7 +25,9 @@ class OrderDescription extends Model
         'customer_name',
         'amount',
         'display_status',
-        'total'
+        'total',
+        'contact',
+        'date'
     ];
 
     protected $with = [
@@ -57,9 +60,29 @@ class OrderDescription extends Model
         return $this->user->name;
     }
 
+    public function getContactAttribute()
+    {
+        return $this->user->phone;
+    }
+
+    public function getDateAttribute()
+    {
+        $date = Carbon::parse($this->created_at);
+
+        return $date->isoFormat('LLL'); 
+    }
+
     public function getDisplayStatusAttribute()
     {
         $status = $this->status;
+
+        if($status == 'cancel') {
+            return 'Cancelled';
+        }
+
+        if($status == 'pending') {
+            return 'Pending';
+        }
 
         if($status == 'to_process') {
             return 'Processing';
@@ -71,6 +94,10 @@ class OrderDescription extends Model
 
         if($status == 'to_receive') {
             return 'To Receive';
+        }
+
+        if($status == 'reported') {
+            return 'Bogus Order';
         }
 
         return null;

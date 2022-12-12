@@ -3,6 +3,20 @@
         <div class="w-full min-h-screen h-full px-2 py-2 flex flex-col">
             <div :style="{width: !orders ? '100%' : '100%'}">
                 <div class="w-full flex flex-row mt-5" style="height: 10vh">
+                    <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'oncart'">
+                        <div class="w-full flex justify-center items-center">
+                            <img :src="'/images/pending.png'" :class="{'--bg-gray': activeTab == 'oncart'}"
+                                :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"
+                            />
+                        </div>
+
+                        <div class="w-full">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                                Tray
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'pending'">
                         <div class="w-full flex justify-center items-center">
                             <img :src="'/images/pending.png'" :class="{'--bg-gray': activeTab == 'pending'}"
@@ -24,7 +38,7 @@
 
                         <div class="w-full">
                             <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
-                                To Process
+                                Processing
                             </p>
                         </div>
                     </div>
@@ -52,6 +66,7 @@
                             </p>
                         </div>
                     </div>
+                    
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'received'">
                         <div class="w-full flex justify-center items-center">
@@ -67,6 +82,20 @@
                         </div>
                     </div>
 
+                    <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'cancel'">
+                        <div class="w-full flex justify-center items-center">
+                            <img :src="'/images/pending.png'" :class="{'--bg-gray': activeTab == 'cancel'}"
+                                :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"
+                            />
+                        </div>
+
+                        <div class="w-full">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                                Cancelled
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -77,9 +106,9 @@
                     <div class="flex flex-col px-5 py-2" v-for="order in orders" :key="order.id">
                         <div class="w-full flex flex-col" style="border: 1px solid #E4B934">
                             <div class="w-full">
-                                <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders" v-if="activeTab == 'pending'">
+                                <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders" v-if="activeTab == 'oncart'">
 
-                                <span class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id" v-if="activeTab == 'pending'">
+                                <span class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id" v-if="activeTab == 'oncart' || activeTab == 'pending'">
                                     <i class="fa-solid fa-xmark"></i>
                                 </span>
                             </div>
@@ -95,13 +124,17 @@
                             </div>
 
                             <div class="w-full flex flex-row">
-                                <div class="w-full py-1 px-1" v-if="activeTab == 'pending'">
+                                <div class="w-full py-1 px-1" v-if="activeTab == 'oncart'">
                                     <input type="number" min="1" style="border: 1px solid #E4B934; width: 100%" class="text-center pt-2 pb-2" :value="order.quantity" @change="changeQuantity($event, order)">
                                 </div>
 
                                 <div class="w-full text-center py-1">
                                     <p class="text-lg mt-1">
                                         ₱{{ parseFloat(order.amount).toFixed(2)}}
+                                    </p>
+
+                                    <p class="text-lg mt-2" v-if="!!order.reason">
+                                        {{ order.reason}}
                                     </p>
 
                                     <!-- <p class="text-lg mt-1" v-else>
@@ -121,14 +154,14 @@
             </div>
 
             <div class="w-full px-5 text-center text-lg flex justify-center items-center font-bold cursor-pointer" style="height: 5vh; background: #E4B934; position: fixed; bottom: 0; left: 0"
-                v-if="selectedOrders.length > 0 && activeTab == 'pending'" @click="openCheckoutModal()"
+                v-if="selectedOrders.length > 0 && activeTab == 'oncart'" @click="openCheckoutModal()"
             >
                 <p>CHECKOUT</p>
             </div>
 
             <div id="checkoutModal" class="checkoutModal">
                 <!-- Modal content -->
-                <div class="checkout-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '85%' : '20%'}">
+                <div class="checkout-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '85%' : '30%'}">
                     <div class="w-full">
                         <span class="text-lg font-bold">
                            Checkout
@@ -139,6 +172,21 @@
                         >
                             <i class="fa-solid fa-xmark"></i>
                         </span>
+                    </div>
+
+                    <div class="w-full mt-5">
+                        <gmap-map 
+                            :center="{lat: coordinates.latitude, lng: coordinates.longitude}"
+                            :zoom="15"
+                            style="width: 100%; height: 320px; border: 1px solid #E4B934"
+                        >
+                            <gmap-marker
+                                :position="{lat: coordinates.latitude, lng: coordinates.longitude}"
+                                :clickable="true"
+                                :draggable="false"
+                            ></gmap-marker>
+                        </gmap-map>
+                       
                     </div>
 
                     <div class="w-full mt-5" v-for="(orders, restaurant) in groupOrders" :key="restaurant">
@@ -202,36 +250,20 @@
                             </div>
                         </div>
 
-                        <div class="w-full flex flex-row mt-5">
-                            <div class="w-full flex justify-center items-center">
+                        <div class="w-full flex flex-row">
+                            <div class="w-full text-left pl-5">
                                 Mode of Payment:
                             </div>
 
-                            <div class="w-full flex justify-center items-center">
-                                <input class="mr-1" type="radio" value="cod" v-model="form.payment_method" />
-                                <label class="mr-1">COD</label>
+                            <div class="w-full text-left pl-5">
+                                <div class="w-full flex">
+                                    <input class="mr-1" type="radio" value="cod" v-model="form.payment_method" v-if="!auth.is_reported"/>
+                                    <label class="mr-1" v-if="!auth.is_reported">COD</label>
 
-                                <input class="mr-1" type="radio" value="gcash" v-model="form.payment_method" />
-                                <label>G-Cash</label>
+                                    <input class="mr-1" type="radio" value="gcash" v-model="form.payment_method" />
+                                    <label>G-Cash</label>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="w-full flex flex-row mt-5" v-if="form.payment_method == 'gcash'">
-                            <div class="w-full flex justify-center items-center">
-                                Owner G-Cash #:
-                            </div>
-
-                            <div class="w-full flex justify-center items-center">
-                                {{ gcashNumber }}
-                            </div>
-                        </div>
-
-                        <div class="w-full pl-5 mt-2" v-if="form.payment_method == 'gcash'">
-                            <input v-model="form.reference_number" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
-                                placeholder="G-Cash Ref. No."
-                                class="text-center"
-                            >
-                            <span class="text-xs text-red-500">{{validationError('reference_number', saveError)}} </span>
                         </div>
 
                         <div class="w-full flex flex-row mt-5">
@@ -241,34 +273,32 @@
 
                             <div class="w-full flex justify-start items-center pl-5">
                                 <input type="checkbox" v-model="otherAddress">
-                            </div>
+                            </div> 
                         </div>
 
                         <div class="w-full pl-5 mt-2" v-if="otherAddress">
-                            <input v-model="form.address" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
-                                placeholder="Street No, Barangay, Town"
-                                class="text-center"
+                            <input style="height: 30px; border: 1px solid black; border-radius: 5px; width: 100%; padding: 5px"
+                                placeholder="Street, Barangay, Town"
+                                class="text-center" @input="initiateSearch($event)"
                             >
                             <span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
                         </div>
 
-                        <div class="w-full flex flex-col mt-5">
-                            <div class="w-full flex justify-start items-center pl-5">
-                                Available Address:
-                            </div>
-
-                            <div class="w-full flex justify-start items-center px-5">
-                                <select class="w-full" style="border: 1px solid black; height: 30px">
-                                    <option :value="place.id" v-for="place in places" :key="place.id">{{ place.address}}</option>
-                                </select>
-                            </div>
-                        </div>
 
                         <div class="w-full pl-5 mt-4">
-                            <button style="border-radius: 5px; width: 93%; background: #E4B934" class="py-2" @click="checkout()">
+                            <button style="border-radius: 5px; width: 100%; background: #E4B934" class="py-2" @click="checkout()"
+                                :class="{'cursor-not-allowed': getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10}"
+                                :disabled="getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10"
+                            >
                                 Confirm
                             </button>
+
+                            <span class="text-xs text-red-500" v-if="getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10">
+                                Your address is too far on {{ restaurant }} address. Maximum delivery address is 10km.
+                            </span>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -277,7 +307,7 @@
 				<!-- Modal content -->
 				<div class="remove-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '80%' : '20%'}">
 					<div class="w-full text-lg font-bold text-center">
-						Are you sure to delete this order ?
+						Are you sure to cancel this order ?
 					</div>
 
 					<div class="w-full flex flex-row mt-10">
@@ -290,7 +320,7 @@
                         </div>
 
                         <div class="w-full">
-                            <button class="w-full py-1 text-black" style="border-radius: 5px; width: 93%; background: #E4B934"
+                            <button class="w-full py-1 text-black" style="border-radius: 5px; width: 100%; background: #E4B934"
                                 @click="removeProduct(orderSelected)"
                             >
                                 Yes
@@ -320,10 +350,9 @@ export default {
         return {
             orders: [],
             selectedOrders: [],
-            groupOrders: null,
+            groupOrders: null, 
             form: {
                 payment_method: 'cod',
-                reference_number: null,
                 address: null,
                 orders: [],
                 otherAddress: null,
@@ -332,18 +361,31 @@ export default {
             },
             activeFoodJoint: null,
             saveError: null,
-            activeTab: 'pending',
+            activeTab: 'oncart',
             otherAddress: false,
             places: [],
             gcashNumber: null,
             isMobile: window.screen.width <= 700,
-            orderSelected: null
+            orderSelected: null,
+            coordinates : {
+                latitude: 10,
+                longitude: 10
+            },
+            retaurantCoordinates: {
+                latitude: 10,
+                longitude: 10
+            }
         }
     },
-    mounted() {
+    created() {
         this.orders = this.options.orders
+
+        this.getCoordinates(this.auth.address, 'customer')
     },
     watch: {
+        'form.address'(arg) {
+            
+        },
         orderSelected(arg) {
             if(!arg) return;
 
@@ -367,13 +409,68 @@ export default {
 				})
         },
         activeFoodJoint(arg) {
-            this.getPlaces(arg)
+            this.getAddress(arg)
         },
         otherAddress(arg) {
             this.form.address = null
-        }
+        },
+
+        
     },
     methods: {
+        getCoordinates(address, type){
+            axios.get(`https://api.tomtom.com/search/2/geocode/${address}.json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E`)
+				.then(response => {
+                    if(type == 'customer') {
+                        this.coordinates.latitude = response.data.results[0].position.lat
+                        this.coordinates.longitude = response.data.results[0].position.lon
+                    } else {
+                        this.retaurantCoordinates.latitude = response.data.results[0].position.lat
+                        this.retaurantCoordinates.longitude = response.data.results[0].position.lon
+                    }
+					
+				})
+        },
+        initiateSearch(e) {
+            var self = this
+
+            if(!e.target.value) {
+                self.form.address = null
+
+                self.getCoordinates(self.auth.address, 'customer')
+            } 
+
+            clearTimeout(self.timeOut);
+
+            this.timeOut = setTimeout(
+                function(){
+                    self.form.address = e.target.value
+
+                    self.getCoordinates(e.target.value, 'customer')
+                    
+                }
+            , 2000);
+        },
+        getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+            var dLon = this.deg2rad(lon2-lon1); 
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ; 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c; // Distance in km
+
+            console.log(d)
+            return d;
+        },
+
+        deg2rad(deg) {
+            return deg * (Math.PI/180)
+        },
+
         changeQuantity(evt,arg) {
             var data = { id: arg.id, product_id: arg.product_id, quantity: evt.target.value}
             
@@ -413,12 +510,15 @@ export default {
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
-                        // this.activeTab = 'to_process'
-                        // this.selectedOrders = []
-                        // this.closeCheckoutModal()
                         
-                        // window.open(response.data.url);
-                        window.location.href = response.data.url;
+                        if(!!response.data.url) {
+                            window.location.href = response.data.url;
+                        } else {
+                            this.activeTab = 'pending'
+                            this.selectedOrders = []
+                            this.closeCheckoutModal()
+                        }
+                        
 
 					}
 				})
@@ -482,17 +582,12 @@ export default {
             return parseFloat(total).toFixed(2)
         },
 
-        getPlaces(arg) { 
+        getAddress(arg) {   
             var data = [];
             
             axios.post(this.$root.route + "/orders/get-address", {address: arg})
 				.then(response => {
-					if(response.data.status == 422) {
-						this.saveError = response.data.errors 
-					} else {
-                        this.places = response.data.places
-                        this.gcashNumber = response.data.phone
-					}
+					this.getCoordinates(response.data.address, 'foodhub')
 				})
         },
 

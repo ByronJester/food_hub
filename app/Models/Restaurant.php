@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class Restaurant extends Model
 {
@@ -25,7 +26,11 @@ class Restaurant extends Model
     ];
 
     protected $appends = [
-        'phone'
+        'phone',
+        'address',
+        'opening',
+        'closing',
+        'lock'
     ];
 
     public function products()
@@ -33,16 +38,6 @@ class Restaurant extends Model
         $auth = Auth::user();
 
         $data = $this->hasMany(Product::class);
-
-        if($auth) {
-            if($auth->role == 3){
-                $data = $data->where('is_active', 1);
-            }
-        }
-
-        if(!$auth) {
-            $data = $data->where('is_active', 1);
-        }
 
         return $data;
         
@@ -62,5 +57,30 @@ class Restaurant extends Model
     {
         return $this->user->phone;
     }
+
+    public function getAddressAttribute()
+    {
+        return $this->user->address;
+    }
+
+    public function getOpeningAttribute()
+    {
+        return Carbon::parse($this->opening_time)->format('g:i A');
+    }
+
+    public function getClosingAttribute()
+    {
+        return Carbon::parse($this->closing_time)->format('g:i A');
+    }
+
+    public function getLockAttribute()
+    {
+        if(time() >= strtotime(date('Y-m-d'). ' ' . $this->opening_time) && time() <= strtotime(date('Y-m-d'). ' ' . $this->closing_time)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
 
 }

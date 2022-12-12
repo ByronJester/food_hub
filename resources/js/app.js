@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { InertiaProgress } from '@inertiajs/progress'; 
 import VueGraph from 'vue-graph';
 import VueCarousel from 'vue-carousel';
+import * as VueGoogleMaps from 'vue2-google-maps';
 
 InertiaProgress.init({
   // The delay after which the progress bar will
@@ -25,6 +26,11 @@ const app = document.getElementById('app')
 
 Vue.use(VueGraph);
 Vue.use(VueCarousel);
+Vue.use(VueGoogleMaps, {
+    load: {
+      key: ''
+    }
+});
 
 Vue.mixin({
   methods: {

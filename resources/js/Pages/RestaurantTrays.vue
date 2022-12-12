@@ -58,9 +58,19 @@
 
                             <div class="w-full mt-5">
                                 <select v-model="form.status" class="w-full" style="border: 1px solid black; height: 40px; border-radius: 5px">
-                                    <option :value="'to_deliver'">To Deliver</option>
-                                    <option :value="'to_receive'">To Receive</option>
+                                    <option :value="'to_process'">Process Order</option>
+                                    <option :value="'cancel'">Cancel Order</option>
+                                    <option :value="'to_deliver'">Deliver Order</option>
+                                    <option :value="'to_receive'">Receive Order</option>
+                                    <option :value="'reported'">Mark as Bogus Order</option>
                                 </select>
+
+                                <textarea class="w-full mt-2 pl-2" rows="4" cols="50" placeholder="Reason..." 
+                                    v-model="form.reason" style="border: 1px solid black;" v-if="form.status == 'cancel'"
+                                >
+                                </textarea>
+                                <span class="text-xs text-red-500">{{validationError('reason', saveError)}} </span>
+                                
                             </div>
 
                             <div class="w-full mt-4">
@@ -130,20 +140,23 @@ export default {
             orders: [],
             selected: null,
             columns: [
-                'Customer Name', 'Payment Method', 'G-Cash Ref. No.', 'Address', 'Status', 'Amount', 'Shipping Fee', 'Total'
+                'Date', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'
             ],
             keys : [
+                {
+                    label: 'date',
+                },
                 {
                     label: 'customer_name',
                 },
                 {
-                    label: 'payment_method',
-                },
-                {
-                    label: 'reference_number',
-                },
-                {
                     label: 'address',
+                },
+                {
+                    label: 'contact',
+                },
+                {
+                    label: 'payment_method',
                 },
                 {
                     label: 'display_status',
@@ -160,9 +173,11 @@ export default {
             ],
             form: {
                 reference: null,
-                status: 'to_deliver',
-                user_id: null
-            }
+                status: 'to_process',
+                user_id: null,
+                reason: null
+            },
+            saveError: null,
         }
     },
 
@@ -209,12 +224,19 @@ export default {
             var modal = document.getElementById("orderModal");
 
             modal.style.display = "none";
+
+            this.saveError = null
+            this.form.status = 'to_process'
             
         },
         save(){
             axios.post(this.$root.route + "/orders/change-status", this.form)
 				.then(response => {
-					location.reload()
+					if(response.data.status == 422) {
+						this.saveError = response.data.errors 
+					} else {
+						location.reload()
+					}
 				})
         },
 
@@ -231,7 +253,7 @@ export default {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
-  top: 40%;
+  top: 30%;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */

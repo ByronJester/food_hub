@@ -210,6 +210,10 @@
 					<div class="text-center font-bold" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 						{{ arg.restaurant_name }}
 					</div>
+
+					<div class="text-center font-bold text-md">
+						{{ arg.opening }} - {{ arg.closing }}
+					</div>
 				</div>
 			</div>
 
@@ -1053,7 +1057,7 @@ export default {
 .--restaurant__list{
 	border: 1px solid #E4B934;
 	border-radius: 5px;
-	height: 250px;
+	height: 100%;
 }
 
 .--text {

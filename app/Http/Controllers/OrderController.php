@@ -9,7 +9,7 @@ use App\Models\Restaurant;
 use App\Models\RestaurantAddress;
 use App\Models\OrderDescription;
 use App\Models\Product;
-use App\Models\Order;
+use App\Models\Order; 
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -18,12 +18,28 @@ use Illuminate\Database\Eloquent\Builder;
 
 class OrderController extends Controller
 {
+
+    public function getGeoCode($address)
+    {
+        // $key = 'AIzaSyDCGS5UZzxRuFzBXmQ-6wXEnXn9dO8pEkE';
+        $key = 'hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E';
+
+        // $url = "http://maps.google.com/maps/api/geocode/json?address=$address&key=$key";
+        $url = "https://api.tomtom.com/search/2/geocode/$address.json?key=$key";
+
+        // $geocode = file_get_contents($url);
+        $json = json_decode($url);
+        // $data['lat'] = $json->results[0]->geometry->location->lat;
+        // $data['lng'] = $json->results[0]->geometry->location->lng;
+        return $json;
+    }
+
     public function viewOrders(Request $request)
     {
         $auth = Auth::user();
 
         if($auth) {
-            $orders = Order::where('user_id', $auth->id)->where('status', 'pending')
+            $orders = Order::where('user_id', $auth->id)->where('status', 'oncart')
                 ->whereHas('product', function (Builder $query) {
                     $query->where('is_active', 1);
                 })
@@ -32,7 +48,8 @@ class OrderController extends Controller
             return Inertia::render('CustomerOrders', [
                 'auth'    => $auth,
                 'options' => [
-                    'orders' => $orders->groupBy('food_hub')
+                    'orders' => $orders->groupBy('food_hub'),
+                    // 'coordinates' => $coordinates
                 ]
             ]);
         }
@@ -55,7 +72,7 @@ class OrderController extends Controller
 
         $product = Product::where('id', $request->product_id)->first();
 
-        $order = Order::where('user_id', $auth->id)->where('product_id', $request->product_id)->where('status', 'pending')->first();
+        $order = Order::where('user_id', $auth->id)->where('product_id', $request->product_id)->where('status', 'oncart')->first();
 
         $restaurant = Restaurant::where('id', $product->restaurant_id)->first();
 
@@ -72,6 +89,7 @@ class OrderController extends Controller
             $data['user_id'] = $auth->id;
             $data['amount'] = $product->amount * $request->quantity;
             $data['restaurant_id'] = $restaurant->id;
+            $data['status'] = 'oncart';
 
             Order::create($data);
         }
@@ -114,7 +132,6 @@ class OrderController extends Controller
 
         $rules = [
             'payment_method' => "required|string",
-            'reference_number' => "required_if:payment_method,gcash|nullable|numeric",
             'address' => "required_if:otherAddress,true|nullable|string",
             'orders' => "required"
         ];
@@ -125,6 +142,8 @@ class OrderController extends Controller
             return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
         }
 
+        $url = null;
+
         $orders = collect($request->orders);
 
         $orders = $orders->pluck('id');
@@ -133,22 +152,48 @@ class OrderController extends Controller
 
         $amount = $carts->sum('amount') + 60;
 
-        $amount = $amount * 100;
-
-        $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
-        $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
-
-        $source = $this->createSource($amount, $publicKey, $secretKey);
-
         $description = $request->only(['payment_method', 'reference_number', 'user_id']);
     
         $restaurant = Restaurant::where('restaurant_name', $request->food_joint)->first();
 
-        session()->put('orders', $orders);
-        session()->put('description', $description);
-        session()->put('restaurant_id', $restaurant->id);
+        $address = $request->otherAddress ? $request->address : $auth->address;
 
-        return response()->json(['status' => 200, 'data' => [], 'url' => $source->redirect->checkout_url], 200);  
+        $payment_method = $request->payment_method;
+
+        if($request->payment_method == 'cod') {
+            $reference = Str::random(10);
+
+            Order::whereIn('id', $orders)->update([
+                'status' => 'pending',
+                'reference' => $reference
+            ]);
+    
+            $description['restaurant_id'] = $restaurant->id;
+            $description['reference'] = $reference;
+            $description['shipping_fee'] = 60;
+            $description['status'] = 'pending';
+            $description['address'] = $address;
+            $description['payment_method'] = $payment_method;
+    
+            OrderDescription::forceCreate($description);
+        } else {
+            $amount = $amount * 100;
+
+            $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
+            $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
+
+            $source = $this->createSource($amount, $publicKey, $secretKey);
+            
+            $url = $source->redirect->checkout_url;
+
+            session()->put('orders', $orders);
+            session()->put('description', $description);
+            session()->put('restaurant_id', $restaurant->id);
+            session()->put('address', $address);
+            session()->put('payment_method', $payment_method);
+        }
+
+        return response()->json(['status' => 200, 'data' => [], 'url' => $url], 200);   
     }
 
     public function buyNow(Request $request)
@@ -157,7 +202,6 @@ class OrderController extends Controller
         
         $rules = [
             'payment_method' => "required|string",
-            'reference_number' => "required_if:payment_method,gcash|nullable|numeric",
             'address' => "required_if:otherAddress,true|nullable|string",
             'order' => "required"
         ];
@@ -169,39 +213,70 @@ class OrderController extends Controller
         }
 
         $order = (object) $request->order;
-
         $product = Product::where('id', $order->product_id)->first();
 
-        $orderSave = Order::create([
-            'restaurant_id' => $request->restaurant_id,
-            'product_id' => $order->product_id,
-            'user_id' => $auth->id,
-            'amount' => $product->amount * $order->quantity,
-            'quantity' => $order->quantity,
-            'status' => 'pending',
-            'reference' => null
+        $url = null;
 
-        ]);
+        $address = $request->otherAddress ? $request->address : $auth->address;
+        $payment_method = $request->payment_method;
 
-        $description = [];
-        $description['payment_method'] = $request->payment_method;
-        $description['reference_number'] = $request->reference_number;
-        $description['user_id'] = $auth->id;
+        if($request->payment_method == 'cod') {
+            $reference = Str::random(10);
 
-        $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
-        $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
+            $orderSave = Order::forceCreate([
+                'restaurant_id' => $request->restaurant_id,
+                'product_id' => $order->product_id,
+                'user_id' => $auth->id,
+                'amount' => $product->amount * $order->quantity,
+                'quantity' => $order->quantity,
+                'status' => 'pending',
+                'reference' => $reference
+            ]);
+            
+            $description['user_id'] = $auth->id;
+            $description['restaurant_id'] = $request->restaurant_id;
+            $description['reference'] = $reference;
+            $description['shipping_fee'] = 60;
+            $description['status'] = 'pending';
+            $description['address'] = $address;
+            $description['payment_method'] = $payment_method;
+    
+            OrderDescription::forceCreate($description);
+        } else {
+            
+            $orderSave = Order::create([
+                'restaurant_id' => $request->restaurant_id,
+                'product_id' => $order->product_id,
+                'user_id' => $auth->id,
+                'amount' => $product->amount * $order->quantity,
+                'quantity' => $order->quantity,
+                'status' => 'oncart',
+                'reference' => null
+            ]);
 
-        $amount = ($product->amount * $order->quantity) + 60;
+            $amount = ($product->amount * $order->quantity) + 60;
+            $amount = $amount * 100;
 
-        $amount = $amount * 100;
+            $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
+            $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
 
-        $source = $this->createSource($amount, $publicKey, $secretKey);
+            $source = $this->createSource($amount, $publicKey, $secretKey);
+            
+            $url = $source->redirect->checkout_url;
 
-        session()->put('orders', [ $orderSave->id ]);
-        session()->put('description', $description);
-        session()->put('restaurant_id', $request->restaurant_id);
+            $description = [];
+            $description['payment_method'] = $request->payment_method;
+            $description['reference_number'] = $request->reference_number;
+            $description['user_id'] = $auth->id;
 
-        return response()->json(['status' => 200, 'data' => [], 'url' => $source->redirect->checkout_url], 200);
+            session()->put('orders', [ $orderSave->id ]);
+            session()->put('description', $description);
+            session()->put('restaurant_id', $request->restaurant_id);
+            session()->put('address', $address);
+            session()->put('payment_method', $payment_method);
+        }
+
+        return response()->json(['status' => 200, 'data' => [], 'url' => $url], 200);
     }
 
     public function getAddress(Request $request)
@@ -210,16 +285,29 @@ class OrderController extends Controller
 
         $user = User::where('id', $restaurant->user_id)->first();
 
-        $places = RestaurantAddress::where('restaurant_id', $restaurant->id)->get();
-
-        return response()->json(['status' => 200, 'places' => $places, 'phone' => $user->phone], 200); 
+        return response()->json(['status' => 200, 'address' => $user->address, 'phone' => $user->phone], 200); 
     }
 
     public function changeStatus(Request $request)
     {
-        Order::where('reference', $request->reference)->update([
-            'status' => $request->status
-        ]);
+        $rules = [
+            'reason' => "required_if:status,cancel|nullable|string",
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
+        }
+
+        $data = [];
+        $data = $request->only(['status']);
+
+        if(!!$request->reason) {
+            $data = $request->only(['status', 'reason']);
+        }
+
+        Order::where('reference', $request->reference)->update($data);
 
         OrderDescription::where('reference', $request->reference)->update([
             'status' => $request->status
@@ -232,7 +320,13 @@ class OrderController extends Controller
         if($request->status == 'to_deliver') {
             $message = 'Your order is ready for delivery.';
         } else {
-            $message = 'Your order arrived at your location.';
+            if($request->status == 'cancel') {
+                $message = 'Your order is cancelled.';
+            } else if($request->status == 'to_process') {
+                $message = 'Your order is processing.';
+            } else {
+                $message = 'Your order arrived at your location.';
+            }
         }
 
         $sms = $this->sendSms($user->phone, $message);
@@ -254,31 +348,31 @@ class OrderController extends Controller
         $auth = Auth::user();
 
         $source = session()->get('source');
-        $orders = session()->get('orders');
+        $orderId = session()->get('orders');
         $description = session()->get('description');
         $restaurant_id = session()->get('restaurant_id');
+        $address = session()->get('address');
+        $payment_method = session()->get('payment_method');
+
+        $orders = Order::whereIn('id', $orderId)->get();
 
         $paymentInfo = $this->createPayment();
 
         if(!!$paymentInfo && $paymentInfo == 'paid') {
             $reference = Str::random(10);
 
-            Order::whereIn('id', $orders)->update([
-                'status' => 'to_process',
+            Order::whereIn('id', $orderId)->update([
+                'status' => 'pending',
                 'reference' => $reference
             ]);
     
             $description['restaurant_id'] = $restaurant_id;
             $description['reference'] = $reference;
             $description['shipping_fee'] = 60;
-            $description['status'] = 'to_process';
-    
-            if($request->otherAddress) {
-                $description['address'] = $request->address;
-            } else {
-                $description['address'] = $auth->address;
-            }
-    
+            $description['status'] = 'pending';
+            $description['address'] = $address;
+            $description['payment_method'] = $payment_method;
+
             OrderDescription::forceCreate($description);
         }
 
@@ -287,7 +381,8 @@ class OrderController extends Controller
             return Inertia::render('Success', [
                 'auth'    => $auth,
                 'options' => [
-                    'source' => $source
+                    'source' => $source,
+                    'orders' => $orders
                 ]
             ]);
         }
@@ -298,12 +393,17 @@ class OrderController extends Controller
     public function failedPage(Request $request)
     {
         $auth = Auth::user();
+        $source = session()->get('source');
+        $orderId = session()->get('orders');
+        $orders = Order::whereIn('id', $orderId)->get();
 
         if($auth) {
 
             return Inertia::render('Failed', [
                 'auth'    => $auth,
                 'options' => [
+                    'source' => $source,
+                    'orders' => $orders
                 ]
             ]);
         }

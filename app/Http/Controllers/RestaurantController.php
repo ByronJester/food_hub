@@ -38,7 +38,7 @@ class RestaurantController extends Controller
                 'auth'    => $auth,
                 'options' => [
                     'restaurant' => $restaurant,
-                    'address' => $address
+                    'address' => $address,
                 ]
             ]);
         }
@@ -240,5 +240,17 @@ class RestaurantController extends Controller
         ]);
 
         return redirect()->back();  
+    }
+
+    public function saveTime(Request $request)
+    {
+        $auth = Auth::user();
+
+        $restaurant = Restaurant::where('user_id', $auth->id)->first();
+        $restaurant->opening_time = $request->opening_time;
+        $restaurant->closing_time = $request->closing_time;
+        $restaurant->save();
+
+        return response()->json(['status' => 200], 200); 
     }
 }

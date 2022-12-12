@@ -45,7 +45,8 @@ class User extends Authenticatable
         'verified',
         'wallet',
         'permit',
-        'trays'
+        'trays',
+        'is_reported'
     ];
 
     public function getVerifiedAttribute()
@@ -120,6 +121,13 @@ class User extends Authenticatable
         }
 
         return $count;
+    }
+
+    public function getIsReportedAttribute()
+    {   
+        $count = OrderDescription::where('user_id', $this->id)->where('status', 'reported')->count();
+
+        return $count >= 2 ? true : false;
     }
 
 }

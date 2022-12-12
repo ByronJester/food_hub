@@ -6,6 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.0/maps/maps.css" rel="stylesheet" type="text/css">
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.0/maps/maps-web.min.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/4865c75cef.js" crossorigin="anonymous"></script>
     <script src="{{ mix('/js/app.js') }}" defer></script>
 

@@ -23,6 +23,10 @@
 					<div class="text-center font-bold text-xl" :class="{'--text': !isMobile, 'text-lg': isMobile}">
 						{{ arg.restaurant_name }}
 					</div>
+
+					<div class="text-center font-bold text-md">
+						{{ arg.opening }} - {{ arg.closing }}
+					</div>
 				</div>
 			</div>
 
@@ -105,9 +109,11 @@
 								<div class="px-4 mt-4" style="width: 100%">
                                     <button class="w-full py-1"
                                         style="border-radius: 5px; background: #000000"
+										:class="{'cursor-not-allowed': !!restaurant.lock || !product.is_active}"
+										:disabled="!!restaurant.lock || !product.is_active"
 										@click="buyNow(forms[index], index, product)"
                                     >
-                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
+                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}" > 
                                             <b class="text-white mr-2">BUY</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">NOW</b>
                                         </span>
                                     </button>
@@ -120,8 +126,9 @@
 
 									<div class="pr-4 w-full" style="width: 15%">
 										<button class="w-full cursor-poineter"
-											:class="{'--text': !isMobile, 'text-lg': isMobile}"
+											:class="{'--text': !isMobile, 'text-lg': isMobile, 'cursor-not-allowed': !!restaurant.lock || !product.is_active}"
 											style="border-radius: 5px; background: #E4B934"
+											:disabled="!!restaurant.lock || !product.is_active"
 											@click="addToCart(forms[index], index)"
 										>
 											<i class="fa-solid fa-cart-shopping pt-3 pb-2" style="color: #000000"></i> 
@@ -174,7 +181,7 @@
 				</div>
 
 				<div id="checkoutModal" class="checkoutModal">
-					<div class="checkout-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '85%': '20%'}">
+					<div class="checkout-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '85%': '30%'}">
 						<div class="w-full">
 							<span class="text-xl font-bold">
 								Checkout Order
@@ -185,6 +192,21 @@
 							>
 								<i class="fa-solid fa-xmark"></i>
 							</span>
+						</div>
+
+						<div class="w-full mt-5">
+							<gmap-map 
+								:center="{lat: coordinates.latitude, lng: coordinates.longitude}"
+								:zoom="15"
+								style="width: 100%; height: 320px; border: 1px solid #E4B934"
+							>
+								<gmap-marker
+									:position="{lat: coordinates.latitude, lng: coordinates.longitude}"
+									:clickable="true"
+									:draggable="false"
+								></gmap-marker>
+							</gmap-map>
+						
 						</div>
 
 						<div class="w-full flex flex-col mt-4" v-if="orderProduct && orderDescription">
@@ -246,42 +268,26 @@
 								</div>
 							</div>
 
-							<div class="w-full flex flex-row mt-5">
-								<div class="w-full flex justify-center items-center">
+							<div class="w-full flex flex-row">
+								<div class="w-full text-left pl-5">
 									Mode of Payment:
 								</div>
 
-								<div class="w-full flex justify-center items-center">
-									<input class="mr-1" type="radio" value="cod" v-model="form.payment_method" />
-									<label class="mr-1">COD</label>
+								<div class="w-full text-left pl-5">
+									<div class="w-full flex">
+										<input class="mr-1" type="radio" value="cod" v-model="form.payment_method" v-if="!auth.is_reported"/>
+										<label class="mr-1" v-if="!auth.is_reported">COD</label>
 
-									<input class="mr-1" type="radio" value="gcash" v-model="form.payment_method" />
-									<label>G-Cash</label>
+										<input class="mr-1" type="radio" value="gcash" v-model="form.payment_method" />
+										<label>G-Cash</label>
+									</div>
 								</div>
-							</div>
-
-							<div class="w-full flex flex-row mt-5" v-if="form.payment_method == 'gcash'">
-								<div class="w-full flex justify-center items-center">
-									Owner G-Cash #:
-								</div>
-
-								<div class="w-full flex justify-center items-center">
-									{{ restaurant.phone }}
-								</div>
-							</div>
-
-							<div class="w-full pl-5 mt-2" v-if="form.payment_method == 'gcash'">
-								<input v-model="form.reference_number" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
-									placeholder="G-Cash Ref. No."
-									class="text-center"
-								>
-								<span class="text-xs text-red-500">{{validationError('reference_number', saveError)}} </span>
 							</div>
 
 							<div class="w-full flex flex-row mt-5">
 								<div class="w-full flex justify-start items-center pl-5">
 									Other Address:
-								</div>
+								</div> 
 
 								<div class="w-full flex justify-start items-center pl-5">
 									<input type="checkbox" v-model="form.otherAddress">
@@ -289,31 +295,25 @@
 							</div>
 
 							<div class="w-full pl-5 mt-2" v-if="form.otherAddress">
-								<input v-model="form.address" style="height: 30px; border: 1px solid black; border-radius: 5px; width: 93%; padding: 5px"
-									placeholder="Street No, Barangay, Town"
-									class="text-center"
+								<input style="height: 30px; border: 1px solid black; border-radius: 5px; width: 100%; padding: 5px"
+									placeholder="Street, Barangay, Town"
+									class="text-center" @input="initiateSearch($event)"
 								>
 								<span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
 							</div>
 
-							<div class="w-full flex flex-col mt-5">
-								<div class="w-full flex justify-start items-center pl-5">
-									Available Delivery Address:
-								</div>
-
-								<div class="w-full flex justify-start items-center px-5">
-									<select class="w-full" style="border: 1px solid black; height: 30px">
-										<option v-for="p in restaurant.places" :value="p.id" :key="p.id">
-											{{p.address}}
-										</option>
-									</select>
-								</div>
-							</div>
 
 							<div class="w-full pl-5 mt-4">
-								<button style="border-radius: 5px; width: 93%; background: #E4B934" class="py-2" @click="confirmBuyNow()">
+								<button style="border-radius: 5px; width: 100%; background: #E4B934" class="py-2" @click="confirmBuyNow()"
+									:class="{'cursor-not-allowed': getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10}"
+                                	:disabled="getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10"
+								>
 									Confirm
 								</button>
+
+								<span class="text-xs text-red-500" v-if="getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10">
+									Your address is too far on {{ restaurant.name }} address. Maximum delivery address is 10km.
+								</span>
 							</div>
 
 						</div>
@@ -356,18 +356,27 @@ export default {
 			orderProduct: null,
 			form: {
 				payment_method: 'cod',
-				reference_number: null,
 				otherAddress: false,
 				address: null,
 				order: null,
 				user_id: null,
 				restaurant_id: null
 			},
-			saveError: null
+			saveError: null,
+			coordinates : {
+                latitude: 10,
+                longitude: 10
+            },
+            retaurantCoordinates: {
+                latitude: 10,
+                longitude: 10
+            }
         }
     },
     created(){
         this.restaurants = this.options.restaurants
+
+		this.getCoordinates(this.auth.address, 'customer')
     },
 	watch: {
 		activeCategory(arg) {
@@ -416,8 +425,62 @@ export default {
 		}
 	},
     methods: {
+		getCoordinates(address, type){
+            axios.get(`https://api.tomtom.com/search/2/geocode/${address}.json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E`)
+				.then(response => {
+                    if(type == 'customer') {
+                        this.coordinates.latitude = response.data.results[0].position.lat
+                        this.coordinates.longitude = response.data.results[0].position.lon
+                    } else {
+                        this.retaurantCoordinates.latitude = response.data.results[0].position.lat
+                        this.retaurantCoordinates.longitude = response.data.results[0].position.lon
+                    }
+					
+				})
+        },
+        initiateSearch(e) {
+            var self = this
+
+            if(!e.target.value) {
+                self.form.address = null
+
+                self.getCoordinates(self.auth.address, 'customer')
+            } 
+
+            clearTimeout(self.timeOut);
+
+            this.timeOut = setTimeout(
+                function(){
+                    self.form.address = e.target.value
+
+                    self.getCoordinates(e.target.value, 'customer')
+                    
+                }
+            , 2000);
+        },
+        getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+            var dLon = this.deg2rad(lon2-lon1); 
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ; 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c; // Distance in km
+
+            console.log(d)
+            return d;
+        },
+
+        deg2rad(deg) {
+            return deg * (Math.PI/180)
+        },
         selectShop(arg){
 			this.restaurant = arg
+
+			this.getCoordinates(arg.address, 'foodhub')
 
 			this.products = arg.products
 			
@@ -507,10 +570,15 @@ export default {
 					if(response.data.status == 422) {
 						this.saveError = response.data.errors 
 					} else {
-                        // this.closeCheckoutModal()
+                        
+						if(!!response.data.url) {
+							window.location.href = response.data.url;
+						} else {
+							this.closeCheckoutModal()
 
-						// location.reload()
-						window.location.href = response.data.url;
+							location.reload()
+						}
+						
 					}
 				})
 		}
@@ -522,7 +590,7 @@ export default {
 .--restaurant__list{
 	border: 1px solid #E4B934;
 	border-radius: 5px;
-	height: 250px;
+	height: 100%;
 }
 
 .--text {

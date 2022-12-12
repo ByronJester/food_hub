@@ -49,6 +49,7 @@ Route::middleware(['cors'])->group(function () {
         Route::post('/create-address', [RestaurantController::class, 'createAddress']);
         Route::post('/remove-address', [RestaurantController::class, 'removeAddress']);
         Route::post('/change-image', [RestaurantController::class, 'changeImage']);
+        Route::post('/save-time', [RestaurantController::class, 'saveTime']);
         Route::post('/product/deactivate-reactivate', [RestaurantController::class, 'reactivateDeactivateProduct']);
     });
 

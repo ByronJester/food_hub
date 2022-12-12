@@ -18,7 +18,7 @@
                     <input type="file" ref="banner" @change="imageChangeRestaurant('banner', $event)" accept="image/png, image/jpeg" style="display:none">
 				</div>
 
-                <div class="w-full flex justify-center items-center mt-20">
+                <!-- <div class="w-full flex justify-center items-center mt-20">
                     <div class="w-6/12 flex flex-row" style="border-bottom: 1px solid #E4B934;">
                         <div class="w-full cursor-pointer mx-2 text-center --text"
                             :class="{'bg-yellow-200': activeTab == 'menus'}"
@@ -34,7 +34,7 @@
                             Places
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="w-full" v-if="activeTab == 'places'">
                     <span class="float-right mr-2 cursor-pointer" style="border: 1px solid black" @click="openAddressModal()">
@@ -83,6 +83,29 @@
                     </div>
                 </div>
 			</div>
+
+            <div class="w-full inline-flex ml-5 mt-10">
+                <div class="pr-2">
+                    <label class="font-bold">Opening Time:</label><br><br>
+
+                    <input type="time" required style="border: 1px solid #E4B934" class="p-2" v-model="formTime.opening_time">
+                </div>
+
+                <div class="pr-3">
+                    <label class="font-bold">Closing Time:</label><br><br>
+
+                    <input type="time" required style="border: 1px solid #E4B934" class="p-2" v-model="formTime.closing_time">
+                </div>
+
+                <div>
+                    <button style="background: #E4B934; width: 150px" class="text-center pt-3 pb-2 mt-12"
+                        @click="saveTime()"
+                    >
+                        SAVE
+                    </button>
+                </div>
+                
+            </div>
 
             <div class="w-full mt-8 px-5" v-if="activeTab == 'menus'">
                 <div class="grid grid-cols-5 gap-4 flex justify-center items-center">
@@ -315,7 +338,11 @@ export default {
                 address: null
             },
             placeSelected: null,
-            isMobile: window.screen.width <= 700
+            isMobile: window.screen.width <= 700,
+            formTime: {
+                opening_time: null,
+                closing_time: null
+            }
         }
     },
 
@@ -332,6 +359,9 @@ export default {
         this.products = this.restaurant.products
 
         this.formAddress.restaurant_id = this.restaurant.id
+
+        this.formTime.opening_time = this.restaurant.opening_time
+        this.formTime.closing_time = this.restaurant.closing_time
     },
 
     watch: {
@@ -519,6 +549,12 @@ export default {
 
             this.placeSelected = null
         },
+
+        saveTime() {
+            axios.post(this.$root.route + "/restaurants/save-time", this.formTime)
+				.then(response => {
+				})
+        }
     }
 }
 </script>

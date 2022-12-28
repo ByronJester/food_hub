@@ -73248,7 +73248,6 @@ var render = function() {
           [
             _c("Table", {
               staticClass: "w-full",
-              style: { opacity: _vm.selected ? "0.6" : "1" },
               attrs: {
                 columns: _vm.columns,
                 rows: _vm.rows,

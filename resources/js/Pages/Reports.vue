@@ -24,7 +24,7 @@
             
 
             <div class="w-full mt-5">
-                <Table :columns="columns" :rows="rows" :keys="keys" :selected.sync="selected" :style="{opacity: selected ? '0.6' : '1'}" class="w-full"/>
+                <Table :columns="columns" :rows="rows" :keys="keys" :selected.sync="selected" class="w-full"/>
             </div>
 
             <VueHtml2pdf

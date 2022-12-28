@@ -152,7 +152,7 @@ class OrderController extends Controller
 
         $amount = $carts->sum('amount') + 60;
 
-        $description = $request->only(['payment_method', 'reference_number', 'user_id']);
+        $description = $request->only(['payment_method', 'user_id']);
     
         $restaurant = Restaurant::where('restaurant_name', $request->food_joint)->first();
 
@@ -165,7 +165,8 @@ class OrderController extends Controller
 
             Order::whereIn('id', $orders)->update([
                 'status' => 'pending',
-                'reference' => $reference
+                'reference' => $reference,
+                'payment_method' => $payment_method
             ]);
     
             $description['restaurant_id'] = $restaurant->id;
@@ -230,7 +231,8 @@ class OrderController extends Controller
                 'amount' => $product->amount * $order->quantity,
                 'quantity' => $order->quantity,
                 'status' => 'pending',
-                'reference' => $reference
+                'reference' => $reference,
+                'payment_method' => $payment_method
             ]);
             
             $description['user_id'] = $auth->id;
@@ -266,7 +268,6 @@ class OrderController extends Controller
 
             $description = [];
             $description['payment_method'] = $request->payment_method;
-            $description['reference_number'] = $request->reference_number;
             $description['user_id'] = $auth->id;
 
             session()->put('orders', [ $orderSave->id ]);
@@ -363,7 +364,8 @@ class OrderController extends Controller
 
             Order::whereIn('id', $orderId)->update([
                 'status' => 'pending',
-                'reference' => $reference
+                'reference' => $reference,
+                'payment_method' => $payment_method
             ]);
     
             $description['restaurant_id'] = $restaurant_id;

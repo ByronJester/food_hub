@@ -1,17 +1,17 @@
 <template>
     <Navigation :auth="auth">
-        <div class="w-full min-h-screen h-full px-2 py-2 flex flex-col">
+        <div class="w-full min-h-screen h-full px-2 py-2 flex flex-col --main--div">
             <div :style="{width: !orders ? '100%' : '100%'}">
                 <div class="w-full flex flex-row mt-5" style="height: 10vh">
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'oncart'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/pending.png'" :class="{'--bg-gray': activeTab == 'oncart'}"
-                                :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"
+                            <img :src="'/images/tray.png'" :class="{'--bg-gray': activeTab == 'oncart'}"
+                                :style="{'width': isMobile ? '30px': '80px'}"
                             />
                         </div>
 
                         <div class="w-full">
-                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
                                 Tray
                             </p>
                         </div>
@@ -20,12 +20,12 @@
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'pending'">
                         <div class="w-full flex justify-center items-center">
                             <img :src="'/images/pending.png'" :class="{'--bg-gray': activeTab == 'pending'}"
-                                :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"
+                                :style="{'width': isMobile ? '30px': '80px'}"
                             />
                         </div>
 
                         <div class="w-full">
-                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
                                 Pending
                             </p>
                         </div>
@@ -33,11 +33,11 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_process'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_pay.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}" :class="{'--bg-gray': activeTab == 'to_process'}"/>
+                            <img :src="'/images/to_pay.png'" :style="{'width': isMobile ? '30px': '80px'}" :class="{'--bg-gray': activeTab == 'to_process'}"/>
                         </div>
 
                         <div class="w-full">
-                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
                                 Processing
                             </p>
                         </div>
@@ -45,11 +45,11 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_deliver'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_ship.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
+                            <img :src="'/images/to_ship.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
                         </div>
 
                         <div class="w-full cursor-pointer">
-                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
                                 To Deliver
                             </p>
                         </div>
@@ -57,11 +57,11 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_receive'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_receive.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"/>
+                            <img :src="'/images/to_receive.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"/>
                         </div>
 
                         <div class="w-full">
-                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
                                 To Receive
                             </p>
                         </div>
@@ -70,13 +70,13 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'received'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/history.png'" :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '90px'}"  :class="{'--bg-gray': activeTab == 'received'}"
+                            <img :src="'/images/history.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'received'}"
                                 style="height: 80p"
                             />
                         </div>
 
                         <div class="w-full">
-                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
                                 History
                             </p>
                         </div>
@@ -84,13 +84,13 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'cancel'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/pending.png'" :class="{'--bg-gray': activeTab == 'cancel'}"
-                                :style="{'width': isMobile ? '50px': '80px', 'width': isMobile ? '50px': '80px'}"
+                            <img :src="'/images/cancel.png'" :class="{'--bg-gray': activeTab == 'cancel'}"
+                                :style="{'width': isMobile ? '30px': '80px', 'margin-top': '-1vw'}"
                             />
                         </div>
 
                         <div class="w-full">
-                            <p class="text-center font-bold" :class="{'--text': !isMobile, 'text-md': isMobile}">
+                            <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
                                 Cancelled
                             </p>
                         </div>
@@ -108,9 +108,12 @@
                             <div class="w-full">
                                 <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders" v-if="activeTab == 'oncart'">
 
-                                <span class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id" v-if="activeTab == 'oncart' || activeTab == 'pending'">
+                                <button class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id"
+                                    :class="{'cursor-not-allowed': !!order && order.payment_method == 'gcash' || order.status == 'cancel'}"
+                                    :disabled="!!order && order.payment_method == 'gcash' || order.status == 'cancel'"
+                                >
                                     <i class="fa-solid fa-xmark"></i>
-                                </span>
+                                </button>
                             </div>
 
                             <div class="w-full">
@@ -144,7 +147,7 @@
                             </div>
 
                             <div class="w-full flex flex-row" v-if="activeTab == 'to_receive'">
-                                <button class="w-full" style="background: #E4B934; height: 40px" @click="orderReceived(order.reference)">
+                                <button class="w-full" style="background: #E4B934; height: 40px" @click="confirmRecieved(order.reference)">
                                     Order Received
                                 </button>
                             </div>
@@ -277,7 +280,7 @@
                         </div>
 
                         <div class="w-full pl-5 mt-2" v-if="otherAddress">
-                            <input style="height: 30px; border: 1px solid black; border-radius: 5px; width: 100%; padding: 5px"
+                            <input style="height: 30px; border: 1px solid black; border-radius: 5px; width: 100%; padding: 5px; text-transform: capitalize;"
                                 placeholder="Street, Barangay, Town"
                                 class="text-center" @input="initiateSearch($event)"
                             >
@@ -286,9 +289,9 @@
 
 
                         <div class="w-full pl-5 mt-4">
-                            <button style="border-radius: 5px; width: 100%; background: #E4B934" class="py-2" @click="checkout()"
-                                :class="{'cursor-not-allowed': getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10}"
-                                :disabled="getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10"
+                            <button style="border-radius: 5px; width: 100%; background: #E4B934" class="py-2" @click="confirmCheckout()"
+                                :class="{'cursor-not-allowed': getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10 || checkoutDisabled}"
+                                :disabled="getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10 || checkoutDisabled"
                             >
                                 Confirm
                             </button>
@@ -374,7 +377,8 @@ export default {
             retaurantCoordinates: {
                 latitude: 10,
                 longitude: 10
-            }
+            },
+            checkoutDisabled: false
         }
     },
     created() {
@@ -412,8 +416,11 @@ export default {
             this.getAddress(arg)
         },
         otherAddress(arg) {
-            this.form.address = null
-        },
+            if(!arg) {
+				this.getCoordinates(this.auth.address, 'customer')
+				this.checkoutDisabled = false
+			}
+        }
 
         
     },
@@ -428,10 +435,14 @@ export default {
                         this.retaurantCoordinates.latitude = response.data.results[0].position.lat
                         this.retaurantCoordinates.longitude = response.data.results[0].position.lon
                     }
+
+                    this.checkoutDisabled = false
 					
 				})
         },
         initiateSearch(e) {
+            this.checkoutDisabled = true
+
             var self = this
 
             if(!e.target.value) {
@@ -497,6 +508,22 @@ export default {
                         location.reload()
 					}
 				})
+        },
+
+        confirmCheckout(){
+            swal({
+                title: 'Are you sure to checkout this order ?',
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((proceed) => {
+                if (proceed) {
+                    this.checkout()
+                } else {
+                    
+                }
+            });
         },
 
         checkout(){
@@ -589,6 +616,22 @@ export default {
 				.then(response => {
 					this.getCoordinates(response.data.address, 'foodhub')
 				})
+        },
+
+        confirmRecieved(arg){
+            swal({
+                title: 'Are you sure to received this order ?',
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((proceed) => {
+                if (proceed) {
+                    this.orderReceived(arg)
+                } else {
+                    
+                }
+            });
         },
 
         orderReceived(arg) {
@@ -687,5 +730,9 @@ export default {
 
 .--bg-gray {
     background: #C0C0C0;
+}
+
+.--xs {
+    font-size: 8px;
 }
 </style>

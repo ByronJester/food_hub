@@ -14,7 +14,6 @@ class OrderDescription extends Model
         'restaurant_id',
         'reference',
         'payment_method',
-        'reference_number'.
         'address',
         'shipping_fee',
         'status'

@@ -57,6 +57,7 @@ const pages = {
   'AuditTrails': require('./Pages/AuditTrails.vue').default,
   'Success': require('./Pages/Success.vue').default,
   'Failed': require('./Pages/Failed.vue').default,
+  'Reports': require('./Pages/Reports.vue').default,
 }
 
 new Vue({

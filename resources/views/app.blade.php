@@ -9,6 +9,7 @@
     <link href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.0/maps/maps.css" rel="stylesheet" type="text/css">
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.0/maps/maps-web.min.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/4865c75cef.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ mix('/js/app.js') }}" defer></script>
 
     <style>
@@ -29,6 +30,25 @@
 
       body::-webkit-scrollbar-track-piece{
         display:none;
+      }
+
+      .--main--div {
+          overflow-x:hidden;
+          overflow-y:scroll;
+      }
+
+      .--main--div::-webkit-scrollbar {
+          width: 0px;
+          background: white;
+      }
+
+      .--main--div::-webkit-scrollbar-thumb {
+          background: #ffffff;
+          height:30px;
+      }
+
+      .--main--div::-webkit-scrollbar-track-piece{
+          display:none;
       }
     </style>
   </head>

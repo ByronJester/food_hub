@@ -1,6 +1,6 @@
 <template>
     <Navigation :auth="auth">
-        <div class="w-full h-full px-2 py-2 flex flex-col">
+        <div class="w-full h-full px-2 py-2 flex flex-col --main--div">
             <div class="w-full mt-3" v-if="auth.role == 2">
                 <span class="text-2xl ml-2 font-bold">
                     <i class="fa-solid fa-users mr-3"> </i>Staffs 
@@ -24,8 +24,12 @@
             </div>
 
             <div class="w-full h-full pt-5 flex flex-row pt-3" v-if="!isNew">
-                <div :style="{width: user & auth.role != 2 ? '80%' : '100%'}" class="mx-2">
-                    <Table :columns="columns" :rows="users" :keys="keys" :selected.sync="user"/>
+                <div :style="{width: user & auth.role != 2 ? '80%' : '100%'}" class="mx-2" v-if="activeTab == 'owner'">
+                    <Table :columns="ownerColumns" :rows="rows" :keys="ownerKeys" :selected.sync="user"/>
+                </div>
+
+                <div :style="{width: user & auth.role != 2 ? '80%' : '100%'}" class="mx-2" v-else>
+                    <Table :columns="customerColumns" :rows="rows" :keys="customerKeys" :selected.sync="user"/>
                 </div>
 
                 <div style="width: 20%;" 
@@ -79,7 +83,7 @@
 
             <div id="userModal" class="userModal">
                 <!-- Modal content -->
-                <div class="user-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+                <div class="user-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '20%'}">
                     <div class="w-full">
                         <span class="text-lg font-bold">
                             Create Staff
@@ -106,9 +110,9 @@
                     </div>
 
                     <div class="px-5 py-3">
-                        <label for="name">Email:</label><br>
-                        <input type="text" class="--input py-1" v-model="form.email">
-                        <span class="text-xs text-red-500">{{validationError('email', saveError)}} </span>
+                        <label for="name">Username:</label><br>
+                        <input type="text" class="--input py-1" v-model="form.username">
+                        <span class="text-xs text-red-500">{{validationError('username', saveError)}} </span>
                     </div >
 
                     <div class="px-5 py-3">
@@ -118,7 +122,7 @@
                     </div >
 
                     <div class="px-5 pt-3 pb-5">
-                        <button class="--btn py-2" @click="submit()">
+                        <button class="--btn py-2" @click="confirmStaff()">
                             Create
                         </button>
                     </div>
@@ -172,10 +176,13 @@ export default {
 
     data() {
         return {
-            columns: [
-                'Name', 'Username', 'Contact', 'Address'
+            ownerColumns: [
+                'Local Food Joint', 'Owner Name', 'Username', 'Contact #', 'Address', 'Profit', 'Subscription Fee (3%)', 'Status'
             ],
-            keys : [
+            ownerKeys: [
+                {
+                    label: 'food_joint',
+                },
                 {
                     label: 'name',
                 },
@@ -187,7 +194,36 @@ export default {
                 },
                 {
                     label: 'address',
-                }
+                },
+                {
+                    label: 'profit',
+                },
+                {
+                    label: 'subscription_fee',
+                },
+                {
+                    label: 'verified',
+                },
+            ],
+            customerColumns: [
+                'Name', 'Username', 'Contact #', 'Address', 'Status'
+            ],
+            customerKeys: [
+                {
+                    label: 'name',
+                },
+                {
+                    label: 'username',
+                },
+                {
+                    label: 'phone',
+                },
+                {
+                    label: 'address',
+                },
+                {
+                    label: 'verified',
+                },
             ],
             users: [],
             user: null,
@@ -196,18 +232,22 @@ export default {
             form: {
                 name: null,
                 phone: null,
-                email: null,
+                username: null,
                 address: null
             },
             isNew: false,
-            selectedImage: null
+            selectedImage: null,
+            rows: [],
+            isMobile: window.screen.width <= 700,
         }
     },
 
     watch: {
         activeTab(arg) {
-            this.users = this.options.users.filter( x => { return x.user_type == arg})
-            this.user= null
+            this.rows = this.options.users.filter( x => { return x.user_type == arg})
+
+            this.user = null
+
         },
 
         selectedImage(arg) {
@@ -221,14 +261,8 @@ export default {
         if(this.auth.role == 2) {
             this.activeTab = 'staff'
         }
-
-        this.users = this.options.users.filter( x => { return x.user_type == this.activeTab})
-
-        if(this.auth.role == 1) {
-            this.columns.push('Status')
-
-            this.keys.push({ label : 'verified' })
-        }
+        
+        this.rows = this.options.users.filter( x => { return x.user_type == this.activeTab})
     },
 
     methods: {
@@ -272,6 +306,22 @@ export default {
             var modal = document.getElementById("imageModal");
 
             modal.style.display = "none";
+        },
+
+        confirmStaff(){
+            swal({
+                title: 'Are you sure to create this staff ?',
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((proceed) => {
+                if (proceed) {
+                    this.submit()
+                } else {
+                    
+                }
+            });
         },
 
         submit() {

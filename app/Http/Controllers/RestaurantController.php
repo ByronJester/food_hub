@@ -253,4 +253,32 @@ class RestaurantController extends Controller
 
         return response()->json(['status' => 200], 200); 
     }
+
+    public function viewReports(Request $request)
+    {
+        $auth = Auth::user();
+
+        if($auth) {
+            $owner = null;
+
+            $restaurant = Restaurant::where('user_id', $auth->id)->first();
+            
+            if($auth->user_type == 'staff' && !$restaurant) {
+                $owner = User::where('reference', $auth->reference)->where('user_type', 'owner')->first();
+                $restaurant = Restaurant::where('user_id', $owner->id)->first();
+            }
+
+            $orders = OrderDescription::orderBy('created_at', 'desc')->where('restaurant_id', $restaurant->id)->get();
+            
+            return Inertia::render('Reports', [
+                'auth'    => $auth,
+                'options' => [
+                    'restaurant' => $restaurant,
+                    'orders' => $orders,
+                ]
+            ]);
+        }
+
+        return redirect('/');
+    }
 }

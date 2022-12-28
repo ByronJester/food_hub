@@ -32,6 +32,7 @@
         "vue-graph": "^0.8.7",
         "vue-html2pdf": "^1.8.0",
         "vue2-google-maps": "^0.10.7",
+        "vuejs-datepicker": "^1.6.2",
         "vuejs-dialog": "^1.4.2"
     }
 }

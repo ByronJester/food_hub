@@ -63,14 +63,14 @@
 						<option value="2">Local Food Joints</option>
 					</select>
 
-					<input type="text" class="w-full mt-2 --login__register--input text-center"
+					<input type="text" class="w-full mt-2 --login__register--input text-center" style="text-transform: capitalize;"
 						:class="{'mb-2' : !message}"
 						placeholder="Food Joint Name" v-model="formRegisterData.restaurant_name"
 						v-if="formRegisterData.role == 2"
 					>
 					<span class="text-xs text-red-500">{{validationError('restaurant_name', saveError)}} </span>
 
-					<input type="text" class="w-full  my-2 --login__register--input text-center"
+					<input type="text" class="w-full  my-2 --login__register--input text-center" style="text-transform: capitalize;"
 						:placeholder="formRegisterData.role == 2 ? 'Owner Name' : 'Name'" v-model="formRegisterData.name"
 					>
 					<span class="text-xs text-red-500">{{validationError('name', saveError)}} </span>
@@ -85,7 +85,7 @@
 					>
 					<span class="text-xs text-red-500">{{validationError('phone', saveError)}} </span>
 
-					<input type="text" class="w-full  my-2 --login__register--input text-center"
+					<input type="text" class="w-full  my-2 --login__register--input text-center" style="text-transform: capitalize;"
 						placeholder="Street, Barangay, Town" v-model="formRegisterData.address"
 					>
 					<span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
@@ -173,8 +173,8 @@
 		>
 			<div class="w-full" style="height: 50px" :style="{'background': !isLogin ? '#000000' : '#FFFFFF'}">
 				<p class="float-right cursor-pointer mt-3 mr-3" v-if="!isLogin" @click="isLogin = true">
-					<span class="text-lg">
-						<b class="text-white">LO</b><b style="background: #E4B934; border-radius: 5px" class="px-1">GIN</b> 
+					<span class="text-lg"  style="color: #E4B934">
+						<i class="fa-solid fa-door-open mr-1"></i> <b>LOGIN</b> 
 					</span>
 				</p>
 			</div>
@@ -223,8 +223,8 @@
 						<i class="fa-solid fa-arrow-left"></i> Back
 					</span>
 
-                    <span class="cursor-pointer float-right" @click="restaurant = null" :class="{'--text': !isMobile, 'text-lg': isMobile}">
-						{{ restaurant.restaurant_name }}
+                    <span class="float-right" :class="{'--text': !isMobile, 'text-lg': isMobile}">
+						{{ restaurant.restaurant_name }} ({{ restaurant.address }})
 					</span>
 				</div>
 
@@ -242,8 +242,8 @@
 						>
 					</div>
 
-					<div class="w-full mt-5 px-5">
-						<div class="flex flex-row float-right" style="width: 30%">
+					<div class="w-full mt-5 md:px-5">
+						<div class="flex flex-row float-right mr-8" style="width: 30%">
 							<div class="w-full cursor-pointer mx-2 text-center"
 								style="border: 1px solid #E4B934;"
 								:class="{'bg-yellow-500': activeCategory == 'Food', '--text': !isMobile, 'text-lg': isMobile}"
@@ -263,14 +263,15 @@
 					</div>
 				</div>
 
-				<div class="w-full mt-20 px-5">
+				<div class="w-full my-20 px-5">
 					<div class="flex justify-center items-center"
-						:class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex-col': isMobile}"
+						:class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}"
 					>
-						<div class="w-full flex flex-col" v-for="product in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id"
+						<div class="w-full flex flex-col" v-for="(product) in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id"
 							style="border: 1px solid #E4B934"
+							:class="{'mb-2': isMobile}"
 						>
-							<div class="w-full inline-flex mt-3" :style="{cursor: product.description ? 'pointer' : 'not-allowed'}">
+							<div class="w-full inline-flex mt-1" :style="{cursor: product.description ? 'pointer' : 'not-allowed'}">
 								<p @click="product.description ? openDescriptionModal(product) : ''">
 									<i class="fa-solid fa-eye fa-lg p-1"></i>
 								</p>
@@ -283,22 +284,31 @@
 							</div>
 
 							<div class="w-full text-center flex flex-col mb-2">
-                                <div class="w-full px-4">
+                                <div class="px-4" style="width: 100%">
                                     <button class="w-full py-1 cursor-default"
                                         style="border-radius: 5px; background: #000000"
                                     >
-                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}">> 
-                                            <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
+                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
+                                            <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b>
+                                        </span>
+                                    </button>
+
+									<button class="w-full py-1 cursor-default mt-2"
+                                        style="border-radius: 5px; border: 1px solid black"
+                                    >
+                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
+                                            <b style="background: #FFFFFF; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
                                         </span>
                                     </button>
                                 </div>
+
 							</div>
-						</div>
+						</div> 
 					</div>
-				</div>
+            	</div>
 
 				<div id="descriptionModal" class="descriptionModal">
-					<div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '20%'}"> 
+					<div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '35%'}"> 
 						<div class="w-full">
 							<span class="text-4xl font-bold">
 								{{productName}}
@@ -315,7 +325,7 @@
 							<div class="w-full flex flex-col justify-center items-center">
 								<div class="w-full">
 									<img class="w-full p-4" :src="productImage"
-										style="height: 200px; border: 2px solid #E4B934"
+										style="height: 300px; border: 2px solid #E4B934"
 									/>
 								</div>
 
@@ -328,7 +338,7 @@
 								
 							</div>
 
-							<div class="w-full mt-5">
+							<div class="w-full mt-5 text-2xl">
 								<p>
 									{{ description }}
 								</p>
@@ -336,7 +346,7 @@
 						</div>
 					</div>
 				</div>
-
+				
 			</div>
 
 			<div id="registerModal" class="registerModal">
@@ -406,18 +416,17 @@
 			<div id="termsModal" class="termsModal overflow-y-scroll --scrollable">
 				<!-- Modal content -->
 				<div class="terms-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '90%' : '50%'}">
-					<div class="w-full flex flex-col mt-4 text-sm">
-						<div class="w-full">
-
-							<span class="float-right cursor-pointer"
-								@click="closeTermsAndCondition()"
-							>
-								<i class="fa-solid fa-xmark"></i>
-							</span>
+						<div class="w-full flex flex-col mt-4 text-sm">
+							<div class="w-full">
+								<span class="float-right cursor-pointer"
+									@click="closeTermsAndCondition()"
+								>
+									<i class="fa-solid fa-xmark"></i>
+								</span>
+							</div>
 						</div>
-					</div>
 
-						<div class="w-full">
+						<div class="w-full mt-5">
 							<b>TERMS and CONDITIONS</b><br><br>
 
 							These Terms and Conditions (“Terms”) govern your use of the websites provided by Food Hub (or referred to as “us”) (collectively the “website”). Please read these Terms carefully. By accessing and using the website, you agree that you have read, understood, and accepted the Terms including any additional terms and conditions and any policies referenced herein, available on the website. If you do not agree to or fall within the Terms, please do not use the website.
@@ -1069,7 +1078,7 @@ export default {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
-  top: 40%;
+  top: 10%;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */

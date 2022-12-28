@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -46,7 +47,10 @@ class User extends Authenticatable
         'wallet',
         'permit',
         'trays',
-        'is_reported'
+        'is_reported',
+        'food_joint',
+        'profit',
+        'subscription_fee'
     ];
 
     public function getVerifiedAttribute()
@@ -113,7 +117,7 @@ class User extends Authenticatable
             }
             
 
-            $count = OrderDescription::where('restaurant_id', $restaurant->id)->where('status', 'to_process')->count();
+            $count = OrderDescription::where('restaurant_id', $restaurant->id)->where('status', 'pending')->count();
         } else {
             if($this->role == 3) {
                 $count = OrderDescription::where('user_id', $this->id)->where('status', 'to_receive')->count();
@@ -128,6 +132,48 @@ class User extends Authenticatable
         $count = OrderDescription::where('user_id', $this->id)->where('status', 'reported')->count();
 
         return $count >= 2 ? true : false;
+    }
+
+    public function getFoodJointAttribute()
+    {   
+        $food_joint = null;
+
+        if($this->user_type == 'owner') {
+            $arg = Restaurant::where('user_id', $this->id)->first();
+
+            $food_joint = $arg->restaurant_name;
+        }
+
+        return $food_joint;
+    }
+
+    public function getProfitAttribute()
+    {   
+        $profit = 0;
+
+        if($this->user_type == 'owner') {
+            $arg = Restaurant::where('user_id', $this->id)->first();
+
+            $profit = Order::where('restaurant_id', $arg->id)->whereMonth('created_at', Carbon::now()->month)->sum('amount');
+        }
+
+        return '₱' . ' ' . number_format($profit, 2);
+    }
+
+    public function getSubscriptionFeeAttribute()
+    {   
+        $fee = 0;
+
+        if($this->user_type == 'owner') {
+            $arg = Restaurant::where('user_id', $this->id)->first();
+
+            $profit = Order::where('restaurant_id', $arg->id)->whereMonth('created_at', Carbon::now()->month)->sum('amount');
+
+            $fee = (3 / 100) * $profit;
+
+        }
+
+        return '₱' . ' ' . number_format($fee, 2);
     }
 
 }

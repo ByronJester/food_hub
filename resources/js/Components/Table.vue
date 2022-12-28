@@ -1,7 +1,7 @@
 <template>
     <table class="w-full">
         <tr class="text-center">
-            <th v-for="column in columns" :key="column">
+            <th v-for="column in columns" :key="column" class="--text">
                 {{ column }}
             </th>
         </tr>
@@ -13,7 +13,7 @@
                 :class="{'--active__color': !!selected && selected.id == l.id }"
                 @click="selectItem(l)"
             >
-                <span>{{ rows[index][k.label] }}</span>
+                <span class="--text">{{ rows[index][k.label] }}</span>
             </td>
         </tr>
 
@@ -59,5 +59,9 @@ th {
 
 .--active__color {
     background: #B0BEC5;
+}
+
+.--text {
+	font-size: calc(.1em + 1vw);
 }
 </style>

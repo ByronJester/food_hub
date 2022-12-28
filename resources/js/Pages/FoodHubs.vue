@@ -1,6 +1,6 @@
 <template>
     <Navigation :auth="auth">
-        <div class="w-full h-full px-2 py-2 flex flex-col">
+        <div class="w-full h-full px-2 py-2 flex flex-col --main--div">
 			<div class="w-full mt-3" :class="{ 'px-5' : isMobile }">
 				<input type="text" style="height: 50px; border: 1px solid black; border-radius: 10px;" class="px-5" :style="{width: isMobile ? '100%' : '300px'}"
 					placeholder="Search..." v-model="search" :class="{'float-right' : !isMobile}"
@@ -36,8 +36,8 @@
 						<i class="fa-solid fa-arrow-left"></i> Back
 					</span>
 
-                    <span class="cursor-pointer float-right" @click="restaurant = null" :class="{'--text': !isMobile, 'text-lg': isMobile}">
-						{{ restaurant.restaurant_name }}
+                    <span class="float-right" :class="{'--text': !isMobile, 'text-lg': isMobile}">
+						{{ restaurant.restaurant_name }} ({{ restaurant.address }})
 					</span>
 				</div>
 
@@ -55,20 +55,20 @@
 						>
 					</div>
 
-					<div class="w-full mt-5 px-5">
-						<div class="flex flex-row float-right" style="width: 30%" :class="{'--text': !isMobile, 'text-lg': isMobile}">
+					<div class="w-full mt-5 md:px-5">
+						<div class="flex flex-row float-right mr-8" style="width: 30%">
 							<div class="w-full cursor-pointer mx-2 text-center"
 								style="border: 1px solid #E4B934;"
-								:class="{'bg-yellow-500': activeCategory == 'Food'}"
+								:class="{'bg-yellow-500': activeCategory == 'Food', '--text': !isMobile, 'text-lg': isMobile}"
 								@click="activeCategory = 'Food'"
 							>
 								Foods
 							</div>
 
-							<div class="w-full cursor-pointer mx-2 text-center"
+							<div class="w-full cursor-pointer text-center"
 								style="border: 1px solid #E4B934;"
-								:class="{'bg-yellow-500': activeCategory == 'Drink'}"
-								@click="activeCategory = 'Drink'" 
+								:class="{'bg-yellow-500': activeCategory == 'Drink', '--text': !isMobile, 'text-lg': isMobile}"
+								@click="activeCategory = 'Drink'"
 							>
 								Drinks
 							</div>
@@ -82,6 +82,7 @@
 					>
 						<div class="w-full flex flex-col" v-for="(product, index) in products.filter( x => { return x.category == activeCategory})" :key="product.id"
 							style="border: 1px solid #E4B934"
+							:class="{'mb-2': isMobile}"
 						>
 							<div class="w-full inline-flex mt-1" :style="{cursor: product.description ? 'pointer' : 'not-allowed'}">
 								<p @click="product.description ? openDescriptionModal(product) : ''">
@@ -101,47 +102,59 @@
                                         style="border-radius: 5px; background: #000000"
                                     >
                                         <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
-                                            <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
+                                            <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b>
                                         </span>
                                     </button>
-                                </div>
 
-								<div class="px-4 mt-4" style="width: 100%">
-                                    <button class="w-full py-1"
-                                        style="border-radius: 5px; background: #000000"
-										:class="{'cursor-not-allowed': !!restaurant.lock || !product.is_active}"
-										:disabled="!!restaurant.lock || !product.is_active"
-										@click="buyNow(forms[index], index, product)"
+									<button class="w-full py-1 cursor-default mt-2"
+                                        style="border-radius: 5px; border: 1px solid black"
                                     >
-                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}" > 
-                                            <b class="text-white mr-2">BUY</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">NOW</b>
+                                        <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
+                                            <b style="background: #FFFFFF; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
                                         </span>
                                     </button>
                                 </div>
 
-								<div class="w-full flex flex-row mt-2 justify-center items-center">
-									<div class="pr-1 w-full" style="width: 15%">
+								<div class="px-4 mt-4 flex flex-row" style="width: 100%;">
+									<div class="pr-1" style="width: 20%">
 										<input type="number" min="1" style="border: 1px solid #E4B934; width: 100%" class="text-center pt-2 pb-2" v-model="forms[index].quantity">
 									</div>
 
-									<div class="pr-4 w-full" style="width: 15%">
+									<div class="pr-1" style="width: 20%">
 										<button class="w-full cursor-poineter"
 											:class="{'--text': !isMobile, 'text-lg': isMobile, 'cursor-not-allowed': !!restaurant.lock || !product.is_active}"
 											style="border-radius: 5px; background: #E4B934"
 											:disabled="!!restaurant.lock || !product.is_active"
 											@click="addToCart(forms[index], index)"
 										>
-											<i class="fa-solid fa-cart-shopping pt-3 pb-2" style="color: #000000"></i> 
+											<i class="fa-solid fa-cart-shopping pt-3 pb-2"></i> 
 										</button>
 									</div>
-								</div>
+
+									<div class="" style="width: 60%">
+										<button class="w-full py-1 text-center"
+											style="border-radius: 5px; background: #000000"
+											@click="buyNow(forms[index], index, product)" 
+											:disabled="!!restaurant.lock || !product.is_active"
+											:class="{'--text': !isMobile, 'text-lg': isMobile, 'cursor-not-allowed': !!restaurant.lock || !product.is_active}"
+										>
+											<span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}" > 
+												<b class="text-white mr-2" style="">BUY NOW</b>
+											</span>
+										</button>
+									</div>
+                                </div>
+
+								<!-- <div class="w-full flex flex-row mt-2 justify-center items-center">
+									
+								</div> -->
 							</div>
 						</div> 
 					</div>
 				</div>
 
 				<div id="descriptionModal" class="descriptionModal">
-					<div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '20%'}">
+					<div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '35%'}"> 
 						<div class="w-full">
 							<span class="text-4xl font-bold">
 								{{productName}}
@@ -158,7 +171,7 @@
 							<div class="w-full flex flex-col justify-center items-center">
 								<div class="w-full">
 									<img class="w-full p-4" :src="productImage"
-										style="height: 200px; border: 2px solid #E4B934"
+										style="height: 300px; border: 2px solid #E4B934"
 									/>
 								</div>
 
@@ -171,7 +184,7 @@
 								
 							</div>
 
-							<div class="w-full mt-5">
+							<div class="w-full mt-5 text-2xl">
 								<p>
 									{{ description }}
 								</p>
@@ -295,7 +308,7 @@
 							</div>
 
 							<div class="w-full pl-5 mt-2" v-if="form.otherAddress">
-								<input style="height: 30px; border: 1px solid black; border-radius: 5px; width: 100%; padding: 5px"
+								<input style="height: 30px; border: 1px solid black; border-radius: 5px; width: 100%; padding: 5px; text-transform: capitalize;"
 									placeholder="Street, Barangay, Town"
 									class="text-center" @input="initiateSearch($event)"
 								>
@@ -304,9 +317,9 @@
 
 
 							<div class="w-full pl-5 mt-4">
-								<button style="border-radius: 5px; width: 100%; background: #E4B934" class="py-2" @click="confirmBuyNow()"
-									:class="{'cursor-not-allowed': getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10}"
-                                	:disabled="getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10"
+								<button style="border-radius: 5px; width: 100%; background: #E4B934" class="py-2" @click="buyNowConfirm()"
+									:class="{'cursor-not-allowed': getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10 || checkoutDisabled}"
+                                	:disabled="getDistanceFromLatLonInKm(coordinates.latitude, coordinates.longitude, retaurantCoordinates.latitude, retaurantCoordinates.longitude) > 10 || checkoutDisabled"
 								>
 									Confirm
 								</button>
@@ -370,7 +383,8 @@ export default {
             retaurantCoordinates: {
                 latitude: 10,
                 longitude: 10
-            }
+            },
+			checkoutDisabled: false
         }
     },
     created(){
@@ -419,9 +433,12 @@ export default {
 				}
 				
 			}
-
-			
-			
+		},
+		'form.otherAddress'(arg) {
+			if(!arg) {
+				this.getCoordinates(this.auth.address, 'customer')
+				this.checkoutDisabled = false
+			}
 		}
 	},
     methods: {
@@ -435,10 +452,14 @@ export default {
                         this.retaurantCoordinates.latitude = response.data.results[0].position.lat
                         this.retaurantCoordinates.longitude = response.data.results[0].position.lon
                     }
+
+					this.checkoutDisabled = false
 					
 				})
         },
         initiateSearch(e) {
+			this.checkoutDisabled = true
+
             var self = this
 
             if(!e.target.value) {
@@ -556,6 +577,22 @@ export default {
             modal.style.display = "none";
         },
 
+		buyNowConfirm(){
+			swal({
+                title: 'Are you sure to buy this menu ?',
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((proceed) => {
+                if (proceed) {
+                    this.confirmBuyNow()
+                } else {
+                    
+                }
+            });
+		},
+
 		confirmBuyNow() {
             this.form.restaurant_id = this.restaurant.id
             this.form.order = this.orderDescription
@@ -602,7 +639,7 @@ export default {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
-  top: 40%;
+  top: 10%;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */

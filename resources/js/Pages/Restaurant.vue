@@ -1,9 +1,9 @@
 <template>
     <Navigation :auth="auth">
-        <div class="w-full h-full px-2 py-2 flex flex-col">
+        <div class="w-full h-full px-2 py-2 flex flex-col overflow-x-hidden --main--div">
             <div class="w-full relative">
 				<div class="w-full">
-					<img :src="restaurant.banner" 
+					<!-- <img :src="restaurant.banner" 
 						style="height: 400px; width: 100%; "
 						class="p-5 relative cursor-pointer"
                         @click="uploadImage('banner')"
@@ -12,79 +12,59 @@
 					<img :src="restaurant.image" class="absolute cursor-pointer"
 						style="height: 180px; width: 20%; top: 17rem; left: 4rem; border: 1px solid #E4B934"
                         @click="uploadImage('image')" 
-					>
+					> -->
+
+                    <div class="w-full">
+						<img :src="restaurant.banner" 
+							style="width: 100%;"
+							class="p-5 relative"
+							:style="{'height' : isMobile ? '250px' : '400px'}"
+                            @click="uploadImage('image')" 
+						>
+
+						<img :src="restaurant.image" class="absolute"
+							style="top: 17rem; left: 5%; border: 1px solid #E4B934"
+							:style="{'width': isMobile ? '40%': '20%', 'height' : isMobile ? '130px' : '180px', 'top' : isMobile ? '10rem': '17rem'}"
+                            @click="uploadImage('image')" 
+						>
+					</div>
 
                     <input type="file" ref="image" @change="imageChangeRestaurant('image', $event)" accept="image/png, image/jpeg" style="display:none">
                     <input type="file" ref="banner" @change="imageChangeRestaurant('banner', $event)" accept="image/png, image/jpeg" style="display:none">
 				</div>
 
-                <!-- <div class="w-full flex justify-center items-center mt-20">
-                    <div class="w-6/12 flex flex-row" style="border-bottom: 1px solid #E4B934;">
-                        <div class="w-full cursor-pointer mx-2 text-center --text"
-                            :class="{'bg-yellow-200': activeTab == 'menus'}"
-                            @click="activeTab = 'menus'"
-                        >
-                            Menus
-                        </div>
+                <div class="w-full mt-20 md:mt-5 md:px-5" v-if="activeTab == 'menus'">
+                    <div class="w-full mt-5 px-5">
+						<div class="flex flex-row md:float-right" style="width: 30%">
+							<div class="w-full cursor-pointer mx-2 text-center"
+								style="border: 1px solid #E4B934;"
+								:class="{'bg-yellow-500': activeCategory == 'Food', '--text': !isMobile, 'text-lg': isMobile}"
+								@click="activeCategory = 'Food'"
+							>
+								Foods
+							</div>
 
-                        <div class="w-full cursor-pointer mx-2 text-center --text"
-                            :class="{'bg-yellow-200': activeTab == 'places'}"
-                            @click="activeTab = 'places'"
-                        >
-                            Places
-                        </div>
-                    </div>
-                </div> -->
+							<div class="w-full cursor-pointer text-center"
+								style="border: 1px solid #E4B934;"
+								:class="{'bg-yellow-500': activeCategory == 'Drink', '--text': !isMobile, 'text-lg': isMobile}"
+								@click="activeCategory = 'Drink'"
+							>
+								Drinks
+							</div>
 
-                <div class="w-full" v-if="activeTab == 'places'">
-                    <span class="float-right mr-2 cursor-pointer" style="border: 1px solid black" @click="openAddressModal()">
-                        <i class="fa-solid fa-plus p-2"></i>
-                    </span>
-                </div>
-
-                <div class="w-full flex justify-center items-center" v-if="activeTab == 'places'">
-                    <div class="w-4/12 --scroll" style="overflow-y: scroll; height:300px; border: 1px solid black;">
-                        <p class="inline-flex relative w-full px-1" v-for="add in options.address" :key="add.id" style="border-bottom: 1px solid black">
-                            <span>
-                                {{add.address}}
-                            </span>
-
-                            <span class="absolute cursor-pointer" style="right: .5rem" @click="placeSelected = add">
-                                <i class="fa-solid fa-xmark"></i>
-                            </span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="w-full mt-5 px-5" v-if="activeTab == 'menus'">
-                    <div class="flex flex-row float-right" style="width: 30%">
-                        <div class="w-full cursor-pointer mx-2 text-center --text"
-                            style="border: 1px solid #E4B934;"
-                            :class="{'bg-yellow-200': activeCategory == 'Food'}"
-                            @click="activeCategory = 'Food'"
-                        >
-                            Foods
-                        </div>
-
-                        <div class="w-full cursor-pointer mx-2 text-center --text"
-                            style="border: 1px solid #E4B934;"
-                            :class="{'bg-yellow-200': activeCategory == 'Drink'}"
-                            @click="activeCategory = 'Drink'"
-                        >
-                            Drinks
-                        </div>
-
-                        <div class="cursor-pointer mx-2 text-center"
-                            style="border: 1px solid #E4B934; width: 20%"
-                            @click="openModal()"
-                        >
-                            <i class="fa-solid fa-plus"></i>
-                        </div>
-                    </div>
+                            <div class="cursor-pointer mx-2 text-center"
+                                style="border: 1px solid #E4B934; width: 100%"
+                                :class="{'px-2': isMobile}"
+                                @click="openModal()"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+						</div>
+					</div>
                 </div>
 			</div>
 
-            <div class="w-full inline-flex ml-5 mt-10">
+            <div class="w-full inline-flex ml-5 mt-10" v-if="!isMobile">
                 <div class="pr-2">
                     <label class="font-bold">Opening Time:</label><br><br>
 
@@ -99,7 +79,7 @@
 
                 <div>
                     <button style="background: #E4B934; width: 150px" class="text-center pt-3 pb-2 mt-12"
-                        @click="saveTime()"
+                        @click="confirmTime()"
                     >
                         SAVE
                     </button>
@@ -107,12 +87,42 @@
                 
             </div>
 
-            <div class="w-full mt-8 px-5" v-if="activeTab == 'menus'">
-                <div class="grid grid-cols-5 gap-4 flex justify-center items-center">
-                    <div class="w-full flex flex-col" v-for="product in products.filter( x => { return x.category == activeCategory})" :key="product.id"
+            <div class="w-full flex flex-col md:ml-5 mt-10" v-else>
+
+                <div class="flex flex-row items-center justify-center">
+                    <div class="pr-2">
+                        <label class="font-bold">Opening Time:</label><br><br>
+
+                        <input type="time" required style="border: 1px solid #E4B934" class="p-2" v-model="formTime.opening_time">
+                    </div>
+
+                    <div class="md:pr-3">
+                        <label class="font-bold">Closing Time:</label><br><br>
+
+                        <input type="time" required style="border: 1px solid #E4B934" class="p-2" v-model="formTime.closing_time">
+                    </div>
+                </div>
+                
+
+                <div class="flex items-center justify-center">
+                    <button style="background: #E4B934; width: 150px" class="text-center pt-3 pb-2 mt-12"
+                        @click="confirmTime()"
+                    >
+                        SAVE
+                    </button>
+                </div>
+                
+            </div>
+
+            <div class="w-full my-20 px-5">
+                <div class="flex justify-center items-center"
+                    :class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}"
+                >
+                    <div class="w-full flex flex-col" v-for="(product) in restaurant.products.filter( x => { return x.category == activeCategory})" :key="product.id"
                         style="border: 1px solid #E4B934"
-                    >   
-                        <div class="w-full inline-flex mt-3">
+                        :class="{'mb-2': isMobile}"
+                    >
+                        <div class="w-full inline-flex mt-1" :style="{cursor: product.description ? 'pointer' : 'not-allowed'}">
                             <p @click="viewProduct(product)">
                                 <i class="fa-solid fa-pen-to-square fa-lg mx-1 cursor-pointer p-1"></i>
                             </p>
@@ -131,23 +141,32 @@
                         </div>
 
                         <div class="w-full text-center flex flex-col mb-2">
-                            <div class="w-full px-4">
+                            <div class="px-4" style="width: 100%">
                                 <button class="w-full py-1 cursor-default"
-                                    style="border-radius: 5px; background: #000000"
+                                        style="border-radius: 5px; background: #000000"
+                                    >
+                                    <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
+                                        <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b>
+                                    </span>
+                                </button>
+
+                                <button class="w-full py-1 cursor-default mt-2"
+                                    style="border-radius: 5px; border: 1px solid black"
                                 >
-                                    <span class="--text px-2"> 
-                                        <b class="text-white mr-2">{{ product.name.toUpperCase() }}</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
+                                    <span class="px-2" :class="{'--text': !isMobile, 'text-lg': isMobile}"> 
+                                        <b style="background: #FFFFFF; border-radius: 5px" class="px-1 text-black">₱{{ parseFloat(product.amount).toFixed(2) }}</b>
                                     </span>
                                 </button>
                             </div>
+
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
 
             <div id="myModal" class="modal">
                 <!-- Modal content -->
-                <div class="modal-content flex flex-col" style="width: 20%">
+                <div class="modal-content flex flex-col" :style="{'width': isMobile ? '90%': '20%'}">
                     <div class="w-full">
                         <span class="text-lg font-bold">
                             {{activeCategory}}
@@ -176,7 +195,7 @@
 
                     <div class="w-full mt-4">
                         <input type="text" inputmode="decimal" class="w-full text-right pr-2" placeholder="Amount" v-model="form.amount"
-                            style="border: 1px solid black; border-radius: 5px;  height: 40px"
+                            style="border: 1px solid black; border-radius: 5px;  height: 40px" @click="form.amount = '0.00'"
                         >
                         <span class="text-xs text-red-500">{{validationError('amount', saveError)}} </span>
                     </div>
@@ -189,7 +208,7 @@
                     <div class="w-full mt-4">
                         <button class="w-full py-2"
                             style="border-radius: 5px; background: #E4B934"
-                            @click="createProduct()"
+                            @click="confirmProduct()"
                         >
                             SUBMIT
                         </button>
@@ -199,7 +218,7 @@
 
             <div id="addressModal" class="addressModal">
                 <!-- Modal content -->
-                <div class="address-content flex flex-col" style="width: 20%">
+                <div class="address-content flex flex-col" :style="{'width': isMobile ? '90%': '20%'}">
                     <div class="w-full">
                         <span class="text-lg font-bold">
                             New Address
@@ -230,8 +249,7 @@
             </div>
 
             <div id="descriptionModal" class="descriptionModal">
-                <!-- Modal content -->
-                <div class="description-content flex flex-col" style="width: 20%; border: 2px solid #E4B934">
+                <div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '35%'}"> 
                     <div class="w-full">
                         <span class="text-4xl font-bold">
                             {{productName}}
@@ -241,14 +259,14 @@
                             @click="closeDescriptionModal()"
                         >
                             <i class="fa-solid fa-xmark"></i>
-                        </span> 
+                        </span>
                     </div>
 
                     <div class="w-full flex flex-col mt-4">
                         <div class="w-full flex flex-col justify-center items-center">
                             <div class="w-full">
-                                 <img class="w-full p-4" :src="productImage"
-                                    style="height: 200px; border: 2px solid #E4B934"
+                                <img class="w-full p-4" :src="productImage"
+                                    style="height: 300px; border: 2px solid #E4B934"
                                 />
                             </div>
 
@@ -257,11 +275,11 @@
                                     ₱ {{ parseFloat(productAmount).toFixed(2) }}
                                 </p>
                             </div>
-                           
+                        
                             
                         </div>
 
-                        <div class="w-full mt-5">
+                        <div class="w-full mt-5 text-2xl">
                             <p>
                                 {{ description }}
                             </p>
@@ -321,7 +339,7 @@ export default {
                 restaurant_id: '',
                 category: '',
                 name: '',
-                amount: '0.00',
+                amount: null,
                 image: '',
                 description: null
             },
@@ -342,7 +360,7 @@ export default {
             formTime: {
                 opening_time: null,
                 closing_time: null
-            }
+            },
         }
     },
 
@@ -397,7 +415,7 @@ export default {
             modal.style.display = "none";
 
             this.form.name = ''
-            this.form.amount = ''
+            this.form.amount = null
             this.form.category = this.activeCategory
             this.form.image = ''
             this.form.restaurant_id = this.restaurant.id
@@ -445,7 +463,22 @@ export default {
 
 	      	this.formData.append(arg, image);
 		},
-
+        
+        confirmProduct(){
+            swal({
+                title: 'Are you sure to save this menu ?',
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((proceed) => {
+                if (proceed) {
+                    this.createProduct()
+                } else {
+                    
+                }
+            });
+        },
         createProduct(){
             this.formData.append('restaurant_id', this.form.restaurant_id);
             this.formData.append('category', this.form.category);
@@ -548,6 +581,22 @@ export default {
             modal.style.display = "none";
 
             this.placeSelected = null
+        },
+
+        confirmTime(){
+            swal({
+                title: 'Are you sure to set this opening and closing time of your food hub ?',
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((proceed) => {
+                if (proceed) {
+                    this.saveTime()
+                } else {
+                    
+                }
+            });
         },
 
         saveTime() {

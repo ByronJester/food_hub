@@ -1,12 +1,6 @@
 <template>
      <Navigation :auth="auth">
-        <div class="w-full h-full px-2 py-2 flex flex-col">
-            <div class="w-full mt-3">
-                <span class="text-2xl ml-2 font-bold">
-                    <i class="fa-solid fa-user mr-3"> </i>Profile
-                </span>
-            </div>
-
+        <div class="w-full h-full px-2 py-2 flex flex-col --main--div">
             <div class="w-full h-full mt-5 flex justify-center items-center" v-if="!isOTP">
                 <div class="flex flex-col w-full md:w-1/4" style="border: 1px solid black; border-radius: 10px">
                     <div class="px-5 py-3">
@@ -22,9 +16,9 @@
                     </div>
 
                     <div class="px-5 py-3">
-                        <label for="name">Email:</label><br>
-                        <input type="text" class="--input py-1" v-model="form.email">
-                        <span class="text-xs text-red-500">{{validationError('email', saveError)}} </span>
+                        <label for="name">Username:</label><br>
+                        <input type="text" class="--input py-1" v-model="form.username">
+                        <span class="text-xs text-red-500">{{validationError('username', saveError)}} </span>
                     </div >
 
                     <div class="px-5 py-3">
@@ -46,7 +40,7 @@
                     </div>
 
                     <div class="px-5 pt-3 pb-5">
-                        <button class="--btn py-2" @click="submit()">
+                        <button class="--btn py-2" @click="confirmProfile()">
                             Submit
                         </button>
                     </div>
@@ -102,7 +96,7 @@ export default {
                 id: null,
                 name: null,
                 phone: null,
-                email: null,
+                username: null,
                 address: null,
                 password: null,
                 confirm_password: null,
@@ -118,11 +112,26 @@ export default {
         this.form.id = this.auth.id
         this.form.name = this.auth.name
         this.form.phone = this.auth.phone
-        this.form.email = this.auth.email
+        this.form.username = this.auth.username
         this.form.address = this.auth.address
     },
 
     methods: {
+        confirmProfile(){
+            swal({
+                title: 'Are you sure to update profile ?',
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((proceed) => {
+                if (proceed) {
+                    this.submit()
+                } else {
+                    
+                }
+            });
+        },
         submit(){
             var req = this.form
 

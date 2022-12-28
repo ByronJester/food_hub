@@ -166,7 +166,7 @@ class UserController extends Controller
         
                     $extension = $permit->getClientOriginalExtension();
                     
-                    $uplaod = $permit->move($path, $filename . '.' . $extension);
+                    $uplaod = $permit->move($path, $filename . '.' . $extension); 
         
                     $restaurantData['permit'] = $filename . '.' . $extension;
                 }
@@ -345,7 +345,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => "required|string",
             'phone' => "required|numeric|digits:11|unique:users,phone," . $request->id,
-            'email' => "required|email:rfc,dns|unique:users,email," . $request->id, 
+            'username' => "required|unique:users,username," . $request->id, 
             'password' => "sometimes|required|min:8",
             'address' => "required",
             'confirm_password' => "sometimes|required|same:password|min:8",
@@ -434,9 +434,9 @@ class UserController extends Controller
         $phone = $request->phone;
         $message = 'Your verification code is' . ' ' . $code;
 
-        $this->sendSms($phone, $message);
+        $sms = $this->sendSms($phone, $message);
 
-        return response()->json(['status' => 200], 200); 
+        return response()->json(['status' => 200, 'sms' => $sms], 200); 
     }
 
     public function viewTrails(Request $request)

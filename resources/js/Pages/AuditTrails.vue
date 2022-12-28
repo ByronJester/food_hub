@@ -1,6 +1,6 @@
 <template>
      <Navigation :auth="auth">
-        <div class="w-full h-full px-2 py-2 flex flex-col">
+        <div class="w-full h-full px-2 py-2 flex flex-col --main--div">
             <div style="width: 100%">
                 <Table :columns="columns" :rows="options.trails" :keys="keys" :selected.sync="selected"/>
             </div>

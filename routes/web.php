@@ -45,6 +45,7 @@ Route::middleware(['cors'])->group(function () {
     Route::prefix('restaurants')->group(function () {
         Route::get('/', [RestaurantController::class, 'viewRestaurant'])->name('view.restaurant');
         Route::get('/my-trays', [RestaurantController::class, 'viewTrays'])->name('view.trays');
+        Route::get('/reports', [RestaurantController::class, 'viewReports'])->name('view.reports'); 
         Route::post('/create-product', [RestaurantController::class, 'createProduct']);
         Route::post('/create-address', [RestaurantController::class, 'createAddress']);
         Route::post('/remove-address', [RestaurantController::class, 'removeAddress']);

@@ -17,7 +17,8 @@ class Order extends Model
         'quantity',
         'status',
         'is_delivered',
-        'reference'
+        'reference',
+        'payment_method'
     ];
 
     protected $appends = [

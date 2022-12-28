@@ -1,7 +1,7 @@
 <template>
     <Navigation :auth="auth">
-        <div class="w-full flex justify-center items-center">
-            <div style="width: 20%; height: 100%; border: 1px solid #E4B934; border-radius: 10px" class="mt-32 flex flex-col">
+        <div class="w-full flex justify-center items-center --main--div">
+            <div style="height: 100%; border: 1px solid #E4B934; border-radius: 10px" class="mt-32 flex flex-col" :style="{'width': isMobile ? '90%': '20%'}">
                 <div class="w-full text-center mt-5" style="font-size: 60px">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
@@ -70,7 +70,8 @@
         data() {
             return {
                 billing: null,
-                orders: null
+                orders: null,
+                isMobile: window.screen.width <= 700,
             }
         },
         mounted() {

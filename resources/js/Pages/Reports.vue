@@ -1,97 +1,33 @@
 <template>
     <Navigation :auth="auth">
         <div class="w-full min-h-screen h-full px-2 py-2 flex flex-col --main--div">
-
-            <div class="w-full" v-if="!isMobile">
-                <graph-line
-                    style="width: 100vw; height: 500px;"
-                    :shape="'normal'"
-                    :axis-min="0"
-                    :axis-max="Math.max( ...options.sales)"
-                    :axis-full-mode="true"
-                    :labels="options.days"
-                    :names="['DAILY SALES REPORT FOR THIS MONTH']"
-                    :values="options.sales">
-                    <!-- <note :text="'Line Chart'"></note> -->
-                    <!-- <tooltip :names="['DAILY SALES REPORT FOR THIS MONTH']" :position="'right'"></tooltip>
-                    <legends :names="['DAILY SALES REPORT FOR THIS MONTH']"></legends> -->
-                    <guideline :tooltip-y="true"></guideline>
-                </graph-line>
-
-                <div class="w-full text-center text-3xl">
-                    DAILY SALES REPORT FOR THIS MONTH
-                </div>
-            </div>
-
             <div class="w-full mt-10">
                 <select v-model="payment_method" style="border: 1px solid black" class="text-center">
                     <option value="cod">COD</option>
                     <option value="gcash">GCASH</option>
                 </select>
-                <!-- <span class="float-right cursor-pointer" @click="printReport()">
+
+                <input type="date" class="mx-1" style="border: 1px solid black" v-model="date.start">
+                -
+                <input type="date" class="mx-1" style="border: 1px solid black" v-model="date.end">
+
+                <button style="background: #E4B934; width: 50px" class="text-center text-xs py-2"
+                    @click="filterRows()"
+                >
+                    Filter
+                </button>
+
+                <span class="float-right cursor-pointer" @click="printReport()">
                     <i class="fa-solid fa-print fa-2xl"></i>
-                </span> -->
+                </span>
             </div>
+            
 
             <div class="w-full mt-5">
                 <Table :columns="columns" :rows="rows" :keys="keys" :selected.sync="selected" :style="{opacity: selected ? '0.6' : '1'}" class="w-full"/>
-
-                <div id="orderModal" class="orderModal h-full">
-                    <!-- Modal content -->
-                    <div class="order-content flex flex-col" style="border: 2px solid #E4B934" v-if="selected" :style="{'width': isMobile ? '90%': '20%'}">
-                        <div class="w-full">
-                            <span class="text-lg font-bold">
-                                Orders
-                            </span>
-
-                            <span class="float-right cursor-pointer"
-                                @click="closeOrderModal()"
-                            >
-                                <i class="fa-solid fa-xmark"></i>
-                            </span>
-                        </div>
-
-                        <div class="w-full flex-col mt-4">
-                            <div class="w-full mt-2" v-for="o in selected.orders" :key="o.id">
-                                <p class="w-full">
-                                    <span>
-                                        {{ o.product.name }}
-                                    </span>
-
-                                    <span class="float-right">
-                                        {{ o.quantity }} order
-                                    </span>
-                                </p>
-                            </div>
-
-                            <div class="w-full mt-5">
-                                <select v-model="form.status" class="w-full" style="border: 1px solid black; height: 40px; border-radius: 5px">
-                                    <option :value="'to_process'">Process Order</option>
-                                    <option :value="'cancel'" :disabled="selected.payment_method == 'GCASH'">Cancel Order</option>
-                                    <option :value="'to_deliver'">Deliver Order</option>
-                                    <option :value="'to_receive'">Receive Order</option>
-                                    <option :value="'reported'">Mark as Bogus Order</option>
-                                </select>
-
-                                <textarea class="w-full mt-2 pl-2" rows="4" cols="50" placeholder="Reason..." 
-                                    v-model="form.reason" style="border: 1px solid black;" v-if="form.status == 'cancel'"
-                                >
-                                </textarea>
-                                <span class="text-xs text-red-500">{{validationError('reason', saveError)}} </span>
-                                
-                            </div>
-
-                            <div class="w-full mt-4">
-                                <button class="w-full py-2" style="background: #E4B934" @click="confirmation()">
-                                    SAVE
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-             <VueHtml2pdf
+            <VueHtml2pdf
                 :show-layout="false"
                 :float-layout="true"
                 :enable-download="true"
@@ -114,15 +50,17 @@
                                 </th>
                             </tr>
 
-                            <tr class="text-center"
-                                v-for="(l, index) in orders" :key="l.id"
+                            <tr class="text-center" i
+                                v-for="(l, index) in rows" :key="l.id"
                             >
                                 <td v-for="(k, i) in keys" :key="i" class="cursor-pointer">
-                                    <span>{{ orders[index][k.label] }}</span>
+                                    <span>{{ rows[index][k.label] }}</span>
                                 </td>
                             </tr>
 
                         </table>
+
+
                     </div>
                 </section>
             </VueHtml2pdf>
@@ -190,10 +128,23 @@ export default {
             payment_method: 'cod',
             rows: [],
             isMobile: window.screen.width <= 700,
+            date: {
+                start: null,
+                end: null
+            }
         }
     },
 
     created(){
+        var date = new Date();
+
+        var startDate = date.toISOString().slice(0,10);
+        var endDate = date.setDate(date.getDate() + 1);
+        endDate = date.toISOString().slice(0,10);
+
+        this.date.start = startDate
+        this.date.end = endDate
+
         this.codOrders = this.options.orders.filter( y => {
             return y.payment_method == 'cod'
         }).map( x => {
@@ -226,19 +177,15 @@ export default {
 
         this.rows = this.codOrders
         
+        this.rows = this.rows.filter(x => {
+            var createdAt = new Date(x.created_at);
+            return createdAt >= new Date(this.date.start) && createdAt <= new Date(this.date.end);
+        })    
     },
 
     watch: {
         selected(arg) {
-            if(!arg) {
-                this.closeOrderModal()
-                return
-            }
-
-            this.form.reference = arg.reference
-            this.form.user_id = arg.user.id
-            
-            this.openOrderModal()
+            console.log(arg)
         },
 
         payment_method(arg) {
@@ -247,10 +194,23 @@ export default {
            } else {
                 this.rows = this.gcashOrders
            }
-        }
+        },
     },
 
     methods: {
+        filterRows(){
+            if(this.payment_method == 'cod') {
+                this.rows = this.codOrders
+            } else {
+                this.rows = this.gcashOrders
+            }
+
+            this.rows = this.rows.filter(x => {
+                var createdAt = new Date(x.created_at);
+                return createdAt >= new Date(this.date.start) && createdAt <= new Date(this.date.end);
+            })
+
+        },
         openOrderModal(){
             var modal = document.getElementById("orderModal");
 

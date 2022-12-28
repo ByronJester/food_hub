@@ -1,9 +1,9 @@
 <template>
     <div class="w-screen h-screen flex flex-col">
-        <div class="w-full flex flex-row"
+        <div class="w-full flex flex-row fixed"
             style="height: 10vh; background: #000000"
         >   
-            <div :style="{'width' : isMobile ? '30%' : '7%'}"
+            <div :style="{'width' : isMobile ? '25%' : '7%'}"
             >
                 <img src="/images/logo2.jpg" class="py-1 px-1 cursor-pointer"
                     style="width: 100%; height: 100%; border-radius: 10px"
@@ -11,25 +11,25 @@
                 />
             </div>
 
-            <div class="flex items-center justify-end" :style="{'width' : isMobile ? '70%' : '97%'}">
+            <div class="flex items-center justify-end" :style="{'width' : isMobile ? '75%' : '97%'}">
                 <div class="float-right flex flex-row mr-3 font-bold"
                     style="color: #FFFFFF;"
                 >
                     <div class="cursor-pointer" :class="{'--active' : active == '/restaurants', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
                         @click="changeActive('/restaurants')" v-if="auth.role == 2"
                     >
-                        <i class="fa-solid fa-shop mr-2" style="color: #FFFFFF"></i>
-                        <span :class="{'--text': !isMobile, '--font-small': isMobile}">
-                            <b class="text-white">MY FOOD</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">HUB</b>
+                        <i class="fa-solid fa-shop mr-2" :style="{'color': active == '/restaurants' ? '#E4B934' : '#FFFFFF'}"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/restaurants' ? '#E4B934' : '#FFFFFF'}">
+                            <b>MY FOODHUB</b>
                         </span>
                     </div>
 
                     <div class="cursor-pointer relative" :class="{'--active' : active == '/restaurants/my-trays', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
                         @click="changeActive('/restaurants/my-trays')" v-if="auth.role == 2"
                     >
-                        <i class="fa-solid fa-cart-shopping mr-2" style="color: #FFFFFF"></i>
-                        <span :class="{'--text': !isMobile, '--font-small': isMobile}">
-                            <b class="text-white">MY </b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">TRAYS</b>
+                        <i class="fa-solid fa-cart-shopping mr-2" :style="{'color': active == '/restaurants/my-trays' ? '#E4B934' : '#FFFFFF'}"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/restaurants/my-trays' ? '#E4B934' : '#FFFFFF'}"> 
+                            <b>MY TRAYS</b> 
                         </span>
 
                         <span class="absolute text-red-700 font-bold text-xl" style="top: -0.8rem; right: -0.8rem" v-if="auth.trays > 0">
@@ -37,21 +37,31 @@
                         </span>
                     </div>
 
+                    <div class="cursor-pointer relative" :class="{'--active' : active == '/restaurants/reports', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
+                        @click="changeActive('/restaurants/reports')" v-if="auth.role == 2"
+                    >
+                        <i class="fa-solid fa-file mr-2" :style="{'color': active == '/restaurants/reports' ? '#E4B934' : '#FFFFFF'}"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/restaurants/reports' ? '#E4B934' : '#FFFFFF'}"> 
+                            <b>Reports</b> 
+                        </span>
+                    </div>
+                    
+
                     <div class="cursor-pointer" :class="{'--active' : active == '/customers', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
                         @click="changeActive('/customers')" v-if="auth.role == 3"
                     >
-                        <i class="fa-solid fa-shop mr-2" style="color: #FFFFFF"></i>
-                        <span :class="{'--text': !isMobile, '--font-small': isMobile}">
-                            <b class="text-white">FOOD</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">HUBS</b>
+                        <i class="fa-solid fa-shop mr-2" :style="{'color': active == '/customers' ? '#E4B934' : '#FFFFFF'}"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/customers' ? '#E4B934' : '#FFFFFF'}">
+                            <b>FOODHUBS</b>
                         </span>
                     </div>
 
                     <div class="cursor-pointer relative" :class="{'--active' : active == '/orders', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
                         @click="changeActive('/orders')" v-if="auth.role == 3"
                     >
-                        <i class="fa-solid fa-cart-shopping mr-2" style="color: #FFFFFF"></i>
-                        <span :class="{'--text': !isMobile, '--font-small': isMobile}">
-                            <b class="text-white">TR</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">AYS</b>
+                        <i class="fa-solid fa-cart-shopping mr-2" :style="{'color': active == '/orders' ? '#E4B934' : '#FFFFFF'}"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/orders' ? '#E4B934' : '#FFFFFF'}">
+                             <b>TRAYS</b>
                         </span>
 
                         <span class="absolute text-red-700 font-bold text-xl" style="top: -0.8rem; right: -0.8rem" v-if="auth.trays > 0">
@@ -62,38 +72,38 @@
                     <div class="cursor-pointer" :class="{'--active' : active == '/users', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
                         @click="changeActive('/users')" v-if="auth.role == 1 || (auth.role == 2 && auth.user_type == 'owner')"
                     >
-                        <i class="fa-solid fa-users-gear mr-2" style="color: #FFFFFF"></i>
-                        <span :class="{'--text': !isMobile, '--font-small': isMobile}">
-                            <b class="text-white">US</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">ERS</b>
+                        <i class="fa-solid fa-users-gear mr-2" :style="{'color': active == '/users' ? '#E4B934' : '#FFFFFF'}"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/users' ? '#E4B934' : '#FFFFFF'}">
+                            <b>USERS</b>
                         </span>
                     </div>
 
                     <div class="cursor-pointer" :class="{'--active' : active == '/users/profile', 'mx-5' : !isMobile, 'mx-1' : isMobile}"
                         @click="changeActive('/users/profile')"
                     >
-                        <i class="fa-solid fa-user mr-1"></i>
-                        <span :class="{'--text': !isMobile, '--font-small': isMobile}">
-                            <b class="text-white">PRO</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">FILE</b>
+                        <i class="fa-solid fa-user mr-1" :style="{'color': active == '/users/profile' ? '#E4B934' : '#FFFFFF'}"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/users/profile' ? '#E4B934' : '#FFFFFF'}">
+                            <b>PROFILE</b>
                         </span>
                     </div>
 
                     <div class="cursor-pointer" :class="{'--active' : active == '/trails', 'mx-5' : !isMobile, 'mx-1' : isMobile}" v-if="auth.user_type == 'admin'"
                         @click="changeActive('/trails')"
                     >
-                        <i class="fa-solid fa-list mr-1"></i>
-                        <span :class="{'--text': !isMobile, '--font-small': isMobile}">
-                            <b class="text-white">TRA</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">ILS</b>
+                        <i class="fa-solid fa-list mr-1" :style="{'color': active == '/trails' ? '#E4B934' : '#FFFFFF'}"></i>
+                        <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/trails' ? '#E4B934' : '#FFFFFF'}">
+                            <b>TRAILS</b>
                         </span>
                     </div>
 
-                    <div class="cursor-pointer" :class="{'mx-5' : !isMobile, 'mx-1' : isMobile}" @click="openWalletModal()"
+                    <!-- <div class="cursor-pointer" :class="{'mx-5' : !isMobile, 'mx-1' : isMobile}" @click="openWalletModal()"
                         v-if="auth.role == 2 && auth.user_type == 'owner'"
                     >
                         <i class="fa-solid fa-wallet mr-1"></i>
                         <span :class="{'--text': !isMobile, '--font-small': isMobile}">
                             <b class="text-white">WAL</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">LET</b>
                         </span>
-                    </div>
+                    </div> -->
 
 
                     <div class="cursor-pointer" :class="{'mx-5' : !isMobile, 'mx-1' : isMobile}"
@@ -101,7 +111,7 @@
                     >
                         <i class="fa-solid fa-door-open mr-1"></i>
                         <span :class="{'--text': !isMobile, '--font-small': isMobile}">
-                            <b class="text-white">LOG</b><b style="background: #E4B934; border-radius: 5px" class="px-1 text-black">OUT</b>
+                            <b>LOGOUT</b>
                         </span>
                     </div>
 
@@ -131,9 +141,13 @@
             </div>
         </div>
 
-        <div class="w-full"
-            style="height: 90vh"
+        <div class="w-full --main--div"
+            style="height: 100vh; margin-top: 10vh"
         >
+            <div class="w-full ml-5 my-5 font-bold --text" v-if="auth.user_type == 'customer'">
+                <i class="fa-solid fa-user mr-2"></i> {{ auth.name }} 
+            </div>
+
             <slot></slot>
         </div>
     </div>
@@ -228,7 +242,7 @@ export default {
 }
 
 .--font-small {
-    font-size: 10px;
+    font-size: 8px;
 }
 
 .walletModal {

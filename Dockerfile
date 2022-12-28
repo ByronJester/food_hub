@@ -317,7 +317,7 @@ RUN mkdir -p \
   && chmod -R ug+rwx storage bootstrap/cache
 
 COPY deployment/octane/supervisord* /etc/supervisor/conf.d/
-COPY deployment/octane/php.ini /usr/local/etc/php/conf.d/octane.ini 
+COPY deployment/octane/php.ini /usr/local/etc/php/conf.d/octane.ini
 COPY deployment/octane/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 RUN chmod +x deployment/octane/entrypoint.sh

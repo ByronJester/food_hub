@@ -5,7 +5,7 @@
                 <div class="w-full flex flex-row mt-5" style="height: 10vh">
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'oncart'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/tray.png'" :class="{'--bg-gray': activeTab == 'oncart'}"
+                            <img :src="'/images/icons/tray.png'" :class="{'--bg-gray': activeTab == 'oncart'}"
                                 :style="{'width': isMobile ? '30px': '80px'}"
                             />
                         </div>
@@ -19,7 +19,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'pending'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/pending.png'" :class="{'--bg-gray': activeTab == 'pending'}"
+                            <img :src="'/images/icons/pending.png'" :class="{'--bg-gray': activeTab == 'pending'}"
                                 :style="{'width': isMobile ? '30px': '80px'}"
                             />
                         </div>
@@ -33,7 +33,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_process'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_pay.png'" :style="{'width': isMobile ? '30px': '80px'}" :class="{'--bg-gray': activeTab == 'to_process'}"/>
+                            <img :src="'/images/icons/process.png'" :style="{'width': isMobile ? '30px': '80px'}" :class="{'--bg-gray': activeTab == 'to_process'}"/>
                         </div>
 
                         <div class="w-full">
@@ -45,7 +45,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_deliver'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_ship.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
+                            <img :src="'/images/icons/deliver.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
                         </div>
 
                         <div class="w-full cursor-pointer">
@@ -57,7 +57,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_receive'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/to_receive.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"/>
+                            <img :src="'/images/icons/receive.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"/>
                         </div>
 
                         <div class="w-full">
@@ -70,8 +70,8 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'received'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/history.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'received'}"
-                                style="height: 80p"
+                            <img :src="'/images/icons/history.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'received'}"
+                                style="height: 80px"
                             />
                         </div>
 
@@ -84,8 +84,8 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'cancel'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/cancel.png'" :class="{'--bg-gray': activeTab == 'cancel'}"
-                                :style="{'width': isMobile ? '30px': '80px', 'margin-top': '-1vw'}"
+                            <img :src="'/images/icons/cancel.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'cancel'}"
+                                style="height: 80px"
                             />
                         </div>
 
@@ -109,8 +109,8 @@
                                 <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders" v-if="activeTab == 'oncart'">
 
                                 <button class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id"
-                                    :class="{'cursor-not-allowed': !!order && order.payment_method == 'gcash' || order.status == 'cancel'}"
-                                    :disabled="!!order && order.payment_method == 'gcash' || order.status == 'cancel'"
+                                    :class="{'cursor-not-allowed': !!order && (order.payment_method == 'gcash' || order.status != 'oncart')}"
+                                    :disabled="!!order && order.payment_method == 'gcash' || order.status != 'oncart' ||  order.status != 'oncart'"
                                 >
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>

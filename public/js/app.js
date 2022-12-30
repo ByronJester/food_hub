@@ -4642,6 +4642,7 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     this.banners = this.banners.concat(this.options.banners);
+    console.log(this.banners);
   },
   methods: {
     login: function login() {
@@ -68037,7 +68038,7 @@ var render = function() {
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "oncart" },
                         style: { width: _vm.isMobile ? "30px" : "80px" },
-                        attrs: { src: "/images/tray.png" }
+                        attrs: { src: "/images/icons/tray.png" }
                       })
                     ]
                   ),
@@ -68077,7 +68078,7 @@ var render = function() {
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "pending" },
                         style: { width: _vm.isMobile ? "30px" : "80px" },
-                        attrs: { src: "/images/pending.png" }
+                        attrs: { src: "/images/icons/pending.png" }
                       })
                     ]
                   ),
@@ -68117,7 +68118,7 @@ var render = function() {
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_process" },
                         style: { width: _vm.isMobile ? "30px" : "80px" },
-                        attrs: { src: "/images/to_pay.png" }
+                        attrs: { src: "/images/icons/process.png" }
                       })
                     ]
                   ),
@@ -68157,7 +68158,7 @@ var render = function() {
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_deliver" },
                         style: { width: _vm.isMobile ? "30px" : "80px" },
-                        attrs: { src: "/images/to_ship.png" }
+                        attrs: { src: "/images/icons/deliver.png" }
                       })
                     ]
                   ),
@@ -68197,7 +68198,7 @@ var render = function() {
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_receive" },
                         style: { width: _vm.isMobile ? "30px" : "80px" },
-                        attrs: { src: "/images/to_receive.png" }
+                        attrs: { src: "/images/icons/receive.png" }
                       })
                     ]
                   ),
@@ -68236,9 +68237,9 @@ var render = function() {
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "received" },
-                        staticStyle: { height: "80p" },
+                        staticStyle: { height: "80px" },
                         style: { width: _vm.isMobile ? "30px" : "80px" },
-                        attrs: { src: "/images/history.png" }
+                        attrs: { src: "/images/icons/history.png" }
                       })
                     ]
                   ),
@@ -68277,11 +68278,9 @@ var render = function() {
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "cancel" },
-                        style: {
-                          width: _vm.isMobile ? "30px" : "80px",
-                          "margin-top": "-1vw"
-                        },
-                        attrs: { src: "/images/cancel.png" }
+                        staticStyle: { height: "80px" },
+                        style: { width: _vm.isMobile ? "30px" : "80px" },
+                        attrs: { src: "/images/icons/cancel.png" }
                       })
                     ]
                   ),
@@ -68401,15 +68400,16 @@ var render = function() {
                                   "float-right pt-1 pr-2 cursor-pointer",
                                 class: {
                                   "cursor-not-allowed":
-                                    (!!order &&
-                                      order.payment_method == "gcash") ||
-                                    order.status == "cancel"
+                                    !!order &&
+                                    (order.payment_method == "gcash" ||
+                                      order.status != "oncart")
                                 },
                                 attrs: {
                                   disabled:
                                     (!!order &&
                                       order.payment_method == "gcash") ||
-                                    order.status == "cancel"
+                                    order.status != "oncart" ||
+                                    order.status != "oncart"
                                 },
                                 on: {
                                   click: function($event) {

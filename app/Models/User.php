@@ -154,7 +154,7 @@ class User extends Authenticatable
         if($this->user_type == 'owner') {
             $arg = Restaurant::where('user_id', $this->id)->first();
 
-            $profit = Order::where('restaurant_id', $arg->id)->whereMonth('created_at', Carbon::now()->month)->sum('amount');
+            $profit = Order::where('restaurant_id', $arg->id)->whereMonth('created_at', Carbon::now()->month)->whereNotIn('status', ['oncart', 'reported', 'cancel'])->sum('amount');
         }
 
         return '₱' . ' ' . number_format($profit, 2);
@@ -167,7 +167,7 @@ class User extends Authenticatable
         if($this->user_type == 'owner') {
             $arg = Restaurant::where('user_id', $this->id)->first();
 
-            $profit = Order::where('restaurant_id', $arg->id)->whereMonth('created_at', Carbon::now()->month)->sum('amount');
+            $profit = Order::where('restaurant_id', $arg->id)->whereMonth('created_at', Carbon::now()->month)->whereNotIn('status', ['oncart', 'reported', 'cancel'])->sum('amount');
 
             $fee = (3 / 100) * $profit;
 

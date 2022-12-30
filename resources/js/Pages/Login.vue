@@ -806,6 +806,8 @@ export default {
 		}
 
 		this.banners = this.banners.concat(this.options.banners)
+
+		console.log(this.banners)
 	},
 
 	methods: {

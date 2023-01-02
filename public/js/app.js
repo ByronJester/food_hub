@@ -2835,6 +2835,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -6853,7 +6854,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ntable[data-v-67955193] {\r\n    border-collapse: collapse;\r\n    border-radius: 5px;\r\n    border-style: hidden;\r\n    box-shadow: 0 0 0 1px black;\n}\ntd[data-v-67955193] {\r\n    border: 1px solid black;\n}\nth[data-v-67955193] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\n}\n.--active__color[data-v-67955193] {\r\n    background: #B0BEC5;\n}\n.--text[data-v-67955193] {\r\n\tfont-size: calc(.1em + 1vw);\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable[data-v-67955193] {\r\n    border-collapse: collapse;\r\n    border-radius: 5px;\r\n    border-style: hidden;\r\n    box-shadow: 0 0 0 1px black;\n}\ntd[data-v-67955193] {\r\n    border: 1px solid black;\n}\nth[data-v-67955193] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\n}\n.--active__color[data-v-67955193] {\r\n    background: #B0BEC5;\n}\n.--text[data-v-67955193] {\r\n\tfont-size: calc(.1em + 1vw);\n}\n.--upercase[data-v-67955193] {\r\n    text-transform: capitalize;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -67313,9 +67314,14 @@ var render = function() {
                 }
               },
               [
-                _c("span", { staticClass: "--text" }, [
-                  _vm._v(_vm._s(_vm.rows[index][k.label]))
-                ])
+                _c(
+                  "span",
+                  {
+                    staticClass: "--text",
+                    class: { "--upercase": k.label == "name" }
+                  },
+                  [_vm._v(_vm._s(_vm.rows[index][k.label]))]
+                )
               ]
             )
           }),
@@ -68409,31 +68415,42 @@ var render = function() {
                                 })
                               : _vm._e(),
                             _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "float-right pt-1 pr-2 cursor-pointer",
-                                class: {
-                                  "cursor-not-allowed":
-                                    !!order &&
-                                    (order.payment_method == "gcash" ||
-                                      !_vm.cancelStatus.includes(order.status))
-                                },
-                                attrs: {
-                                  disabled:
-                                    !!order &&
-                                    (order.payment_method == "gcash" ||
-                                      !_vm.cancelStatus.includes(order.status))
-                                },
-                                on: {
-                                  click: function($event) {
-                                    _vm.orderSelected = order.id
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa-solid fa-xmark" })]
-                            )
+                            order.status == "oncart" ||
+                            order.status == "pending"
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "float-right pt-1 pr-2 cursor-pointer",
+                                    class: {
+                                      "cursor-not-allowed":
+                                        !!order &&
+                                        (order.payment_method == "gcash" ||
+                                          !_vm.cancelStatus.includes(
+                                            order.status
+                                          ))
+                                    },
+                                    attrs: {
+                                      disabled:
+                                        !!order &&
+                                        (order.payment_method == "gcash" ||
+                                          !_vm.cancelStatus.includes(
+                                            order.status
+                                          ))
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.orderSelected = order.id
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa-solid fa-xmark"
+                                    })
+                                  ]
+                                )
+                              : _vm._e()
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "w-full" }, [
@@ -73436,7 +73453,7 @@ var render = function() {
                 attrs: { src: _vm.restaurant.banner },
                 on: {
                   click: function($event) {
-                    return _vm.uploadImage("image")
+                    return _vm.uploadImage("banner")
                   }
                 }
               }),
@@ -74815,132 +74832,134 @@ var render = function() {
       "div",
       { staticClass: "w-full flex justify-center items-center --main--div" },
       [
-        _c(
-          "div",
-          {
-            staticClass: "mt-32 flex flex-col",
-            staticStyle: {
-              height: "100%",
-              border: "1px solid #E4B934",
-              "border-radius": "10px"
-            },
-            style: { width: _vm.isMobile ? "90%" : "20%" }
-          },
-          [
-            _c(
+        _vm.billing && _vm.orders.length > 0
+          ? _c(
               "div",
               {
-                staticClass: "w-full text-center mt-5",
-                staticStyle: { "font-size": "60px" }
-              },
-              [_c("i", { staticClass: "fa-solid fa-circle-check" })]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "w-full text-center mt-5",
-                staticStyle: { "font-size": "30px" }
-              },
-              [
-                _vm._v(
-                  "\n                ₱ " +
-                    _vm._s((_vm.billing.amount / 100).toFixed(2)) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _vm._l(_vm.orders, function(order) {
-              return _c(
-                "div",
-                {
-                  key: order.id,
-                  staticClass: "w-full flex flex-row mt-5 px-3",
-                  staticStyle: { "font-size": "20px" }
+                staticClass: "mt-32 flex flex-col",
+                staticStyle: {
+                  height: "100%",
+                  border: "1px solid #E4B934",
+                  "border-radius": "10px"
                 },
-                [
-                  _c("div", { staticClass: "w-full" }, [
-                    _c("span", [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(order.product.name) +
-                          " (₱ " +
-                          _vm._s(order.product.amount.toFixed(2)) +
-                          ")\n                    "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "w-full" }, [
-                    _c("span", { staticClass: "float-right" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(order.quantity) +
-                          " Order(s)\n                    "
-                      )
-                    ])
-                  ])
-                ]
-              )
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "w-full flex flex-row mt-4 px-3",
-                staticStyle: { "font-size": "20px" }
+                style: { width: _vm.isMobile ? "90%" : "20%" }
               },
               [
-                _c("div", { staticClass: "w-full" }, [
-                  _c("span", [
-                    _vm._v(
-                      "\n                       Shipping Fee\n                    "
-                    )
-                  ])
-                ]),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full text-center mt-5",
+                    staticStyle: { "font-size": "60px" }
+                  },
+                  [_c("i", { staticClass: "fa-solid fa-circle-check" })]
+                ),
                 _vm._v(" "),
-                _c("div", { staticClass: "w-full" }, [
-                  _c("span", { staticClass: "float-right" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full text-center mt-5",
+                    staticStyle: { "font-size": "30px" }
+                  },
+                  [
                     _vm._v(
-                      "\n                        ₱ 60.00\n                    "
+                      "\n                ₱ " +
+                        _vm._s((_vm.billing.amount / 100).toFixed(2)) +
+                        "\n            "
                     )
-                  ])
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "w-full flex flex-row mt-4 px-3",
-                staticStyle: { "font-size": "20px" }
-              },
-              [
-                _c("div", { staticClass: "w-full" }, [
-                  _c("span", [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.billing.billing.name) +
-                        "\n                    "
-                    )
-                  ])
-                ]),
+                  ]
+                ),
                 _vm._v(" "),
-                _c("div", { staticClass: "w-full" }, [
-                  _c("span", { staticClass: "float-right" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.billing.billing.phone) +
-                        "\n                    "
-                    )
-                  ])
-                ])
-              ]
+                _vm._l(_vm.orders, function(order) {
+                  return _c(
+                    "div",
+                    {
+                      key: order.id,
+                      staticClass: "w-full flex flex-row mt-5 px-3",
+                      staticStyle: { "font-size": "20px" }
+                    },
+                    [
+                      _c("div", { staticClass: "w-full" }, [
+                        _c("span", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(order.product.name) +
+                              " (₱ " +
+                              _vm._s(order.product.amount.toFixed(2)) +
+                              ")\n                    "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full" }, [
+                        _c("span", { staticClass: "float-right" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(order.quantity) +
+                              " Order(s)\n                    "
+                          )
+                        ])
+                      ])
+                    ]
+                  )
+                }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full flex flex-row mt-4 px-3",
+                    staticStyle: { "font-size": "20px" }
+                  },
+                  [
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("span", [
+                        _vm._v(
+                          "\n                       Shipping Fee\n                    "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("span", { staticClass: "float-right" }, [
+                        _vm._v(
+                          "\n                        ₱ 60.00\n                    "
+                        )
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full flex flex-row mt-4 px-3",
+                    staticStyle: { "font-size": "20px" }
+                  },
+                  [
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("span", [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.billing.billing.name) +
+                            "\n                    "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-full" }, [
+                      _c("span", { staticClass: "float-right" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.billing.billing.phone) +
+                            "\n                    "
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ],
+              2
             )
-          ],
-          2
-        )
+          : _vm._e()
       ]
     )
   ])

@@ -13,7 +13,7 @@
                 :class="{'--active__color': !!selected && selected.id == l.id }"
                 @click="selectItem(l)"
             >
-                <span class="--text">{{ rows[index][k.label] }}</span>
+                <span class="--text" :class="{'--upercase': k.label == 'name'}">{{ rows[index][k.label] }}</span> 
             </td>
         </tr>
 
@@ -63,5 +63,9 @@ th {
 
 .--text {
 	font-size: calc(.1em + 1vw);
+}
+
+.--upercase {
+    text-transform: capitalize;
 }
 </style>

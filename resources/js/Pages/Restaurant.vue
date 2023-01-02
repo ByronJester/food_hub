@@ -19,7 +19,7 @@
 							style="width: 100%;"
 							class="p-5 relative"
 							:style="{'height' : isMobile ? '250px' : '400px'}"
-                            @click="uploadImage('image')" 
+                            @click="uploadImage('banner')" 
 						>
 
 						<img :src="restaurant.image" class="absolute"

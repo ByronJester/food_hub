@@ -111,6 +111,7 @@
                                 <button class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id"
                                     :class="{'cursor-not-allowed': !!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))}"
                                     :disabled="!!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))"
+                                    v-if="order.status == 'oncart' || order.status == 'pending'"
                                 >
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>

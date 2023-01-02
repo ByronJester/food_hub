@@ -38,7 +38,7 @@
 
                         <div class="w-full">
                             <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
-                                Processing
+                                Preparing
                             </p>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'received'">
                         <div class="w-full flex justify-center items-center">
                             <img :src="'/images/icons/history.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'received'}"
-                                style="height: 80px"
+                                
                             />
                         </div>
 
@@ -85,7 +85,7 @@
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'cancel'">
                         <div class="w-full flex justify-center items-center">
                             <img :src="'/images/icons/cancel.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'cancel'}"
-                                style="height: 80px"
+                                
                             />
                         </div>
 
@@ -109,8 +109,8 @@
                                 <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders" v-if="activeTab == 'oncart'">
 
                                 <button class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id"
-                                    :class="{'cursor-not-allowed': !!order && (order.payment_method == 'gcash' || order.status != 'oncart')}"
-                                    :disabled="!!order && order.payment_method == 'gcash' || order.status != 'oncart' ||  order.status != 'oncart'"
+                                    :class="{'cursor-not-allowed': !!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))}"
+                                    :disabled="!!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))"
                                 >
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
@@ -378,7 +378,8 @@ export default {
                 latitude: 10,
                 longitude: 10
             },
-            checkoutDisabled: false
+            checkoutDisabled: false,
+            cancelStatus: ['pending', 'oncart']
         }
     },
     created() {

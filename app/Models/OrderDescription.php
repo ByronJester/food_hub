@@ -84,7 +84,7 @@ class OrderDescription extends Model
         }
 
         if($status == 'to_process') {
-            return 'Processing';
+            return 'Preparing';
         }
 
         if($status == 'to_deliver') {

@@ -2872,7 +2872,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         latitude: 10,
         longitude: 10
       },
-      checkoutDisabled: false
+      checkoutDisabled: false,
+      cancelStatus: ['pending', 'oncart']
     };
   },
   created: function created() {
@@ -3219,7 +3220,7 @@ __webpack_require__.r(__webpack_exports__);
       isMobile: window.screen.width <= 700
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     this.billing = this.options.source.data.attributes;
     this.orders = this.options.orders;
   }
@@ -5111,6 +5112,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6011,9 +6031,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -6269,9 +6286,10 @@ __webpack_require__.r(__webpack_exports__);
       isMobile: window.screen.width <= 700
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     this.billing = this.options.source.data.attributes;
     this.orders = this.options.orders;
+    console.log(this.billing);
   }
 });
 
@@ -6859,7 +6877,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown[data-v-5b807f98] {\r\n  position: relative;\r\n  display: inline-block;\n}\n.dropdown-content[data-v-5b807f98] {\r\n  display: none;\r\n  position: absolute;\r\n  background-color: #ffffff;\r\n  min-width: 130px;\r\n  z-index: 1;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n  left: -2.5rem;\n}\n.dropdown-content a[data-v-5b807f98] {\r\n  color: black;\r\n  text-decoration: none;\r\n  display: block;\n}\n.dropdown-content a[data-v-5b807f98]:hover {background-color: #2c85c1;}\n.dropdown:hover .dropdown-content[data-v-5b807f98] {display: block;}\n.--active[data-v-5b807f98] {\r\n    border-bottom: 2px solid #E4B934;\n}\n.--text[data-v-5b807f98] {\r\n    font-size: calc(.1em + 1vw);\n}\n.--font-small[data-v-5b807f98] {\r\n    font-size: 8px;\n}\n.walletModal[data-v-5b807f98] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 20%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.wallet-content[data-v-5b807f98] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-5b807f98] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-5b807f98]:hover,\r\n.close[data-v-5b807f98]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown[data-v-5b807f98] {\r\n  position: relative;\r\n  display: inline-block;\n}\n.dropdown-content[data-v-5b807f98] {\r\n  display: none;\r\n  position: absolute;\r\n  background-color: #ffffff;\r\n  min-width: 130px;\r\n  z-index: 1;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n  left: -2.5rem;\n}\n.dropdown-content a[data-v-5b807f98] {\r\n  color: black;\r\n  text-decoration: none;\r\n  display: block;\n}\n.dropdown-content a[data-v-5b807f98]:hover {background-color: #2c85c1;}\n.dropdown:hover .dropdown-content[data-v-5b807f98] {display: block;}\n.--active[data-v-5b807f98] {\r\n    border-bottom: 2px solid #E4B934;\n}\n.--text[data-v-5b807f98] {\r\n    font-size: calc(.3em + 1vw);\n}\n.--font-small[data-v-5b807f98] {\r\n    font-size: 8px;\n}\n.walletModal[data-v-5b807f98] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 20%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\n}\r\n\r\n/* Modal Content */\n.wallet-content[data-v-5b807f98] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-5b807f98] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-5b807f98]:hover,\r\n.close[data-v-5b807f98]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -67580,7 +67598,7 @@ var render = function() {
                                   : "#FFFFFF"
                             }
                           },
-                          [_c("b", [_vm._v("Reports")])]
+                          [_c("b", [_vm._v("REPORTS")])]
                         )
                       ]
                     )
@@ -68132,7 +68150,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                                Processing\n                            "
+                          "\n                                Preparing\n                            "
                         )
                       ]
                     )
@@ -68237,7 +68255,6 @@ var render = function() {
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "received" },
-                        staticStyle: { height: "80px" },
                         style: { width: _vm.isMobile ? "30px" : "80px" },
                         attrs: { src: "/images/icons/history.png" }
                       })
@@ -68278,7 +68295,6 @@ var render = function() {
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "cancel" },
-                        staticStyle: { height: "80px" },
                         style: { width: _vm.isMobile ? "30px" : "80px" },
                         attrs: { src: "/images/icons/cancel.png" }
                       })
@@ -68402,14 +68418,13 @@ var render = function() {
                                   "cursor-not-allowed":
                                     !!order &&
                                     (order.payment_method == "gcash" ||
-                                      order.status != "oncart")
+                                      !_vm.cancelStatus.includes(order.status))
                                 },
                                 attrs: {
                                   disabled:
-                                    (!!order &&
-                                      order.payment_method == "gcash") ||
-                                    order.status != "oncart" ||
-                                    order.status != "oncart"
+                                    !!order &&
+                                    (order.payment_method == "gcash" ||
+                                      !_vm.cancelStatus.includes(order.status))
                                 },
                                 on: {
                                   click: function($event) {
@@ -72795,6 +72810,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "--input py-1",
+                        staticStyle: { "text-transform": "capitalize" },
                         attrs: { type: "text" },
                         domProps: { value: _vm.form.name },
                         on: {
@@ -72904,6 +72920,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "--input py-1",
+                        staticStyle: { "text-transform": "capitalize" },
                         attrs: { type: "text" },
                         domProps: { value: _vm.form.address },
                         on: {
@@ -73131,6 +73148,40 @@ var render = function() {
           "w-full min-h-screen h-full px-2 py-2 flex flex-col --main--div"
       },
       [
+        !_vm.isMobile
+          ? _c(
+              "div",
+              { staticClass: "w-full" },
+              [
+                _c(
+                  "graph-line",
+                  {
+                    staticStyle: { width: "100vw", height: "500px" },
+                    attrs: {
+                      shape: "normal",
+                      "axis-min": 0,
+                      "axis-max": Math.max.apply(Math, _vm.options.sales),
+                      "axis-full-mode": true,
+                      labels: _vm.options.days,
+                      names: ["DAILY SALES REPORT FOR THIS MONTH"],
+                      height: 400,
+                      values: _vm.options.sales
+                    }
+                  },
+                  [_c("guideline", { attrs: { "tooltip-y": true } })],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-full text-center text-3xl" }, [
+                  _vm._v(
+                    "\n                DAILY SALES REPORT FOR THIS MONTH\n            "
+                  )
+                ])
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _c("div", { staticClass: "w-full mt-10" }, [
           _c(
             "select",
@@ -74378,39 +74429,6 @@ var render = function() {
           "w-full min-h-screen h-full px-2 py-2 flex flex-col --main--div"
       },
       [
-        !_vm.isMobile
-          ? _c(
-              "div",
-              { staticClass: "w-full" },
-              [
-                _c(
-                  "graph-line",
-                  {
-                    staticStyle: { width: "100vw", height: "500px" },
-                    attrs: {
-                      shape: "normal",
-                      "axis-min": 0,
-                      "axis-max": Math.max.apply(Math, _vm.options.sales),
-                      "axis-full-mode": true,
-                      labels: _vm.options.days,
-                      names: ["DAILY SALES REPORT FOR THIS MONTH"],
-                      values: _vm.options.sales
-                    }
-                  },
-                  [_c("guideline", { attrs: { "tooltip-y": true } })],
-                  1
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "w-full text-center text-3xl" }, [
-                  _vm._v(
-                    "\n                DAILY SALES REPORT FOR THIS MONTH\n            "
-                  )
-                ])
-              ],
-              1
-            )
-          : _vm._e(),
-        _vm._v(" "),
         _c("div", { staticClass: "w-full mt-10" }, [
           _c(
             "select",
@@ -74578,7 +74596,7 @@ var render = function() {
                                   _c(
                                     "option",
                                     { domProps: { value: "to_process" } },
-                                    [_vm._v("Process Order")]
+                                    [_vm._v("Prepare Order")]
                                   ),
                                   _vm._v(" "),
                                   _c(

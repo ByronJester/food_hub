@@ -42,7 +42,7 @@
                     >
                         <i class="fa-solid fa-file mr-2" :style="{'color': active == '/restaurants/reports' ? '#E4B934' : '#FFFFFF'}"></i>
                         <span :class="{'--text': !isMobile, '--font-small': isMobile}" :style="{'color': active == '/restaurants/reports' ? '#E4B934' : '#FFFFFF'}"> 
-                            <b>Reports</b> 
+                            <b>REPORTS</b> 
                         </span>
                     </div>
                     
@@ -238,7 +238,7 @@ export default {
 }
 
 .--text {
-    font-size: calc(.1em + 1vw);
+    font-size: calc(.3em + 1vw);
 }
 
 .--font-small {

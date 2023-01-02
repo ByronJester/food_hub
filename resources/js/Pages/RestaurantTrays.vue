@@ -2,7 +2,7 @@
     <Navigation :auth="auth">
         <div class="w-full min-h-screen h-full px-2 py-2 flex flex-col --main--div">
 
-            <div class="w-full" v-if="!isMobile">
+            <!-- <div class="w-full" v-if="!isMobile">
                 <graph-line
                     style="width: 100vw; height: 500px;"
                     :shape="'normal'"
@@ -12,16 +12,13 @@
                     :labels="options.days"
                     :names="['DAILY SALES REPORT FOR THIS MONTH']"
                     :values="options.sales">
-                    <!-- <note :text="'Line Chart'"></note> -->
-                    <!-- <tooltip :names="['DAILY SALES REPORT FOR THIS MONTH']" :position="'right'"></tooltip>
-                    <legends :names="['DAILY SALES REPORT FOR THIS MONTH']"></legends> -->
                     <guideline :tooltip-y="true"></guideline>
                 </graph-line>
 
                 <div class="w-full text-center text-3xl">
                     DAILY SALES REPORT FOR THIS MONTH
                 </div>
-            </div>
+            </div> -->
 
             <div class="w-full mt-10">
                 <select v-model="payment_method" style="border: 1px solid black" class="text-center">
@@ -66,7 +63,7 @@
 
                             <div class="w-full mt-5">
                                 <select v-model="form.status" class="w-full" style="border: 1px solid black; height: 40px; border-radius: 5px">
-                                    <option :value="'to_process'">Process Order</option>
+                                    <option :value="'to_process'">Prepare Order</option>
                                     <option :value="'cancel'" :disabled="selected.payment_method == 'GCASH'">Cancel Order</option>
                                     <option :value="'to_deliver'">Deliver Order</option>
                                     <option :value="'to_receive'">Receive Order</option>

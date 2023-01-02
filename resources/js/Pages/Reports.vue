@@ -1,6 +1,25 @@
 <template>
     <Navigation :auth="auth">
         <div class="w-full min-h-screen h-full px-2 py-2 flex flex-col --main--div">
+            <div class="w-full" v-if="!isMobile">
+                <graph-line
+                    style="width: 100vw; height: 500px;"
+                    :shape="'normal'"
+                    :axis-min="0"
+                    :axis-max="Math.max( ...options.sales)"
+                    :axis-full-mode="true"
+                    :labels="options.days"
+                    :names="['DAILY SALES REPORT FOR THIS MONTH']"
+                    :height="400"
+                    :values="options.sales">
+                    <guideline :tooltip-y="true"></guideline>
+                </graph-line>
+
+                <div class="w-full text-center text-3xl">
+                    DAILY SALES REPORT FOR THIS MONTH
+                </div>
+            </div>
+
             <div class="w-full mt-10">
                 <select v-model="payment_method" style="border: 1px solid black" class="text-center">
                     <option value="cod">COD</option>

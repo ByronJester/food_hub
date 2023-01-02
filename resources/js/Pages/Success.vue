@@ -74,10 +74,12 @@
                 isMobile: window.screen.width <= 700,
             }
         },
-        mounted() {
+        created() {
             this.billing = this.options.source.data.attributes
 
             this.orders = this.options.orders
+
+            console.log(this.billing)
         }
     }
 </script>

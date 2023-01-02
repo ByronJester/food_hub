@@ -7,13 +7,13 @@
                 </div>
 
                 <div class="w-full text-center mt-5" style="font-size: 30px">
-                    ₱ {{ (billing.amount/100).toFixed(2) }}
+                    ₱ {{ (parseFloat(billing.amount/100)).toFixed(2) }}
                 </div>
 
                 <div class="w-full flex flex-row mt-5 px-3" style="font-size: 20px" v-for="order in orders" :key="order.id">
                     <div class="w-full">
                         <span>
-                            {{ order.product.name }} (₱ {{order.product.amount.toFixed(2)}})
+                            {{ order.product.name }} (₱ {{parseFloat(order.product.amount).toFixed(2)}})
                         </span>
                     </div>
 

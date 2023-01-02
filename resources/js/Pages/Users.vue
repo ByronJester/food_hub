@@ -179,7 +179,7 @@ export default {
             ownerColumns: [
                 'Local Food Joint', 'Owner Name', 'Username', 'Contact #', 'Address', 'Profit', 'Subscription Fee (3%)', 'Status'
             ],
-            ownerKeys: [
+            ownerKeys: [ 
                 {
                     label: 'food_joint',
                 },

@@ -123,6 +123,12 @@ class OrderController extends Controller
 
         $orders = Order::where('user_id', $auth->id)->get();
 
+        $selectedOrder = Order::where('id', $request->id)->first();
+
+        if($request->reference) {
+            OrderDescription::where('reference', $request->reference)->delete();
+        }
+
         return response()->json(['status' => 200, 'orders' => $orders->groupBy('food_hub')], 200);  
     }
 
@@ -324,7 +330,7 @@ class OrderController extends Controller
             if($request->status == 'cancel') {
                 $message = 'Your order is cancelled.';
             } else if($request->status == 'to_process') {
-                $message = 'Your order is processing.';
+                $message = 'Your order is preparing.';
             } else {
                 $message = 'Your order arrived at your location.';
             }

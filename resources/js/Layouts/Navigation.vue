@@ -144,7 +144,7 @@
         <div class="w-full --main--div"
             style="height: 100vh; margin-top: 10vh"
         >
-            <div class="w-full ml-5 my-5 font-bold --text" v-if="auth.user_type == 'customer'">
+            <div class="w-full ml-5 my-5 font-bold --text" v-if="auth.user_type == 'customer'" style="text-transform: capitalize;">
                 <i class="fa-solid fa-user mr-2"></i> {{ auth.name }} 
             </div>
 

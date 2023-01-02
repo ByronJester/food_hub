@@ -1,7 +1,7 @@
 <template>
     <Navigation :auth="auth">
         <div class="w-full flex justify-center items-center --main--div">
-            <div style="height: 100%; border: 1px solid #E4B934; border-radius: 10px" class="mt-32 flex flex-col" :style="{'width': isMobile ? '90%': '20%'}">
+            <div style="height: 100%; border: 1px solid #E4B934; border-radius: 10px" class="mt-32 flex flex-col" :style="{'width': isMobile ? '90%': '20%'}" v-if="billing && orders.length">
                 <div class="w-full text-center mt-5" style="font-size: 60px">
                     <i class="fa-solid fa-circle-xmark"></i>
                 </div>

@@ -6,7 +6,7 @@
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'oncart'">
                         <div class="w-full flex justify-center items-center">
                             <img :src="'/images/icons/tray.png'" :class="{'--bg-gray': activeTab == 'oncart'}"
-                                :style="{'width': isMobile ? '30px': '80px'}"
+                                :style="{'width': isMobile ? '30px': '100px'}"
                             />
                         </div>
 
@@ -20,7 +20,7 @@
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'pending'">
                         <div class="w-full flex justify-center items-center">
                             <img :src="'/images/icons/pending.png'" :class="{'--bg-gray': activeTab == 'pending'}"
-                                :style="{'width': isMobile ? '30px': '80px'}"
+                                :style="{'width': isMobile ? '30px': '100px'}"
                             />
                         </div>
 
@@ -33,7 +33,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_process'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/icons/process.png'" :style="{'width': isMobile ? '30px': '80px'}" :class="{'--bg-gray': activeTab == 'to_process'}"/>
+                            <img :src="'/images/icons/process.png'" :style="{'width': isMobile ? '30px': '100px'}" :class="{'--bg-gray': activeTab == 'to_process'}"/>
                         </div>
 
                         <div class="w-full">
@@ -45,7 +45,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_deliver'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/icons/deliver.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
+                            <img :src="'/images/icons/deliver.png'" :style="{'width': isMobile ? '30px': '100px'}"  :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
                         </div>
 
                         <div class="w-full cursor-pointer">
@@ -57,7 +57,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_receive'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/icons/receive.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"/>
+                            <img :src="'/images/icons/receive.png'" :style="{'width': isMobile ? '30px': '100px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"/>
                         </div>
 
                         <div class="w-full">
@@ -70,7 +70,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'received'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/icons/history.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'received'}"
+                            <img :src="'/images/icons/history.png'" :style="{'width': isMobile ? '30px': '100px'}"  :class="{'--bg-gray': activeTab == 'received'}"
                                 
                             />
                         </div>
@@ -84,7 +84,7 @@
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'cancel'">
                         <div class="w-full flex justify-center items-center">
-                            <img :src="'/images/icons/cancel.png'" :style="{'width': isMobile ? '30px': '80px'}"  :class="{'--bg-gray': activeTab == 'cancel'}"
+                            <img :src="'/images/icons/cancel.png'" :style="{'width': isMobile ? '30px': '100px'}"  :class="{'--bg-gray': activeTab == 'cancel'}"
                                 
                             />
                         </div>
@@ -108,7 +108,7 @@
                             <div class="w-full">
                                 <input type="checkbox" class="ml-1 pt-1" :value="order" @change="selectOrder($event, order)" v-model="selectedOrders" v-if="activeTab == 'oncart'">
 
-                                <button class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order.id"
+                                <button class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order"
                                     :class="{'cursor-not-allowed': !!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))}"
                                     :disabled="!!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))"
                                     v-if="order.status == 'oncart' || order.status == 'pending'"
@@ -499,16 +499,12 @@ export default {
 				})
         },
 
-        removeProduct(id) {
-            var data = { id: id}
+        removeProduct(order) {
+            var data = { id: order.id, reference: order.reference }
 
             axios.post(this.$root.route + "/orders/remove-order", data)
 				.then(response => {
-					if(response.data.status == 422) {
-						this.saveError = response.data.errors 
-					} else {
-                        location.reload()
-					}
+					 location.reload()
 				})
         },
 

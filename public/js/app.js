@@ -68411,7 +68411,8 @@ var render = function() {
                 "p",
                 {
                   staticClass: "font-bold",
-                  class: { "--text": !_vm.isMobile, "text-lg": _vm.isMobile }
+                  class: { "--text": !_vm.isMobile, "text-lg": _vm.isMobile },
+                  staticStyle: { "text-transform": "capitalize" }
                 },
                 [_vm._v(" " + _vm._s(restaurant) + " ")]
               ),

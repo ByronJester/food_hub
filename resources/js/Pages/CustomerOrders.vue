@@ -100,7 +100,7 @@
             </div>
 
             <div class="w-full px-10 pt-20" v-for="(orders, restaurant) in orders" :key="restaurant">
-                <p class="font-bold" :class="{'--text': !isMobile, 'text-lg': isMobile}"> {{ restaurant }} </p>
+                <p class="font-bold" style="text-transform: capitalize;" :class="{'--text': !isMobile, 'text-lg': isMobile}"> {{ restaurant }} </p>
 
                 <div :class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}">
                     <div class="flex flex-col px-5 py-2" v-for="order in orders" :key="order.id">

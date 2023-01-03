@@ -26,9 +26,12 @@
 
 					<input type="password" class="w-full mt-2 --login__register--input text-center"
 						:class="{'mb-2' : !message}"
+						id="loginPassword"
 						placeholder="Password" v-model="formloginData.password"
 						@keyup.enter="login()"
 					>
+
+					<input type="checkbox" @click="showLoginPassword()"><span class="text-white"> Show Password </span>
 
 					<span class="text-red-500 text-xs ml-2" v-if="message && message != 'success'">
 						{{ message }}
@@ -92,15 +95,19 @@
 			
 					<input type="password" class="w-full mt-2 --login__register--input text-center"
 						:class="{'mb-2' : !message}"
+						id="registerPassword"
 						placeholder="Password" v-model="formRegisterData.password"
 					>
 					<span class="text-xs text-red-500">{{validationError('password', saveError)}} </span>
 
 					<input type="password" class="w-full mt-2 --login__register--input text-center"
 						:class="{'mb-2' : !message}"
+						id="registerConfirmPassword"
 						placeholder="Confirm Password" v-model="formRegisterData.confirm_password"
 					>
 					<span class="text-xs text-red-500">{{validationError('confirm_password', saveError)}} </span><br>
+
+					<input type="checkbox" @click="showRegisterPassword()"><span class="text-white"> Show Password </span>
 
 					<div class="text-white">
 						<label class="mt-1 font-bold">ID Picture</label><br>
@@ -207,7 +214,7 @@
 						>
 					</div>
 
-					<div class="text-center font-bold" :class="{'--text': !isMobile, 'text-lg': isMobile}">
+					<div class="text-center font-bold" :class="{'--text': !isMobile, 'text-lg': isMobile}" style="text-transform: capitalize;">
 						{{ arg.restaurant_name }}
 					</div>
 
@@ -223,7 +230,7 @@
 						<i class="fa-solid fa-arrow-left"></i> Back
 					</span>
 
-                    <span class="float-right" :class="{'--text': !isMobile, 'text-lg': isMobile}">
+                    <span class="float-right" :class="{'--text': !isMobile, 'text-lg': isMobile}" style="text-transform: capitalize;">
 						{{ restaurant.restaurant_name }} ({{ restaurant.address }})
 					</span>
 				</div>
@@ -510,10 +517,19 @@
 
 							<br><br>
 							<span class="w-full">
-								Prior to placing the Order
+								4.5 Prior to placing the Order
 							</span><br>
 
 							To complete an Order, please follow the onscreen instructions after clicking ‘Checkout’. You may be required to provide additional details for us to complete your order. You are required to review and confirm that all the information you provide, including the amounts, delivery details, payment information is true, accurate and complete before you click “PLACE ORDER”. An Order is successfully placed when you see your orders is on process containing your receipt from us. You are required to provide the delivery address in profile the Platform to display the food joints available in your delivery area. Once you select a food joints, you will be taken to that food joint’s menu page for you to select and add your Goods to the tray.
+							<br><br>
+
+							<span class="w-full">
+								4.6 Subscription Fees
+
+							</span><br>
+
+							The administrator’s profit will be automatically computed from a 3% subscription of the local food joint’s profit. Upon signing up, the entire plan value will be immediately charged to the profit of local food joints' accounts once they start having profits or transactions. The 3% subscription will be started or processed automatically when they register their account. This will be gathered first in a face-to-face meeting between the client and the system administrator to make sure the system they use can be trusted in their business.
+
 							<br><br>
 
 
@@ -811,6 +827,27 @@ export default {
 	},
 
 	methods: {
+		showLoginPassword(){
+			var x = document.getElementById("loginPassword");
+
+			if (x.type === "password") {
+				x.type = "text";
+			} else {
+				x.type = "password";
+			}
+		},
+		showRegisterPassword(){
+			var x = document.getElementById("registerPassword");
+			var y = document.getElementById("registerConfirmPassword");
+
+			if (x.type === "password") {
+				x.type = "text";
+				y.type = "text";
+			} else {
+				x.type = "password";
+				y.type = "password";
+			}
+		},
 		login() {
 			// Inertia.post(this.$root.route + "/users/login", this.formloginData,
 			// {

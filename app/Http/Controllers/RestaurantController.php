@@ -307,4 +307,24 @@ class RestaurantController extends Controller
 
         return redirect('/');
     }
+
+    public function linkPaymongo(Request $request)
+    {
+        $rules = [
+            'pk' => "required",
+            'sk' => "required",
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages(), 'status' => 422], 200);
+        }
+
+        $data = $request->except(['id']);
+
+        Restaurant::where('id', $request->id)->update($data);
+
+        return response()->json(['status' => 200], 200); 
+    }
 }

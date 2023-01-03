@@ -20,7 +20,7 @@
 						>
 					</div>
 
-					<div class="text-center font-bold text-xl" :class="{'--text': !isMobile, 'text-lg': isMobile}">
+					<div class="text-center font-bold text-xl" :class="{'--text': !isMobile, 'text-lg': isMobile}" style="text-transform: capitalize;">
 						{{ arg.restaurant_name }}
 					</div>
 
@@ -36,7 +36,7 @@
 						<i class="fa-solid fa-arrow-left"></i> Back
 					</span>
 
-                    <span class="float-right" :class="{'--text': !isMobile, 'text-lg': isMobile}">
+                    <span class="float-right" :class="{'--text': !isMobile, 'text-lg': isMobile}" style="text-transform: capitalize;">
 						{{ restaurant.restaurant_name }} ({{ restaurant.address }})
 					</span>
 				</div>

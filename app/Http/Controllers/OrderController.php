@@ -186,8 +186,8 @@ class OrderController extends Controller
         } else {
             $amount = $amount * 100;
 
-            $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
-            $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
+            $publicKey = $this->getPublicKey($restaurant->pk); 
+            $secretKey = $this->getSecretKey($restaurant->sk);
 
             $source = $this->createSource($amount, $publicKey, $secretKey);
             
@@ -265,8 +265,10 @@ class OrderController extends Controller
             $amount = ($product->amount * $order->quantity) + 60;
             $amount = $amount * 100;
 
-            $publicKey = $this->getPublicKey("pk_test_CP2M2yoCiYczwJkCYnPprYMZ");
-            $secretKey = $this->getSecretKey("sk_test_1JsM89U7BvfBFsifjRwGJ9nx");
+            $restaurant = Restaurant::where('id', $request->restaurant_id)->first();
+
+            $publicKey = $this->getPublicKey($restaurant->pk);
+            $secretKey = $this->getSecretKey($restaurant->sk);
 
             $source = $this->createSource($amount, $publicKey, $secretKey);
             

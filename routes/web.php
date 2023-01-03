@@ -47,6 +47,7 @@ Route::middleware(['cors'])->group(function () {
         Route::get('/my-trays', [RestaurantController::class, 'viewTrays'])->name('view.trays');
         Route::get('/reports', [RestaurantController::class, 'viewReports'])->name('view.reports'); 
         Route::post('/create-product', [RestaurantController::class, 'createProduct']);
+        Route::post('/link-paymongo', [RestaurantController::class, 'linkPaymongo']);
         Route::post('/create-address', [RestaurantController::class, 'createAddress']);
         Route::post('/remove-address', [RestaurantController::class, 'removeAddress']);
         Route::post('/change-image', [RestaurantController::class, 'changeImage']);

@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="w-full text-center font-bold text-xl mt-2 mb-5 mx-4">
-                            {{ user.name }}<Toggle :value="user.is_active" :url="'/users/deactivate-reactivate'" :id="user.id" class="ml-5"/>
+                            <span style="text-transform: capitalize;">{{ user.name }}</span><Toggle :value="user.is_active" :url="'/users/deactivate-reactivate'" :id="user.id" class="ml-5"/>
                         </div>
 
                         <div class="w-full flex flex-col">

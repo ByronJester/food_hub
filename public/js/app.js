@@ -4578,6 +4578,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4642,6 +4658,27 @@ __webpack_require__.r(__webpack_exports__);
     console.log(this.banners);
   },
   methods: {
+    showLoginPassword: function showLoginPassword() {
+      var x = document.getElementById("loginPassword");
+
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    },
+    showRegisterPassword: function showRegisterPassword() {
+      var x = document.getElementById("registerPassword");
+      var y = document.getElementById("registerConfirmPassword");
+
+      if (x.type === "password") {
+        x.type = "text";
+        y.type = "text";
+      } else {
+        x.type = "password";
+        y.type = "password";
+      }
+    },
     login: function login() {
       var _this = this;
 
@@ -5652,6 +5689,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5690,6 +5778,11 @@ __webpack_require__.r(__webpack_exports__);
       formTime: {
         opening_time: null,
         closing_time: null
+      },
+      paymongo: {
+        id: null,
+        pk: null,
+        sk: null
       }
     };
   },
@@ -5703,6 +5796,9 @@ __webpack_require__.r(__webpack_exports__);
     this.formAddress.restaurant_id = this.restaurant.id;
     this.formTime.opening_time = this.restaurant.opening_time;
     this.formTime.closing_time = this.restaurant.closing_time;
+    this.paymongo.id = this.restaurant.id;
+    this.paymongo.pk = this.restaurant.pk;
+    this.paymongo.sk = this.restaurant.sk;
   },
   watch: {
     activeCategory: function activeCategory(arg) {
@@ -5776,8 +5872,29 @@ __webpack_require__.r(__webpack_exports__);
         } else {}
       });
     },
-    createProduct: function createProduct() {
+    savePaymongo: function savePaymongo() {
       var _this2 = this;
+
+      swal({
+        title: 'Are you sure to link this paymongo account?',
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(function (proceed) {
+        if (proceed) {
+          axios__WEBPACK_IMPORTED_MODULE_1___default().post(_this2.$root.route + "/restaurants/link-paymongo", _this2.paymongo).then(function (response) {
+            if (response.data.status == 422) {
+              _this2.saveError = response.data.errors;
+            } else {
+              alert("Successfully link paymongo account.");
+              location.reload();
+            }
+          });
+        } else {}
+      });
+    },
+    createProduct: function createProduct() {
+      var _this3 = this;
 
       this.formData.append('restaurant_id', this.form.restaurant_id);
       this.formData.append('category', this.form.category);
@@ -5786,7 +5903,7 @@ __webpack_require__.r(__webpack_exports__);
       this.formData.append('description', this.form.description);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(this.$root.route + "/restaurants/create-product", this.formData).then(function (response) {
         if (response.data.status == 422) {
-          _this2.saveError = response.data.errors;
+          _this3.saveError = response.data.errors;
         } else {
           alert("Successfully created product");
           location.reload();
@@ -5794,11 +5911,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createAddress: function createAddress() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(this.$root.route + "/restaurants/create-address", this.formAddress).then(function (response) {
         if (response.data.status == 422) {
-          _this3.saveError = response.data.errors;
+          _this4.saveError = response.data.errors;
         } else {
           alert("Successfully created new address");
           location.reload();
@@ -5806,11 +5923,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     removeAddress: function removeAddress(arg) {
-      var _this4 = this;
+      var _this5 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(this.$root.route + "/restaurants/remove-address", arg).then(function (response) {
         if (response.data.status == 422) {
-          _this4.saveError = response.data.errors;
+          _this5.saveError = response.data.errors;
         } else {
           alert("Successfully remove address");
           location.reload();
@@ -5837,7 +5954,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     imageChangeRestaurant: function imageChangeRestaurant(arg, e) {
-      var _this5 = this;
+      var _this6 = this;
 
       var image = e.target.files[0];
       var formData = new FormData();
@@ -5848,7 +5965,7 @@ __webpack_require__.r(__webpack_exports__);
       reader.readAsDataURL(image);
 
       reader.onload = function (e) {
-        _this5.restaurant[arg] = e.target.result;
+        _this6.restaurant[arg] = e.target.result;
       };
     },
     openRemoveModal: function openRemoveModal() {
@@ -5861,7 +5978,7 @@ __webpack_require__.r(__webpack_exports__);
       this.placeSelected = null;
     },
     confirmTime: function confirmTime() {
-      var _this6 = this;
+      var _this7 = this;
 
       swal({
         title: 'Are you sure to set this opening and closing time of your food hub ?',
@@ -5870,7 +5987,7 @@ __webpack_require__.r(__webpack_exports__);
         dangerMode: true
       }).then(function (proceed) {
         if (proceed) {
-          _this6.saveTime();
+          _this7.saveTime();
         } else {}
       });
     },
@@ -67314,7 +67431,10 @@ var render = function() {
                   {
                     staticClass: "--text",
                     class: {
-                      "--upercase": k.label == "name" || k.label == "address"
+                      "--upercase":
+                        k.label == "name" ||
+                        k.label == "address" ||
+                        k.label == "food_joint"
                     }
                   },
                   [_vm._v(_vm._s(_vm.rows[index][k.label]))]
@@ -69440,7 +69560,8 @@ var render = function() {
                         class: {
                           "--text": !_vm.isMobile,
                           "text-lg": _vm.isMobile
-                        }
+                        },
+                        staticStyle: { "text-transform": "capitalize" }
                       },
                       [
                         _vm._v(
@@ -69501,7 +69622,8 @@ var render = function() {
                       class: {
                         "--text": !_vm.isMobile,
                         "text-lg": _vm.isMobile
-                      }
+                      },
+                      staticStyle: { "text-transform": "capitalize" }
                     },
                     [
                       _vm._v(
@@ -70734,7 +70856,11 @@ var render = function() {
                         staticClass:
                           "w-full mt-2 --login__register--input text-center",
                         class: { "mb-2": !_vm.message },
-                        attrs: { type: "password", placeholder: "Password" },
+                        attrs: {
+                          type: "password",
+                          id: "loginPassword",
+                          placeholder: "Password"
+                        },
                         domProps: { value: _vm.formloginData.password },
                         on: {
                           keyup: function($event) {
@@ -70764,6 +70890,18 @@ var render = function() {
                           }
                         }
                       }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { type: "checkbox" },
+                        on: {
+                          click: function($event) {
+                            return _vm.showLoginPassword()
+                          }
+                        }
+                      }),
+                      _c("span", { staticClass: "text-white" }, [
+                        _vm._v(" Show Password ")
+                      ]),
                       _vm._v(" "),
                       _vm.message && _vm.message != "success"
                         ? _c(
@@ -71096,7 +71234,11 @@ var render = function() {
                         staticClass:
                           "w-full mt-2 --login__register--input text-center",
                         class: { "mb-2": !_vm.message },
-                        attrs: { type: "password", placeholder: "Password" },
+                        attrs: {
+                          type: "password",
+                          id: "registerPassword",
+                          placeholder: "Password"
+                        },
                         domProps: { value: _vm.formRegisterData.password },
                         on: {
                           input: function($event) {
@@ -71134,6 +71276,7 @@ var render = function() {
                         class: { "mb-2": !_vm.message },
                         attrs: {
                           type: "password",
+                          id: "registerConfirmPassword",
                           placeholder: "Confirm Password"
                         },
                         domProps: {
@@ -71164,6 +71307,18 @@ var render = function() {
                         )
                       ]),
                       _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { type: "checkbox" },
+                        on: {
+                          click: function($event) {
+                            return _vm.showRegisterPassword()
+                          }
+                        }
+                      }),
+                      _c("span", { staticClass: "text-white" }, [
+                        _vm._v(" Show Password ")
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "text-white" }, [
                         _c("label", { staticClass: "mt-1 font-bold" }, [
@@ -71572,7 +71727,8 @@ var render = function() {
                         class: {
                           "--text": !_vm.isMobile,
                           "text-lg": _vm.isMobile
-                        }
+                        },
+                        staticStyle: { "text-transform": "capitalize" }
                       },
                       [
                         _vm._v(
@@ -71633,7 +71789,8 @@ var render = function() {
                       class: {
                         "--text": !_vm.isMobile,
                         "text-lg": _vm.isMobile
-                      }
+                      },
+                      staticStyle: { "text-transform": "capitalize" }
                     },
                     [
                       _vm._v(
@@ -72369,11 +72526,23 @@ var staticRenderFns = [
       _c("br"),
       _vm._v(" "),
       _c("span", { staticClass: "w-full" }, [
-        _vm._v("\n\t\t\t\t\t\t\t\tPrior to placing the Order\n\t\t\t\t\t\t\t")
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t4.5 Prior to placing the Order\n\t\t\t\t\t\t\t"
+        )
       ]),
       _c("br"),
       _vm._v(
         "\n\n\t\t\t\t\t\t\tTo complete an Order, please follow the onscreen instructions after clicking ‘Checkout’. You may be required to provide additional details for us to complete your order. You are required to review and confirm that all the information you provide, including the amounts, delivery details, payment information is true, accurate and complete before you click “PLACE ORDER”. An Order is successfully placed when you see your orders is on process containing your receipt from us. You are required to provide the delivery address in profile the Platform to display the food joints available in your delivery area. Once you select a food joints, you will be taken to that food joint’s menu page for you to select and add your Goods to the tray.\n\t\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "w-full" }, [
+        _vm._v("\n\t\t\t\t\t\t\t\t4.6 Subscription Fees\n\n\t\t\t\t\t\t\t")
+      ]),
+      _c("br"),
+      _vm._v(
+        "\n\n\t\t\t\t\t\t\tThe administrator’s profit will be automatically computed from a 3% subscription of the local food joint’s profit. Upon signing up, the entire plan value will be immediately charged to the profit of local food joints' accounts once they start having profits or transactions. The 3% subscription will be started or processed automatically when they register their account. This will be gathered first in a face-to-face meeting between the client and the system administrator to make sure the system they use can be trusted in their business.\n\n\t\t\t\t\t\t\t"
       ),
       _c("br"),
       _c("br"),
@@ -73762,6 +73931,180 @@ var render = function() {
                     on: {
                       click: function($event) {
                         return _vm.confirmTime()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        SAVE\n                    "
+                    )
+                  ]
+                )
+              ])
+            ]),
+        _vm._v(" "),
+        !_vm.isMobile
+          ? _c("div", { staticClass: "w-full inline-flex ml-5 mt-10" }, [
+              _c("div", { staticClass: "pr-2" }, [
+                _c("label", { staticClass: "font-bold" }, [
+                  _vm._v("Public Key:")
+                ]),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.paymongo.pk,
+                      expression: "paymongo.pk"
+                    }
+                  ],
+                  staticClass: "p-2",
+                  staticStyle: { border: "1px solid #E4B934" },
+                  attrs: { type: "text", required: "" },
+                  domProps: { value: _vm.paymongo.pk },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.paymongo, "pk", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "pr-3" }, [
+                _c("label", { staticClass: "font-bold" }, [
+                  _vm._v("Secret Key:")
+                ]),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.paymongo.sk,
+                      expression: "paymongo.sk"
+                    }
+                  ],
+                  staticClass: "p-2",
+                  staticStyle: { border: "1px solid #E4B934" },
+                  attrs: { type: "text", required: "" },
+                  domProps: { value: _vm.paymongo.sk },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.paymongo, "sk", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "text-center pt-3 pb-2 mt-12",
+                    staticStyle: { background: "#E4B934", width: "150px" },
+                    on: {
+                      click: function($event) {
+                        return _vm.savePaymongo()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        SAVE\n                    "
+                    )
+                  ]
+                )
+              ])
+            ])
+          : _c("div", { staticClass: "w-full flex flex-col md:ml-5 mt-10" }, [
+              _c(
+                "div",
+                { staticClass: "flex flex-row items-center justify-center" },
+                [
+                  _c("div", { staticClass: "pr-2" }, [
+                    _c("label", { staticClass: "font-bold" }, [
+                      _vm._v("Public Key:")
+                    ]),
+                    _c("br"),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.paymongo.pk,
+                          expression: "paymongo.pk"
+                        }
+                      ],
+                      staticClass: "p-2",
+                      staticStyle: { border: "1px solid #E4B934" },
+                      attrs: { type: "text", required: "" },
+                      domProps: { value: _vm.paymongo.pk },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.paymongo, "pk", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "md:pr-3" }, [
+                    _c("label", { staticClass: "font-bold" }, [
+                      _vm._v("Secret Key:")
+                    ]),
+                    _c("br"),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.paymongo.sk,
+                          expression: "paymongo.sk"
+                        }
+                      ],
+                      staticClass: "p-2",
+                      staticStyle: { border: "1px solid #E4B934" },
+                      attrs: { type: "text", required: "" },
+                      domProps: { value: _vm.paymongo.sk },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.paymongo, "sk", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex items-center justify-center" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "text-center pt-3 pb-2 mt-12",
+                    staticStyle: { background: "#E4B934", width: "150px" },
+                    on: {
+                      click: function($event) {
+                        return _vm.savePaymongo()
                       }
                     }
                   },
@@ -75170,9 +75513,14 @@ var render = function() {
                                   "w-full text-center font-bold text-xl mt-2 mb-5 mx-4"
                               },
                               [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(_vm.user.name)
+                                _c(
+                                  "span",
+                                  {
+                                    staticStyle: {
+                                      "text-transform": "capitalize"
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.user.name))]
                                 ),
                                 _c("Toggle", {
                                   staticClass: "ml-5",

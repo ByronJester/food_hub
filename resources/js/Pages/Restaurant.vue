@@ -114,6 +114,57 @@
                 
             </div>
 
+            <div class="w-full inline-flex ml-5 mt-10" v-if="!isMobile">
+                <div class="pr-2">
+                    <label class="font-bold">Public Key:</label><br><br>
+
+                    <input type="text" required style="border: 1px solid #E4B934" class="p-2" v-model="paymongo.pk">
+                </div>
+
+                <div class="pr-3">
+                    <label class="font-bold">Secret Key:</label><br><br>
+
+                    <input type="text" required style="border: 1px solid #E4B934" class="p-2" v-model="paymongo.sk">
+                </div>
+
+                <div>
+                    <button style="background: #E4B934; width: 150px" class="text-center pt-3 pb-2 mt-12"
+                        @click="savePaymongo()"
+                    >
+                        SAVE
+                    </button>
+                </div>
+                
+            </div>
+
+            <div class="w-full flex flex-col md:ml-5 mt-10" v-else>
+
+                <div class="flex flex-row items-center justify-center">
+                    <div class="pr-2">
+                        <label class="font-bold">Public Key:</label><br><br>
+
+                        <input type="text" required style="border: 1px solid #E4B934" class="p-2" v-model="paymongo.pk">
+                    </div>
+
+                    <div class="md:pr-3">
+                        <label class="font-bold">Secret Key:</label><br><br>
+
+                        <input type="text" required style="border: 1px solid #E4B934" class="p-2" v-model="paymongo.sk">
+                    </div>
+                </div>
+                
+
+                <div class="flex items-center justify-center">
+                    <button style="background: #E4B934; width: 150px" class="text-center pt-3 pb-2 mt-12"
+                        @click="savePaymongo()"
+                    >
+                        SAVE
+                    </button>
+                </div>
+                
+            </div>
+
+
             <div class="w-full my-20 px-5">
                 <div class="flex justify-center items-center"
                     :class="{'grid' : !isMobile, 'grid-cols-5': !isMobile, 'gap-4': !isMobile, 'flex': isMobile, 'flex-col': isMobile}"
@@ -361,6 +412,11 @@ export default {
                 opening_time: null,
                 closing_time: null
             },
+            paymongo: {
+                id: null,
+                pk: null,
+                sk: null
+            }
         }
     },
 
@@ -380,6 +436,10 @@ export default {
 
         this.formTime.opening_time = this.restaurant.opening_time
         this.formTime.closing_time = this.restaurant.closing_time
+
+        this.paymongo.id = this.restaurant.id
+        this.paymongo.pk = this.restaurant.pk
+        this.paymongo.sk = this.restaurant.sk
     },
 
     watch: {
@@ -474,6 +534,30 @@ export default {
             .then((proceed) => {
                 if (proceed) {
                     this.createProduct()
+                } else {
+                    
+                }
+            });
+        },
+        savePaymongo(){
+            swal({
+                title: 'Are you sure to link this paymongo account?',
+                icon: "warning", 
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((proceed) => {
+                if (proceed) {
+                    axios.post(this.$root.route + "/restaurants/link-paymongo", this.paymongo)
+                        .then(response => {
+                            if(response.data.status == 422) {
+                                this.saveError = response.data.errors 
+                            } else {
+                                alert("Successfully link paymongo account.");
+                                
+                                location.reload() 
+                            }
+                        })
                 } else {
                     
                 }

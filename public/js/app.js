@@ -5130,7 +5130,7 @@ __webpack_require__.r(__webpack_exports__);
       codOrders: [],
       gcashOrders: [],
       selected: null,
-      columns: ['Date', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'],
+      columns: ['Date/Time', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'],
       keys: [{
         label: 'date'
       }, {
@@ -6110,7 +6110,7 @@ __webpack_require__.r(__webpack_exports__);
       codOrders: [],
       gcashOrders: [],
       selected: null,
-      columns: ['Date', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'],
+      columns: ['Date/Time', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'],
       keys: [{
         label: 'date'
       }, {
@@ -72977,7 +72977,7 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "w-full mt-10" }, [
+        _c("div", { staticClass: "w-full mt-20" }, [
           _c(
             "select",
             {

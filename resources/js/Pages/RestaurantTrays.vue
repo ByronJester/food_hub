@@ -146,7 +146,7 @@ export default {
             gcashOrders: [],
             selected: null,
             columns: [
-                'Date', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'
+                'Date/Time', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'
             ],
             keys : [
                 {

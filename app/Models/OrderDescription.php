@@ -99,6 +99,10 @@ class OrderDescription extends Model
             return 'Bogus Order';
         }
 
+        if($status == 'received') {
+            return 'Order Received';
+        }
+
         return null;
     }
 }

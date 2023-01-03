@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <div class="w-full mt-10">
+            <div class="w-full mt-20">
                 <select v-model="payment_method" style="border: 1px solid black" class="text-center">
                     <option value="cod">COD</option>
                     <option value="gcash">GCASH</option>
@@ -106,7 +106,7 @@ export default {
             gcashOrders: [],
             selected: null,
             columns: [
-                'Date', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'
+                'Date/Time', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'
             ],
             keys : [
                 {

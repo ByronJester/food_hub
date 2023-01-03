@@ -67129,7 +67129,8 @@ var render = function() {
                       "--upercase":
                         k.label == "name" ||
                         k.label == "address" ||
-                        k.label == "food_joint"
+                        k.label == "food_joint" ||
+                        k.label == "customer_name"
                     }
                   },
                   [_vm._v(_vm._s(_vm.rows[index][k.label]))]
@@ -69744,7 +69745,7 @@ var render = function() {
                     {
                       staticClass: "description-content flex flex-col",
                       staticStyle: { border: "2px solid #E4B934" },
-                      style: { width: _vm.isMobile ? "90%" : "35%" }
+                      style: { width: _vm.isMobile ? "90%" : "40%" }
                     },
                     [
                       _c("div", { staticClass: "w-full" }, [
@@ -69782,7 +69783,7 @@ var render = function() {
                               _c("img", {
                                 staticClass: "w-full p-4",
                                 staticStyle: {
-                                  height: "300px",
+                                  height: "400px",
                                   border: "2px solid #E4B934"
                                 },
                                 attrs: { src: _vm.productImage }
@@ -69984,7 +69985,10 @@ var render = function() {
                                                   _vm._v(
                                                     "\n\t\t\t\t\t\t\t\t\t\t\t\t₱ " +
                                                       _vm._s(
-                                                        _vm.orderProduct.amount
+                                                        parseFloat(
+                                                          _vm.orderProduct
+                                                            .amount
+                                                        ).toFixed(2)
                                                       ) +
                                                       "\n\t\t\t\t\t\t\t\t\t\t\t"
                                                   )
@@ -71760,7 +71764,7 @@ var render = function() {
                     {
                       staticClass: "description-content flex flex-col",
                       staticStyle: { border: "2px solid #E4B934" },
-                      style: { width: _vm.isMobile ? "90%" : "35%" }
+                      style: { width: _vm.isMobile ? "90%" : "40%" }
                     },
                     [
                       _c("div", { staticClass: "w-full" }, [
@@ -71798,7 +71802,7 @@ var render = function() {
                               _c("img", {
                                 staticClass: "w-full p-4",
                                 staticStyle: {
-                                  height: "300px",
+                                  height: "400px",
                                   border: "2px solid #E4B934"
                                 },
                                 attrs: { src: _vm.productImage }
@@ -73727,7 +73731,7 @@ var render = function() {
               {
                 staticClass: "description-content flex flex-col",
                 staticStyle: { border: "2px solid #E4B934" },
-                style: { width: _vm.isMobile ? "90%" : "35%" }
+                style: { width: _vm.isMobile ? "90%" : "40%" }
               },
               [
                 _c("div", { staticClass: "w-full" }, [
@@ -73765,7 +73769,7 @@ var render = function() {
                         _c("img", {
                           staticClass: "w-full p-4",
                           staticStyle: {
-                            height: "300px",
+                            height: "400px",
                             border: "2px solid #E4B934"
                           },
                           attrs: { src: _vm.productImage }

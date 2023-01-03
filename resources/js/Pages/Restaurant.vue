@@ -300,7 +300,7 @@
             </div>
 
             <div id="descriptionModal" class="descriptionModal">
-                <div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '35%'}"> 
+                <div class="description-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width': isMobile ? '90%': '40%'}"> 
                     <div class="w-full">
                         <span class="text-4xl font-bold">
                             {{productName}}
@@ -317,7 +317,7 @@
                         <div class="w-full flex flex-col justify-center items-center">
                             <div class="w-full">
                                 <img class="w-full p-4" :src="productImage"
-                                    style="height: 300px; border: 2px solid #E4B934"
+                                    style="height: 400px; border: 2px solid #E4B934"
                                 />
                             </div>
 

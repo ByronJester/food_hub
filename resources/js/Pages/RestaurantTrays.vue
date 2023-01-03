@@ -172,7 +172,7 @@ export default {
                 },
                 {
                     label: 'shipping_fee',
-                },
+                }, 
                 {
                     label: 'total',
                 },

@@ -334,12 +334,17 @@ class OrderController extends Controller
             } else if($request->status == 'to_process') {
                 $message = 'Your order is preparing.';
             } else {
-                $message = 'Your order arrived at your location.';
+                if($request->status == 'to_receive') {
+                    $message = 'Your order arrived at your location.';
+                }
+                
             }
         }
 
-        $sms = $this->sendSms($user->phone, $message);
- 
+        if(!!$message) {
+            $sms = $this->sendSms($user->phone, $message);
+        }
+    
         return response()->json(['status' => 200, 'sms' => $sms], 200); 
     }
 

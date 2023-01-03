@@ -13,7 +13,7 @@
                 :class="{'--active__color': !!selected && selected.id == l.id }"
                 @click="selectItem(l)"
             >
-                <span class="--text" :class="{'--upercase': k.label == 'name' || k.label == 'address' || k.label == 'food_joint'}">{{ rows[index][k.label] }}</span> 
+                <span class="--text" :class="{'--upercase': k.label == 'name' || k.label == 'address' || k.label == 'food_joint' || k.label == 'customer_name'}">{{ rows[index][k.label] }}</span> 
             </td>
         </tr>
 

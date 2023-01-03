@@ -99,14 +99,14 @@
                     <div class="w-full flex flex-col mt-4">
                         <div class="px-5 py-3">
                         <label for="name">Name:</label><br>
-                        <input type="text" class="--input py-1" v-model="form.name">
+                        <input type="text" class="--input py-1" v-model="form.name" style="text-transform: capitalize;">
                         <span class="text-xs text-red-500">{{validationError('name', saveError)}} </span>
                     </div>
 
                     <div class="px-5 py-3">
                         <label for="name">Contact:</label><br>
                         <input type="text" class="--input py-1" v-model="form.phone">
-                        <span class="text-xs text-red-500">{{validationError('phone', saveError)}} </span>
+                        <span class="text-xs text-red-500">{{validationError('phone', saveError)}} </span> 
                     </div>
 
                     <div class="px-5 py-3">
@@ -117,7 +117,7 @@
 
                     <div class="px-5 py-3">
                         <label for="name">Address:</label><br>
-                        <input type="text" class="--input py-1" v-model="form.address">
+                        <input type="text" class="--input py-1" v-model="form.address" style="text-transform: capitalize;">
                         <span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
                     </div >
 

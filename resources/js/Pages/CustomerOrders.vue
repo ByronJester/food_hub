@@ -77,7 +77,7 @@
 
                         <div class="w-full">
                             <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
-                                History
+                                Order History
                             </p>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
 
                         <div class="w-full">
                             <p class="text-center font-bold" :class="{'--text': !isMobile, '--xs': isMobile}">
-                                Cancelled
+                                Cancelled Orders
                             </p>
                         </div>
                     </div>

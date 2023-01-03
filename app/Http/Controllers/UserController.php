@@ -401,7 +401,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => "required|string",
-            'phone' => "required|numeric",
+            'phone' => "required|numeric|unique:users,phone|digits:11", 
             'username' => "required|unique:users,username|min:6|regex:/(^[A-Za-z0-9]+$)+/", 
             'address' => "required"
         ]);

@@ -4289,6 +4289,261 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -72013,12 +72268,7 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "w-full mt-10" }, [
-                      _c("iframe", {
-                        staticStyle: { width: "100%", height: "700px" },
-                        attrs: { src: "/images/" + "tac.pdf" }
-                      })
-                    ])
+                    _vm._m(3)
                   ]
                 )
               ]
@@ -72061,6 +72311,228 @@ var staticRenderFns = [
     return _c("div", { staticClass: "w-full" }, [
       _c("span", { staticClass: "text-lg font-bold" }, [
         _vm._v("\n\t\t\t\t\t\t\tVerification Code\n\t\t\t\t\t\t")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full mt-10" }, [
+      _c("div", { staticClass: "w-full" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\tTerms And Conditions\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tThese Terms and Conditions (“Terms”) govern your use of the websites provided by \n\t\t\t\t\t\t\t\t\tFood Hub (or referred to as “us”) (collectively the “website”). Please read these Terms \n\t\t\t\t\t\t\t\t\tcarefully. By accessing and using the website, you agree that you have read, \n\t\t\t\t\t\t\t\t\tunderstood, and accepted the Terms including any additional terms and conditions and \n\t\t\t\t\t\t\t\t\tany policies referenced herein, available on the website. If you do not agree to or fall \n\t\t\t\t\t\t\t\t\twithin the Terms, please do not use the website. The website may be used by (i) natural \n\t\t\t\t\t\t\t\t\tpersons who have (ii) corporate legal entities, e.g local food joints. Where applicable, \n\t\t\t\t\t\t\t\t\tthese Terms shall be subject to country provisions as set out herein. Food Hub reserves \n\t\t\t\t\t\t\t\t\tthe right to change or modify these Terms (including our policies which are incorporated \n\t\t\t\t\t\t\t\t\tinto these Terms) at any time. You are strongly recommended to read these Terms \n\t\t\t\t\t\t\t\t\tregularly. You will be deemed to have agreed to the amended Terms by your continued \n\t\t\t\t\t\t\t\t\tuse of the website following the date on which the amended Terms are posted.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\t1 FoodHub\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t1.1 What we do Through our website, Food Hub links you to the food joints (“Food \n\t\t\t\t\t\t\t\t\tJoints”) for you to order a variety of goods. When you place an order for Goods from our \n\t\t\t\t\t\t\t\t\tFood Joints (“Order”), Food Hub acts as an agent on behalf of that Vendor to facilitate, \n\t\t\t\t\t\t\t\t\tprocess, and conclude the order. Food Joints may be owned and operated by thirdparty Food Joints. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t1.2 How to contact us For customer support, you may reach out to us via email at foodhub185@gmail.com.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t2 Terms and Condition for Local Food Joints Use of the website and food hub Account (Owner and Customer)\n\t\t\t\t\t\t\t\t"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t2.1 You will need to register food hub (“User Account”) for you to use the Platform. \n\t\t\t\t\t\t\t\t\tWhen you register for a food hub Account, we will ask you to provide your personal \n\t\t\t\t\t\t\t\t\tinformation including your Name, Username, Contact Number, Password, ID Picture, \n\t\t\t\t\t\t\t\t\tRestaurant Banner, and Restaurant Display Picture (hereinafter collectively referred as \n\t\t\t\t\t\t\t\t\t“User’s Details”). We reserve the right to request further information or documentation \n\t\t\t\t\t\t\t\t\tfrom you to comply with our legal obligations. Your unique password should not be \n\t\t\t\t\t\t\t\t\tshared with anyone, and you agree to keep it secret at all times. You are solely \n\t\t\t\t\t\t\t\t\tresponsible for keeping your password safe. Save for cases of fraud or abuse which are \n\t\t\t\t\t\t\t\t\tnot your fault, you accept that all Orders placed under your food hub Account are your \n\t\t\t\t\t\t\t\t\tsole responsibility. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t2.2 If you wish to delete your Account, please send us an email requesting the same. \n\t\t\t\t\t\t\t\t\tWe may restrict, suspend, or terminate your Food Hub Account and/or use of the \n\t\t\t\t\t\t\t\t\tPlatforms, if we reasonably believe that: "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t2.3 Where you are suspected or discovered to have been involved in any activity or \n\t\t\t\t\t\t\t\t\tconduct that is in breach of these Terms, our policies and guidelines, or involved in \n\t\t\t\t\t\t\t\t\tactivity or conduct which we deem in our sole discretion to be an abuse of the \n\t\t\t\t\t\t\t\t\tPlatforms.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t3 Intellectual Property\n\t\t\t\t\t\t\t\t"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tAll trademarks, logos, images, and service marks, including these Terms as displayed \n\t\t\t\t\t\t\t\t\ton the Platforms or in our marketing material, whether verified or non-verified, are the \n\t\t\t\t\t\t\t\t\tintellectual property of food hub and/or third parties who have authorized us to use their \n\t\t\t\t\t\t\t\t\ttrademarks, logos, images, and service marks (collectively the “Trademarks”). You may \n\t\t\t\t\t\t\t\t\tnot use, copy, reproduce, republish, upload, post, transmit, distribute, or modify these \n\t\t\t\t\t\t\t\t\tTrademarks in any way without our prior express written consent. The use of food hub’s \n\t\t\t\t\t\t\t\t\ttrademarks on any other website not approved by us is strictly prohibited. Food hub will \n\t\t\t\t\t\t\t\t\taggressively fully enforce its intellectual property rights of the law, including criminal \n\t\t\t\t\t\t\t\t\tprosecution. Food hub neither warrants nor represents that your use of materials \n\t\t\t\t\t\t\t\t\tdisplayed on the Platforms will not infringe rights of third parties not owned by or \n\t\t\t\t\t\t\t\t\taffiliated with food hub. Use of any materials on the Platforms is at your own risk.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\t4 Orders\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t4.1 When you place an Order with food hub, food joints will confirm your order \n\t\t\t\t\t\t\t\t\tcontaining the Order receipt. Where applicable, Orders will include delivery fees. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\n\t\t\t\t\t\t\t\t\t4.2 Special Instructions – food hub and the food joints (as the case may be) reasonably \n\t\t\t\t\t\t\t\t\tendeavor to comply with your special instructions for an Order. However, in some cases \n\t\t\t\t\t\t\t\t\twhere this is not feasible, possible, or commercially reasonable, food hub and/or the \n\t\t\t\t\t\t\t\t\tfood joints reserve the right to proceed to prepare the Order in accordance with \n\t\t\t\t\t\t\t\t\tstandard operating procedures. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\n\t\t\t\t\t\t\t\t\t4.3 Allergens – food hub is not obligated to provide ingredient information or allergen \n\t\t\t\t\t\t\t\t\tinformation on the Platforms. Further, food hub does not guarantee that the Goods sold \n\t\t\t\t\t\t\t\t\tby food joints are free of allergens."
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\n\t\t\t\t\t\t\t\t\t4.4 Please note that your Order may be subject to additional terms and conditions \n\t\t\t\t\t\t\t\t\tprovided by the food joints. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\n\t\t\t\t\t\t\t\t\t4.5 Prior to placing the Order to complete an Order, please follow the onscreen \n\t\t\t\t\t\t\t\t\tinstructions after clicking ‘Checkout’. You may be required to provide additional details \n\t\t\t\t\t\t\t\t\tfor us to complete your order. You are required to review and confirm that all the \n\t\t\t\t\t\t\t\t\tinformation you provide, including the amounts, delivery details, payment information is \n\t\t\t\t\t\t\t\t\ttrue, accurate and complete before you click “Confirm”. An Order is successfully placed \n\t\t\t\t\t\t\t\t\twhen you see your orders is on pending containing your receipt from us. You are \n\t\t\t\t\t\t\t\t\trequired to provide the delivery address in check out the Platform to display the food \n\t\t\t\t\t\t\t\t\tjoints available in your delivery area. Once you select a food joints, you will be taken to \n\t\t\t\t\t\t\t\t\tthat food joint’s menu page for you to select and add your Goods to the tray. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\n\t\t\t\t\t\t\t\t\t4.6 Subscription Fees\n\t\t\t\t\t\t\t\t\tThe administrator’s profit will be automatically computed from a 3% subscription of the \n\t\t\t\t\t\t\t\t\tlocal food joint’s profit. Upon signing up, the entire plan value will be immediately \n\t\t\t\t\t\t\t\t\tcharged to the profit of local food joints' accounts once they start having profits or \n\t\t\t\t\t\t\t\t\ttransactions. The 3% subscription will be started or processed automatically when they \n\t\t\t\t\t\t\t\t\tregister their account. This will be gathered first in a face-to-face meeting between the \n\t\t\t\t\t\t\t\t\tclient and the system administrator to make sure the system they use can be trusted in \n\t\t\t\t\t\t\t\t\ttheir business. We reserve the right to adjust the subscription fee at any time. Any price \n\t\t\t\t\t\t\t\t\tadjustment to your Food Hub subscription will be communicated to you with reasonable \n\t\t\t\t\t\t\t\t\tnotice in advance through posting on our website, e-mail or any other way of \n\t\t\t\t\t\t\t\t\tcommunication we deem appropriate, whereby price adjustments will take effect on the \n\t\t\t\t\t\t\t\t\tnext renewal date, if not communicated otherwise. \n\t\t\t\t\t\t\t\t\tI. Cancellation of Subscription The subscription cancellation will be handled in a face-to-face meeting between their client and the system administration. This will identify the \n\t\t\t\t\t\t\t\t\tlocal food joints if they want to end their subscription already and talk about what they \n\t\t\t\t\t\t\t\t\tplan to do. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\n\t\t\t\t\t\t\t\t\t4.7 Cancelling an Order Please contact the food joints that you have the ordered to \n\t\t\t\t\t\t\t\t\tfeature if you wish to cancel your Order after it has been placed. You have the right to \n\t\t\t\t\t\t\t\t\tcancel your Order provided a food joint has not yet accepted your Order. And the food \n\t\t\t\t\t\t\t\t\tjoints have the right to cancel your order if the product has not available. (I) G-cash \n\t\t\t\t\t\t\t\t\tPayment Orders / Cash-on-Delivery Orders (“COD”) Our Food Hub has no refund for \n\t\t\t\t\t\t\t\t\tyour order if a food joint has not accepted your Order. Should you decide to order \n\t\t\t\t\t\t\t\t\tanother product if your wants have not available you understand that no refunds will be \n\t\t\t\t\t\t\t\t\tissued to you, and you forfeit the delivery of your cancelled order.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\t5 Prices\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t5.1 Prices quoted on the Platform shall be displayed in the applicable country’s national \n\t\t\t\t\t\t\t\t\tcurrency. Prices and offers on the Platforms may vary from the prices and you accept \n\t\t\t\t\t\t\t\t\tthe offers offered by our food joints."
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t5.2 The way we display the prices of our goods may Cary depending on the food joint \n\t\t\t\t\t\t\t\t\tand the prices reflected on our platforms may: "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t5.3 Delivery feeds are chargeable on every order. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t5.4 You can only choose to pay an order using cash on delivery (COD) or G-cash \n\t\t\t\t\t\t\t\t\tpayment methods offered on the platforms.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\t6 Delivery areas\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tYou understand that our food joint offers their products in specific delivery areas and \n\t\t\t\t\t\t\t\t\tour food joints vary from delivery area to delivery area. By entering your address on the \n\t\t\t\t\t\t\t\t\tplatforms, you will see the food joints that we make available to you at that time.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t7 Food Joints Liability\n\t\t\t\t\t\t\t\t"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tFood joints are responsible for the preparation, condition, and quality of Goods. In \n\t\t\t\t\t\t\t\t\tcases of food joints Delivery, food joints are responsible for delivery of the Goods and/or \n\t\t\t\t\t\t\t\t\tOrders. But food hub is not responsible in deliver. Food hub shall not be liable for any \n\t\t\t\t\t\t\t\t\tloss or damage arising from your contractual relationship with the Vendor.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t8 Personal Data (Personal Information) Protection\n\t\t\t\t\t\t\t\t"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tYou agree and consent to food hub and any of its affiliate companies collecting, using, \n\t\t\t\t\t\t\t\t\tprocessing, and disclosing your Personal Data in accordance with these Terms and as \n\t\t\t\t\t\t\t\t\tfurther described in our Privacy Policy. "
+          ),
+          _c("br"),
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tl. The system required to get the API key of the local food joints by knowing their public \n\t\t\t\t\t\t\t\t\tkey and secret key from the PayMongo account in order to process the online payment \n\t\t\t\t\t\t\t\t\tmethod G-Cash.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\t9 Deletion\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tFood hub has the right to suspend or delete your Food hub Account and access to the \n\t\t\t\t\t\t\t\t\tPlatforms with immediate effect for any reason, including, without limitation, if Food hub, \n\t\t\t\t\t\t\t\t\tin its sole discretion, considers your use to be unacceptable, or in case of \n\t\t\t\t\t\t\t\t\tnoncompliance or serious suspicion of non-compliance with the applicable laws, \n\t\t\t\t\t\t\t\t\tincluding, but not limited to, anti-money laundering and terrorist financing laws and \n\t\t\t\t\t\t\t\t\tregulations. Food hub may, but shall be under no obligation to, provide you a warning \n\t\t\t\t\t\t\t\t\tprior to termination of your use of the Platforms.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\t10 Amendments\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tFood hub may amend these Terms at any time in its sole discretion. The amended \n\t\t\t\t\t\t\t\t\tTerms shall be effective immediately upon posting and you agree to the new Terms by \n\t\t\t\t\t\t\t\t\tcontinued use of the Platforms. It is your responsibility to check the Terms regularly. If \n\t\t\t\t\t\t\t\t\tyou do not agree with the amended Terms, whether in whole or in part, you must stop \n\t\t\t\t\t\t\t\t\tusing the Platforms immediately.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\t11 Severability\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tIf any provision of these Terms is found to be invalid by any court having competent \n\t\t\t\t\t\t\t\t\tjurisdiction, the invalidity of such provision shall not affect the validity of the remaining \n\t\t\t\t\t\t\t\t\tprovisions of these Terms which shall remain in full force and effect. No waiver of any \n\t\t\t\t\t\t\t\t\tprovision in these Terms shall be deemed a further or continuing waiver of such \n\t\t\t\t\t\t\t\t\tprovision or any other provision.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full mt-5" }, [
+        _c("p", { staticClass: "w-full font-bold text-2xl" }, [
+          _vm._v("\n\t\t\t\t\t\t\t\t\t12 Prevailing Language\n\t\t\t\t\t\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "w-full text-xl" }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\tIn the event of a dispute as to the Terms, the English version shall prevail. The English \n\t\t\t\t\t\t\t\t\tlanguage version of these Terms shall control in all respects and shall prevail in case of \n\t\t\t\t\t\t\t\t\tany inconsistencies with translated versions.\n\t\t\t\t\t\t\t\t"
+          )
+        ])
       ])
     ])
   }
@@ -72488,11 +72960,18 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "w-full text-center text-3xl" }, [
-                  _vm._v(
-                    "\n                DAILY SALES REPORT FOR THIS MONTH\n            "
-                  )
-                ])
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full text-center text-3xl",
+                    staticStyle: { "margin-top": "-5vw" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                DAILY SALES REPORT FOR THIS MONTH\n            "
+                    )
+                  ]
+                )
               ],
               1
             )

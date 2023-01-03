@@ -433,7 +433,262 @@
 						</div>
 
 						<div class="w-full mt-10">
-							<iframe :src="'/images/' + 'tac.pdf'" style="width: 100%; height: 700px"></iframe>
+							<!-- <iframe :src="'/images/' + 'tac.pdf'" style="width: 100%; height: 700px"></iframe>
+							 -->
+							
+							<div class="w-full">
+								<p class="w-full font-bold text-2xl">
+									Terms And Conditions
+								</p>
+
+								<p class="w-full text-xl">
+									These Terms and Conditions (“Terms”) govern your use of the websites provided by 
+									Food Hub (or referred to as “us”) (collectively the “website”). Please read these Terms 
+									carefully. By accessing and using the website, you agree that you have read, 
+									understood, and accepted the Terms including any additional terms and conditions and 
+									any policies referenced herein, available on the website. If you do not agree to or fall 
+									within the Terms, please do not use the website. The website may be used by (i) natural 
+									persons who have (ii) corporate legal entities, e.g local food joints. Where applicable, 
+									these Terms shall be subject to country provisions as set out herein. Food Hub reserves 
+									the right to change or modify these Terms (including our policies which are incorporated 
+									into these Terms) at any time. You are strongly recommended to read these Terms 
+									regularly. You will be deemed to have agreed to the amended Terms by your continued 
+									use of the website following the date on which the amended Terms are posted.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									1 FoodHub
+								</p>
+
+								<p class="w-full text-xl">
+									1.1 What we do Through our website, Food Hub links you to the food joints (“Food 
+									Joints”) for you to order a variety of goods. When you place an order for Goods from our 
+									Food Joints (“Order”), Food Hub acts as an agent on behalf of that Vendor to facilitate, 
+									process, and conclude the order. Food Joints may be owned and operated by thirdparty Food Joints. <br>
+									1.2 How to contact us For customer support, you may reach out to us via email at foodhub185@gmail.com.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									2 Terms and Condition for Local Food Joints Use of the website and food hub Account (Owner and Customer)
+								</p>
+
+								<p class="w-full text-xl">
+									2.1 You will need to register food hub (“User Account”) for you to use the Platform. 
+									When you register for a food hub Account, we will ask you to provide your personal 
+									information including your Name, Username, Contact Number, Password, ID Picture, 
+									Restaurant Banner, and Restaurant Display Picture (hereinafter collectively referred as 
+									“User’s Details”). We reserve the right to request further information or documentation 
+									from you to comply with our legal obligations. Your unique password should not be 
+									shared with anyone, and you agree to keep it secret at all times. You are solely 
+									responsible for keeping your password safe. Save for cases of fraud or abuse which are 
+									not your fault, you accept that all Orders placed under your food hub Account are your 
+									sole responsibility. <br>
+									2.2 If you wish to delete your Account, please send us an email requesting the same. 
+									We may restrict, suspend, or terminate your Food Hub Account and/or use of the 
+									Platforms, if we reasonably believe that: <br>
+									2.3 Where you are suspected or discovered to have been involved in any activity or 
+									conduct that is in breach of these Terms, our policies and guidelines, or involved in 
+									activity or conduct which we deem in our sole discretion to be an abuse of the 
+									Platforms.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									3 Intellectual Property
+								</p>
+
+								<p class="w-full text-xl">
+									All trademarks, logos, images, and service marks, including these Terms as displayed 
+									on the Platforms or in our marketing material, whether verified or non-verified, are the 
+									intellectual property of food hub and/or third parties who have authorized us to use their 
+									trademarks, logos, images, and service marks (collectively the “Trademarks”). You may 
+									not use, copy, reproduce, republish, upload, post, transmit, distribute, or modify these 
+									Trademarks in any way without our prior express written consent. The use of food hub’s 
+									trademarks on any other website not approved by us is strictly prohibited. Food hub will 
+									aggressively fully enforce its intellectual property rights of the law, including criminal 
+									prosecution. Food hub neither warrants nor represents that your use of materials 
+									displayed on the Platforms will not infringe rights of third parties not owned by or 
+									affiliated with food hub. Use of any materials on the Platforms is at your own risk.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									4 Orders
+								</p>
+
+								<p class="w-full text-xl">
+									4.1 When you place an Order with food hub, food joints will confirm your order 
+									containing the Order receipt. Where applicable, Orders will include delivery fees. <br>
+
+									4.2 Special Instructions – food hub and the food joints (as the case may be) reasonably 
+									endeavor to comply with your special instructions for an Order. However, in some cases 
+									where this is not feasible, possible, or commercially reasonable, food hub and/or the 
+									food joints reserve the right to proceed to prepare the Order in accordance with 
+									standard operating procedures. <br>
+
+									4.3 Allergens – food hub is not obligated to provide ingredient information or allergen 
+									information on the Platforms. Further, food hub does not guarantee that the Goods sold 
+									by food joints are free of allergens.<br>
+
+									4.4 Please note that your Order may be subject to additional terms and conditions 
+									provided by the food joints. <br>
+
+									4.5 Prior to placing the Order to complete an Order, please follow the onscreen 
+									instructions after clicking ‘Checkout’. You may be required to provide additional details 
+									for us to complete your order. You are required to review and confirm that all the 
+									information you provide, including the amounts, delivery details, payment information is 
+									true, accurate and complete before you click “Confirm”. An Order is successfully placed 
+									when you see your orders is on pending containing your receipt from us. You are 
+									required to provide the delivery address in check out the Platform to display the food 
+									joints available in your delivery area. Once you select a food joints, you will be taken to 
+									that food joint’s menu page for you to select and add your Goods to the tray. <br>
+
+									4.6 Subscription Fees
+									The administrator’s profit will be automatically computed from a 3% subscription of the 
+									local food joint’s profit. Upon signing up, the entire plan value will be immediately 
+									charged to the profit of local food joints' accounts once they start having profits or 
+									transactions. The 3% subscription will be started or processed automatically when they 
+									register their account. This will be gathered first in a face-to-face meeting between the 
+									client and the system administrator to make sure the system they use can be trusted in 
+									their business. We reserve the right to adjust the subscription fee at any time. Any price 
+									adjustment to your Food Hub subscription will be communicated to you with reasonable 
+									notice in advance through posting on our website, e-mail or any other way of 
+									communication we deem appropriate, whereby price adjustments will take effect on the 
+									next renewal date, if not communicated otherwise. 
+									I. Cancellation of Subscription The subscription cancellation will be handled in a face-to-face meeting between their client and the system administration. This will identify the 
+									local food joints if they want to end their subscription already and talk about what they 
+									plan to do. <br>
+
+									4.7 Cancelling an Order Please contact the food joints that you have the ordered to 
+									feature if you wish to cancel your Order after it has been placed. You have the right to 
+									cancel your Order provided a food joint has not yet accepted your Order. And the food 
+									joints have the right to cancel your order if the product has not available. (I) G-cash 
+									Payment Orders / Cash-on-Delivery Orders (“COD”) Our Food Hub has no refund for 
+									your order if a food joint has not accepted your Order. Should you decide to order 
+									another product if your wants have not available you understand that no refunds will be 
+									issued to you, and you forfeit the delivery of your cancelled order.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									5 Prices
+								</p>
+
+								<p class="w-full text-xl">
+									5.1 Prices quoted on the Platform shall be displayed in the applicable country’s national 
+									currency. Prices and offers on the Platforms may vary from the prices and you accept 
+									the offers offered by our food joints.<br>
+									5.2 The way we display the prices of our goods may Cary depending on the food joint 
+									and the prices reflected on our platforms may: <br>
+									5.3 Delivery feeds are chargeable on every order. <br>
+									5.4 You can only choose to pay an order using cash on delivery (COD) or G-cash 
+									payment methods offered on the platforms.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									6 Delivery areas
+								</p>
+
+								<p class="w-full text-xl">
+									You understand that our food joint offers their products in specific delivery areas and 
+									our food joints vary from delivery area to delivery area. By entering your address on the 
+									platforms, you will see the food joints that we make available to you at that time.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									7 Food Joints Liability
+								</p>
+
+								<p class="w-full text-xl">
+									Food joints are responsible for the preparation, condition, and quality of Goods. In 
+									cases of food joints Delivery, food joints are responsible for delivery of the Goods and/or 
+									Orders. But food hub is not responsible in deliver. Food hub shall not be liable for any 
+									loss or damage arising from your contractual relationship with the Vendor.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									8 Personal Data (Personal Information) Protection
+								</p>
+
+								<p class="w-full text-xl">
+									You agree and consent to food hub and any of its affiliate companies collecting, using, 
+									processing, and disclosing your Personal Data in accordance with these Terms and as 
+									further described in our Privacy Policy. <br>
+									l. The system required to get the API key of the local food joints by knowing their public 
+									key and secret key from the PayMongo account in order to process the online payment 
+									method G-Cash.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									9 Deletion
+								</p>
+
+								<p class="w-full text-xl">
+									Food hub has the right to suspend or delete your Food hub Account and access to the 
+									Platforms with immediate effect for any reason, including, without limitation, if Food hub, 
+									in its sole discretion, considers your use to be unacceptable, or in case of 
+									noncompliance or serious suspicion of non-compliance with the applicable laws, 
+									including, but not limited to, anti-money laundering and terrorist financing laws and 
+									regulations. Food hub may, but shall be under no obligation to, provide you a warning 
+									prior to termination of your use of the Platforms.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									10 Amendments
+								</p>
+
+								<p class="w-full text-xl">
+									Food hub may amend these Terms at any time in its sole discretion. The amended 
+									Terms shall be effective immediately upon posting and you agree to the new Terms by 
+									continued use of the Platforms. It is your responsibility to check the Terms regularly. If 
+									you do not agree with the amended Terms, whether in whole or in part, you must stop 
+									using the Platforms immediately.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									11 Severability
+								</p>
+
+								<p class="w-full text-xl">
+									If any provision of these Terms is found to be invalid by any court having competent 
+									jurisdiction, the invalidity of such provision shall not affect the validity of the remaining 
+									provisions of these Terms which shall remain in full force and effect. No waiver of any 
+									provision in these Terms shall be deemed a further or continuing waiver of such 
+									provision or any other provision.
+								</p>
+							</div>
+
+							<div class="w-full mt-5">
+								<p class="w-full font-bold text-2xl">
+									12 Prevailing Language
+								</p>
+
+								<p class="w-full text-xl">
+									In the event of a dispute as to the Terms, the English version shall prevail. The English 
+									language version of these Terms shall control in all respects and shall prevail in case of 
+									any inconsistencies with translated versions.
+								</p>
+							</div>
+
 						</div>
 					</div>
 				</div>

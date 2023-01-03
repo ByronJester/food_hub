@@ -15,7 +15,7 @@
                     <guideline :tooltip-y="true"></guideline>
                 </graph-line>
 
-                <div class="w-full text-center text-3xl">
+                <div class="w-full text-center text-3xl" style="margin-top: -5vw">
                     DAILY SALES REPORT FOR THIS MONTH
                 </div>
             </div>

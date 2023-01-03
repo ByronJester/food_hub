@@ -336,14 +336,14 @@ class OrderController extends Controller
             } else {
                 if($request->status == 'to_receive') {
                     $message = 'Your order arrived at your location.';
+                } else {
+                    $message = 'You are mark as a bogus buyer.';
                 }
                 
             }
         }
 
-        if(!!$message) {
-            $sms = $this->sendSms($user->phone, $message);
-        }
+        $sms = $this->sendSms($user->phone, $message);
     
         return response()->json(['status' => 200, 'sms' => $sms], 200); 
     }

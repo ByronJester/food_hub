@@ -219,7 +219,7 @@
                     </div>
 
                     <div class="w-full mt-5" v-for="(orders, restaurant) in groupOrders" :key="restaurant">
-                        <p class="text-md font-bold"> {{ restaurant }} </p>
+                        <p class="text-md font-bold" style="text-transform: capitalize;"> {{ restaurant }} </p>
 
                         <div class="flex flex-col px-5 py-2" v-for="order in orders" :key="order.id">
                             <div class="w-full flex flex-row" style="border-bottom: 1px solid #E4B934">

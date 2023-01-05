@@ -69062,9 +69062,14 @@ var render = function() {
                     "div",
                     { key: restaurant, staticClass: "w-full mt-5" },
                     [
-                      _c("p", { staticClass: "text-md font-bold" }, [
-                        _vm._v(" " + _vm._s(restaurant) + " ")
-                      ]),
+                      _c(
+                        "p",
+                        {
+                          staticClass: "text-md font-bold",
+                          staticStyle: { "text-transform": "capitalize" }
+                        },
+                        [_vm._v(" " + _vm._s(restaurant) + " ")]
+                      ),
                       _vm._v(" "),
                       _vm._l(orders, function(order) {
                         return _c(

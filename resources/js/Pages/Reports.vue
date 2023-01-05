@@ -131,7 +131,7 @@
                     <div class="w-full p-5 mt-2">
                         <table class="w-full">
                             <tr class="text-center">
-                                <th v-for="column in columns" :key="column" class="--th --mobile">
+                                <th v-for="column in columns" :key="column" class="--th">
                                     {{ column }}
                                 </th>
                             </tr>
@@ -140,15 +140,15 @@
                                 v-for="(l, index) in rows" :key="l.id"
                             >
                                 <td v-for="(k, i) in keys" :key="i" class="cursor-pointer --td">
-                                    <span v-if="k.label == 'amount' || k.label == 'shipping_fee' || k.label == 'total'" class="--mobile">
+                                    <span v-if="k.label == 'amount' || k.label == 'shipping_fee' || k.label == 'total'">
                                         ₱ {{ parseFloat(rows[index][k.label]).toFixed(2) }}
                                     </span>
 
-                                    <span v-else-if="k.label == 'payment_method'" class="--mobile">
+                                    <span v-else-if="k.label == 'payment_method'" >
                                         {{ rows[index][k.label].toUpperCase() }}
                                     </span>
 
-                                    <span v-else class="--mobile">{{ rows[index][k.label] }}</span>
+                                    <span v-else >{{ rows[index][k.label] }}</span>
                                 </td>
                             </tr>
 
@@ -443,6 +443,24 @@ th {
 
 .--mobile {
     font-size: calc(.1em + 1vw) !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .--td {
+        border: 1px solid black;
+        padding-top: 0px;
+        padding-bottom: 8px;
+        font-size: calc(.1em + 1vw);
+    }
+
+    .--th {
+        border: 1px solid black;
+        background: #E4B934;
+        color: black;
+        padding-top: 0px;
+        padding-bottom: 8px;
+        font-size: calc(.1em + 1vw);
+    }
 }
 
 </style>

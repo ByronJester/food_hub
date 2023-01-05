@@ -186,7 +186,7 @@
                 <p>CHECKOUT</p>
             </div>
 
-            <div id="checkoutModal" class="checkoutModal">
+            <div id="checkoutModal" class="checkoutModal overflow-y-scroll">
                 <!-- Modal content -->
                 <div class="checkout-content flex flex-col" style="border: 2px solid #E4B934" :style="{'width' : isMobile ? '85%' : '30%'}">
                     <div class="w-full">

@@ -47,7 +47,7 @@
                 <!-- <Table :columns="columns" :rows="rows" :keys="keys" :selected.sync="selected" class="w-full"/> -->
                 <table class="w-full">
                     <tr class="text-center">
-                        <th v-for="column in columns" :key="column">
+                        <th v-for="column in columns" :key="column" class="--text">
                             {{ column }}
                         </th>
                     </tr>
@@ -56,15 +56,15 @@
                         v-for="(l, index) in rows" :key="l.id"
                     >
                         <td v-for="(k, i) in keys" :key="i" class="cursor-pointer">
-                            <span v-if="k.label == 'amount' || k.label == 'shipping_fee' || k.label == 'total'">
+                            <span v-if="k.label == 'amount' || k.label == 'shipping_fee' || k.label == 'total'" class="--text">
                                 ₱ {{ parseFloat(rows[index][k.label]).toFixed(2) }}
                             </span>
 
-                            <span v-else-if="k.label == 'payment_method'">
+                            <span v-else-if="k.label == 'payment_method'" class="--text">
                                 {{ rows[index][k.label].toUpperCase() }}
                             </span>
 
-                            <span v-else>{{ rows[index][k.label] }}</span>
+                            <span v-else class="--text">{{ rows[index][k.label] }}</span>
                         </td>
                     </tr>
 
@@ -94,13 +94,13 @@
                             </div>
 
                             <div class="w-full text-center" >
-                                <p class="ml-5 font-bold" style="letter-spacing: 2px; font-size: 1vw">
+                                <p class="ml-5 font-bold" style="letter-spacing: 2px; font-size: 1vw; text-transform: capitalize;"> 
                                     {{ options.restaurant.restaurant_name }}
                                 </p>
                             </div>
 
                             <div class="w-full text-center">
-                                <p class="ml-5">
+                                <p class="ml-5" style="text-transform: capitalize;">
                                     {{ auth.address }}
                                 </p>
                             </div>
@@ -119,7 +119,7 @@
                     </div>
 
                     <div class="w-full mt-8 p-5">
-                        <p class="text-xs float-left">
+                        <p class="text-xs float-left" style="text-transform: capitalize;">
                             <span class="font-bold">Printed By:</span> {{ auth.name }}
                         </p>
 
@@ -131,7 +131,7 @@
                     <div class="w-full p-5 mt-2">
                         <table class="w-full">
                             <tr class="text-center">
-                                <th v-for="column in columns" :key="column" class="--th">
+                                <th v-for="column in columns" :key="column" class="--th --mobile">
                                     {{ column }}
                                 </th>
                             </tr>
@@ -140,15 +140,15 @@
                                 v-for="(l, index) in rows" :key="l.id"
                             >
                                 <td v-for="(k, i) in keys" :key="i" class="cursor-pointer --td">
-                                    <span v-if="k.label == 'amount' || k.label == 'shipping_fee' || k.label == 'total'">
+                                    <span v-if="k.label == 'amount' || k.label == 'shipping_fee' || k.label == 'total'" class="--mobile">
                                         ₱ {{ parseFloat(rows[index][k.label]).toFixed(2) }}
                                     </span>
 
-                                    <span v-else-if="k.label == 'payment_method'">
+                                    <span v-else-if="k.label == 'payment_method'" class="--mobile">
                                         {{ rows[index][k.label].toUpperCase() }}
                                     </span>
 
-                                    <span v-else>{{ rows[index][k.label] }}</span>
+                                    <span v-else class="--mobile">{{ rows[index][k.label] }}</span>
                                 </td>
                             </tr>
 
@@ -429,7 +429,7 @@ th {
     border: 1px solid black;
     padding-top: 0px;
     padding-bottom: 8px;
-    font-size: 10px;
+    font-size: 9px;
 }
 
 .--th {
@@ -438,6 +438,11 @@ th {
     color: black;
     padding-top: 0px;
     padding-bottom: 8px;
-    font-size: 10px;
+    font-size: 9px;
 }
+
+.--mobile {
+    font-size: calc(.1em + 1vw) !important;
+}
+
 </style>

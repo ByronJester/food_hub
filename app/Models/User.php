@@ -120,7 +120,7 @@ class User extends Authenticatable
             $count = OrderDescription::where('restaurant_id', $restaurant->id)->where('status', 'pending')->count();
         } else {
             if($this->role == 3) {
-                $count = Order::where('user_id', $this->id)->whereIn('status', ['oncart', 'pending', 'to_deliver', 'to_receive', 'receive'])->count();
+                $count = Order::where('user_id', $this->id)->whereIn('status', ['oncart', 'pending', 'to_process', 'to_deliver', 'to_receive', 'receive'])->count();
             }
         }
 

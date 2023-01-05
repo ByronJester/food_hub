@@ -33,7 +33,7 @@
             <div class="w-full mt-5">
                 <Table :columns="columns" :rows="rows" :keys="keys" :selected.sync="selected" :style="{opacity: selected ? '0.6' : '1'}" class="w-full"/>
 
-                <div id="orderModal" class="orderModal h-full">
+                <div id="orderModal" class="orderModal h-full overflow-y-scroll">
                     <!-- Modal content -->
                     <div class="order-content flex flex-col" style="border: 2px solid #E4B934" v-if="selected" :style="{'width': isMobile ? '90%': '30%'}">
                         
@@ -351,7 +351,7 @@ export default {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
-  top: 30%;
+  top: 12%;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */

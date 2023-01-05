@@ -190,7 +190,7 @@ export default {
         }
     },
 
-    created(){
+    created(){ 
         this.codOrders = this.options.orders.filter( y => {
             return y.payment_method == 'cod'
         }).map( x => {

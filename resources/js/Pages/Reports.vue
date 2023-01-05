@@ -22,6 +22,7 @@
 
             <div class="w-full mt-20">
                 <select v-model="payment_method" style="border: 1px solid black" class="text-center">
+                    <option value="all">ALL</option>
                     <option value="cod">COD</option>
                     <option value="gcash">GCASH</option>
                 </select>
@@ -43,28 +44,94 @@
             
 
             <div class="w-full mt-5">
-                <Table :columns="columns" :rows="rows" :keys="keys" :selected.sync="selected" class="w-full"/>
+                <!-- <Table :columns="columns" :rows="rows" :keys="keys" :selected.sync="selected" class="w-full"/> -->
+                <table class="w-full">
+                    <tr class="text-center">
+                        <th v-for="column in columns" :key="column">
+                            {{ column }}
+                        </th>
+                    </tr>
+
+                    <tr class="text-center" i
+                        v-for="(l, index) in rows" :key="l.id"
+                    >
+                        <td v-for="(k, i) in keys" :key="i" class="cursor-pointer">
+                            <span v-if="k.label == 'amount' || k.label == 'shipping_fee' || k.label == 'total'">
+                                ₱ {{ parseFloat(rows[index][k.label]).toFixed(2) }}
+                            </span>
+
+                            <span v-else-if="k.label == 'payment_method'">
+                                {{ rows[index][k.label].toUpperCase() }}
+                            </span>
+
+                            <span v-else>{{ rows[index][k.label] }}</span>
+                        </td>
+                    </tr>
+
+                </table>
             </div>
 
             <VueHtml2pdf
                 :show-layout="false"
                 :float-layout="true"
-                :enable-download="true"
+                :enable-download="false"
                 :preview-modal="true"
-                :paginate-elements-by-height="1000"
+                :paginate-elements-by-height="2000"
                 :filename="Math.random().toString(36).slice(2)"
                 :pdf-quality="2"
                 :manual-pagination="false"
                 pdf-format="a4"
-                pdf-orientation="landscape"
+                pdf-orientation="portrait"
                 pdf-content-width="100%"
                 ref="report"
             >
                 <section slot="pdf-content">
-                    <div class="w-full p-5">
+                    <div class="w-full flex flex-col">
+                        <div style="width: 100%" class="text-center">
+                            <div class="w-full flex justify-center items-center">
+                                <img :src="'/images/uploads/' + options.restaurant.banner" style="width: 120px; height: 120px; border-radius: 50%" class="ml-5 mt-5 mr-5">
+                            
+                            </div>
+
+                            <div class="w-full text-center" >
+                                <p class="ml-5 font-bold" style="letter-spacing: 2px; font-size: 1vw">
+                                    {{ options.restaurant.restaurant_name }}
+                                </p>
+                            </div>
+
+                            <div class="w-full text-center">
+                                <p class="ml-5">
+                                    {{ auth.address }}
+                                </p>
+                            </div>
+
+                            <div class="w-full text-center">
+                                <p class="ml-5">
+                                    {{ auth.phone }}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="w-full mt-10 text-center text-2xl font-bold">
+                        Sales Report
+                    </div>
+
+                    <div class="w-full mt-8 p-5">
+                        <p class="text-xs float-left">
+                            <span class="font-bold">Printed By:</span> {{ auth.name }}
+                        </p>
+
+                        <p class="text-xs float-right" v-if="date.start && date.end">
+                            <span class="font-bold">Date:</span> {{ new Date(date.start).toDateString().substring(3) }} - {{ new Date(date.end).toDateString().substring(3) }}
+                        </p>
+                    </div>
+
+                    <div class="w-full p-5 mt-2">
                         <table class="w-full">
                             <tr class="text-center">
-                                <th v-for="column in columns" :key="column">
+                                <th v-for="column in columns" :key="column" class="--th">
                                     {{ column }}
                                 </th>
                             </tr>
@@ -72,15 +139,26 @@
                             <tr class="text-center" i
                                 v-for="(l, index) in rows" :key="l.id"
                             >
-                                <td v-for="(k, i) in keys" :key="i" class="cursor-pointer">
-                                    <span>{{ rows[index][k.label] }}</span>
+                                <td v-for="(k, i) in keys" :key="i" class="cursor-pointer --td">
+                                    <span v-if="k.label == 'amount' || k.label == 'shipping_fee' || k.label == 'total'">
+                                        ₱ {{ parseFloat(rows[index][k.label]).toFixed(2) }}
+                                    </span>
+
+                                    <span v-else-if="k.label == 'payment_method'">
+                                        {{ rows[index][k.label].toUpperCase() }}
+                                    </span>
+
+                                    <span v-else>{{ rows[index][k.label] }}</span>
                                 </td>
                             </tr>
 
                         </table>
 
-
+                        <span class="float-right pb-3 font-bold">
+                            Total: ₱ {{ parseFloat(rows.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0)).toFixed(2) }}
+                        </span>
                     </div>
+
                 </section>
             </VueHtml2pdf>
         </div>
@@ -104,6 +182,7 @@ export default {
         return {
             codOrders: [],
             gcashOrders: [],
+            allOrders: [],
             selected: null,
             columns: [
                 'Date/Time', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'
@@ -144,7 +223,7 @@ export default {
                 reason: null
             },
             saveError: null,
-            payment_method: 'cod',
+            payment_method: 'all',
             rows: [],
             isMobile: window.screen.width <= 700,
             date: {
@@ -166,35 +245,18 @@ export default {
 
         this.codOrders = this.options.orders.filter( y => {
             return y.payment_method == 'cod'
-        }).map( x => {
-            x['customer_name'] = x.customer_name;
-            x['payment_method'] = x.payment_method.toUpperCase();
-            x['reference_number'] = x.reference_number;
-            x['display_status'] = x.display_status;
-            x['address'] = x.address;
-            x['amount'] = '₱ ' + parseFloat(x.amount).toFixed(2);
-            x['total'] = '₱ ' + parseFloat(x.total).toFixed(2);
-            x['shipping_fee'] = '₱ ' + parseFloat(x.shipping_fee).toFixed(2);
-
-            return x;
         })
 
         this.gcashOrders = this.options.orders.filter( y => {
             return y.payment_method == 'gcash'
-        }).map( x => {
-            x['customer_name'] = x.customer_name;
-            x['payment_method'] = x.payment_method.toUpperCase();
-            x['reference_number'] = x.reference_number;
-            x['display_status'] = x.display_status;
-            x['address'] = x.address;
-            x['amount'] = '₱ ' + parseFloat(x.amount).toFixed(2);
-            x['total'] = '₱ ' + parseFloat(x.total).toFixed(2);
-            x['shipping_fee'] = '₱ ' + parseFloat(x.shipping_fee).toFixed(2);
-
-            return x;
         })
 
-        this.rows = this.codOrders
+        this.allOrders = this.options.orders
+
+        this.rows = this.allOrders
+
+        console.log(this.rows)
+
         
         this.rows = this.rows.filter(x => {
             var createdAt = new Date(x.created_at);
@@ -211,7 +273,12 @@ export default {
            if(arg == 'cod') {
                 this.rows = this.codOrders
            } else {
-                this.rows = this.gcashOrders
+                if(arg == 'all'){
+                    this.rows = this.allOrders
+                } else {
+                    this.rows = this.gcashOrders
+                }
+                
            }
         },
     },
@@ -347,16 +414,30 @@ table {
     border-style: hidden;
     box-shadow: 0 0 0 1px black;
 }
+
 td {
     border: 1px solid black;
-    padding-top: 20px;
-    padding-bottom: 20px;
 }
+
 th {
     border: 1px solid black;
     background: #E4B934;
     color: black;
-    padding-top: 20px;
-    padding-bottom: 20px;
+}
+
+.--td {
+    border: 1px solid black;
+    padding-top: 0px;
+    padding-bottom: 8px;
+    font-size: 10px;
+}
+
+.--th {
+    border: 1px solid black;
+    background: #E4B934;
+    color: black;
+    padding-top: 0px;
+    padding-bottom: 8px;
+    font-size: 10px;
 }
 </style>

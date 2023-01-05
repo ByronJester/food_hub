@@ -65,7 +65,7 @@
                         </span>
 
                         <span class="absolute text-red-700 font-bold text-xl" style="top: -0.8rem; right: -0.8rem" v-if="auth.trays > 0">
-                            {{ auth.trays }}
+                            *
                         </span>
                     </div>
 

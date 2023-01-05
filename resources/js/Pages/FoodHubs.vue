@@ -215,8 +215,10 @@
 							>
 								<gmap-marker
 									:position="{lat: coordinates.latitude, lng: coordinates.longitude}"
-									:clickable="true"
-									:draggable="false"
+									:clickable="form.otherAddress"
+									:draggable="form.otherAddress"
+									@click="clickMap"
+									@dragend="showLocation" 
 								></gmap-marker>
 							</gmap-map>
 						
@@ -309,8 +311,9 @@
 
 							<div class="w-full pl-5 mt-2" v-if="form.otherAddress">
 								<input style="height: 30px; border: 1px solid black; border-radius: 5px; width: 100%; padding: 5px; text-transform: capitalize;"
-									placeholder="Street, Barangay, Town"
-									class="text-center" @input="initiateSearch($event)"
+									placeholder="Street, Barangay, Town" type="text"
+									class="text-center" v-model="form.address"
+									:disabled="true"
 								>
 								<span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
 							</div>
@@ -436,7 +439,7 @@ export default {
 		},
 		'form.otherAddress'(arg) {
 			if(!arg) {
-				this.getCoordinates(this.auth.address, 'customer')
+				// this.getCoordinates(this.auth.address, 'customer')
 				this.checkoutDisabled = false
 			}
 		}
@@ -458,26 +461,26 @@ export default {
 				})
         },
         initiateSearch(e) {
-			this.checkoutDisabled = true
+			// this.checkoutDisabled = true
 
-            var self = this
+            // var self = this
 
-            if(!e.target.value) {
-                self.form.address = null
+            // if(!e.target.value) {
+            //     self.form.address = null
 
-                self.getCoordinates(self.auth.address, 'customer')
-            } 
+            //     self.getCoordinates(self.auth.address, 'customer')
+            // } 
 
-            clearTimeout(self.timeOut);
+            // clearTimeout(self.timeOut);
 
-            this.timeOut = setTimeout(
-                function(){
-                    self.form.address = e.target.value
+            // this.timeOut = setTimeout(
+            //     function(){
+            //         self.form.address = e.target.value
 
-                    self.getCoordinates(e.target.value, 'customer')
+            //         self.getCoordinates(e.target.value, 'customer')
                     
-                }
-            , 2000);
+            //     }
+            // , 2000);
         },
         getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
             var R = 6371; // Radius of the earth in km
@@ -491,7 +494,6 @@ export default {
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
             var d = R * c; // Distance in km
 
-            console.log(d)
             return d;
         },
 
@@ -527,12 +529,17 @@ export default {
 				.then(response => {
 					this.forms[index].quantity = 1
 
-					Inertia.get(
-						this.$root.route + '/orders',
-						{
-							onSuccess: () => { },
-						},
-					);
+					// Inertia.get(
+					// 	this.$root.route + '/orders',
+					// 	{
+					// 		onSuccess: () => { },
+					// 	},
+					// );
+					swal({
+						title: "Successful",
+						text: "Added to tray successfully",
+						icon: "success",
+					});
 				})
 		},
 
@@ -594,13 +601,14 @@ export default {
 		},
 
 		confirmBuyNow() {
+			console.log(this.form)
             this.form.restaurant_id = this.restaurant.id
             this.form.order = this.orderDescription
-            this.form.otherAddress = this.otherAddress
 
-			if(!this.form.otherAddress) {
-				delete this.form.address
-			}
+			// if(!this.form.otherAddress) {
+			// 	delete this.form.address
+			// }
+			
             
             axios.post(this.$root.route + "/orders/buy-now", this.form)
 				.then(response => {
@@ -613,11 +621,37 @@ export default {
 						} else {
 							this.closeCheckoutModal()
 
-							location.reload()
+							// location.reload()
+							swal({
+								title: "Successful",
+								text: "You successfully buy this menu.",
+								icon: "success",
+							});
 						}
 						
 					}
 				})
+		},
+		clickMap(evt){
+			
+		},
+		showLocation(evt){
+			var coordinates = evt.latLng.toString()
+			var coordinates = coordinates.replace(/[- )(]/g,'')
+
+			var c = coordinates.split(',')
+			var lat = c[0]
+			var long = c[1]
+
+			this.coordinates.latitude = parseFloat(lat)
+			this.coordinates.longitude = parseFloat(long)
+
+			axios.get(`https://api.tomtom.com/search/2/reverseGeocode/${coordinates}.json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E&radius=100`)
+				.then(response => {
+					this.form.address = `${response.data.addresses[0].address.municipalitySubdivision}, ${response.data.addresses[0].address.municipality}, ${response.data.addresses[0].address.countrySecondarySubdivision}`
+				})
+
+			
 		}
     }
 }

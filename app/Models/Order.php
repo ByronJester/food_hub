@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Order extends Model
 {
@@ -22,7 +23,8 @@ class Order extends Model
     ];
 
     protected $appends = [
-        'food_hub'
+        'food_hub',
+        'display_date'
     ];
 
     protected $with = [
@@ -48,5 +50,12 @@ class Order extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getDisplayDateAttribute()
+    {
+        $date = Carbon::parse($this->create_at);
+
+        return $date->isoFormat('LLL'); 
     }
 }

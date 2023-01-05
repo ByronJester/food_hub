@@ -39,7 +39,7 @@ Route::middleware(['cors'])->group(function () {
         Route::post('/edit-profile', [UserController::class, 'editProfile']);
         Route::post('/create-staff', [UserController::class, 'createStaff']);
         Route::post('/save-verification', [UserController::class, 'saveVerification']);
-        Route::post('/verify-otp', [UserController::class, 'otpVerify']);
+        Route::post('/verify-otp', [UserController::class, 'otpVerify']); 
     });
 
     Route::prefix('restaurants')->group(function () {

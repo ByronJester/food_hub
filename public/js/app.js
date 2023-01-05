@@ -2836,6 +2836,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2909,7 +2935,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     otherAddress: function otherAddress(arg) {
       if (!arg) {
-        this.getCoordinates(this.auth.address, 'customer');
+        // this.getCoordinates(this.auth.address, 'customer')
         this.checkoutDisabled = false;
       }
     }
@@ -3120,6 +3146,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var modal = document.getElementById("removeModal");
       modal.style.display = "none";
       this.orderSelected = null;
+    },
+    clickMap: function clickMap(evt) {},
+    showLocation: function showLocation(evt) {
+      var _this9 = this;
+
+      var coordinates = evt.latLng.toString();
+      var coordinates = coordinates.replace(/[- )(]/g, '');
+      var c = coordinates.split(',');
+      var lat = c[0];
+      var _long = c[1];
+      this.coordinates.latitude = parseFloat(lat);
+      this.coordinates.longitude = parseFloat(_long);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get("https://api.tomtom.com/search/2/reverseGeocode/".concat(coordinates, ".json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E&radius=100")).then(function (response) {
+        _this9.form.address = "".concat(response.data.addresses[0].address.municipalitySubdivision, ", ").concat(response.data.addresses[0].address.municipality, ", ").concat(response.data.addresses[0].address.countrySecondarySubdivision);
+      });
     }
   }
 });
@@ -3581,6 +3622,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3671,7 +3715,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     'form.otherAddress': function formOtherAddress(arg) {
       if (!arg) {
-        this.getCoordinates(this.auth.address, 'customer');
+        // this.getCoordinates(this.auth.address, 'customer')
         this.checkoutDisabled = false;
       }
     }
@@ -3692,20 +3736,19 @@ __webpack_require__.r(__webpack_exports__);
         _this.checkoutDisabled = false;
       });
     },
-    initiateSearch: function initiateSearch(e) {
-      this.checkoutDisabled = true;
-      var self = this;
-
-      if (!e.target.value) {
-        self.form.address = null;
-        self.getCoordinates(self.auth.address, 'customer');
-      }
-
-      clearTimeout(self.timeOut);
-      this.timeOut = setTimeout(function () {
-        self.form.address = e.target.value;
-        self.getCoordinates(e.target.value, 'customer');
-      }, 2000);
+    initiateSearch: function initiateSearch(e) {// this.checkoutDisabled = true
+      // var self = this
+      // if(!e.target.value) {
+      //     self.form.address = null
+      //     self.getCoordinates(self.auth.address, 'customer')
+      // } 
+      // clearTimeout(self.timeOut);
+      // this.timeOut = setTimeout(
+      //     function(){
+      //         self.form.address = e.target.value
+      //         self.getCoordinates(e.target.value, 'customer')
+      //     }
+      // , 2000);
     },
     getDistanceFromLatLonInKm: function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
       var R = 6371; // Radius of the earth in km
@@ -3717,7 +3760,6 @@ __webpack_require__.r(__webpack_exports__);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       var d = R * c; // Distance in km
 
-      console.log(d);
       return d;
     },
     deg2rad: function deg2rad(deg) {
@@ -3747,9 +3789,17 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(this.$root.route + "/customers/place-order", selected).then(function (response) {
-        _this3.forms[index].quantity = 1;
-        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.get(_this3.$root.route + '/orders', {
-          onSuccess: function onSuccess() {}
+        _this3.forms[index].quantity = 1; // Inertia.get(
+        // 	this.$root.route + '/orders',
+        // 	{
+        // 		onSuccess: () => { },
+        // 	},
+        // );
+
+        swal({
+          title: "Successful",
+          text: "Added to tray successfully",
+          icon: "success"
         });
       });
     },
@@ -3798,13 +3848,11 @@ __webpack_require__.r(__webpack_exports__);
     confirmBuyNow: function confirmBuyNow() {
       var _this5 = this;
 
+      console.log(this.form);
       this.form.restaurant_id = this.restaurant.id;
-      this.form.order = this.orderDescription;
-      this.form.otherAddress = this.otherAddress;
-
-      if (!this.form.otherAddress) {
-        delete this.form.address;
-      }
+      this.form.order = this.orderDescription; // if(!this.form.otherAddress) {
+      // 	delete this.form.address
+      // }
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(this.$root.route + "/orders/buy-now", this.form).then(function (response) {
         if (response.data.status == 422) {
@@ -3813,11 +3861,31 @@ __webpack_require__.r(__webpack_exports__);
           if (!!response.data.url) {
             window.location.href = response.data.url;
           } else {
-            _this5.closeCheckoutModal();
+            _this5.closeCheckoutModal(); // location.reload()
 
-            location.reload();
+
+            swal({
+              title: "Successful",
+              text: "You successfully buy this menu.",
+              icon: "success"
+            });
           }
         }
+      });
+    },
+    clickMap: function clickMap(evt) {},
+    showLocation: function showLocation(evt) {
+      var _this6 = this;
+
+      var coordinates = evt.latLng.toString();
+      var coordinates = coordinates.replace(/[- )(]/g, '');
+      var c = coordinates.split(',');
+      var lat = c[0];
+      var _long = c[1];
+      this.coordinates.latitude = parseFloat(lat);
+      this.coordinates.longitude = parseFloat(_long);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get("https://api.tomtom.com/search/2/reverseGeocode/".concat(coordinates, ".json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E&radius=100")).then(function (response) {
+        _this6.form.address = "".concat(response.data.addresses[0].address.municipalitySubdivision, ", ").concat(response.data.addresses[0].address.municipality, ", ").concat(response.data.addresses[0].address.countrySecondarySubdivision);
       });
     }
   }
@@ -5114,6 +5182,84 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5129,6 +5275,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       codOrders: [],
       gcashOrders: [],
+      allOrders: [],
       selected: null,
       columns: ['Date/Time', 'Customer Name', 'Address', 'Contact Number', 'Payment Method', 'Status', 'Amount', 'Shipping Fee', 'Total'],
       keys: [{
@@ -5157,7 +5304,7 @@ __webpack_require__.r(__webpack_exports__);
         reason: null
       },
       saveError: null,
-      payment_method: 'cod',
+      payment_method: 'all',
       rows: [],
       isMobile: window.screen.width <= 700,
       date: {
@@ -5177,31 +5324,13 @@ __webpack_require__.r(__webpack_exports__);
     this.date.end = endDate;
     this.codOrders = this.options.orders.filter(function (y) {
       return y.payment_method == 'cod';
-    }).map(function (x) {
-      x['customer_name'] = x.customer_name;
-      x['payment_method'] = x.payment_method.toUpperCase();
-      x['reference_number'] = x.reference_number;
-      x['display_status'] = x.display_status;
-      x['address'] = x.address;
-      x['amount'] = '₱ ' + parseFloat(x.amount).toFixed(2);
-      x['total'] = '₱ ' + parseFloat(x.total).toFixed(2);
-      x['shipping_fee'] = '₱ ' + parseFloat(x.shipping_fee).toFixed(2);
-      return x;
     });
     this.gcashOrders = this.options.orders.filter(function (y) {
       return y.payment_method == 'gcash';
-    }).map(function (x) {
-      x['customer_name'] = x.customer_name;
-      x['payment_method'] = x.payment_method.toUpperCase();
-      x['reference_number'] = x.reference_number;
-      x['display_status'] = x.display_status;
-      x['address'] = x.address;
-      x['amount'] = '₱ ' + parseFloat(x.amount).toFixed(2);
-      x['total'] = '₱ ' + parseFloat(x.total).toFixed(2);
-      x['shipping_fee'] = '₱ ' + parseFloat(x.shipping_fee).toFixed(2);
-      return x;
     });
-    this.rows = this.codOrders;
+    this.allOrders = this.options.orders;
+    this.rows = this.allOrders;
+    console.log(this.rows);
     this.rows = this.rows.filter(function (x) {
       var createdAt = new Date(x.created_at);
       return createdAt >= new Date(_this.date.start) && createdAt <= new Date(_this.date.end);
@@ -5215,7 +5344,11 @@ __webpack_require__.r(__webpack_exports__);
       if (arg == 'cod') {
         this.rows = this.codOrders;
       } else {
-        this.rows = this.gcashOrders;
+        if (arg == 'all') {
+          this.rows = this.allOrders;
+        } else {
+          this.rows = this.gcashOrders;
+        }
       }
     }
   },
@@ -7060,7 +7193,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.orderModal[data-v-4c589ab4] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 30%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: #ffffff;\n}\r\n\r\n/* Modal Content */\n.order-content[data-v-4c589ab4] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-4c589ab4] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-4c589ab4]:hover,\r\n.close[data-v-4c589ab4]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\ntable[data-v-4c589ab4] {\r\n    border-collapse: collapse;\r\n    border-radius: 5px;\r\n    border-style: hidden;\r\n    box-shadow: 0 0 0 1px black;\n}\ntd[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    padding-top: 20px;\r\n    padding-bottom: 20px;\n}\nth[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\r\n    padding-top: 20px;\r\n    padding-bottom: 20px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.orderModal[data-v-4c589ab4] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 30%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: #ffffff;\n}\r\n\r\n/* Modal Content */\n.order-content[data-v-4c589ab4] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-4c589ab4] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-4c589ab4]:hover,\r\n.close[data-v-4c589ab4]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\ntable[data-v-4c589ab4] {\r\n    border-collapse: collapse;\r\n    border-radius: 5px;\r\n    border-style: hidden;\r\n    box-shadow: 0 0 0 1px black;\n}\ntd[data-v-4c589ab4] {\r\n    border: 1px solid black;\n}\nth[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\n}\n.--td[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    padding-top: 0px;\r\n    padding-bottom: 8px;\r\n    font-size: 10px;\n}\n.--th[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\r\n    padding-top: 0px;\r\n    padding-bottom: 8px;\r\n    font-size: 10px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -67776,9 +67909,7 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "\n                        " +
-                                    _vm._s(_vm.auth.trays) +
-                                    "\n                    "
+                                  "\n                        *\n                    "
                                 )
                               ]
                             )
@@ -68132,13 +68263,39 @@ var render = function() {
                 [
                   _c(
                     "div",
-                    { staticClass: "w-full flex justify-center items-center" },
+                    {
+                      staticClass:
+                        "w-full flex justify-center items-center relative"
+                    },
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "oncart" },
                         style: { width: _vm.isMobile ? "30px" : "100px" },
                         attrs: { src: "/images/icons/tray.png" }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.options.tray > 0
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "absolute",
+                              staticStyle: {
+                                color: "red",
+                                top: "-1vw",
+                                left: "4.1vw",
+                                "font-size": "1vw",
+                                "font-weight": "700"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                " \n                                " +
+                                  _vm._s(_vm.options.tray) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   ),
                   _vm._v(" "),
@@ -68172,13 +68329,39 @@ var render = function() {
                 [
                   _c(
                     "div",
-                    { staticClass: "w-full flex justify-center items-center" },
+                    {
+                      staticClass:
+                        "w-full flex justify-center items-center relative"
+                    },
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "pending" },
                         style: { width: _vm.isMobile ? "30px" : "100px" },
                         attrs: { src: "/images/icons/pending.png" }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.options.pending > 0
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "absolute",
+                              staticStyle: {
+                                color: "red",
+                                top: "-1vw",
+                                left: "4.1vw",
+                                "font-size": "1vw",
+                                "font-weight": "700"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                " \n                                " +
+                                  _vm._s(_vm.options.pending) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   ),
                   _vm._v(" "),
@@ -68212,13 +68395,39 @@ var render = function() {
                 [
                   _c(
                     "div",
-                    { staticClass: "w-full flex justify-center items-center" },
+                    {
+                      staticClass:
+                        "w-full flex justify-center items-center relative"
+                    },
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_process" },
                         style: { width: _vm.isMobile ? "30px" : "100px" },
                         attrs: { src: "/images/icons/process.png" }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.options.processing > 0
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "absolute",
+                              staticStyle: {
+                                color: "red",
+                                top: "-1vw",
+                                left: "4.1vw",
+                                "font-size": "1vw",
+                                "font-weight": "700"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                " \n                                " +
+                                  _vm._s(_vm.options.processing) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   ),
                   _vm._v(" "),
@@ -68252,13 +68461,39 @@ var render = function() {
                 [
                   _c(
                     "div",
-                    { staticClass: "w-full flex justify-center items-center" },
+                    {
+                      staticClass:
+                        "w-full flex justify-center items-center relative"
+                    },
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_deliver" },
                         style: { width: _vm.isMobile ? "30px" : "100px" },
                         attrs: { src: "/images/icons/deliver.png" }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.options.deliver > 0
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "absolute",
+                              staticStyle: {
+                                color: "red",
+                                top: "-1vw",
+                                left: "4.1vw",
+                                "font-size": "1vw",
+                                "font-weight": "700"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                " \n                                " +
+                                  _vm._s(_vm.options.deliver) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   ),
                   _vm._v(" "),
@@ -68292,13 +68527,39 @@ var render = function() {
                 [
                   _c(
                     "div",
-                    { staticClass: "w-full flex justify-center items-center" },
+                    {
+                      staticClass:
+                        "w-full flex justify-center items-center relative"
+                    },
                     [
                       _c("img", {
                         class: { "--bg-gray": _vm.activeTab == "to_receive" },
                         style: { width: _vm.isMobile ? "30px" : "100px" },
                         attrs: { src: "/images/icons/receive.png" }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.options.receive > 0
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "absolute",
+                              staticStyle: {
+                                color: "red",
+                                top: "-1vw",
+                                left: "4.1vw",
+                                "font-size": "1vw",
+                                "font-weight": "700"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                " \n                                " +
+                                  _vm._s(_vm.options.receive) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   ),
                   _vm._v(" "),
@@ -68612,6 +68873,16 @@ var render = function() {
                                           "\n                                    "
                                       )
                                     ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                order.status == "received"
+                                  ? _c("p", { staticClass: "text-lg mt-2" }, [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(order.display_date) +
+                                          "\n                                    "
+                                      )
+                                    ])
                                   : _vm._e()
                               ]
                             )
@@ -68741,9 +69012,10 @@ var render = function() {
                               lat: _vm.coordinates.latitude,
                               lng: _vm.coordinates.longitude
                             },
-                            clickable: true,
-                            draggable: false
-                          }
+                            clickable: _vm.otherAddress,
+                            draggable: _vm.otherAddress
+                          },
+                          on: { click: _vm.clickMap, dragend: _vm.showLocation }
                         })
                       ],
                       1
@@ -69060,6 +69332,14 @@ var render = function() {
                       _vm.otherAddress
                         ? _c("div", { staticClass: "w-full pl-5 mt-2" }, [
                             _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.address,
+                                  expression: "form.address"
+                                }
+                              ],
                               staticClass: "text-center",
                               staticStyle: {
                                 height: "30px",
@@ -69069,10 +69349,22 @@ var render = function() {
                                 padding: "5px",
                                 "text-transform": "capitalize"
                               },
-                              attrs: { placeholder: "Street, Barangay, Town" },
+                              attrs: {
+                                placeholder: "Street, Barangay, Town",
+                                type: "text",
+                                disabled: true
+                              },
+                              domProps: { value: _vm.form.address },
                               on: {
                                 input: function($event) {
-                                  return _vm.initiateSearch($event)
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "address",
+                                    $event.target.value
+                                  )
                                 }
                               }
                             }),
@@ -70142,8 +70434,12 @@ var render = function() {
                                     lat: _vm.coordinates.latitude,
                                     lng: _vm.coordinates.longitude
                                   },
-                                  clickable: true,
-                                  draggable: false
+                                  clickable: _vm.form.otherAddress,
+                                  draggable: _vm.form.otherAddress
+                                },
+                                on: {
+                                  click: _vm.clickMap,
+                                  dragend: _vm.showLocation
                                 }
                               })
                             ],
@@ -70569,6 +70865,14 @@ var render = function() {
                                     { staticClass: "w-full pl-5 mt-2" },
                                     [
                                       _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.form.address,
+                                            expression: "form.address"
+                                          }
+                                        ],
                                         staticClass: "text-center",
                                         staticStyle: {
                                           height: "30px",
@@ -70579,11 +70883,21 @@ var render = function() {
                                           "text-transform": "capitalize"
                                         },
                                         attrs: {
-                                          placeholder: "Street, Barangay, Town"
+                                          placeholder: "Street, Barangay, Town",
+                                          type: "text",
+                                          disabled: true
                                         },
+                                        domProps: { value: _vm.form.address },
                                         on: {
                                           input: function($event) {
-                                            return _vm.initiateSearch($event)
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.form,
+                                              "address",
+                                              $event.target.value
+                                            )
                                           }
                                         }
                                       }),
@@ -73009,6 +73323,8 @@ var render = function() {
               }
             },
             [
+              _c("option", { attrs: { value: "all" } }, [_vm._v("ALL")]),
+              _vm._v(" "),
               _c("option", { attrs: { value: "cod" } }, [_vm._v("COD")]),
               _vm._v(" "),
               _c("option", { attrs: { value: "gcash" } }, [_vm._v("GCASH")])
@@ -73089,27 +73405,64 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "w-full mt-5" },
-          [
-            _c("Table", {
-              staticClass: "w-full",
-              attrs: {
-                columns: _vm.columns,
-                rows: _vm.rows,
-                keys: _vm.keys,
-                selected: _vm.selected
-              },
-              on: {
-                "update:selected": function($event) {
-                  _vm.selected = $event
-                }
-              }
-            })
-          ],
-          1
-        ),
+        _c("div", { staticClass: "w-full mt-5" }, [
+          _c(
+            "table",
+            { staticClass: "w-full" },
+            [
+              _c(
+                "tr",
+                { staticClass: "text-center" },
+                _vm._l(_vm.columns, function(column) {
+                  return _c("th", { key: column }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(column) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.rows, function(l, index) {
+                return _c(
+                  "tr",
+                  { key: l.id, staticClass: "text-center", attrs: { i: "" } },
+                  _vm._l(_vm.keys, function(k, i) {
+                    return _c("td", { key: i, staticClass: "cursor-pointer" }, [
+                      k.label == "amount" ||
+                      k.label == "shipping_fee" ||
+                      k.label == "total"
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                            ₱ " +
+                                _vm._s(
+                                  parseFloat(_vm.rows[index][k.label]).toFixed(
+                                    2
+                                  )
+                                ) +
+                                "\n                        "
+                            )
+                          ])
+                        : k.label == "payment_method"
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.rows[index][k.label].toUpperCase()) +
+                                "\n                        "
+                            )
+                          ])
+                        : _c("span", [_vm._v(_vm._s(_vm.rows[index][k.label]))])
+                    ])
+                  }),
+                  0
+                )
+              })
+            ],
+            2
+          )
+        ]),
         _vm._v(" "),
         _c(
           "VueHtml2pdf",
@@ -73118,16 +73471,16 @@ var render = function() {
             attrs: {
               "show-layout": false,
               "float-layout": true,
-              "enable-download": true,
+              "enable-download": false,
               "preview-modal": true,
-              "paginate-elements-by-height": 1000,
+              "paginate-elements-by-height": 2000,
               filename: Math.random()
                 .toString(36)
                 .slice(2),
               "pdf-quality": 2,
               "manual-pagination": false,
               "pdf-format": "a4",
-              "pdf-orientation": "landscape",
+              "pdf-orientation": "portrait",
               "pdf-content-width": "100%"
             }
           },
@@ -73136,7 +73489,124 @@ var render = function() {
               "section",
               { attrs: { slot: "pdf-content" }, slot: "pdf-content" },
               [
-                _c("div", { staticClass: "w-full p-5" }, [
+                _c("div", { staticClass: "w-full flex flex-col" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "text-center",
+                      staticStyle: { width: "100%" }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "w-full flex justify-center items-center"
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "ml-5 mt-5 mr-5",
+                            staticStyle: {
+                              width: "120px",
+                              height: "120px",
+                              "border-radius": "50%"
+                            },
+                            attrs: {
+                              src:
+                                "/images/uploads/" +
+                                _vm.options.restaurant.banner
+                            }
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full text-center" }, [
+                        _c(
+                          "p",
+                          {
+                            staticClass: "ml-5 font-bold",
+                            staticStyle: {
+                              "letter-spacing": "2px",
+                              "font-size": "1vw"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.options.restaurant.restaurant_name) +
+                                "\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full text-center" }, [
+                        _c("p", { staticClass: "ml-5" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(_vm.auth.address) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full text-center" }, [
+                        _c("p", { staticClass: "ml-5" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(_vm.auth.phone) +
+                              "\n                            "
+                          )
+                        ])
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full mt-10 text-center text-2xl font-bold"
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Sales Report\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-full mt-8 p-5" }, [
+                  _c("p", { staticClass: "text-xs float-left" }, [
+                    _c("span", { staticClass: "font-bold" }, [
+                      _vm._v("Printed By:")
+                    ]),
+                    _vm._v(
+                      " " + _vm._s(_vm.auth.name) + "\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm.date.start && _vm.date.end
+                    ? _c("p", { staticClass: "text-xs float-right" }, [
+                        _c("span", { staticClass: "font-bold" }, [
+                          _vm._v("Date:")
+                        ]),
+                        _vm._v(
+                          " " +
+                            _vm._s(
+                              new Date(_vm.date.start)
+                                .toDateString()
+                                .substring(3)
+                            ) +
+                            " - " +
+                            _vm._s(
+                              new Date(_vm.date.end).toDateString().substring(3)
+                            ) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "w-full p-5 mt-2" }, [
                   _c(
                     "table",
                     { staticClass: "w-full" },
@@ -73145,13 +73615,17 @@ var render = function() {
                         "tr",
                         { staticClass: "text-center" },
                         _vm._l(_vm.columns, function(column) {
-                          return _c("th", { key: column }, [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(column) +
-                                "\n                            "
-                            )
-                          ])
+                          return _c(
+                            "th",
+                            { key: column, staticClass: "--th" },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(column) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
                         }),
                         0
                       ),
@@ -73167,11 +73641,37 @@ var render = function() {
                           _vm._l(_vm.keys, function(k, i) {
                             return _c(
                               "td",
-                              { key: i, staticClass: "cursor-pointer" },
+                              { key: i, staticClass: "cursor-pointer --td" },
                               [
-                                _c("span", [
-                                  _vm._v(_vm._s(_vm.rows[index][k.label]))
-                                ])
+                                k.label == "amount" ||
+                                k.label == "shipping_fee" ||
+                                k.label == "total"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                                    ₱ " +
+                                          _vm._s(
+                                            parseFloat(
+                                              _vm.rows[index][k.label]
+                                            ).toFixed(2)
+                                          ) +
+                                          "\n                                "
+                                      )
+                                    ])
+                                  : k.label == "payment_method"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(
+                                            _vm.rows[index][
+                                              k.label
+                                            ].toUpperCase()
+                                          ) +
+                                          "\n                                "
+                                      )
+                                    ])
+                                  : _c("span", [
+                                      _vm._v(_vm._s(_vm.rows[index][k.label]))
+                                    ])
                               ]
                             )
                           }),
@@ -73180,7 +73680,25 @@ var render = function() {
                       })
                     ],
                     2
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "float-right pb-3 font-bold" }, [
+                    _vm._v(
+                      "\n                        Total: ₱ " +
+                        _vm._s(
+                          parseFloat(
+                            _vm.rows.reduce(function(
+                              accumulator,
+                              currentValue
+                            ) {
+                              return accumulator + currentValue.total
+                            },
+                            0)
+                          ).toFixed(2)
+                        ) +
+                        "\n                    "
+                    )
+                  ])
                 ])
               ]
             )

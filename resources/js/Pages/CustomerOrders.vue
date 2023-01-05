@@ -4,10 +4,13 @@
             <div :style="{width: !orders ? '100%' : '100%'}">
                 <div class="w-full flex flex-row mt-5" style="height: 10vh">
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'oncart'">
-                        <div class="w-full flex justify-center items-center">
+                        <div class="w-full flex justify-center items-center relative">
                             <img :src="'/images/icons/tray.png'" :class="{'--bg-gray': activeTab == 'oncart'}"
                                 :style="{'width': isMobile ? '30px': '100px'}"
                             />
+                            <span class="absolute" style="color:red; top: -1vw; left: 4.1vw; font-size: 1vw ; font-weight: 700" v-if="options.tray > 0"> 
+                                {{options.tray}}
+                            </span>
                         </div>
 
                         <div class="w-full">
@@ -18,10 +21,14 @@
                     </div>
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'pending'">
-                        <div class="w-full flex justify-center items-center">
+                        <div class="w-full flex justify-center items-center relative">
                             <img :src="'/images/icons/pending.png'" :class="{'--bg-gray': activeTab == 'pending'}"
                                 :style="{'width': isMobile ? '30px': '100px'}"
                             />
+
+                            <span class="absolute" style="color:red; top: -1vw; left: 4.1vw; font-size: 1vw ; font-weight: 700" v-if="options.pending > 0"> 
+                                {{options.pending}}
+                            </span>
                         </div>
 
                         <div class="w-full">
@@ -32,8 +39,12 @@
                     </div>
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_process'">
-                        <div class="w-full flex justify-center items-center">
+                        <div class="w-full flex justify-center items-center relative">
                             <img :src="'/images/icons/process.png'" :style="{'width': isMobile ? '30px': '100px'}" :class="{'--bg-gray': activeTab == 'to_process'}"/>
+                            
+                            <span class="absolute" style="color:red; top: -1vw; left: 4.1vw; font-size: 1vw ; font-weight: 700" v-if="options.processing > 0"> 
+                                {{options.processing}}
+                            </span>
                         </div>
 
                         <div class="w-full">
@@ -44,8 +55,12 @@
                     </div>
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_deliver'">
-                        <div class="w-full flex justify-center items-center">
+                        <div class="w-full flex justify-center items-center relative">
                             <img :src="'/images/icons/deliver.png'" :style="{'width': isMobile ? '30px': '100px'}"  :class="{'--bg-gray': activeTab == 'to_deliver'}"/>
+
+                            <span class="absolute" style="color:red; top: -1vw; left: 4.1vw; font-size: 1vw ; font-weight: 700" v-if="options.deliver > 0"> 
+                                {{options.deliver}}
+                            </span>
                         </div>
 
                         <div class="w-full cursor-pointer">
@@ -56,8 +71,12 @@
                     </div>
 
                     <div class="w-full flex flex-col cursor-pointer" @click="activeTab = 'to_receive'">
-                        <div class="w-full flex justify-center items-center">
+                        <div class="w-full flex justify-center items-center relative">
                             <img :src="'/images/icons/receive.png'" :style="{'width': isMobile ? '30px': '100px'}"  :class="{'--bg-gray': activeTab == 'to_receive'}"/>
+
+                            <span class="absolute" style="color:red; top: -1vw; left: 4.1vw; font-size: 1vw ; font-weight: 700" v-if="options.receive > 0"> 
+                                {{options.receive}}
+                            </span>
                         </div>
 
                         <div class="w-full">
@@ -110,7 +129,7 @@
 
                                 <button class="float-right pt-1 pr-2 cursor-pointer" @click="orderSelected = order"
                                     :class="{'cursor-not-allowed': !!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))}"
-                                    :disabled="!!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))"
+                                    :disabled="!!order && (order.payment_method == 'gcash' || !cancelStatus.includes(order.status))" 
                                     v-if="order.status == 'oncart' || order.status == 'pending'"
                                 >
                                     <i class="fa-solid fa-xmark"></i>
@@ -139,6 +158,10 @@
 
                                     <p class="text-lg mt-2" v-if="!!order.reason">
                                         {{ order.reason}}
+                                    </p>
+
+                                    <p class="text-lg mt-2" v-if="order.status == 'received'">
+                                        {{ order.display_date }}
                                     </p>
 
                                     <!-- <p class="text-lg mt-1" v-else>
@@ -186,8 +209,10 @@
                         >
                             <gmap-marker
                                 :position="{lat: coordinates.latitude, lng: coordinates.longitude}"
-                                :clickable="true"
-                                :draggable="false"
+                                :clickable="otherAddress"
+                                :draggable="otherAddress"
+                                @click="clickMap"
+                                @dragend="showLocation" 
                             ></gmap-marker>
                         </gmap-map>
                        
@@ -282,9 +307,10 @@
 
                         <div class="w-full pl-5 mt-2" v-if="otherAddress">
                             <input style="height: 30px; border: 1px solid black; border-radius: 5px; width: 100%; padding: 5px; text-transform: capitalize;"
-                                placeholder="Street, Barangay, Town"
-                                class="text-center" @input="initiateSearch($event)"
-                            >
+									placeholder="Street, Barangay, Town" type="text"
+									class="text-center" v-model="form.address"
+									:disabled="true"
+								>
                             <span class="text-xs text-red-500">{{validationError('address', saveError)}} </span>
                         </div>
 
@@ -419,7 +445,7 @@ export default {
         },
         otherAddress(arg) {
             if(!arg) {
-				this.getCoordinates(this.auth.address, 'customer')
+				// this.getCoordinates(this.auth.address, 'customer')
 				this.checkoutDisabled = false
 			}
         }
@@ -657,6 +683,29 @@ export default {
 
             this.orderSelected = null
         },
+
+        clickMap(evt){
+			
+		},
+
+		showLocation(evt){
+			var coordinates = evt.latLng.toString()
+			var coordinates = coordinates.replace(/[- )(]/g,'')
+
+			var c = coordinates.split(',')
+			var lat = c[0]
+			var long = c[1]
+
+			this.coordinates.latitude = parseFloat(lat)
+			this.coordinates.longitude = parseFloat(long)
+
+			axios.get(`https://api.tomtom.com/search/2/reverseGeocode/${coordinates}.json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E&radius=100`)
+				.then(response => {
+					this.form.address = `${response.data.addresses[0].address.municipalitySubdivision}, ${response.data.addresses[0].address.municipality}, ${response.data.addresses[0].address.countrySecondarySubdivision}`
+				})
+
+			
+		}
 
 
     }

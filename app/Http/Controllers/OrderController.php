@@ -49,6 +49,11 @@ class OrderController extends Controller
                 'auth'    => $auth,
                 'options' => [
                     'orders' => $orders->groupBy('food_hub'),
+                    'tray' => Order::where('status', 'oncart')->where('user_id', $auth->id)->count(),
+                    'pending' => Order::where('status', 'pending')->where('user_id', $auth->id)->count(),
+                    'processing' => Order::where('status', 'to_process')->where('user_id', $auth->id)->count(),
+                    'deliver' => Order::where('status', 'to_deliver')->where('user_id', $auth->id)->count(),
+                    'receive' => Order::where('status', 'to_receive')->where('user_id', $auth->id)->count(),
                     // 'coordinates' => $coordinates
                 ]
             ]);
@@ -224,7 +229,7 @@ class OrderController extends Controller
 
         $url = null;
 
-        $address = $request->otherAddress ? $request->address : $auth->address;
+        $address = !!$request->otherAddress ? $request->address : $auth->address;
         $payment_method = $request->payment_method;
 
         if($request->payment_method == 'cod') {

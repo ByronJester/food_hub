@@ -105,4 +105,14 @@ class OrderDescription extends Model
 
         return null;
     }
+
+    public function getLatAttribute($value)
+    {
+        return (float) $value;
+    }
+
+    public function getLongAttribute($value)
+    {
+        return (float) $value;
+    }
 }

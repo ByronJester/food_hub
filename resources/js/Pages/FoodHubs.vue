@@ -376,7 +376,9 @@ export default {
 				address: null,
 				order: null,
 				user_id: null,
-				restaurant_id: null
+				restaurant_id: null,
+				lat: null,
+				long: null
 			},
 			saveError: null,
 			coordinates : {
@@ -646,9 +648,12 @@ export default {
 			this.coordinates.latitude = parseFloat(lat)
 			this.coordinates.longitude = parseFloat(long)
 
+			this.form.lat = parseFloat(lat)
+			this.form.long = parseFloat(long)
+
 			axios.get(`https://api.tomtom.com/search/2/reverseGeocode/${coordinates}.json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E&radius=100`)
 				.then(response => {
-					this.form.address = `${response.data.addresses[0].address.municipalitySubdivision}, ${response.data.addresses[0].address.municipality}, ${response.data.addresses[0].address.countrySecondarySubdivision}`
+					this.form.address = response.data.addresses[0].address.freeformAddress
 				})
 
 			

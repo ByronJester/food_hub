@@ -21,7 +21,7 @@ class OrderController extends Controller
 
     public function getGeoCode($address)
     {
-        // $key = 'AIzaSyDCGS5UZzxRuFzBXmQ-6wXEnXn9dO8pEkE';
+        // $key = 'AIzaSyDCGS5UZzxRuFzBXmQ-6wXEnXn9dO8pEkE'; 
         $key = 'hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E';
 
         // $url = "http://maps.google.com/maps/api/geocode/json?address=$address&key=$key";
@@ -186,6 +186,8 @@ class OrderController extends Controller
             $description['status'] = 'pending';
             $description['address'] = $address;
             $description['payment_method'] = $payment_method;
+            $description['lat'] = $request->lat;
+            $description['long'] = $request->long;
     
             OrderDescription::forceCreate($description);
         } else {
@@ -198,6 +200,8 @@ class OrderController extends Controller
             
             $url = $source->redirect->checkout_url;
 
+            session()->put('lat', $request->lat);
+            session()->put('long', $request->long);
             session()->put('orders', $orders);
             session()->put('description', $description);
             session()->put('restaurant_id', $restaurant->id);
@@ -253,6 +257,8 @@ class OrderController extends Controller
             $description['status'] = 'pending';
             $description['address'] = $address;
             $description['payment_method'] = $payment_method;
+            $description['lat'] = $request->lat;
+            $description['long'] = $request->long;
     
             OrderDescription::forceCreate($description);
         } else {
@@ -282,12 +288,16 @@ class OrderController extends Controller
             $description = [];
             $description['payment_method'] = $request->payment_method;
             $description['user_id'] = $auth->id;
+            $description['lat'] = $request->lat;
+            $description['long'] = $request->long;
 
             session()->put('orders', [ $orderSave->id ]);
             session()->put('description', $description);
             session()->put('restaurant_id', $request->restaurant_id);
             session()->put('address', $address);
             session()->put('payment_method', $payment_method);
+            session()->put('lat', $request->lat);
+            session()->put('long', $$request->long);
         }
 
         return response()->json(['status' => 200, 'data' => [], 'url' => $url], 200);
@@ -366,6 +376,8 @@ class OrderController extends Controller
     {
         $auth = Auth::user();
 
+        $lat = session()->get('lat');
+        $long = session()->get('long');
         $source = session()->get('source');
         $orderId = session()->get('orders');
         $description = session()->get('description');
@@ -392,6 +404,8 @@ class OrderController extends Controller
             $description['status'] = 'pending';
             $description['address'] = $address;
             $description['payment_method'] = $payment_method;
+            $description['lat'] = $lat;
+            $description['long'] = $long;
 
             OrderDescription::forceCreate($description);
         }

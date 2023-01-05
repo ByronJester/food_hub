@@ -2881,7 +2881,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         orders: [],
         otherAddress: null,
         food_joint: null,
-        user_id: null
+        user_id: null,
+        lat: null,
+        "long": null
       },
       activeFoodJoint: null,
       saveError: null,
@@ -3158,8 +3160,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _long = c[1];
       this.coordinates.latitude = parseFloat(lat);
       this.coordinates.longitude = parseFloat(_long);
+      this.form.lat = parseFloat(lat);
+      this.form["long"] = parseFloat(_long);
       axios__WEBPACK_IMPORTED_MODULE_1___default().get("https://api.tomtom.com/search/2/reverseGeocode/".concat(coordinates, ".json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E&radius=100")).then(function (response) {
-        _this9.form.address = "".concat(response.data.addresses[0].address.municipalitySubdivision, ", ").concat(response.data.addresses[0].address.municipality, ", ").concat(response.data.addresses[0].address.countrySecondarySubdivision);
+        _this9.form.address = response.data.addresses[0].address.freeformAddress;
       });
     }
   }
@@ -3656,7 +3660,9 @@ __webpack_require__.r(__webpack_exports__);
         address: null,
         order: null,
         user_id: null,
-        restaurant_id: null
+        restaurant_id: null,
+        lat: null,
+        "long": null
       },
       saveError: null,
       coordinates: {
@@ -3884,8 +3890,10 @@ __webpack_require__.r(__webpack_exports__);
       var _long = c[1];
       this.coordinates.latitude = parseFloat(lat);
       this.coordinates.longitude = parseFloat(_long);
+      this.form.lat = parseFloat(lat);
+      this.form["long"] = parseFloat(_long);
       axios__WEBPACK_IMPORTED_MODULE_1___default().get("https://api.tomtom.com/search/2/reverseGeocode/".concat(coordinates, ".json?key=hJqRLbgHIo29NdQ2CESAH8lDNN96vJ3E&radius=100")).then(function (response) {
-        _this6.form.address = "".concat(response.data.addresses[0].address.municipalitySubdivision, ", ").concat(response.data.addresses[0].address.municipality, ", ").concat(response.data.addresses[0].address.countrySecondarySubdivision);
+        _this6.form.address = response.data.addresses[0].address.freeformAddress;
       });
     }
   }
@@ -6227,6 +6235,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6272,7 +6296,11 @@ __webpack_require__.r(__webpack_exports__);
       saveError: null,
       payment_method: 'cod',
       rows: [],
-      isMobile: window.screen.width <= 700
+      isMobile: window.screen.width <= 700,
+      coordinates: {
+        latitude: null,
+        longitude: null
+      }
     };
   },
   created: function created() {
@@ -6311,6 +6339,8 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      this.coordinates.latitude = arg.lat;
+      this.coordinates.longitude = arg["long"];
       this.form.reference = arg.reference;
       this.form.user_id = arg.user.id;
       this.openOrderModal();
@@ -74985,7 +75015,7 @@ var render = function() {
                       {
                         staticClass: "order-content flex flex-col",
                         staticStyle: { border: "2px solid #E4B934" },
-                        style: { width: _vm.isMobile ? "90%" : "20%" }
+                        style: { width: _vm.isMobile ? "90%" : "30%" }
                       },
                       [
                         _c("div", { staticClass: "w-full" }, [
@@ -75008,6 +75038,44 @@ var render = function() {
                             [_c("i", { staticClass: "fa-solid fa-xmark" })]
                           )
                         ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "w-full mt-10" },
+                          [
+                            _c(
+                              "gmap-map",
+                              {
+                                staticStyle: {
+                                  width: "100%",
+                                  height: "320px",
+                                  border: "1px solid #E4B934"
+                                },
+                                attrs: {
+                                  center: {
+                                    lat: _vm.coordinates.latitude,
+                                    lng: _vm.coordinates.longitude
+                                  },
+                                  zoom: 15
+                                }
+                              },
+                              [
+                                _c("gmap-marker", {
+                                  attrs: {
+                                    position: {
+                                      lat: _vm.coordinates.latitude,
+                                      lng: _vm.coordinates.longitude
+                                    },
+                                    clickable: false,
+                                    draggable: false
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c(
                           "div",

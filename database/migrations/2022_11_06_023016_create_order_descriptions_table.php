@@ -22,6 +22,8 @@ class CreateOrderDescriptionsTable extends Migration
             $table->string('payment_method');
             $table->longText('address');
             $table->double('shipping_fee', 15, 8);
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants');
             $table->foreign('user_id')->references('id')->on('users');

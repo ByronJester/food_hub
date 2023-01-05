@@ -35,7 +35,9 @@
 
                 <div id="orderModal" class="orderModal h-full">
                     <!-- Modal content -->
-                    <div class="order-content flex flex-col" style="border: 2px solid #E4B934" v-if="selected" :style="{'width': isMobile ? '90%': '20%'}">
+                    <div class="order-content flex flex-col" style="border: 2px solid #E4B934" v-if="selected" :style="{'width': isMobile ? '90%': '30%'}">
+                        
+
                         <div class="w-full">
                             <span class="text-lg font-bold">
                                 Orders
@@ -46,6 +48,20 @@
                             >
                                 <i class="fa-solid fa-xmark"></i>
                             </span>
+                        </div>
+
+                        <div class="w-full mt-10">
+                            <gmap-map 
+                                :center="{lat: coordinates.latitude, lng: coordinates.longitude}"
+                                :zoom="15"
+                                style="width: 100%; height: 320px; border: 1px solid #E4B934"
+                            >
+                                <gmap-marker
+                                    :position="{lat: coordinates.latitude, lng: coordinates.longitude}"
+                                    :clickable="false"
+                                    :draggable="false"
+                                ></gmap-marker>
+                            </gmap-map>
                         </div>
 
                         <div class="w-full flex-col mt-4">
@@ -187,6 +203,10 @@ export default {
             payment_method: 'cod',
             rows: [],
             isMobile: window.screen.width <= 700,
+            coordinates: {
+                latitude: null,
+                longitude: null
+            }
         }
     },
 
@@ -231,6 +251,9 @@ export default {
                 this.closeOrderModal()
                 return
             }
+
+            this.coordinates.latitude = arg.lat
+            this.coordinates.longitude = arg.long
 
             this.form.reference = arg.reference
             this.form.user_id = arg.user.id

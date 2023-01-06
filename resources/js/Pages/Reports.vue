@@ -448,7 +448,7 @@ th {
 @media only screen and (max-width: 600px) {
   .--td {
         border: 1px solid black;
-        padding-top: 0px;
+        padding-top: 8px;
         padding-bottom: 8px;
         font-size: calc(.1em + 1vw);
     }
@@ -457,7 +457,7 @@ th {
         border: 1px solid black;
         background: #E4B934;
         color: black;
-        padding-top: 0px;
+        padding-top: 8px;
         padding-bottom: 8px;
         font-size: calc(.1em + 1vw);
     }

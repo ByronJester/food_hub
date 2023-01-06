@@ -5272,6 +5272,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -73735,6 +73739,19 @@ var render = function() {
                                             _vm.rows[index][
                                               k.label
                                             ].toUpperCase()
+                                          ) +
+                                          "\n                                "
+                                      )
+                                    ])
+                                  : k.label == "customer_name" ||
+                                    k.label == "address"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(
+                                            _vm.toTitleCase(
+                                              _vm.rows[index][k.label]
+                                            )
                                           ) +
                                           "\n                                "
                                       )

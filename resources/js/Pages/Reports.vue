@@ -148,6 +148,10 @@
                                         {{ rows[index][k.label].toUpperCase() }}
                                     </span>
 
+                                    <span v-else-if="k.label == 'customer_name' || k.label == 'address'" >
+                                        {{ toTitleCase(rows[index][k.label]) }}
+                                    </span>
+
                                     <span v-else >{{ rows[index][k.label] }}</span>
                                 </td>
                             </tr>

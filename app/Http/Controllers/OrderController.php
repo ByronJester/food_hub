@@ -297,7 +297,7 @@ class OrderController extends Controller
             session()->put('address', $address);
             session()->put('payment_method', $payment_method);
             session()->put('lat', $request->lat);
-            session()->put('long', $$request->long);
+            session()->put('long', $request->long);
         }
 
         return response()->json(['status' => 200, 'data' => [], 'url' => $url], 200);

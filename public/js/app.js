@@ -2950,6 +2950,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (type == 'customer') {
           _this2.coordinates.latitude = response.data.results[0].position.lat;
           _this2.coordinates.longitude = response.data.results[0].position.lon;
+          _this2.form.lat = response.data.results[0].position.lat;
+          _this2.form["long"] = response.data.results[0].position["long"];
         } else {
           _this2.retaurantCoordinates.latitude = response.data.results[0].position.lat;
           _this2.retaurantCoordinates.longitude = response.data.results[0].position.lon;
@@ -3734,6 +3736,8 @@ __webpack_require__.r(__webpack_exports__);
         if (type == 'customer') {
           _this.coordinates.latitude = response.data.results[0].position.lat;
           _this.coordinates.longitude = response.data.results[0].position.lon;
+          _this.form.lat = response.data.results[0].position.lat;
+          _this.form["long"] = response.data.results[0].position["long"];
         } else {
           _this.retaurantCoordinates.latitude = response.data.results[0].position.lat;
           _this.retaurantCoordinates.longitude = response.data.results[0].position.lon;

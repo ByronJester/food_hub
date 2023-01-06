@@ -453,6 +453,9 @@ export default {
                     if(type == 'customer') {
                         this.coordinates.latitude = response.data.results[0].position.lat
                         this.coordinates.longitude = response.data.results[0].position.lon
+
+						this.form.lat = response.data.results[0].position.lat
+						this.form.long = response.data.results[0].position.long
                     } else {
                         this.retaurantCoordinates.latitude = response.data.results[0].position.lat
                         this.retaurantCoordinates.longitude = response.data.results[0].position.lon

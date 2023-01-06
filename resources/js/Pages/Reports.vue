@@ -427,7 +427,7 @@ th {
 
 .--td {
     border: 1px solid black;
-    padding-top: 0px;
+    padding-top: 8px;
     padding-bottom: 8px;
     font-size: 9px;
 }
@@ -436,7 +436,7 @@ th {
     border: 1px solid black;
     background: #E4B934;
     color: black;
-    padding-top: 0px;
+    padding-top: 8px;
     padding-bottom: 8px;
     font-size: 9px;
 }

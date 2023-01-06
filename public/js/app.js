@@ -2951,7 +2951,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this2.coordinates.latitude = response.data.results[0].position.lat;
           _this2.coordinates.longitude = response.data.results[0].position.lon;
           _this2.form.lat = response.data.results[0].position.lat;
-          _this2.form["long"] = response.data.results[0].position["long"];
+          _this2.form["long"] = response.data.results[0].position.lon;
         } else {
           _this2.retaurantCoordinates.latitude = response.data.results[0].position.lat;
           _this2.retaurantCoordinates.longitude = response.data.results[0].position.lon;
@@ -3737,7 +3737,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.coordinates.latitude = response.data.results[0].position.lat;
           _this.coordinates.longitude = response.data.results[0].position.lon;
           _this.form.lat = response.data.results[0].position.lat;
-          _this.form["long"] = response.data.results[0].position["long"];
+          _this.form["long"] = response.data.results[0].position.lon;
         } else {
           _this.retaurantCoordinates.latitude = response.data.results[0].position.lat;
           _this.retaurantCoordinates.longitude = response.data.results[0].position.lon;
@@ -5441,6 +5441,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     printReport: function printReport() {
       this.$refs.report.generatePdf();
+    },
+    toTitleCase: function toTitleCase(phrase) {
+      return phrase.toLowerCase().split(' ').map(function (word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }).join(' ');
     }
   }
 });
@@ -7227,7 +7232,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.orderModal[data-v-4c589ab4] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 30%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: #ffffff;\n}\r\n\r\n/* Modal Content */\n.order-content[data-v-4c589ab4] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-4c589ab4] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-4c589ab4]:hover,\r\n.close[data-v-4c589ab4]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\ntable[data-v-4c589ab4] {\r\n    border-collapse: collapse;\r\n    border-radius: 5px;\r\n    border-style: hidden;\r\n    box-shadow: 0 0 0 1px black;\n}\ntd[data-v-4c589ab4] {\r\n    border: 1px solid black;\n}\nth[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\n}\n.--td[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    padding-top: 8px;\r\n    padding-bottom: 8px;\r\n    font-size: 9px;\n}\n.--th[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\r\n    padding-top: 8px;\r\n    padding-bottom: 8px;\r\n    font-size: 9px;\n}\n.--mobile[data-v-4c589ab4] {\r\n    font-size: calc(.1em + 1vw) !important;\n}\n@media only screen and (max-width: 600px) {\n.--td[data-v-4c589ab4] {\r\n        border: 1px solid black;\r\n        padding-top: 8px;\r\n        padding-bottom: 8px;\r\n        font-size: calc(.1em + 1vw);\n}\n.--th[data-v-4c589ab4] {\r\n        border: 1px solid black;\r\n        background: #E4B934;\r\n        color: black;\r\n        padding-top: 8px;\r\n        padding-bottom: 8px;\r\n        font-size: calc(.1em + 1vw);\n}\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.orderModal[data-v-4c589ab4] {\r\n  display: none; /* Hidden by default */\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 30%;\r\n  width: 100%; /* Full width */\r\n  height: 100%; /* Full height */\r\n  overflow: auto; /* Enable scroll if needed */\r\n  background-color: #ffffff;\n}\r\n\r\n/* Modal Content */\n.order-content[data-v-4c589ab4] {\r\n  background-color: #fefefe;\r\n  margin: auto;\r\n  padding: 20px;\r\n  border: 1px solid #888;\r\n  width: 80%;\n}\r\n\r\n/* The Close Button */\n.close[data-v-4c589ab4] {\r\n  color: #aaaaaa;\r\n  float: right;\r\n  font-size: 28px;\r\n  font-weight: bold;\n}\n.close[data-v-4c589ab4]:hover,\r\n.close[data-v-4c589ab4]:focus {\r\n  color: #000;\r\n  text-decoration: none;\r\n  cursor: pointer;\n}\ntable[data-v-4c589ab4] {\r\n    border-collapse: collapse;\r\n    border-radius: 5px;\r\n    border-style: hidden;\r\n    box-shadow: 0 0 0 1px black;\n}\ntd[data-v-4c589ab4] {\r\n    border: 1px solid black;\n}\nth[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\n}\n.--td[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    padding-top: 14px;\r\n    padding-bottom: 14px;\r\n    font-size: 9px;\n}\n.--th[data-v-4c589ab4] {\r\n    border: 1px solid black;\r\n    background: #E4B934;\r\n    color: black;\r\n    padding-top: 14px;\r\n    padding-bottom: 14px;\r\n    font-size: 9px;\n}\n.--mobile[data-v-4c589ab4] {\r\n    font-size: calc(.1em + 1vw) !important;\n}\n@media only screen and (max-width: 600px) {\n.--td[data-v-4c589ab4] {\r\n        border: 1px solid black;\r\n        padding-top: 14px;\r\n        padding-bottom: 14px;\r\n        font-size: calc(.1em + 1vw);\n}\n.--th[data-v-4c589ab4] {\r\n        border: 1px solid black;\r\n        background: #E4B934;\r\n        color: black;\r\n        padding-top: 14px;\r\n        padding-bottom: 14px;\r\n        font-size: calc(.1em + 1vw);\n}\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -73577,7 +73582,11 @@ var render = function() {
                           [
                             _vm._v(
                               " \n                                " +
-                                _vm._s(_vm.options.restaurant.restaurant_name) +
+                                _vm._s(
+                                  _vm.toTitleCase(
+                                    _vm.options.restaurant.restaurant_name
+                                  )
+                                ) +
                                 "\n                            "
                             )
                           ]
@@ -73594,7 +73603,7 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                                " +
-                                _vm._s(_vm.auth.address) +
+                                _vm._s(_vm.toTitleCase(_vm.auth.address)) +
                                 "\n                            "
                             )
                           ]
@@ -73638,7 +73647,9 @@ var render = function() {
                         _vm._v("Printed By:")
                       ]),
                       _vm._v(
-                        " " + _vm._s(_vm.auth.name) + "\n                    "
+                        " " +
+                          _vm._s(_vm.toTitleCase(_vm.auth.name)) +
+                          "\n                    "
                       )
                     ]
                   ),

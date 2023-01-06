@@ -95,13 +95,13 @@
 
                             <div class="w-full text-center" >
                                 <p class="ml-5 font-bold" style="letter-spacing: 2px; font-size: 1vw; text-transform: capitalize;"> 
-                                    {{ options.restaurant.restaurant_name }}
+                                    {{ toTitleCase(options.restaurant.restaurant_name) }}
                                 </p>
                             </div>
 
                             <div class="w-full text-center">
                                 <p class="ml-5" style="text-transform: capitalize;">
-                                    {{ auth.address }}
+                                    {{ toTitleCase(auth.address) }}
                                 </p>
                             </div>
 
@@ -120,7 +120,7 @@
 
                     <div class="w-full mt-8 p-5">
                         <p class="text-xs float-left" style="text-transform: capitalize;">
-                            <span class="font-bold">Printed By:</span> {{ auth.name }}
+                            <span class="font-bold">Printed By:</span> {{ toTitleCase(auth.name) }}
                         </p>
 
                         <p class="text-xs float-right" v-if="date.start && date.end">
@@ -366,6 +366,13 @@ export default {
 
         printReport(){
             this.$refs.report.generatePdf()
+        },
+        toTitleCase(phrase) {
+            return phrase
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
         }
     }
 }
@@ -427,8 +434,8 @@ th {
 
 .--td {
     border: 1px solid black;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 14px;
+    padding-bottom: 14px;
     font-size: 9px;
 }
 
@@ -436,8 +443,8 @@ th {
     border: 1px solid black;
     background: #E4B934;
     color: black;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 14px;
+    padding-bottom: 14px;
     font-size: 9px;
 }
 
@@ -448,8 +455,8 @@ th {
 @media only screen and (max-width: 600px) {
   .--td {
         border: 1px solid black;
-        padding-top: 8px;
-        padding-bottom: 8px;
+        padding-top: 14px;
+        padding-bottom: 14px;
         font-size: calc(.1em + 1vw);
     }
 
@@ -457,8 +464,8 @@ th {
         border: 1px solid black;
         background: #E4B934;
         color: black;
-        padding-top: 8px;
-        padding-bottom: 8px;
+        padding-top: 14px;
+        padding-bottom: 14px;
         font-size: calc(.1em + 1vw);
     }
 }
